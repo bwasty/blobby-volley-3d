@@ -2,10 +2,12 @@
 #define BV3D_BLOBB
 
 #include "Controls.h"
-#include <vrs/vector.h>
 #include <vrs/bounds.h>
+#include <vrs/sg/scenething.h>
+#include <vrs/translation.h>
 
 using namespace BV3D;
+using namespace VRS;
 
 namespace BV3D
 {
@@ -24,7 +26,10 @@ namespace BV3D
 		void setBounds(Bounds bounds);
 		Controls* getControls();
 		void update();
+		SO<SceneThing> getScene();
 	protected:
+		SO<SceneThing>	m_Scene;
+		SO<Translation>	m_Translation;
 		Controls*	m_Controls;
 		Vector		m_vtrCtrlsOrientation;
 		Vector		m_vtrPosition;

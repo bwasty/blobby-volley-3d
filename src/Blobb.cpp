@@ -3,12 +3,16 @@
 #include <math.h>
 #include "Blobb.h"
 #include "KeyboardControls.h"
-
-using namespace BV3D;
+#include <vrs/io/threedsreader.h>
 
 Blobb::Blobb() {
 	m_Controls = new KeyboardControls();
-	m_vtrCtrlsOrientation = Vector(0.0,0.0,0.01);
+	m_vtrCtrlsOrientation = Vector(0.0,0.0,0.05);
+
+	m_Scene = new SceneThing();
+	m_Translation = new Translation();
+	m_Scene->append(m_Translation);
+	m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
 }
 
 Blobb::~Blobb() {
@@ -80,5 +84,10 @@ void Blobb::update() {
 	if(m_Controls->isRequested(Controls::LEFT)) moveLeft();
 	if(m_Controls->isRequested(Controls::JUMP)) jump();
 	// TODO: update transformation matrix
-	printf("(%f,%f,%f)\n",m_vtrPosition[0],m_vtrPosition[1],m_vtrPosition[2]);
+	//printf("(%f,%f,%f)\n",m_vtrPosition[0],m_vtrPosition[1],m_vtrPosition[2]);
+	m_Translation->setTranslate(m_vtrPosition);
+}
+
+SO<SceneThing> Blobb::getScene() {
+	return m_Scene;
 }

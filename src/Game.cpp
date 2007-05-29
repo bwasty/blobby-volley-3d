@@ -11,14 +11,26 @@
 using namespace BV3D;
 
 Game::Game() {
-	m_Canvas = new GlutCanvas("BlobbyVolley3d",0,0);	// create the main window
+	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
-	// TODO: setup arena
-	setExtent(Vector(0.6,0.3,0.4));		// obsolete: should be replaced with m_Arena.setExtent()...
+	m_RootScene = new SceneThing();
+
+	m_Camera = new Camera(Vector(0.0,2.0,-10.0),Vector(0.0,0.0,0.0),30);
+	m_RootScene->append(m_Camera);
+
+	m_AmbientLight = new AmbientLight(Color(0.7));
+	m_RootScene->append(m_AmbientLight);
+
+	// TODO: setup Arena
+	setExtent(Vector(8.0,10.0,2.0));		// obsolete: should be replaced with Arena::setExtent(...)
 
 	// blobbs setup
-	m_Blobb[0].setPosition(Vector(-0.2,0.0,0.3));
-	m_Blobb[1].setPosition(Vector(0.2,0.0,0.3));
+	m_RootScene->append(m_Blobb[0].getScene());
+	m_RootScene->append(m_Blobb[1].getScene());
+	m_Blobb[0].setPosition(Vector(-1.0,0.0,1.0));
+	m_Blobb[1].setPosition(Vector(1.0,0.0,1.0));
+
+	m_Canvas->append(m_RootScene);
 
 	// init update callback
 	m_FPS = 30.0;
@@ -63,8 +75,10 @@ void Game::update() {
 	}*/
 
 	// update blobbs' positions
+	// this an ad-hoc solution ;-)
 	m_Blobb[0].update();
 	m_Blobb[1].update();
+	m_Canvas->redisplay();
 }
 
 void Game::processInput() {

@@ -1,7 +1,10 @@
-#ifndef BV3D_Game
-#define BV3D_Game
+#ifndef BV3D_GAME
+#define BV3D_GAME
 
 #include <vrs/glut/glutcanvas.h>
+#include <vrs/camera.h>
+#include <vrs/sg/scenething.h>
+#include <vrs/ambientlight.h>
 #include <vrs/sg/behaviorcallback.h>
 
 #include "Blobb.h"
@@ -18,7 +21,10 @@ namespace BV3D
 		void update();
 		void processInput();
 	protected:
-		SO<GlutCanvas>			m_Canvas;
+		SO<GlutCanvas>		m_Canvas;
+		SO<SceneThing>		m_RootScene;
+		SO<Camera>			m_Camera;
+		SO<AmbientLight>	m_AmbientLight;
 		SO<BehaviorCallback>	m_cbInput;
 		SO<BehaviorCallback>	m_cbUpdate;
 		int			m_iFramerate;
@@ -30,4 +36,4 @@ namespace BV3D
 	};
 }
 
-#endif	// #ifndef BV3D_Game
+#endif	// #ifndef BV3D_GAME

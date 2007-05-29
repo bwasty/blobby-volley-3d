@@ -1,13 +1,14 @@
 /*
- * BlobbyVolley3d.cpp: program entry
+ * BlobbyVolley3D.cpp: program entry
  */
 
-
+#include <stdio.h>
 #include "Game.h"
 #include <gl/glut.h>
 
 int main(int argc, char** argv) {
+	printf("WARNING: blobb1.3ds MUST be in the project or Debug/Release directory!");
 	glutInit(&argc,argv);	// init glut
-	Game game;				// create the game
+	Game game;				// create the main game object
 	glutMainLoop();			// start the window event loop
 }
