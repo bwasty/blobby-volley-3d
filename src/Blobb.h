@@ -5,6 +5,7 @@
 #include <vrs/bounds.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/translation.h>
+#include <vrs/opengl/shapematerialgl.h>
 
 using namespace BV3D;
 using namespace VRS;
@@ -31,6 +32,8 @@ namespace BV3D
 	protected:
 		SO<SceneThing>	m_Scene;
 		SO<Translation>	m_Translation;
+		SO<ShapeMaterialGL>	m_Material;
+		Color		m_Color;
 		Controls*	m_Controls;
 		Vector		m_vtrCtrlsOrientation;
 		Vector		m_vtrPosition;

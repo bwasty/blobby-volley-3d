@@ -6,6 +6,7 @@
 #include <vrs/sg/scenething.h>
 #include <vrs/ambientlight.h>
 #include <vrs/sg/behaviorcallback.h>
+#include <vrs/opengl/transparencytechniquegl.h>
 
 #include "Blobb.h"
 
@@ -23,6 +24,7 @@ namespace BV3D
 	protected:
 		SO<GlutCanvas>		m_Canvas;
 		SO<SceneThing>		m_RootScene;
+		SO<TransparencyTechniqueGL>	m_TransparencyTechnique;
 		SO<Camera>			m_Camera;
 		SO<AmbientLight>	m_AmbientLight;
 		SO<BehaviorCallback>	m_cbInput;

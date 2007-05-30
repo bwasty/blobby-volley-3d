@@ -4,6 +4,7 @@
 #include "Blobb.h"
 #include "KeyboardControls.h"
 #include <vrs/io/threedsreader.h>
+#include <vrs/sphere.h>
 
 Blobb::Blobb() {
 	m_Controls = new KeyboardControls();
@@ -12,7 +13,11 @@ Blobb::Blobb() {
 	m_Scene = new SceneThing();
 	m_Translation = new Translation();
 	m_Scene->append(m_Translation);
-	m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
+	m_Color = Color(1.0,0.0,0.0,0.4);
+	m_Material = new ShapeMaterialGL(m_Color);
+	m_Scene->append(m_Material);
+	//m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
+	m_Scene->append(new Sphere());
 }
 
 Blobb::~Blobb() {

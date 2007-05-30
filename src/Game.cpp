@@ -16,6 +16,9 @@ Game::Game() {
 
 	m_RootScene = new SceneThing();
 
+	m_TransparencyTechnique = new TransparencyTechniqueGL();
+	m_RootScene->append(m_TransparencyTechnique);
+
 	m_Camera = new Camera(Vector(0.0,2.0,-10.0),Vector(0.0,0.0,0.0),30);
 	m_RootScene->append(m_Camera);
 
