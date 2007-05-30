@@ -24,6 +24,7 @@ namespace BV3D
 		void setCtrlsOrientation(Vector vtrCtrlsOri);
 		void setStepDistance(double distance);
 		void setBounds(Bounds bounds);
+		void setControls(Controls* controls);
 		Controls* getControls();
 		void update();
 		SO<SceneThing> getScene();

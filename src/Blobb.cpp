@@ -77,13 +77,18 @@ Controls* Blobb::getControls() {
 	return m_Controls;
 }
 
+void Blobb::setControls(Controls* controls) {
+	m_Controls = controls;	// TODO: fix memory leak!
+}
+
 void Blobb::update() {
 	if(m_Controls->isRequested(Controls::UP)) moveUp();
 	if(m_Controls->isRequested(Controls::DOWN)) moveDown();
 	if(m_Controls->isRequested(Controls::RIGHT)) moveRight();
 	if(m_Controls->isRequested(Controls::LEFT)) moveLeft();
 	if(m_Controls->isRequested(Controls::JUMP)) jump();
-	// TODO: update transformation matrix
+	m_Controls->consumed();		// important for MouseControls
+
 	//printf("(%f,%f,%f)\n",m_vtrPosition[0],m_vtrPosition[1],m_vtrPosition[2]);
 	m_Translation->setTranslate(m_vtrPosition);
 }

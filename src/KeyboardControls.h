@@ -10,8 +10,11 @@ namespace BV3D {
 		~KeyboardControls();
 		void processInput(InputEvent* ie);
 		void setBinding(COMMAND cmd, int keyCode);
+		bool isRequested(COMMAND cmd);
+		void consumed();
 	protected:
-		int	m_Binding[5];
+		bool	m_Command[5];
+		int		m_Binding[5];
 	};
 }
 

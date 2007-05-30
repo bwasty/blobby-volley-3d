@@ -199,6 +199,10 @@
 				RelativePath=".\KeyboardControls.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\MouseControls.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -219,6 +223,10 @@
 			</File>
 			<File
 				RelativePath=".\KeyboardControls.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MouseControls.h"
 				>
 			</File>
 		</Filter>

@@ -7,6 +7,7 @@
 #include <vrs/sg/clock.h>
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
+#include "MouseControls.h"
 
 using namespace BV3D;
 
@@ -29,6 +30,7 @@ Game::Game() {
 	m_RootScene->append(m_Blobb[1].getScene());
 	m_Blobb[0].setPosition(Vector(-1.0,0.0,1.0));
 	m_Blobb[1].setPosition(Vector(1.0,0.0,1.0));
+	m_Blobb[1].setControls(new MouseControls());
 
 	m_Canvas->append(m_RootScene);
 
@@ -60,25 +62,28 @@ void Game::setExtent(VRS::Vector vtrExtent) {
 	m_Blobb[1].setBounds(Bounds(Vector(0.0,0.0,llf[2]),urb));
 }
 
+// update is called peridically on timer events to redisplay the whole scene
+// this an ad-hoc solution ;-)
 void Game::update() {
-	// count frames per second
-	/*VRSTime time = m_Canvas->clock()->time();
-	if(double(time) - m_dLastUpdateTime >= 1/m_FPS) {
+	VRSTime time = m_Canvas->clock()->time();
+
+	// calculate if frame is over
+	if(double(time) - m_dLastUpdateTime >= 0.8/m_FPS) {
 		m_dLastUpdateTime = double(time);
-		
+
+		// count frames per second
 		m_iFramerate++;
 		if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
 			printf("framerate: %d\n",m_iFramerate);
 			m_dLastSecond = m_dLastUpdateTime;
 			m_iFramerate = 0;
 		}
-	}*/
 
-	// update blobbs' positions
-	// this an ad-hoc solution ;-)
-	m_Blobb[0].update();
-	m_Blobb[1].update();
-	m_Canvas->redisplay();
+		// update blobbs' positions
+		m_Blobb[0].update();
+		m_Blobb[1].update();
+		m_Canvas->redisplay();
+	}
 }
 
 void Game::processInput() {

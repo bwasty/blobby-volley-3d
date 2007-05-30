@@ -6,6 +6,7 @@
 using namespace BV3D;
 
 KeyboardControls::KeyboardControls() : Controls() {
+	for(int i=0;i<5;i++) m_Command[i] = false;
 	m_Binding[UP] = Key::Up;
 	m_Binding[DOWN] = Key::Down;
 	m_Binding[RIGHT] = Key::Right;
@@ -28,4 +29,12 @@ void KeyboardControls::processInput(InputEvent* ie) {
 
 void KeyboardControls::setBinding(COMMAND cmd, int keyCode) {
 	m_Binding[cmd] = keyCode;
+}
+
+bool KeyboardControls::isRequested(COMMAND cmd) {
+	return m_Command[cmd];
+}
+
+void KeyboardControls::consumed() {
+	// nothing to be done for keyboard input
 }

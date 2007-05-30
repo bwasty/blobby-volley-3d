@@ -14,9 +14,8 @@ namespace BV3D
 		Controls();
 		~Controls();
 		virtual void processInput(InputEvent* ie) = 0;
-		bool isRequested(COMMAND cmd);
-	protected:
-		bool					m_Command[5];
+		virtual bool isRequested(COMMAND cmd) = 0;
+		virtual void consumed() = 0;
 	};
 }
 
