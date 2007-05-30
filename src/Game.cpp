@@ -3,6 +3,8 @@
  */
 
 #include "Game.h"
+#include "Arena.h"
+#include "Blobb.h"
 #include <vrs/time.h>
 #include <vrs/sg/clock.h>
 #include <vrs/sg/key.h>
@@ -26,8 +28,12 @@ Game::Game() {
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
 
-	// TODO: setup Arena
-	setExtent(Vector(8.0,10.0,2.0));		// obsolete: should be replaced with Arena::setExtent(...)
+	// init Blobbs
+	m_Blobb = new Blobb[2];
+
+	// setup Arena
+	m_Arena = new Arena(this);
+	m_Arena->setExtent(Vector(8.0,10.0,2.0));
 
 	// blobbs setup
 	m_RootScene->append(m_Blobb[0].getScene());
@@ -52,19 +58,8 @@ Game::Game() {
 }
 
 Game::~Game() {
-}
-
-/*
- * obsolete: should be defined in class Arena
- */
-void Game::setExtent(VRS::Vector vtrExtent) {
-	Vector llf = Vector(-vtrExtent[0]/2, 0.0,-vtrExtent[2]/2);
-	Vector urb = Vector( vtrExtent[0]/2, vtrExtent[1], vtrExtent[2]/2);
-
-	m_Bounds = Bounds(llf,urb);
-
-	m_Blobb[0].setBounds(Bounds(llf,Vector(0.0,urb[1],urb[2])));
-	m_Blobb[1].setBounds(Bounds(Vector(0.0,0.0,llf[2]),urb));
+	delete m_Arena;
+	delete[] m_Blobb;
 }
 
 // update is called peridically on timer events to redisplay the whole scene
@@ -104,4 +99,9 @@ void Game::processInput() {
 	// pass input to blobbs
 	m_Blobb[0].getControls()->processInput(ie);
 	m_Blobb[1].getControls()->processInput(ie);
+}
+
+void Game::notifyBoundsUpdated() {
+	m_Blobb[0].setBounds(m_Arena->getTeamBounds(0));
+	m_Blobb[1].setBounds(m_Arena->getTeamBounds(1));
 }
