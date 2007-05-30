@@ -101,3 +101,12 @@ void Blobb::update() {
 SO<SceneThing> Blobb::getScene() {
 	return m_Scene;
 }
+
+Color Blobb::getColor() {
+	return m_Color;
+}
+
+void Blobb::setColor(Color color) {
+	m_Color = color;
+	m_Material->setPerVertexColor(color);
+}

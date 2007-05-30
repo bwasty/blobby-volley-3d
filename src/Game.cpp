@@ -7,6 +7,7 @@
 #include <vrs/sg/clock.h>
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
+#include <vrs/color.h>
 #include "MouseControls.h"
 
 using namespace BV3D;
@@ -34,6 +35,7 @@ Game::Game() {
 	m_Blobb[0].setPosition(Vector(-1.0,0.0,1.0));
 	m_Blobb[1].setPosition(Vector(1.0,0.0,1.0));
 	m_Blobb[1].setControls(new MouseControls());
+	m_Blobb[1].setColor(Color(0.0,0.0,1.0,0.4));
 
 	m_Canvas->append(m_RootScene);
 

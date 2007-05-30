@@ -29,6 +29,8 @@ namespace BV3D
 		Controls* getControls();
 		void update();
 		SO<SceneThing> getScene();
+		Color getColor();
+		void setColor(Color color);
 	protected:
 		SO<SceneThing>	m_Scene;
 		SO<Translation>	m_Translation;
