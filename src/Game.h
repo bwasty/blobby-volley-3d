@@ -19,23 +19,23 @@ namespace BV3D
 	public:
 		Game();
 		~Game();
-		void update();
-		void processInput();
-		void setArenaBounds(Vector extent);
+		void update();			// render new frame
+		void processInput();	// process and dispatch input
+		void setArenaBounds(Vector extent);		// change Arena bounds and notify Blobbs etc
 	protected:
-		SO<GlutCanvas>		m_Canvas;
-		SO<SceneThing>		m_RootScene;
-		SO<TransparencyTechniqueGL>	m_TransparencyTechnique;
-		SO<Camera>			m_Camera;
+		SO<GlutCanvas>		m_Canvas;		// main canvas
+		SO<SceneThing>		m_RootScene;	// root node where Blobbs etc will be appended to
+		SO<TransparencyTechniqueGL>	m_TransparencyTechnique;	// to enable transparency
+		SO<Camera>			m_Camera;			// scene camera
 		SO<AmbientLight>	m_AmbientLight;
-		SO<BehaviorCallback>	m_cbInput;
-		SO<BehaviorCallback>	m_cbUpdate;
-		int			m_iFramerate;
-		double		m_dLastSecond;
-		double		m_dLastUpdateTime;
-		double		m_FPS;
-		Arena		m_Arena;
-		Blobb*		m_Blobb;
+		SO<BehaviorCallback>	m_cbInput;		// callback to receive input from canvas
+		SO<BehaviorCallback>	m_cbUpdate;		// callback to receive timer events for frame stepping
+		int			m_iFramerate;		// frame counter to allow frame rate checking
+		double		m_dLastSecond;		// auxiliary variable for frame rate checking
+		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
+		double		m_FPS;		// desired frame rate
+		Arena		m_Arena;	// Arena object
+		Blobb*		m_Blobb;	// list of Blobbs
 	};
 }
 
