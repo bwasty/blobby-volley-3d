@@ -31,9 +31,7 @@ Game::Game() {
 	// init Blobbs
 	m_Blobb = new Blobb[2];
 
-	// setup Arena
-	m_Arena = new Arena(this);
-	m_Arena->setExtent(Vector(8.0,10.0,2.0));
+	setArenaBounds(Vector(8.0,10.0,2.0));
 
 	// blobbs setup
 	m_RootScene->append(m_Blobb[0].getScene());
@@ -58,7 +56,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-	delete m_Arena;
 	delete[] m_Blobb;
 }
 
@@ -101,7 +98,8 @@ void Game::processInput() {
 	m_Blobb[1].getControls()->processInput(ie);
 }
 
-void Game::notifyBoundsUpdated() {
-	m_Blobb[0].setBounds(m_Arena->getTeamBounds(0));
-	m_Blobb[1].setBounds(m_Arena->getTeamBounds(1));
+void Game::setArenaBounds(Vector extent) {
+	m_Arena.setExtent(extent);
+	m_Blobb[0].setBounds(m_Arena.getTeamBounds(0));
+	m_Blobb[1].setBounds(m_Arena.getTeamBounds(1));
 }

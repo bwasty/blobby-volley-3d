@@ -1,12 +1,7 @@
 
-#include "Game.h"
 #include "Arena.h"
 
 using namespace BV3D;
-
-Arena::Arena(Game* game) {
-	m_Game = game;
-}
 
 Arena::Arena() {
 }
@@ -19,9 +14,6 @@ void Arena::setExtent(Vector extent) {
 	Vector urb = Vector( extent[0]/2, extent[1], extent[2]/2);
 
 	m_Bounds = Bounds(llf,urb);
-
-	if(m_Game)
-		m_Game->notifyBoundsUpdated();
 }
 
 Bounds Arena::getTeamBounds(int nTeam) {

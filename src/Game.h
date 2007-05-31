@@ -8,19 +8,20 @@
 #include <vrs/sg/behaviorcallback.h>
 #include <vrs/opengl/transparencytechniquegl.h>
 
+#include "Arena.h"
+#include "Blobb.h"
+
 using namespace VRS;
 
 namespace BV3D
 {
-	class Arena; class Blobb;
-
 	class Game {
 	public:
 		Game();
 		~Game();
 		void update();
 		void processInput();
-		void notifyBoundsUpdated();
+		void setArenaBounds(Vector extent);
 	protected:
 		SO<GlutCanvas>		m_Canvas;
 		SO<SceneThing>		m_RootScene;
@@ -33,7 +34,7 @@ namespace BV3D
 		double		m_dLastSecond;
 		double		m_dLastUpdateTime;
 		double		m_FPS;
-		Arena*		m_Arena;
+		Arena		m_Arena;
 		Blobb*		m_Blobb;
 	};
 }
