@@ -22,7 +22,7 @@ using namespace BV3D;
  * sets up an Arena with an extent of (1.0,1.0,1.0)
  */
 Arena::Arena() {
-	m_WallsVertices = new Array<Vector>(10);	// create array for walls' vertices
+	m_WallsVertices = new FixedSizeIterator<Vector>(10);
 
 	// set initial volume
 	setExtent(Vector(1.0,1.0,1.0));
@@ -34,7 +34,7 @@ Arena::Arena() {
 
 	m_Scene->append(new FaceStyle(FaceStyle::Filled,FaceStyle::Culled));
 
-	m_Walls = new PolygonSet(PolygonSet::QuadStrip,m_WallsVertices->newIterator());
+	m_Walls = new PolygonSet(PolygonSet::QuadStrip,m_WallsVertices);
 	m_Scene->append(m_Walls);
 }
 
@@ -52,19 +52,19 @@ void Arena::setExtent(Vector extent) {
 	m_Bounds = Bounds(llf,urb);
 
 	// set up walls' vertices
-	m_WallsVertices->setElement(0, Vector(urb[0],llf[1],urb[2]));
-	m_WallsVertices->setElement(1, Vector(urb[0],urb[1],urb[2]));
-	m_WallsVertices->setElement(2, Vector(llf[0],llf[1],urb[2]));
-	m_WallsVertices->setElement(3, Vector(llf[0],urb[1],urb[2]));
+	m_WallsVertices->set(0, Vector(urb[0],llf[1],urb[2]));
+	m_WallsVertices->set(1, Vector(urb[0],urb[1],urb[2]));
+	m_WallsVertices->set(2, Vector(llf[0],llf[1],urb[2]));
+	m_WallsVertices->set(3, Vector(llf[0],urb[1],urb[2]));
 
-	m_WallsVertices->setElement(4, Vector(llf[0],llf[1],llf[2]));
-	m_WallsVertices->setElement(5, Vector(llf[0],urb[1],llf[2]));
+	m_WallsVertices->set(4, Vector(llf[0],llf[1],llf[2]));
+	m_WallsVertices->set(5, Vector(llf[0],urb[1],llf[2]));
 
-	m_WallsVertices->setElement(6, Vector(urb[0],llf[1],llf[2]));
-	m_WallsVertices->setElement(7, Vector(urb[0],urb[1],llf[2]));
+	m_WallsVertices->set(6, Vector(urb[0],llf[1],llf[2]));
+	m_WallsVertices->set(7, Vector(urb[0],urb[1],llf[2]));
 
-	m_WallsVertices->setElement(8, Vector(urb[0],llf[1],urb[2]));
-	m_WallsVertices->setElement(9, Vector(urb[0],urb[1],urb[2]));
+	m_WallsVertices->set(8, Vector(urb[0],llf[1],urb[2]));
+	m_WallsVertices->set(9, Vector(urb[0],urb[1],urb[2]));
 }
 
 /**

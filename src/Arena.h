@@ -4,7 +4,7 @@
 #include <vrs/bounds.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/opengl/shapematerialgl.h>
-#include <vrs/container/array.h>
+#include <vrs/container/fixedsizeiterator.h>
 #include <vrs/polygonset.h>
 
 using namespace VRS;
@@ -20,7 +20,7 @@ namespace BV3D {
 	protected:
 		SO<SceneThing>		m_Scene;
 		SO<ShapeMaterialGL>	m_Material;
-		SO<Array<Vector>>	m_WallsVertices;
+		SO<FixedSizeIterator<Vector>>	m_WallsVertices;
 		SO<PolygonSet>		m_Walls;	// walls shape
 		Bounds				m_Bounds;	// bounds of the Arena box
 	};
