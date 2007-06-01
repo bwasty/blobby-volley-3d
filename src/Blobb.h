@@ -6,6 +6,7 @@
 #include <vrs/sg/scenething.h>
 #include <vrs/translation.h>
 #include <vrs/opengl/shapematerialgl.h>
+#include <vrs/sg/inputevent.h>
 
 using namespace BV3D;
 using namespace VRS;
@@ -31,6 +32,7 @@ namespace BV3D
 		SO<SceneThing> getScene();
 		Color getColor();
 		void setColor(Color color);
+		void processInput(InputEvent* ie);
 	protected:
 		SO<SceneThing>	m_Scene;
 		SO<Translation>	m_Translation;

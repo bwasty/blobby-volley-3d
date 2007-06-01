@@ -74,6 +74,10 @@ void Blobb::jump() {
 	printf("jump!\n");
 }
 
+/*
+ * sets the inhabitable volume for the Blobb
+ * it is assumed that the Blobb's bounding box is centered at the origin!
+ */
 void Blobb::setBounds(Bounds bounds) {
 	Vector llf = bounds.getLLF();
 	Vector urb = bounds.getURB();
@@ -114,4 +118,8 @@ Color Blobb::getColor() {
 
 void Blobb::setColor(Color color) {
 	m_Material->setPerVertexColor(color);
+}
+
+void Blobb::processInput(InputEvent* ie) {
+	m_Controls->processInput(ie);
 }

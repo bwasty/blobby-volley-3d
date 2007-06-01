@@ -50,7 +50,6 @@ Game::Game() {
 
 	setArenaExtent(Vector(8.0,10.0,4.0));
 
-
 	m_Canvas->append(m_RootScene);
 
 	// init update callback
@@ -111,8 +110,8 @@ void Game::processInput() {
 		}
 
 	// pass input to blobbs
-	m_Blobb[0].getControls()->processInput(ie);
-	m_Blobb[1].getControls()->processInput(ie);
+	m_Blobb[0].processInput(ie);
+	m_Blobb[1].processInput(ie);
 }
 
 /**
