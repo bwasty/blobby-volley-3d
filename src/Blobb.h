@@ -17,8 +17,8 @@ namespace BV3D
 	public:
 		Blobb();
 		~Blobb();
-		void moveUp();
-		void moveDown();
+		void moveForward();
+		void moveBackward();
 		void moveRight();
 		void moveLeft();
 		void jump();

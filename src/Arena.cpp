@@ -2,7 +2,7 @@
  * The Arena class represents the box in which the Blobbs play Ball.
  * It is responsible for:
  * - setting up valid bounds for the Arena
- * - passing valid bounds for Blobbs
+ * - passing valid bounds for Blobbs and the Ball
  * - creating the 3D shape - a topless box with transparent walls
  *
  * the Arena floor is centered at the origin
