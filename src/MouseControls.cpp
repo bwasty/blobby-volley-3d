@@ -29,8 +29,8 @@ void MouseControls::processInput(InputEvent* ie) {
 
 bool MouseControls::isRequested(COMMAND cmd) {
 	switch(cmd) {
-		case UP:	return (m_Target[2] < m_CurrentPosition[2]);
-		case DOWN:	return (m_Target[2] > m_CurrentPosition[2]);
+		case FORWARD:	return (m_Target[2] < m_CurrentPosition[2]);
+		case BACKWARD:	return (m_Target[2] > m_CurrentPosition[2]);
 		case RIGHT:	return (m_Target[0] > m_CurrentPosition[0]);
 		case LEFT:	return (m_Target[0] < m_CurrentPosition[0]);
 		case JUMP:	return m_IsJumping;

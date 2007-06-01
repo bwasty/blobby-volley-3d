@@ -9,7 +9,7 @@ namespace BV3D
 {
 	class Controls {
 	public:
-		enum COMMAND {UP=0,DOWN=1,RIGHT=2,LEFT=3,JUMP=4};
+		enum COMMAND {FORWARD=0, BACKWARD=1, RIGHT=2, LEFT=3, JUMP=4};
 	public:
 		Controls();
 		~Controls();

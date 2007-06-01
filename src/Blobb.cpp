@@ -145,8 +145,8 @@ void Blobb::setControls(Controls* controls) {
  * evaluate Controls and reposition the Blobb
  */
 void Blobb::update() {
-	if(m_Controls->isRequested(Controls::UP)) moveForward();
-	if(m_Controls->isRequested(Controls::DOWN)) moveBackward();
+	if(m_Controls->isRequested(Controls::FORWARD)) moveForward();
+	if(m_Controls->isRequested(Controls::BACKWARD)) moveBackward();
 	if(m_Controls->isRequested(Controls::RIGHT)) moveRight();
 	if(m_Controls->isRequested(Controls::LEFT)) moveLeft();
 	if(m_Controls->isRequested(Controls::JUMP)) jump();

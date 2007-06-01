@@ -7,8 +7,8 @@ using namespace BV3D;
 
 KeyboardControls::KeyboardControls() : Controls() {
 	for(int i=0;i<5;i++) m_Command[i] = false;
-	m_Binding[UP] = Key::Up;
-	m_Binding[DOWN] = Key::Down;
+	m_Binding[FORWARD] = Key::Up;
+	m_Binding[BACKWARD] = Key::Down;
 	m_Binding[RIGHT] = Key::Right;
 	m_Binding[LEFT] = Key::Left;
 	m_Binding[JUMP] = Key::End;	// Enter dont work :-(
