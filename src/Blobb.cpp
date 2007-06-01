@@ -8,13 +8,12 @@
 
 Blobb::Blobb() {
 	m_Controls = new KeyboardControls();
-	m_vtrCtrlsOrientation = Vector(0.0,0.0,0.05);
+	m_CtrlsOrientation = Vector(0.0,0.0,0.05);
 
 	m_Scene = new SceneThing();
 	m_Translation = new Translation();
 	m_Scene->append(m_Translation);
-	m_Color = Color(1.0,0.0,0.0,0.4);
-	m_Material = new ShapeMaterialGL(m_Color);
+	m_Material = new ShapeMaterialGL(Color(1.0,0.0,0.0,0.4));
 	m_Scene->append(m_Material);
 	//m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
 	m_Scene->append(new Sphere());
@@ -24,48 +23,50 @@ Blobb::~Blobb() {
 	delete m_Controls;
 }
 
-void Blobb::setCtrlsOrientation(Vector vtrCtrlsOri) {
-	double dStepDistance = sqrt(m_vtrCtrlsOrientation.dotProduct(m_vtrCtrlsOrientation));
-	m_vtrCtrlsOrientation = vtrCtrlsOri.normalized() * dStepDistance;
+void Blobb::setCtrlsOrientation(Vector ctrlsOri) {
+	double dStepDistance = sqrt(m_CtrlsOrientation.dotProduct(m_CtrlsOrientation));
+	m_CtrlsOrientation = ctrlsOri.normalized() * dStepDistance;
 }
 
 void Blobb::setStepDistance(double distance) {
-	m_vtrCtrlsOrientation = m_vtrCtrlsOrientation.normalized() * distance;
+	m_CtrlsOrientation = m_CtrlsOrientation.normalized() * distance;
 }
 
-void Blobb::setPosition(Vector vtrPos) {
-	Vector llf = m_Bounds.getLLF();		// (-x,-y,-z)
-	Vector urb = m_Bounds.getURB();		// (x,y,z)
-	if(vtrPos[0]<llf[0]) vtrPos[0] = llf[0];
-	if(vtrPos[1]<llf[1]) vtrPos[1] = llf[1];
-	if(vtrPos[2]<llf[2]) vtrPos[2] = llf[2];
-	if(vtrPos[0]>urb[0]) vtrPos[0] = urb[0];
-	if(vtrPos[1]>urb[1]) vtrPos[1] = urb[1];
-	if(vtrPos[2]>urb[2]) vtrPos[2] = urb[2];
-	m_vtrPosition = vtrPos;
+void Blobb::setPosition(Vector position) {
+	if(m_Bounds.isDefined()) {
+		Vector llf = m_Bounds.getLLF();		// (-x,-y,-z)
+		Vector urb = m_Bounds.getURB();		// (x,y,z)
+		if(position[0]<llf[0]) position[0] = llf[0];
+		if(position[1]<llf[1]) position[1] = llf[1];
+		if(position[2]<llf[2]) position[2] = llf[2];
+		if(position[0]>urb[0]) position[0] = urb[0];
+		if(position[1]>urb[1]) position[1] = urb[1];
+		if(position[2]>urb[2]) position[2] = urb[2];
+	}
+	m_Position = position;
 	// TODO: apply Newton force/movement
 }
 
 void Blobb::moveUp() {
-	setPosition(m_vtrPosition + m_vtrCtrlsOrientation);
+	setPosition(m_Position + m_CtrlsOrientation);
 }
 
 void Blobb::moveDown() {
-	setPosition(m_vtrPosition - m_vtrCtrlsOrientation);
+	setPosition(m_Position - m_CtrlsOrientation);
 }
 
 void Blobb::moveRight() {
 	setPosition(Vector(
-		m_vtrPosition[0] + m_vtrCtrlsOrientation[2],
-		m_vtrPosition[1],
-		m_vtrPosition[2] - m_vtrCtrlsOrientation[0]));
+		m_Position[0] + m_CtrlsOrientation[2],
+		m_Position[1],
+		m_Position[2] - m_CtrlsOrientation[0]));
 }
 
 void Blobb::moveLeft() {
 	setPosition(Vector(
-		m_vtrPosition[0] - m_vtrCtrlsOrientation[2],
-		m_vtrPosition[1],
-		m_vtrPosition[2] + m_vtrCtrlsOrientation[0]));
+		m_Position[0] - m_CtrlsOrientation[2],
+		m_Position[1],
+		m_Position[2] + m_CtrlsOrientation[0]));
 }
 
 void Blobb::jump() {
@@ -74,8 +75,13 @@ void Blobb::jump() {
 }
 
 void Blobb::setBounds(Bounds bounds) {
-	// TODO: subtract blobb extent
-	m_Bounds = bounds;
+	Vector llf = bounds.getLLF();
+	Vector urb = bounds.getURB();
+	Vector extent = Vector(2.0,2.0,2.0);	// simulated bounds for standard Sphere
+	llf += extent/2;
+	urb -= extent/2;
+	m_Bounds = Bounds(llf,urb);	// TODO; what if bounds too small?!
+	setPosition(m_Position);	// reset position for bounds check
 }
 
 Controls* Blobb::getControls() {
@@ -94,8 +100,8 @@ void Blobb::update() {
 	if(m_Controls->isRequested(Controls::JUMP)) jump();
 	m_Controls->consumed();		// important for MouseControls
 
-	//printf("(%f,%f,%f)\n",m_vtrPosition[0],m_vtrPosition[1],m_vtrPosition[2]);
-	m_Translation->setTranslate(m_vtrPosition);
+	//printf("(%f,%f,%f)\n",m_Position[0],m_Position[1],m_Position[2]);
+	m_Translation->setTranslate(m_Position);
 }
 
 SO<SceneThing> Blobb::getScene() {
@@ -103,10 +109,9 @@ SO<SceneThing> Blobb::getScene() {
 }
 
 Color Blobb::getColor() {
-	return m_Color;
+	return m_Material->getPerVertexColor();
 }
 
 void Blobb::setColor(Color color) {
-	m_Color = color;
 	m_Material->setPerVertexColor(color);
 }

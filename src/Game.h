@@ -21,7 +21,7 @@ namespace BV3D
 		~Game();
 		void update();			// render new frame
 		void processInput();	// process and dispatch input
-		void setArenaBounds(Vector extent);		// change Arena bounds and notify Blobbs etc
+		void setArenaExtent(Vector extent);		// change Arena bounds and notify Blobbs etc
 	protected:
 		SO<GlutCanvas>		m_Canvas;		// main canvas
 		SO<SceneThing>		m_RootScene;	// root node where Blobbs etc will be appended to

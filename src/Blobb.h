@@ -21,8 +21,8 @@ namespace BV3D
 		void moveRight();
 		void moveLeft();
 		void jump();
-		void setPosition(Vector vtrPos);
-		void setCtrlsOrientation(Vector vtrCtrlsOri);
+		void setPosition(Vector position);
+		void setCtrlsOrientation(Vector ctrlsOri);
 		void setStepDistance(double distance);
 		void setBounds(Bounds bounds);
 		void setControls(Controls* controls);
@@ -35,10 +35,9 @@ namespace BV3D
 		SO<SceneThing>	m_Scene;
 		SO<Translation>	m_Translation;
 		SO<ShapeMaterialGL>	m_Material;
-		Color		m_Color;
 		Controls*	m_Controls;
-		Vector		m_vtrCtrlsOrientation;
-		Vector		m_vtrPosition;
+		Vector		m_CtrlsOrientation;
+		Vector		m_Position;
 		Bounds		m_Bounds;
 	};
 }

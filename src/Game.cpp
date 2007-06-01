@@ -6,7 +6,7 @@
  *   - the canvas(window) to which the scene is rendered
  *   - the root scene node
  *   - the scene camera
- * - hooking in the sub-scenes of the game objects
+ * - hooking in/out the sub-scenes of the game objects
  * - processing and dispatching of input events from the canvas
  * - periodically issue rendering
  */
@@ -30,12 +30,14 @@ Game::Game() {
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	m_RootScene->append(m_TransparencyTechnique);
 
-	m_Camera = new Camera(Vector(0.0,2.0,-10.0),Vector(0.0,0.0,0.0),30);
+	m_Camera = new Camera(Vector(0.0,10.0,-10.0),Vector(0.0,0.0,0.0),30);
 	m_RootScene->append(m_Camera);
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
+
+	m_RootScene->append(m_Arena.getScene());
 
 	// init Blobbs and add them to the scene
 	m_Blobb = new Blobb[2];
@@ -46,7 +48,8 @@ Game::Game() {
 	m_RootScene->append(m_Blobb[0].getScene());
 	m_RootScene->append(m_Blobb[1].getScene());
 
-	setArenaBounds(Vector(8.0,10.0,2.0));
+	setArenaExtent(Vector(8.0,10.0,4.0));
+
 
 	m_Canvas->append(m_RootScene);
 
@@ -66,7 +69,9 @@ Game::~Game() {
 	delete[] m_Blobb;
 }
 
-// update() is called peridically on timer events to redisplay the whole scene
+/**
+ * update() is called peridically on timer events to redisplay the whole scene
+ */
 void Game::update() {
 	VRSTime time = m_Canvas->clock()->time();
 
@@ -89,24 +94,31 @@ void Game::update() {
 	}
 }
 
-// evaluates incoming InputEvents from canvas, processes and dispatches them
+/**
+ * evaluates incoming InputEvents from canvas, processes and dispatches them
+ */
 void Game::processInput() {
 	InputEvent* ie = VRS_Cast(InputEvent, m_cbInput->currentCanvasEvent());
 
 	// process general controls (pausing, camera positioning,...)
 	KeyEvent* ke = VRS_Cast(KeyEvent, ie);
 	if(ke != NULL)
-		if(ke->pressed())
+		if(ke->pressed()) {
 			if(ke->keyCode() == Key::Escape)
 				exit(0);
+			if(ke->keyCode() == Key::Home)
+					setArenaExtent(Vector(6.0,2.0,2.0));
+		}
 
 	// pass input to blobbs
 	m_Blobb[0].getControls()->processInput(ie);
 	m_Blobb[1].getControls()->processInput(ie);
 }
 
-// sets Arena bounds and notifies Blobbs etc
-void Game::setArenaBounds(Vector extent) {
+/**
+ * sets Arena bounds and notifies Blobbs etc
+ */
+void Game::setArenaExtent(Vector extent) {
 	m_Arena.setExtent(extent);
 	m_Blobb[0].setBounds(m_Arena.getTeamBounds(0));
 	m_Blobb[1].setBounds(m_Arena.getTeamBounds(1));

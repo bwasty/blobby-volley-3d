@@ -2,6 +2,10 @@
 #define BV3D_ARENA
 
 #include <vrs/bounds.h>
+#include <vrs/sg/scenething.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/container/array.h>
+#include <vrs/polygonset.h>
 
 using namespace VRS;
 
@@ -11,9 +15,14 @@ namespace BV3D {
 		Arena();
 		~Arena();
 		void setExtent(Vector extent);
-		Bounds getTeamBounds(int nTeam);
+		Bounds getTeamBounds(int team);
+		SO<SceneThing> getScene();
 	protected:
-		Bounds	m_Bounds;
+		SO<SceneThing>		m_Scene;
+		SO<ShapeMaterialGL>	m_Material;
+		SO<Array<Vector>>	m_WallsVertices;
+		SO<PolygonSet>		m_Walls;	// walls shape
+		Bounds				m_Bounds;	// bounds of the Arena box
 	};
 }
 
