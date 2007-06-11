@@ -25,8 +25,9 @@ Blobb::Blobb() {
 	m_Scene->append(m_Translation);
 	m_Material = new ShapeMaterialGL(Color(1.0,0.0,0.0,0.4));
 	m_Scene->append(m_Material);
-	//m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
-	m_Scene->append(new Sphere());
+	ThreeDSReader::setMaterialMode(ThreeDSReader::NO_MATERIAL);
+	m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
+	//m_Scene->append(new Sphere());
 }
 
 Blobb::~Blobb() {
