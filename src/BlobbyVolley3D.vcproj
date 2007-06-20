@@ -238,6 +238,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Constants.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Controls.h"
 				>
 			</File>
