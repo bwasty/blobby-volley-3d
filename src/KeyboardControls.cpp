@@ -7,18 +7,18 @@ using namespace BV3D;
 
 KeyboardControls::KeyboardControls() : Controls() {
 	for(int i=0;i<5;i++) m_Command[i] = false;
-	m_Binding[FORWARD] = Key::Up;
-	m_Binding[BACKWARD] = Key::Down;
-	m_Binding[RIGHT] = Key::Right;
-	m_Binding[LEFT] = Key::Left;
-	m_Binding[JUMP] = Key::End;	// Enter dont work :-(
+	m_Binding[FORWARD] = VRS::Key::Up;
+	m_Binding[BACKWARD] = VRS::Key::Down;
+	m_Binding[RIGHT] = VRS::Key::Right;
+	m_Binding[LEFT] = VRS::Key::Left;
+	m_Binding[JUMP] = VRS::Key::End;	// Enter dont work :-(
 }
 
 KeyboardControls::~KeyboardControls() {
 }
 
-void KeyboardControls::processInput(InputEvent* ie) {
-	KeyEvent* ke = VRS_Cast(KeyEvent, ie);
+void KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
+	VRS::SO<VRS::KeyEvent> ke = VRS_Cast(VRS::KeyEvent, ie);
 	if(ke != NULL) {
 		bool state = ke->pressed();
 		for(int i=0;i<5;i++)

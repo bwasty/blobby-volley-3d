@@ -7,19 +7,19 @@
 using namespace BV3D;
 
 MouseControls::MouseControls() {
-	m_JumpBinding = InputEvent::MouseButton1;
+	m_JumpBinding = VRS::InputEvent::MouseButton1;
 	m_IsJumping = false;
 }
 
 MouseControls::~MouseControls() {
 }
 
-void MouseControls::setJumpBinding(InputEvent::Button button) {
+void MouseControls::setJumpBinding(VRS::InputEvent::Button button) {
 	m_JumpBinding = button;
 }
 
-void MouseControls::processInput(InputEvent* ie) {
-	MotionEvent* me = VRS_Cast(MotionEvent, ie);
+void MouseControls::processInput(VRS::SO<VRS::InputEvent> ie) {
+	VRS::SO<VRS::MotionEvent> me = VRS_Cast(VRS::MotionEvent, ie);
 	if(me != NULL) {
 		m_Target[0] += me->deltaX();
 		m_Target[2] += me->deltaY();
@@ -41,7 +41,7 @@ bool MouseControls::isRequested(COMMAND cmd) {
 
 void MouseControls::consumed() {
 	// advance m_CurrentPosition towards m_Target
-	Vector vtrTmp = m_Target - m_CurrentPosition;
+	VRS::Vector vtrTmp = m_Target - m_CurrentPosition;
 	vtrTmp.normalize();
 	m_CurrentPosition += vtrTmp;
 }

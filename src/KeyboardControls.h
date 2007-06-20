@@ -7,8 +7,8 @@ namespace BV3D {
 	class KeyboardControls : public Controls {
 	public:
 		KeyboardControls();
-		~KeyboardControls();
-		void processInput(InputEvent* ie);
+		virtual ~KeyboardControls();
+		void processInput(VRS::SO<VRS::InputEvent> ie);
 		void setBinding(COMMAND cmd, int keyCode);
 		bool isRequested(COMMAND cmd);
 		void consumed();
