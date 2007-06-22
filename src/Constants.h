@@ -3,8 +3,6 @@
 
 namespace BV3D
 {
-	struct Constants
-	{
 		enum BV3D_TEAM { BV3D_TEAM1, BV3D_TEAM2 };
 		
 		enum BV3D_ERROR
@@ -12,7 +10,6 @@ namespace BV3D
 			BV3D_NO_ERROR,
 			BV3D_INVALID_PARAMETER
 		};
-	};
 };
 
 #endif	// BV3D_CONSTANTS

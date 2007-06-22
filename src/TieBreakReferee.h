@@ -13,8 +13,8 @@ namespace BV3D
 		TieBreakReferee(SO<Game> game);
 		~TieBreakReferee(void);
 		
-		void ballOnBlobb(bool isInLeftField);
-		void ballOnField(bool isInLeftField);
+		void ballOnBlobb(BV3D_TEAM team);
+		void ballOnField(BV3D_TEAM team);
 		void startNewGame();
 	};
 }

@@ -1,3 +1,4 @@
+#include "Constants.h"
 #include "ClassicReferee.h"
 
 using namespace BV3D;
@@ -8,49 +9,58 @@ ClassicReferee::ClassicReferee(SO<Game> game) : Referee(game)
 	setMaximumContacts(3);
 	setMinimumDifference(2);
 	//game->newServe(true);
-	m_isLeftSideServing = true;
+	m_servingTeam = BV3D_TEAM1;
 }
 
 ClassicReferee::~ClassicReferee(void)
 {
 }
 
-void ClassicReferee::ballOnBlobb(bool isInLeftField)
+void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	resetContacts(!isInLeftField);
-	if (increaseContacts(isInLeftField) > getMaximumContacts())
+	BV3D_TEAM opponent = getOpponent(team);
+	resetContacts(opponent);
+	if (increaseContacts(team) > getMaximumContacts())
 	{
-		if (m_isLeftSideServing != isInLeftField)	//if left side served and right side made fault + vice versa
-			increaseScore(!isInLeftField);	//opponent of 'isInLeftField' scores
-		if (isGameOver())					//only opponent could have scored since last test
-		{	//m_game->gameOver(! isInLeftField);	//if game over then opponent must be winner
+		if (m_servingTeam != team)
+		{
+			increaseScore(m_servingTeam);
+			if (isGameOver())					//only opponent could have scored since last test
+			{	//m_game->gameOver(m_servingTeam);	//if game over then opponent must be winner
+			}
+			else
+			{	//m_game->newServe(m_servingTeam);
+			}
 		}
 		else
-		{	//m_game->newServe(!isInLeftField);
-			m_isLeftSideServing = !isInLeftField;
-			resetContacts(isInLeftField);
+		{	//m_game->newServe(opponent)	
 		}
+		resetContacts(team);
 	}
 }
 
-void ClassicReferee::ballOnField(bool isInLeftField)
+void ClassicReferee::ballOnField(BV3D_TEAM team)
 {
-	if (m_isLeftSideServing != isInLeftField)	//if left side served and right side made fault + vice versa
-	increaseScore(! isInLeftField);	//opponent of 'isInLeftField' scores
-	if (isGameOver())					//only opponent could have scored since last test
-	{	//m_game->gameOver(!isInLeftField);	//if game over then opponent must be winner
+	if (m_servingTeam != team)
+	{
+		increaseScore(m_servingTeam);
+		if (isGameOver())					//only servingTeam could have scored since last test
+		{	//m_game->gameOver(m_servingTeam);	//if game over then servingTeam must be winner
+		}
+		else
+		{	//m_game->newServe(m_servingTeam);
+		}
 	}
 	else
-	{	//m_game->newServe(!isInLeftField);
-		m_isLeftSideServing = !isInLeftField;
-		resetContacts(true);		//reset current contact counters
-		resetContacts(false);
+	{	//m_game->newServe(getOpponent(team));	
 	}
+	resetContacts(BV3D_TEAM1);
+	resetContacts(BV3D_TEAM2);
 }
 
 void ClassicReferee::startNewGame()
 {
 	Referee::startNewGame();
 	//game->newServe(true);
-	m_isLeftSideServing = true;
+	m_servingTeam = BV3D_TEAM1;
 }

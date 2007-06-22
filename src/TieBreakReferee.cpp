@@ -1,3 +1,4 @@
+#include "Constants.h"
 #include "TieBreakReferee.h"
 
 using namespace BV3D;
@@ -14,37 +15,39 @@ TieBreakReferee::~TieBreakReferee(void)
 {
 }
 
-void TieBreakReferee::ballOnBlobb(bool isInLeftField)
+void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	resetContacts(!isInLeftField);
-	if (increaseContacts(isInLeftField) > getMaximumContacts())
+	BV3D_TEAM opponent = getOpponent(team);
+	resetContacts(opponent);
+	if (increaseContacts(team) > getMaximumContacts())
 	{
-		increaseScore(! isInLeftField);	//opponent of 'inLeftField' scores
+		increaseScore(opponent);
 		if (isGameOver())					//only opponent could have scored since last test
-		{	//m_game->gameOver(! isInLeftField);	//if game over then opponent must be winner
+		{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
 		}
 		else
-		{	//m_game->newServe(! isInLeftField);
-			resetContacts(isInLeftField);
+		{	//m_game->newServe(opponent);
+			resetContacts(team);
 		}
 	}
 }
 
-void TieBreakReferee::ballOnField(bool isInLeftField)
+void TieBreakReferee::ballOnField(BV3D_TEAM team)
 {
-	increaseScore(! isInLeftField);	//opponent of 'isInLeftField' scores
+	BV3D_TEAM opponent = getOpponent(team);
+	increaseScore(opponent);	//opponent of 'isInLeftField' scores
 	if (isGameOver())					//only opponent could have scored since last test
-	{	//m_game->gameOver(! isInLeftField);	//if game over then opponent must be winner
+	{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
 	}
 	else
-	{	//m_game->newServe(! isInLeftField);
-		resetContacts(true);		//reset current contact counters
-		resetContacts(false);
+	{	//m_game->newServe(opponent);
+		resetContacts(team);		//reset current contact counters
+		resetContacts(opponent);
 	}
 }
 
 void TieBreakReferee::startNewGame()
 {
 	Referee::startNewGame();
-	//game->newServe(true);
+	//game->newServe(BV3D_TEAM1);
 }

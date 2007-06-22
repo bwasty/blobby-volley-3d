@@ -13,12 +13,12 @@ namespace BV3D
 		ClassicReferee(SO<Game> game);
 		~ClassicReferee(void);
 
-		void ballOnBlobb(bool isInLeftField);
-		void ballOnField(bool isInLeftField);	
+		void ballOnBlobb(BV3D_TEAM team);
+		void ballOnField(BV3D_TEAM team);	
 		void startNewGame();
 
 	private:
-		bool m_isLeftSideServing;
+		BV3D_TEAM m_servingTeam;
 	};
 }
 

@@ -18,20 +18,20 @@ namespace BV3D
 	{
 	public:
 		Referee(SO<Game> game);
-		virtual ~Referee(void) = 0;
+		virtual ~Referee(void){};
 		
-		virtual void ballOnBlobb(bool isInLeftField) = 0;
-		virtual void ballOnField(bool isInLeftField) = 0;	
+		virtual void ballOnBlobb(BV3D_TEAM team) = 0;
+		virtual void ballOnField(BV3D_TEAM team) = 0;	
 
 		SO<Game> getGame();
-		int getCurrentScore(bool ofLeftField);
-		int getCurrentContacts(bool ofLeftField);
+		int getCurrentScore(BV3D_TEAM team);
+		int getCurrentContacts(BV3D_TEAM team);
 		int getWinningScore();
 		int getMaximumContacts();
 		int getMinimumDifference();
-		int setWinningScore(int winningScore);
-		int setMaximumContacts(int maxContacts);
-		int setMinimumDifference(int minDifference);
+		BV3D_ERROR setWinningScore(int winningScore);
+		BV3D_ERROR setMaximumContacts(int maxContacts);
+		BV3D_ERROR setMinimumDifference(int minDifference);
 		void startNewGame();
 
 	private:
@@ -40,10 +40,12 @@ namespace BV3D
 		SO<Game> m_game;
 
 	protected:
-		int increaseScore(bool ofLeftField);
-		int increaseContacts(bool ofLeftField);
-		int resetContacts(bool ofLeftField);
+		int increaseScore(BV3D_TEAM team);
+		int increaseContacts(BV3D_TEAM team);
+		void resetContacts(BV3D_TEAM team);
 		bool isGameOver();
+		int getTeamIndex(BV3D_TEAM team);
+		BV3D_TEAM getOpponent(BV3D_TEAM team);
 	};
 }
 
