@@ -1,12 +1,14 @@
 #ifndef BV3D_GAME
 #define BV3D_GAME
 
+#include <vrs/sharedobj.h>
 #include <vrs/glut/glutcanvas.h>
 #include <vrs/camera.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/ambientlight.h>
 #include <vrs/sg/behaviorcallback.h>
 #include <vrs/opengl/transparencytechniquegl.h>
+#include <vrs/container/array.h>
 
 #include "Arena.h"
 #include "Blobb.h"
@@ -15,7 +17,7 @@ using namespace VRS;
 
 namespace BV3D
 {
-	class Game {
+	class Game : public SharedObj {
 	public:
 		Game();
 		~Game();
@@ -34,8 +36,8 @@ namespace BV3D
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
 		double		m_FPS;		// desired frame rate
-		Arena		m_Arena;	// Arena object
-		Blobb*		m_Blobb;	// list of Blobbs
+		SO<Arena>	m_Arena;	// Arena object
+		SO<Array<SO<Blobb>>>	m_BlobbArray;	// list of Blobbs
 	};
 }
 

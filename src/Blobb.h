@@ -1,6 +1,8 @@
 #ifndef BV3D_BLOBB
 #define BV3D_BLOBB
 
+#include <vrs/sharedobj.h>
+#include <vrs/so.h>
 #include "Controls.h"
 #include <vrs/bounds.h>
 #include <vrs/sg/scenething.h>
@@ -13,7 +15,7 @@ using namespace VRS;
 
 namespace BV3D
 {
-	class Blobb {
+	class Blobb : public SharedObj {
 	public:
 		Blobb();
 		~Blobb();
@@ -26,18 +28,18 @@ namespace BV3D
 		void setCtrlsOrientation(Vector ctrlsOri);
 		void setStepDistance(double distance);
 		void setBounds(Bounds bounds);
-		void setControls(Controls* controls);
-		Controls* getControls();
+		void setControls(SO<Controls> controls);
+		SO<Controls> getControls();
 		void update();
 		SO<SceneThing> getScene();
 		Color getColor();
 		void setColor(Color color);
-		void processInput(InputEvent* ie);
+		void processInput(SO<InputEvent> ie);
 	protected:
 		SO<SceneThing>	m_Scene;
 		SO<Translation>	m_Translation;
 		SO<ShapeMaterialGL>	m_Material;
-		Controls*	m_Controls;
+		SO<Controls>	m_Controls;
 		Vector		m_CtrlsOrientation;
 		Vector		m_Position;
 		Bounds		m_Bounds;

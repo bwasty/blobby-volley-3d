@@ -1,6 +1,8 @@
 #ifndef BV3D_ARENA
 #define BV3D_ARENA
 
+#include <vrs/sharedobj.h>
+#include <vrs/so.h>
 #include <vrs/bounds.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/opengl/shapematerialgl.h>
@@ -10,7 +12,7 @@
 using namespace VRS;
 
 namespace BV3D {
-	class Arena {
+	class Arena : public SharedObj {
 	public:
 		Arena();
 		~Arena();

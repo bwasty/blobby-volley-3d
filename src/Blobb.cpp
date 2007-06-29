@@ -31,7 +31,6 @@ Blobb::Blobb() {
 }
 
 Blobb::~Blobb() {
-	delete m_Controls;
 }
 
 /*
@@ -130,7 +129,7 @@ void Blobb::setBounds(Bounds bounds) {
 /*
  * \return a pointer to the Blobb's Controls object
  */
-Controls* Blobb::getControls() {
+SO<Controls> Blobb::getControls() {
 	return m_Controls;
 }
 
@@ -138,7 +137,7 @@ Controls* Blobb::getControls() {
  * assign new Controls to the Blobb
  * \param controls
  */
-void Blobb::setControls(Controls* controls) {
+void Blobb::setControls(SO<Controls> controls) {
 	m_Controls = controls;	// TODO: fix memory leak!
 }
 
@@ -182,6 +181,6 @@ void Blobb::setColor(Color color) {
  * lets the Blobb react on input
  * \param ie
  */
-void Blobb::processInput(InputEvent* ie) {
+void Blobb::processInput(SO<InputEvent> ie) {
 	m_Controls->processInput(ie);
 }

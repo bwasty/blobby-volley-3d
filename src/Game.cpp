@@ -37,16 +37,22 @@ Game::Game() {
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
 
-	m_RootScene->append(m_Arena.getScene());
+	m_Arena = new Arena();
+	m_RootScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
-	m_Blobb = new Blobb[2];
-	m_Blobb[0].setPosition(Vector(-1.0,0.0,1.0));
-	m_Blobb[1].setPosition(Vector(1.0,0.0,1.0));
-	m_Blobb[1].setControls(new MouseControls());
-	m_Blobb[1].setColor(Color(0.0,0.0,1.0,0.4));
-	m_RootScene->append(m_Blobb[0].getScene());
-	m_RootScene->append(m_Blobb[1].getScene());
+	m_BlobbArray = new Array<SO<Blobb>>(2);
+	SO<Blobb> blobb = new Blobb();
+	blobb->setPosition(Vector(-1.0,0.0,1.0));
+	m_RootScene->append(blobb->getScene());
+	m_BlobbArray->append(blobb);
+
+	blobb = new Blobb();
+	blobb->setPosition(Vector(1.0,0.0,1.0));
+	blobb->setControls(new MouseControls());
+	blobb->setColor(Color(0.0,0.0,1.0,0.4));
+	m_RootScene->append(blobb->getScene());
+	m_BlobbArray->append(blobb);
 
 	setArenaExtent(Vector(8.0,10.0,4.0));
 
@@ -65,7 +71,7 @@ Game::Game() {
 }
 
 Game::~Game() {
-	delete[] m_Blobb;
+	delete[] m_BlobbArray;
 }
 
 /**
@@ -87,8 +93,9 @@ void Game::update() {
 		}
 
 		// update blobbs'
-		m_Blobb[0].update();
-		m_Blobb[1].update();
+		//Iterator it = m_BlobbArray->
+		m_BlobbArray->getElement(0)->update();
+		m_BlobbArray->getElement(1)->update();
 		m_Canvas->redisplay();
 	}
 }
@@ -110,15 +117,15 @@ void Game::processInput() {
 		}
 
 	// pass input to blobbs
-	m_Blobb[0].processInput(ie);
-	m_Blobb[1].processInput(ie);
+		m_BlobbArray->getElement(0)->processInput(ie);
+	m_BlobbArray->getElement(1)->processInput(ie);
 }
 
 /**
  * sets Arena bounds and notifies Blobbs etc
  */
 void Game::setArenaExtent(Vector extent) {
-	m_Arena.setExtent(extent);
-	m_Blobb[0].setBounds(m_Arena.getTeamBounds(0));
-	m_Blobb[1].setBounds(m_Arena.getTeamBounds(1));
+	m_Arena->setExtent(extent);
+	m_BlobbArray->getElement(0)->setBounds(m_Arena->getTeamBounds(0));
+	m_BlobbArray->getElement(1)->setBounds(m_Arena->getTeamBounds(1));
 }
