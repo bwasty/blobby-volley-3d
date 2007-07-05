@@ -1,8 +1,17 @@
+/*
+ * The TieBreakReferee class is a subclass of Referee and implements the newer tournament volleyball rules.
+ * The game goes until one team reaches a score of 25 or more with 2 or more points difference to the other team.
+ * Teams can touch the ball only 3 times before causing a fault each fault causes the other team to score a point and get to serve the ball.
+ */
+
 #include "Constants.h"
 #include "TieBreakReferee.h"
 
 using namespace BV3D;
 
+/*
+ *	Sets up a Referee for new tournament volleyball rules, with a winning score of 25, a minimum difference between teams of 2 and a maximum of 3 contacts with the ball.
+ */
 TieBreakReferee::TieBreakReferee(SO<Game> game) : Referee(game)
 {
 	setWinningScore(25);
@@ -15,6 +24,12 @@ TieBreakReferee::~TieBreakReferee(void)
 {
 }
 
+/*
+ *	Handles the case when the ball collides with a blobb from a team.
+ *  Increases the teams contact-counter and checks whether a fault occured.
+ *  If that is the case it increases the opponents score and checks whether the game is now over.
+ *	If not a new rally is started with the opponent team serving.
+ */
 void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
 	BV3D_TEAM opponent = getOpponent(team);
@@ -32,6 +47,11 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 	}
 }
 
+/*
+ *	Handles the case when the ball touches the ground on a teams side.
+ *	The opponent teams score is increased and a check is done whether the game is now over.
+ *	The opponent team serves the new ball if the game is not over yet and all contact-counters are reset.
+ */
 void TieBreakReferee::ballOnField(BV3D_TEAM team)
 {
 	BV3D_TEAM opponent = getOpponent(team);
@@ -46,6 +66,9 @@ void TieBreakReferee::ballOnField(BV3D_TEAM team)
 	}
 }
 
+/*
+ *	Resets all values for a new game to start.
+ */
 void TieBreakReferee::startNewGame()
 {
 	Referee::startNewGame();

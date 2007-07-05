@@ -15,6 +15,7 @@
 #include <vrs/sg/clock.h>
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
+
 #include <vrs/color.h>
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
@@ -30,8 +31,12 @@ Game::Game() {
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	m_RootScene->append(m_TransparencyTechnique);
 
-	m_Camera = new Camera(Vector(0.0,10.0,-10.0),Vector(0.0,0.0,0.0),30);
+	m_perspective = new Perspective(30, 1.0, 20.0);
+	m_lookAt = new LookAt(Vector(0.0, 10.0, -15.0));
+	m_Camera = new Camera(m_perspective, m_lookAt);
 	m_RootScene->append(m_Camera);
+
+	m_BackNode = new SceneThing(m_RootScene);
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
@@ -68,6 +73,16 @@ Game::Game() {
 	m_cbInput = new BehaviorCallback();
 	m_cbInput->setCanvasCallback(new MethodCallback<Game>(this,&Game::processInput));
 	m_Canvas->append(m_cbInput);
+
+	// init BookmarkNavigation
+	m_Navigation = new BookmarkNavigation();
+	m_Navigation->setPathStyle(BookmarkNavigation::PathStyle::Simple);
+	m_InteractionMode = new InteractionMode();
+	m_InteractionMode->addInteractionTechnique(m_Navigation);
+	m_InteractionConcept = new InteractionConcept(m_lookAt);
+	m_InteractionConcept->addInteractionMode(m_InteractionMode);
+	m_InteractionConcept->activate(BehaviorNode::Begin);
+	m_Canvas->append(m_InteractionConcept);
 }
 
 Game::~Game() {
@@ -110,10 +125,29 @@ void Game::processInput() {
 	KeyEvent* ke = VRS_Cast(KeyEvent, ie);
 	if(ke != NULL)
 		if(ke->pressed()) {
-			if(ke->keyCode() == Key::Escape)
-				exit(0);
-			if(ke->keyCode() == Key::Home)
+			switch (ke->keyCode())
+			{
+				case Key::Escape:
+					exit(0);
+					break;
+				case Key::Home:
 					setArenaExtent(Vector(6.0,2.0,2.0));
+					break;
+				case Key::F2:
+					m_Navigation->initPath(Vector(0.0, 15.0, -15.0), Vector(0.0, 0.0, 0.0));
+					//printf("Key F2 pressed\n");
+					break;
+				case Key::F3:
+					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(0.0, 0.0, 0.0));
+					break;
+				case Key::F4:
+					m_Navigation->initPath(Vector(0.0, 15.0, -30.0), Vector(0.0, 0.0, 0.0));
+					break;
+				case Key::F1:
+					initBackgroundCubeMap();
+					break;
+			}
+			printf("Key %i pressed\n", ke->keyCode());
 		}
 
 	// pass input to blobbs
@@ -128,4 +162,22 @@ void Game::setArenaExtent(Vector extent) {
 	m_Arena->setExtent(extent);
 	m_BlobbArray->getElement(0)->setBounds(m_Arena->getTeamBounds(0));
 	m_BlobbArray->getElement(1)->setBounds(m_Arena->getTeamBounds(1));
+}
+
+
+void Game::initBackgroundCubeMap()
+{
+	printf("Loading Background Cupemap...\n");
+	SO<Array<SO<Image> > > cubemapImages = new Array<SO<Image> >(6);
+    (*cubemapImages)[ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negy.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
+	m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
+//	m_BackNode = new SceneThing(m_RootScene);
+    m_BackNode->append(m_BackCubeMap);
+	m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal 
+	m_BackNode->append(new Sphere(19.0));
 }
