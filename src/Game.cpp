@@ -46,7 +46,7 @@ Game::Game() {
 	m_RootScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
-	m_BlobbArray = new Array<SO<Blobb>>(2);
+	m_BlobbArray = new Array<SO<Blobb> >();
 	SO<Blobb> blobb = new Blobb();
 	blobb->setPosition(Vector(-1.0,0.0,1.0));
 	m_RootScene->append(blobb->getScene());
@@ -76,7 +76,7 @@ Game::Game() {
 
 	// init BookmarkNavigation
 	m_Navigation = new BookmarkNavigation();
-	m_Navigation->setPathStyle(BookmarkNavigation::PathStyle::Simple);
+	m_Navigation->setPathStyle(BookmarkNavigation::Simple);
 	m_InteractionMode = new InteractionMode();
 	m_InteractionMode->addInteractionTechnique(m_Navigation);
 	m_InteractionConcept = new InteractionConcept(m_lookAt);
@@ -120,6 +120,8 @@ void Game::update() {
  */
 void Game::processInput() {
 	InputEvent* ie = VRS_Cast(InputEvent, m_cbInput->currentCanvasEvent());
+	if(ie==NULL)
+		return;
 
 	// process general controls (pausing, camera positioning,...)
 	KeyEvent* ke = VRS_Cast(KeyEvent, ie);

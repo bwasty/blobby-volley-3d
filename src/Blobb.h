@@ -35,7 +35,7 @@ namespace BV3D
 		Color getColor();
 		void setColor(Color color);
 		void processInput(SO<InputEvent> ie);
-	protected:
+	private:
 		SO<SceneThing>	m_Scene;
 		SO<Translation>	m_Translation;
 		SO<ShapeMaterialGL>	m_Material;
