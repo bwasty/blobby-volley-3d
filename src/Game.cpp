@@ -61,6 +61,10 @@ Game::Game() {
 
 	setArenaExtent(Vector(8.0,10.0,4.0));
 
+	m_Ball = new BV3D::Ball();
+	m_RootScene->append(m_Ball->getScene());
+	m_Physics.registerBall(m_Ball);
+
 	m_Canvas->append(m_RootScene);
 
 	// init update callback
@@ -97,6 +101,7 @@ void Game::update() {
 
 	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
 	if(double(time) - m_dLastUpdateTime >= 0.8/m_FPS) {
+		dFloat timestep = (double)time - m_dLastUpdateTime;
 		m_dLastUpdateTime = double(time);
 
 		// count frames per second
@@ -112,6 +117,8 @@ void Game::update() {
 		m_BlobbArray->getElement(0)->update();
 		m_BlobbArray->getElement(1)->update();
 		m_Canvas->redisplay();
+
+		m_Physics.updateWorld(timestep);
 	}
 }
 

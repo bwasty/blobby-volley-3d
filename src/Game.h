@@ -22,6 +22,7 @@
 
 #include "Arena.h"
 #include "Blobb.h"
+#include "Physics.h"
 
 using namespace VRS;
 
@@ -50,12 +51,15 @@ namespace BV3D
 		SO<SceneThing>			m_BackNode;		//SceneNode for background
 		SO<VRS::ImageCubeMapTextureGL> m_BackCubeMap;	//CubeMap for background
 
+		Physics		m_Physics;
+
 		int			m_iFramerate;		// frame counter to allow frame rate checking
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
 		double		m_FPS;		// desired frame rate
 		SO<Arena>	m_Arena;	// Arena object
 		SO<Array<SO<Blobb>>>	m_BlobbArray;	// list of Blobbs
+		VRS::SO<BV3D::Ball>		m_Ball;
 
 		void initBackgroundCubeMap();
 	};
