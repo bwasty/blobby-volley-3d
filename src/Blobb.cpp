@@ -138,7 +138,7 @@ SO<Controls> Blobb::getControls() {
  * \param controls
  */
 void Blobb::setControls(SO<Controls> controls) {
-	m_Controls = controls;	// TODO: fix memory leak!
+	m_Controls = controls;
 }
 
 /*
@@ -150,7 +150,7 @@ void Blobb::update() {
 	if(m_Controls->isRequested(Controls::RIGHT)) moveRight();
 	if(m_Controls->isRequested(Controls::LEFT)) moveLeft();
 	if(m_Controls->isRequested(Controls::JUMP)) jump();
-	m_Controls->consumed();		// important for MouseControls
+	m_Controls->consumed();		// report that current requests were acknowlegded
 
 	m_Translation->setTranslate(m_Position);
 }

@@ -7,8 +7,8 @@
 using namespace BV3D;
 
 MouseControls::MouseControls() {
+	for(int i=0;i<5;i++) m_Command[i] = false;
 	m_JumpBinding = VRS::InputEvent::MouseButton1;
-	m_IsJumping = false;
 }
 
 MouseControls::~MouseControls() {
@@ -19,29 +19,27 @@ void MouseControls::setJumpBinding(VRS::InputEvent::Button button) {
 }
 
 void MouseControls::processInput(VRS::SO<VRS::InputEvent> ie) {
+
+	// check for movement
 	VRS::SO<VRS::MotionEvent> me = VRS_Cast(VRS::MotionEvent, ie);
-	if(me != NULL) {
-		m_Target[0] += me->deltaX();
-		m_Target[2] += me->deltaY();
-		//printf("(%d,%d)",me->deltaX(),me->deltaY());
+	if(me!=NULL) {
+		if(me->deltaX()>0) {m_Command[RIGHT] = true; m_Command[LEFT] = false;}
+		if(me->deltaX()<0) {m_Command[RIGHT] = false; m_Command[LEFT] = true;}
+		if(me->deltaY()>0) {m_Command[FORWARD] = false; m_Command[BACKWARD] = true;}
+		if(me->deltaY()<0) {m_Command[FORWARD] = true; m_Command[BACKWARD] = false;}
 	}
+
+	// check if jump button clicked
+	VRS::SO<VRS::ButtonEvent> be = VRS_Cast(VRS::ButtonEvent, ie);
+	if(be!=NULL)
+		if(be->button()==m_JumpBinding)
+			m_Command[JUMP] = true;
 }
 
 bool MouseControls::isRequested(COMMAND cmd) {
-	switch(cmd) {
-		case FORWARD:	return (m_Target[2] < m_CurrentPosition[2]);
-		case BACKWARD:	return (m_Target[2] > m_CurrentPosition[2]);
-		case RIGHT:	return (m_Target[0] > m_CurrentPosition[0]);
-		case LEFT:	return (m_Target[0] < m_CurrentPosition[0]);
-		case JUMP:	return m_IsJumping;
-		default: return false;
-	}
-
+	return m_Command[cmd];
 }
 
 void MouseControls::consumed() {
-	// advance m_CurrentPosition towards m_Target
-	VRS::Vector vtrTmp = m_Target - m_CurrentPosition;
-	vtrTmp.normalize();
-	m_CurrentPosition += vtrTmp;
+	for(int i=0;i<5;i++) m_Command[i] = false;
 }

@@ -101,7 +101,7 @@ void Game::update() {
 
 	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
 	if(double(time) - m_dLastUpdateTime >= 0.8/m_FPS) {
-		dFloat timestep = (double)time - m_dLastUpdateTime;
+		float timestep = (double)time - m_dLastUpdateTime;
 		m_dLastUpdateTime = double(time);
 
 		// count frames per second

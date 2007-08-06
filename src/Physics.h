@@ -5,11 +5,14 @@
 #ifndef BV3D_PHYSICS
 #define BV3D_PHYSICS
 
-#include <Newton.h>
+//#include <Newton.h>
 #include "Ball.h"
 #include <vrs/so.h>
 #include <vrs/sharedobj.h>
 #include <vrs/container/dictionary.h>
+
+struct NewtonBody;
+struct NewtonWorld;
 
 namespace BV3D
 {
@@ -18,7 +21,7 @@ namespace BV3D
 	public:
 		Physics();
 		~Physics();
-		void updateWorld(dFloat timestep);
+		void updateWorld(float timestep);
 		void registerBall(VRS::SO<BV3D::Ball> ball);
 	protected:
 		static void applyForceAndTorqueToBall(const NewtonBody* body);

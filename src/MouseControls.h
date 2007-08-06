@@ -3,6 +3,7 @@
 
 #include "Controls.h"
 #include <vrs/vector.h>
+#include <vrs/sg/inputevent.h>
 
 namespace BV3D {
 	class MouseControls : public Controls {
@@ -14,10 +15,8 @@ namespace BV3D {
 		bool isRequested(COMMAND cmd);
 		void consumed();
 	protected:
-		VRS::Vector	m_Target;
-		VRS::Vector	m_CurrentPosition;
-		int		m_JumpBinding;
-		bool	m_IsJumping;
+		VRS::InputEvent::Button		m_JumpBinding;	// stores button for jumping
+		bool	m_Command[5];
 	};
 }
 

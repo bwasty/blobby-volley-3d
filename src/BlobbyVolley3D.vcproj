@@ -202,10 +202,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Controls.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Game.cpp"
 				>
 			</File>

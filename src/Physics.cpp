@@ -1,5 +1,6 @@
 /// Physics.cpp
 
+#include <Newton.h>
 #include "Physics.h"
 
 BV3D::Physics::Physics() {
@@ -10,8 +11,8 @@ BV3D::Physics::~Physics() {
 	NewtonDestroy(m_World);
 }
 
-void BV3D::Physics::updateWorld(dFloat timestep) {
-	NewtonUpdate(m_World, timestep);
+void BV3D::Physics::updateWorld(float timestep) {
+	NewtonUpdate(m_World, (dFloat)timestep);
 }
 
 void BV3D::Physics::registerBall(VRS::SO<BV3D::Ball> ball) {

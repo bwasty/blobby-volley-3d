@@ -11,7 +11,7 @@ namespace BV3D {
 		void processInput(VRS::SO<VRS::InputEvent> ie);
 		void setBinding(COMMAND cmd, int keyCode);
 		bool isRequested(COMMAND cmd);
-		void consumed();
+		void consumed() {}		// nothing to be done for keyboard input
 	protected:
 		bool	m_Command[5];
 		int		m_Binding[5];

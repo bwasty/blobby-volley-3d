@@ -34,7 +34,3 @@ void KeyboardControls::setBinding(COMMAND cmd, int keyCode) {
 bool KeyboardControls::isRequested(COMMAND cmd) {
 	return m_Command[cmd];
 }
-
-void KeyboardControls::consumed() {
-	// nothing to be done for keyboard input
-}
