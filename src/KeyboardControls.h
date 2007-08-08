@@ -1,3 +1,11 @@
+/**
+ * BV3D::KeyboardControls is a sub-class of BV3D::Controls for handling keyboard input for blobbs.
+ *
+ * it maintains a mapping of VRS key codes that refer to movement requests.
+ * VRS::KeyEvents are examined, and if a mapped key code is determined, the corresponding
+ * request is issued.
+ */
+
 #ifndef BV3D_KEYBOARDCONTROLS
 #define BV3D_KEYBOARDCONTROLS
 
@@ -5,16 +13,30 @@
 
 namespace BV3D {
 	class KeyboardControls : public Controls {
+
 	public:
+		/**
+		 * ctor
+		 */
 		KeyboardControls();
-		virtual ~KeyboardControls();
+
+		/**
+		 * dtor
+		 */
+		virtual ~KeyboardControls() {}
+
+		/**
+		 * is a callback for processing InputEvent's (KeyEvent)
+		 */
 		void processInput(VRS::SO<VRS::InputEvent> ie);
-		void setBinding(COMMAND cmd, int keyCode);
-		bool isRequested(COMMAND cmd);
-		void consumed() {}		// nothing to be done for keyboard input
+
+		/**
+		 * map VRS virtual key codes to move requests
+		 */
+		void setBinding(REQUEST req, int keyCode);
+
 	protected:
-		bool	m_Command[5];
-		int		m_Binding[5];
+		int		m_Binding[5];	// key-to-request mapping
 	};
 }
 

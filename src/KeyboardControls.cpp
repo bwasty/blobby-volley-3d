@@ -3,34 +3,35 @@
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
 
-using namespace BV3D;
-
-KeyboardControls::KeyboardControls() : Controls() {
-	for(int i=0;i<5;i++) m_Command[i] = false;
-	m_Binding[FORWARD] = VRS::Key::Up;
-	m_Binding[BACKWARD] = VRS::Key::Down;
-	m_Binding[RIGHT] = VRS::Key::Right;
-	m_Binding[LEFT] = VRS::Key::Left;
-	m_Binding[JUMP] = VRS::Key::End;	// Enter dont work :-(
+BV3D::KeyboardControls::KeyboardControls() : Controls() {
+	setBinding(FORWARD, VRS::Key::Up);
+	setBinding(BACKWARD, VRS::Key::Down);
+	setBinding(RIGHT ,VRS::Key::Right);
+	setBinding(LEFT ,VRS::Key::Left);
+	setBinding(JUMP, VRS::Key::End);	// TODO: Enter dont work :-(
 }
 
-KeyboardControls::~KeyboardControls() {
-}
-
-void KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
+void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
 	VRS::SO<VRS::KeyEvent> ke = VRS_Cast(VRS::KeyEvent, ie);
-	if(ke != NULL) {
-		bool state = ke->pressed();
+
+	// process KeyEvents only
+	if(ke != NULL)
 		for(int i=0;i<5;i++)
-			if(ke->keyCode()==m_Binding[i])
-				m_Command[i] = state;
+			if(ke->keyCode()==m_Binding[i]) {
+				if(ke->pressed())
+					setRequest((REQUEST)(1<<i));	// set request if key was pressed
+				else
+					clearRequest((REQUEST)(1<<i));	// clear request if key was released
+			}
+}
+
+void BV3D::KeyboardControls::setBinding(REQUEST req, int keyCode) {
+	switch(req) {
+		case FORWARD:	m_Binding[0] = keyCode; break;
+		case BACKWARD:	m_Binding[1] = keyCode; break;
+		case RIGHT:		m_Binding[2] = keyCode; break;
+		case LEFT:		m_Binding[3] = keyCode; break;
+		case JUMP:		m_Binding[4] = keyCode; break;
+		default: break;
 	}
-}
-
-void KeyboardControls::setBinding(COMMAND cmd, int keyCode) {
-	m_Binding[cmd] = keyCode;
-}
-
-bool KeyboardControls::isRequested(COMMAND cmd) {
-	return m_Command[cmd];
 }

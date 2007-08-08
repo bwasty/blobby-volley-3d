@@ -145,12 +145,15 @@ void Blobb::setControls(SO<Controls> controls) {
  * evaluate Controls and reposition the Blobb
  */
 void Blobb::update() {
-	if(m_Controls->isRequested(Controls::FORWARD)) moveForward();
-	if(m_Controls->isRequested(Controls::BACKWARD)) moveBackward();
-	if(m_Controls->isRequested(Controls::RIGHT)) moveRight();
-	if(m_Controls->isRequested(Controls::LEFT)) moveLeft();
-	if(m_Controls->isRequested(Controls::JUMP)) jump();
-	m_Controls->consumed();		// report that current requests were acknowlegded
+	// get movement requests for current frame
+	char requests = m_Controls->getRequests();	// requests is a bitfield
+
+	// examine each request bit in the bitfield and move if bit is set
+	if(Controls::isRequested(requests, Controls::FORWARD)) moveForward();
+	if(Controls::isRequested(requests, Controls::BACKWARD)) moveBackward();
+	if(Controls::isRequested(requests, Controls::RIGHT)) moveRight();
+	if(Controls::isRequested(requests, Controls::LEFT)) moveLeft();
+	if(Controls::isRequested(requests, Controls::JUMP)) jump();
 
 	m_Translation->setTranslate(m_Position);
 }
