@@ -5,18 +5,17 @@
 #ifndef BV3D_PHYSICS
 #define BV3D_PHYSICS
 
-//#include <Newton.h>
-#include "Ball.h"
 #include <vrs/so.h>
 #include <vrs/sharedobj.h>
-#include <vrs/container/dictionary.h>
 
 struct NewtonBody;
 struct NewtonWorld;
 
 namespace BV3D
 {
-	class Physics
+	class Ball;
+
+	class Physics : public VRS::SharedObj
 	{
 	public:
 		Physics();

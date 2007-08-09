@@ -22,6 +22,7 @@
 
 #include "Arena.h"
 #include "Blobb.h"
+#include "Ball.h"
 #include "Physics.h"
 
 using namespace VRS;
@@ -51,7 +52,7 @@ namespace BV3D
 		SO<SceneThing>			m_BackNode;		//SceneNode for background
 		SO<VRS::ImageCubeMapTextureGL> m_BackCubeMap;	//CubeMap for background
 
-		Physics		m_Physics;
+		VRS::SO<Physics>		m_Physics;
 
 		int			m_iFramerate;		// frame counter to allow frame rate checking
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking

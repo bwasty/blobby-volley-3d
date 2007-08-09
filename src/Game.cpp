@@ -63,7 +63,9 @@ Game::Game() {
 
 	m_Ball = new BV3D::Ball();
 	m_RootScene->append(m_Ball->getScene());
-	m_Physics.registerBall(m_Ball);
+
+	m_Physics = new Physics();
+	m_Physics->registerBall(m_Ball);
 
 	m_Canvas->append(m_RootScene);
 
@@ -118,7 +120,7 @@ void Game::update() {
 		m_BlobbArray->getElement(1)->update();
 		m_Canvas->redisplay();
 
-		m_Physics.updateWorld(timestep);
+		m_Physics->updateWorld(timestep);
 	}
 }
 

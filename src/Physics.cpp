@@ -1,7 +1,8 @@
 /// Physics.cpp
 
-#include <Newton.h>
 #include "Physics.h"
+#include <Newton.h>
+#include "Ball.h"
 
 BV3D::Physics::Physics() {
 	m_World = NewtonCreate(0,0);
