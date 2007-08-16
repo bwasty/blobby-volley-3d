@@ -13,6 +13,7 @@
 #include <vrs/sg/interactionmode.h>
 #include <vrs/sg/interactionconcept.h>
 #include <vrs/opengl/imagecubemaptexturegl.h>
+#include <vrs/opengl/backgroundgl.h>
 //#include <vrs/image/compressedimage.h>
 #include <vrs/io/pngreader.h>
 #include <vrs/lookat.h>
@@ -49,7 +50,7 @@ namespace BV3D
 		SO<InteractionMode>		m_InteractionMode;	//needed for navigation technique
 		SO<InteractionConcept>	m_InteractionConcept;	//needed for navigation technique
 		SO<BookmarkNavigation>	m_Navigation;	// select and fly between different camera settings
-		SO<SceneThing>			m_BackNode;		//SceneNode for background
+		SO<BackgroundGL>		m_Background;		//SceneNode for background
 		SO<VRS::ImageCubeMapTextureGL> m_BackCubeMap;	//CubeMap for background
 
 		VRS::SO<Physics>		m_Physics;

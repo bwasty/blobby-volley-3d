@@ -16,6 +16,7 @@
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
 
+
 #include <vrs/color.h>
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
@@ -36,7 +37,8 @@ Game::Game() {
 	m_Camera = new Camera(m_perspective, m_lookAt);
 	m_RootScene->append(m_Camera);
 
-	m_BackNode = new SceneThing(m_RootScene);
+	//m_Background = new SceneThing(m_RootScene);
+	initBackgroundCubeMap();
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
@@ -180,15 +182,16 @@ void Game::initBackgroundCubeMap()
 {
 	printf("Loading Background Cupemap...\n");
 	SO<Array<SO<Image> > > cubemapImages = new Array<SO<Image> >(6);
-    (*cubemapImages)[ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
+    (*cubemapImages)[ImageCubeMapTextureGL::Right]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Left]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Top]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
 	(*cubemapImages)[ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negy.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Front]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Back]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
+
 	m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
-//	m_BackNode = new SceneThing(m_RootScene);
-    m_BackNode->append(m_BackCubeMap);
-	m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal 
-	m_BackNode->append(new Sphere(19.0));
+	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal 
+	//m_BackNode->append(new Sphere(19.0));
+	m_Background = new BackgroundGL(m_BackCubeMap);
+	m_RootScene->append(m_Background);
 }
