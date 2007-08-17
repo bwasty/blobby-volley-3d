@@ -32,13 +32,13 @@ Game::Game() {
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	m_RootScene->append(m_TransparencyTechnique);
 
-	m_perspective = new Perspective(30, 1.0, 20.0);
-	m_lookAt = new LookAt(Vector(0.0, 10.0, -15.0));
-	m_Camera = new Camera(m_perspective, m_lookAt);
+	m_Perspective = new Perspective(30, 1.0, 20.0);
+	m_LookAt = new LookAt(Vector(0.0, 10.0, -15.0));
+	m_Camera = new Camera(m_Perspective, m_LookAt);
 	m_RootScene->append(m_Camera);
 
 	//m_Background = new SceneThing(m_RootScene);
-	initBackgroundCubeMap();
+	//initBackgroundCubeMap();
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
@@ -83,14 +83,14 @@ Game::Game() {
 	m_Canvas->append(m_cbInput);
 
 	// init BookmarkNavigation
-	m_Navigation = new BookmarkNavigation();
-	m_Navigation->setPathStyle(BookmarkNavigation::Simple);
-	m_InteractionMode = new InteractionMode();
+	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_LookAt, 3.0);
+	//m_Navigation->setPathStyle(BookmarkNavigation::Simple);
+	/*m_InteractionMode = new InteractionMode();
 	m_InteractionMode->addInteractionTechnique(m_Navigation);
 	m_InteractionConcept = new InteractionConcept(m_lookAt);
 	m_InteractionConcept->addInteractionMode(m_InteractionMode);
-	m_InteractionConcept->activate(BehaviorNode::Begin);
-	m_Canvas->append(m_InteractionConcept);
+	m_InteractionConcept->activate(BehaviorNode::Begin);*/
+	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 }
 
 Game::~Game() {
@@ -146,19 +146,22 @@ void Game::processInput() {
 				case Key::Home:
 					setArenaExtent(Vector(6.0,2.0,2.0));
 					break;
-				case Key::F2:
-					m_Navigation->initPath(Vector(0.0, 15.0, -15.0), Vector(0.0, 0.0, 0.0));
-					//printf("Key F2 pressed\n");
-					break;
-				case Key::F3:
-					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(0.0, 0.0, 0.0));
-					break;
-				case Key::F4:
-					m_Navigation->initPath(Vector(0.0, 15.0, -30.0), Vector(0.0, 0.0, 0.0));
-					break;
 				case Key::F1:
 					initBackgroundCubeMap();
 					break;
+				case Key::F2:	//view field from the side
+					m_Navigation->initPath(Vector(0.0, 10.0, -15.0), Vector(0.0, -10.0, 15.0));
+					break;
+				case Key::F3:	//view field from above
+					m_Navigation->initPath(Vector(0.0, 15.0, -0.1), Vector(0.0, -15.0, 0.1));
+					//printf("Key F2 pressed\n");
+					break;
+				case Key::F4:	//view field from the front(from baseline of one blobb's field)
+					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(-15.0, -15.0, 0.0));
+					break;
+				case Key::F5:	//view field from the side "lying on the ground"
+					m_Navigation->initPath(Vector(0.0, 0.0, -15.0), Vector(0.0, 3.0, 15.0));
+					break;	
 			}
 			printf("Key %i pressed\n", ke->keyCode());
 		}
