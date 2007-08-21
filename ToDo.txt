@@ -6,6 +6,8 @@ Must:
 - Physik: (erik, benny)
 	- User-Joints
 	- versch. Materialien
+	- Physik-Körper für restliche Objekte (Blobb, Netz mit CollisionTree, Decke)
+	- CollisionCallbacks -> Spiellogik
 - Regeln/Spiellogik einbinden (erik, benny)
 - Menüs (erik)
 - Clipping anpassen (phil)
