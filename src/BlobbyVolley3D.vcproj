@@ -214,10 +214,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Physics.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Referee.cpp"
 				>
 			</File>
@@ -265,10 +261,6 @@
 			</File>
 			<File
 				RelativePath=".\MouseControls.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Physics.h"
 				>
 			</File>
 			<File

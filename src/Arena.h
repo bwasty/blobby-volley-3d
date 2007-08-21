@@ -1,30 +1,103 @@
+/**
+ * The Arena class represents the box in which the Blobbs play Ball.
+ * It is responsible for:
+ * - setting up valid bounds for the Arena
+ * - passing valid bounds for Blobbs and the Ball
+ * - creating the 3D shape - a topless box with transparent walls
+ *
+ * the Arena floor is centered at the origin
+ * the Net runs along the z-axis
+ * the individual fields run along the positive/negative x-axis
+ * the walls are transparent to see the play and still give some hint about Ball collision
+ * the box is assumed to be topless, still the walls have a certain
+ *  height that should prevent the ball from bouncing out
+ */
+
 #ifndef BV3D_ARENA
 #define BV3D_ARENA
 
 #include <vrs/sharedobj.h>
-#include <vrs/so.h>
 #include <vrs/bounds.h>
-#include <vrs/sg/scenething.h>
-#include <vrs/opengl/shapematerialgl.h>
-#include <vrs/container/fixedsizeiterator.h>
-#include <vrs/polygonset.h>
 
-using namespace VRS;
+struct NewtonWorld;
+struct NewtonBody;
+
+namespace VRS {
+	template<class T> class SO;
+	class ShapeMaterialGL;
+	template<typename T> class FixedSizeIterator;
+	class PolygonSet;
+	class SceneThing;
+}
 
 namespace BV3D {
-	class Arena : public SharedObj {
+	class Arena : public VRS::SharedObj {
 	public:
+		/**
+		 * ctor
+		 */
 		Arena();
+
+		/**
+		 * dtor
+		 */
 		~Arena();
-		void setExtent(Vector extent);
-		Bounds getTeamBounds(int team);
-		SO<SceneThing> getScene();
-	protected:
-		SO<SceneThing>		m_Scene;
-		SO<ShapeMaterialGL>	m_Material;
-		SO<FixedSizeIterator<Vector>>	m_WallsVertices;
-		SO<PolygonSet>		m_Walls;	// walls shape
-		Bounds				m_Bounds;	// bounds of the Arena box
+
+		/**
+		 * resizes the Arena to the given extent
+		 * the arena bottom is centered at the origin
+		 * \param extent is a Vector specifying the distance of each dimension of the Arena box
+		 */
+		void setExtent(VRS::Vector extent);
+
+		/**
+		 * get the bounds of the whole arena
+		 */
+		VRS::Bounds getBounds() {return m_Bounds;}
+
+		/**
+		 * get the valid bounds for one of the blobbs
+		 */
+		VRS::Bounds getTeamBounds(int team);
+
+		/**
+		 * get the local arena scene
+		 */
+		VRS::SO<VRS::SceneThing> getScene() {return m_Scene;}
+
+	public:	// Physics
+		/**
+		 * get the current gravity force value
+		 */
+		float getGravity() {return m_Gravity;}
+
+		/**
+		 * set the current gravity force value
+		 */
+		void  setGravity(float gravity) {m_Gravity = gravity;}
+
+		/**
+		 * perform physics simulation
+		 * \param timestep specifies the amount of time in millisecs to advance during simulation
+		 */
+		void updateWorld(float timestep);
+
+		/**
+		 * return pointer to the Physics world
+		 */
+		NewtonWorld* getWorld() {return m_World;}
+
+	private:
+		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
+		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	m_WallsVertices;	// vertices for walls
+		VRS::SO<VRS::ShapeMaterialGL>	m_Material;		// wall material
+		VRS::SO<VRS::PolygonSet>		m_Walls;		// walls shape
+		VRS::Bounds				m_Bounds;			// bounds of the Arena box
+
+	private:	// Physics
+		float			m_Gravity;	// gravity of world
+		NewtonWorld*	m_World;	// physics world
+		NewtonBody*		m_Body;		// physical arena body
 	};
 }
 

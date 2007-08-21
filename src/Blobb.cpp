@@ -8,182 +8,171 @@
  * - updating the position based on input and physics
  */
 
-#include <stdio.h>
-#include <math.h>
 #include "Blobb.h"
+#include "Arena.h"
 #include "KeyboardControls.h"
+#include <vrs/so.h>
+#include <vrs/sg/scenething.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/sg/inputevent.h>
 #include <vrs/io/threedsreader.h>
-#include <vrs/sphere.h>
+#include <Newton.h>
 
-Blobb::Blobb() {
-	m_Controls = new KeyboardControls();
-	m_CtrlsOrientation = Vector(0.0,0.0,0.05);
+BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena) {
+	m_Arena = arena;
+	m_Controls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
+	m_CtrlsOrientation = VRS::Vector(0.0,0.0,5.0);	// TODO: use as default value in constructor
+	m_JumpAllowed = false;
+	m_Body = 0;
 
-	// setting up the Blobb sub-scene
-	m_Scene = new SceneThing();
-	m_Translation = new Translation();
-	m_Scene->append(m_Translation);
-	m_Material = new ShapeMaterialGL(Color(1.0,0.0,0.0,0.4));
+	// set up the blobb local scene
+	m_Scene = new VRS::SceneThing();
+	m_Material = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,0.4));
 	m_Scene->append(m_Material);
-	ThreeDSReader::setMaterialMode(ThreeDSReader::NO_MATERIAL);
-	m_Scene->append(ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
-	//m_Scene->append(new Sphere());
+	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
+	m_Scene->append(VRS::ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
+
+	// physics setup
+	dFloat radius = 1.0;
+	NewtonWorld* world = m_Arena->getWorld();
+
+	// create NewtonBody with a collision sphere
+	NewtonCollision* collision[2];
+	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,1.0,0.0,1.0};
+
+	// use two sphere collision objects as physics body
+	collision[0] = NewtonCreateSphere(world, radius, radius, radius, NULL);
+	collision[1] = NewtonCreateSphere(world, radius, radius, radius, matrix);
+	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(world, 2, collision);
+	m_Body = NewtonCreateBody(world, compoundCollision);
+	NewtonReleaseCollision(world, collision[0]);
+	NewtonReleaseCollision(world, collision[1]);
+	NewtonReleaseCollision(world, compoundCollision);
+
+	// set up mass matrix
+	dFloat inertia = 2*1*(radius * radius) / 5; 
+	NewtonBodySetMassMatrix(m_Body, 10 ,inertia,inertia,inertia);
+
+	// attach an up-vector joint prevent blobb from leaning and tipping over
+	dFloat upVector[3] = {0.0,1.0,0.0};
+	NewtonConstraintCreateUpVector(world,upVector,m_Body);
+
+	NewtonBodySetUserData(m_Body, this);
+	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
+	NewtonBodySetMaterialGroupID(m_Body, NewtonMaterialGetDefaultGroupID(world));
+	NewtonBodySetAutoFreeze (m_Body, 0);
+	NewtonBodySetContinuousCollisionMode(m_Body, 0); // needed?
+	NewtonWorldUnfreezeBody(world, m_Body);
+
+	// move body to blobb position
+	setPosition(VRS::Vector(0.0,0.0,0.0));
 }
 
-Blobb::~Blobb() {
+BV3D::Blobb::~Blobb() {
+	if(m_Body)
+		NewtonDestroyBody(m_Arena->getWorld(), m_Body);
 }
 
-/*
- * sets the base orientation for all relative movement
- * \param ctrlsOri is a Vector which points forward
- */
-void Blobb::setCtrlsOrientation(Vector ctrlsOri) {
+void BV3D::Blobb::setCtrlsOrientation(VRS::Vector ctrlsOri) {
+	// normalize new orientation vector and use previous step distance to scale it
 	double dStepDistance = sqrt(m_CtrlsOrientation.dotProduct(m_CtrlsOrientation));
 	m_CtrlsOrientation = ctrlsOri.normalized() * dStepDistance;
 }
 
-/*
- * set the distance of movement
- * \param distance
- */
-void Blobb::setStepDistance(double distance) {
+void BV3D::Blobb::setStepDistance(double distance) {
+	// scale normalized orientation vector by new step distance
 	m_CtrlsOrientation = m_CtrlsOrientation.normalized() * distance;
 }
 
-/*
- * position the Blobb
- * the new position is checked against the bounds and corrected if necessary
- * \param position
- */
-void Blobb::setPosition(Vector position) {
-	if(m_Bounds.isDefined()) {
-		Vector llf = m_Bounds.getLLF();
-		Vector urb = m_Bounds.getURB();
-		if(position[0] < llf[0]) position[0] = llf[0];
-		if(position[1] < llf[1]) position[1] = llf[1];
-		if(position[2] < llf[2]) position[2] = llf[2];
-		if(position[0] > urb[0]) position[0] = urb[0];
-		if(position[1] > urb[1]) position[1] = urb[1];
-		if(position[2] > urb[2]) position[2] = urb[2];
+VRS::Vector BV3D::Blobb::getMovement() {
+	VRS::Vector movement;
+	char requests = m_Controls->getRequests();	// get controls' request bitfield
+
+	// evaluate requests and setup movement vector accordingly
+	if(Controls::isRequested(requests, Controls::FORWARD)) movement += m_CtrlsOrientation;
+	if(Controls::isRequested(requests, Controls::BACKWARD)) movement -= m_CtrlsOrientation;
+	if(Controls::isRequested(requests, Controls::RIGHT)) {
+		movement += VRS::Vector(m_CtrlsOrientation[2], 0, -m_CtrlsOrientation[0]);
 	}
-	m_Position = position;
-	// TODO: apply Newton force/movement
+	if(Controls::isRequested(requests, Controls::LEFT)) {
+		movement += VRS::Vector(-m_CtrlsOrientation[2], 0, m_CtrlsOrientation[0]);
+	}
+	if(Controls::isRequested(requests, Controls::JUMP)) {
+		if(m_JumpAllowed)
+			movement += VRS::Vector(0.0,3.0,0.0);	// blobb may jump only if it is allowed
+	}
+	else
+		m_JumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
+
+	return movement;
 }
 
-/*
- * convenience method for moving one step forward
- */
-void Blobb::moveForward() {
-	setPosition(m_Position + m_CtrlsOrientation);
+void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
+	m_Controls->processInput(ie);	// pass input events to blobb's controls
 }
 
-/*
- * convenience method for moving one step backward
- */
-void Blobb::moveBackward() {
-	setPosition(m_Position - m_CtrlsOrientation);
+void BV3D::Blobb::setPosition(VRS::Vector position) {
+	// relocate visual blobb
+	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
+	m_Scene->setLocalMatrix(vrsMatrix);
+
+	// translate physical body
+	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
+						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
+	NewtonBodySetMatrix(m_Body, newtonMatrix);
 }
 
-/*
- * convenience method for moving one step to the right
- */
-void Blobb::moveRight() {
-	setPosition(Vector(
-		m_Position[0] + m_CtrlsOrientation[2],
-		m_Position[1],
-		m_Position[2] - m_CtrlsOrientation[0]));
-}
-
-/*
- * convenience method for moving one step to the left
- */
-void Blobb::moveLeft() {
-	setPosition(Vector(
-		m_Position[0] - m_CtrlsOrientation[2],
-		m_Position[1],
-		m_Position[2] + m_CtrlsOrientation[0]));
-}
-
-/*
- * method to invoke jumping
- */
-void Blobb::jump() {
-	// TODO: apply Newton force
-	printf("jump!\n");
-}
-
-/*
- * sets the inhabitable volume for the Blobb
- * it is assumed that the Blobb's bounding box is centered at the origin!
- */
-void Blobb::setBounds(Bounds bounds) {
-	Vector llf = bounds.getLLF();
-	Vector urb = bounds.getURB();
-	Vector extent = Vector(2.0,2.0,2.0);	// simulated bounds for standard Sphere
-	llf += extent/2;
-	urb -= extent/2;
-	m_Bounds = Bounds(llf,urb);	// TODO; what if bounds too small?!
-	setPosition(m_Position);	// reset position for bounds check
-}
-
-/*
- * \return a pointer to the Blobb's Controls object
- */
-SO<Controls> Blobb::getControls() {
-	return m_Controls;
-}
-
-/*
- * assign new Controls to the Blobb
- * \param controls
- */
-void Blobb::setControls(SO<Controls> controls) {
-	m_Controls = controls;
-}
-
-/*
- * evaluate Controls and reposition the Blobb
- */
-void Blobb::update() {
-	// get movement requests for current frame
-	char requests = m_Controls->getRequests();	// requests is a bitfield
-
-	// examine each request bit in the bitfield and move if bit is set
-	if(Controls::isRequested(requests, Controls::FORWARD)) moveForward();
-	if(Controls::isRequested(requests, Controls::BACKWARD)) moveBackward();
-	if(Controls::isRequested(requests, Controls::RIGHT)) moveRight();
-	if(Controls::isRequested(requests, Controls::LEFT)) moveLeft();
-	if(Controls::isRequested(requests, Controls::JUMP)) jump();
-
-	m_Translation->setTranslate(m_Position);
-}
-
-/*
- * \return the Blobb's sub-scene
- */
-SO<SceneThing> Blobb::getScene() {
-	return m_Scene;
-}
-
-/*
- * \return the Blobb's material per-vertex color
- */
-Color Blobb::getColor() {
+VRS::Color BV3D::Blobb::getColor() {
 	return m_Material->getPerVertexColor();
 }
 
-/*
- * set the Blobb's material per-vertex color
- * \param color is the new color
- */
-void Blobb::setColor(Color color) {
+void BV3D::Blobb::setColor(VRS::Color color) {
 	m_Material->setPerVertexColor(color);
 }
 
-/*
- * lets the Blobb react on input
- * \param ie
- */
-void Blobb::processInput(SO<InputEvent> ie) {
-	m_Controls->processInput(ie);
+void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
+	// TODO: use c++/vrs cast
+	BV3D::Blobb* blobb = (BV3D::Blobb*)NewtonBodyGetUserData(body);
+	if (blobb)
+		blobb->update();
+}
+
+void BV3D::Blobb::update() {
+	dFloat Ixx, Iyy, Izz, mass;
+
+	// get current and requested movement
+	VRS::Vector movement = getMovement();
+	dFloat currentVelocity[3];
+	NewtonBodyGetVelocity(m_Body, currentVelocity);
+
+	// jump if requested (linear up-movement, ignoring current movement) or continue current movement
+	dFloat move[3] = {(dFloat)movement[0], (movement[1]>0) ? (dFloat)movement[1] : currentVelocity[1], (dFloat)movement[2]};
+	NewtonBodySetVelocity(m_Body, move);
+
+	// clear any forces
+	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+	NewtonBodySetForce(m_Body, nullForce);
+
+	// apply gravitational force (except when jumping -> linear up-movement)
+	if(movement[1]<=0) {
+		NewtonBodyGetMassMatrix(m_Body, &mass, &Ixx, &Iyy, &Izz);
+		dFloat gravitation[3] = {0.0f, -m_Arena->getGravity() * mass, 0.0f};
+		NewtonBodyAddForce(m_Body, gravitation);
+	}
+
+	// set up blobb matrix
+	dFloat newtonMatrix[16];
+	NewtonBodyGetMatrix(m_Body,newtonMatrix);
+	VRS::Matrix vrsMatrix (
+		newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
+		newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
+		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
+		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
+
+	if(newtonMatrix[13]>2.0)	// prevent blobb from jumping too high
+		m_JumpAllowed = false;
+	else if(newtonMatrix[13]<1.1)	// re-enable jumping when landed
+		m_JumpAllowed = true;
+
+	m_Scene->setLocalMatrix(vrsMatrix);
 }

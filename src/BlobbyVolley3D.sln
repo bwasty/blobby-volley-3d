@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlobbyVolley3d", "BlobbyVolley3D.vcproj", "{ED381FAF-513C-4FD3-A416-38B1C3581D6D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlobbyVolley3D", "BlobbyVolley3D.vcproj", "{ED381FAF-513C-4FD3-A416-38B1C3581D6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,8 +9,8 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ED381FAF-513C-4FD3-A416-38B1C3581D6D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{ED381FAF-513C-4FD3-A416-38B1C3581D6D}.Debug|Win32.Build.0 = Debug|Win32
+		{ED381FAF-513C-4FD3-A416-38B1C3581D6D}.Debug|Win32.ActiveCfg = Release|Win32
+		{ED381FAF-513C-4FD3-A416-38B1C3581D6D}.Debug|Win32.Build.0 = Release|Win32
 		{ED381FAF-513C-4FD3-A416-38B1C3581D6D}.Release|Win32.ActiveCfg = Release|Win32
 		{ED381FAF-513C-4FD3-A416-38B1C3581D6D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

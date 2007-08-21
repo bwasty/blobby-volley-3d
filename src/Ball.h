@@ -4,21 +4,65 @@
 #define BV3D_BALL
 
 #include <vrs/sharedobj.h>
-#include <vrs/sg/scenething.h>
+
+struct NewtonBody;
+
+namespace VRS {
+	class SceneThing;
+	template<typename T> class Matrix4x4Base;
+	typedef Matrix4x4Base<double> Matrix;
+}
 
 namespace BV3D
 {
+	class Arena;
+
 	class Ball : public VRS::SharedObj
 	{
 	public:
-		Ball();
+		/**
+		 * ctor
+		 * \param arena specifies the arena in which the ball is simulated
+		 */
+		Ball(VRS::SO<BV3D::Arena> arena);
+
+		/**
+		 * dtor
+		 */
 		~Ball();
+
+		/**
+		 * returns the local ball scene
+		 */
 		VRS::SO<VRS::SceneThing> getScene() {return m_Scene;}
-		void setTransformation(VRS::Matrix matrix);
-		double getRadius() {return m_radius;}
+
+		/**
+		 * position ball
+		 * \param position is the ball's new location
+		 */
+		void resetPosition(VRS::Vector& position);
+
+	protected:
+		/**
+		 * update ball physics and visuals
+		 */
+		void update();
+
+	public:
+		/**
+		 * callback which notifies that a NewtonBody in the NewtonWorld has changed
+		 * \param body is the changed NewtonBody
+		 */
+		static void applyForceAndTorqueCallback(const NewtonBody* body);
+
 	private:
-		double	m_radius;
-		VRS::SO<VRS::SceneThing>	m_Scene;
+		double						m_Radius;	// ball radius
+		VRS::SO<VRS::SceneThing>	m_Scene;	// ball local scene
+
+	private: // physics
+		VRS::SO<BV3D::Arena>	m_Arena;	// parent physics object
+		NewtonBody*				m_Body;		// physical body in simulated world
+		bool					m_IsLocked;	// locks the ball at its current position until collision
 	};
 }
 

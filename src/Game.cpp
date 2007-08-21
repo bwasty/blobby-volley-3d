@@ -15,11 +15,13 @@
 #include <vrs/sg/clock.h>
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
-
+#include <vrs/sg/jumpnavigation.h>
+#include <vrs/opengl/backgroundgl.h>
 
 #include <vrs/color.h>
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
+#include "Ball.h"
 
 using namespace BV3D;
 
@@ -28,17 +30,14 @@ Game::Game() {
 
 	m_RootScene = new SceneThing();
 
-	// add transparency support to scene 
+	// add transparency support to scene
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	m_RootScene->append(m_TransparencyTechnique);
 
-	m_Perspective = new Perspective(30, 1.0, 20.0);
-	m_LookAt = new LookAt(Vector(0.0, 10.0, -15.0));
-	m_Camera = new Camera(m_Perspective, m_LookAt);
+	m_perspective = new Perspective(30, 1.0, 20.0);
+	m_lookAt = new LookAt(Vector(0.0, 5.0, -10.0));
+	m_Camera = new Camera(m_perspective, m_lookAt);
 	m_RootScene->append(m_Camera);
-
-	//m_Background = new SceneThing(m_RootScene);
-	//initBackgroundCubeMap();
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
@@ -49,25 +48,23 @@ Game::Game() {
 
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
-	SO<Blobb> blobb = new Blobb();
-	blobb->setPosition(Vector(-1.0,0.0,1.0));
+	SO<Blobb> blobb = new Blobb(m_Arena);
+	blobb->setPosition(Vector(-2.0,1.0,1.0));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
-	blobb = new Blobb();
-	blobb->setPosition(Vector(1.0,0.0,1.0));
+	blobb = new Blobb(m_Arena);
+	blobb->setPosition(Vector(2.0,2.0,2.0));
 	blobb->setControls(new MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
-	setArenaExtent(Vector(8.0,10.0,4.0));
+	m_Arena->setExtent(Vector(8.0,10.0,6.0));
 
-	m_Ball = new BV3D::Ball();
+	m_Ball = new BV3D::Ball(m_Arena);
 	m_RootScene->append(m_Ball->getScene());
-
-	m_Physics = new Physics();
-	m_Physics->registerBall(m_Ball);
+	m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 
 	m_Canvas->append(m_RootScene);
 
@@ -83,13 +80,14 @@ Game::Game() {
 	m_Canvas->append(m_cbInput);
 
 	// init BookmarkNavigation
-	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_LookAt, 3.0);
-	//m_Navigation->setPathStyle(BookmarkNavigation::Simple);
-	/*m_InteractionMode = new InteractionMode();
-	m_InteractionMode->addInteractionTechnique(m_Navigation);
-	m_InteractionConcept = new InteractionConcept(m_lookAt);
-	m_InteractionConcept->addInteractionMode(m_InteractionMode);
-	m_InteractionConcept->activate(BehaviorNode::Begin);*/
+	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_lookAt, 3.0);
+	///m_Navigation = new BookmarkNavigation();
+	///m_Navigation->setPathStyle(BookmarkNavigation::Simple);
+	///m_InteractionMode = new InteractionMode();
+	///m_InteractionMode->addInteractionTechnique(m_Navigation);
+	///m_InteractionConcept = new InteractionConcept(m_lookAt);
+	///m_InteractionConcept->addInteractionMode(m_InteractionMode);
+	///m_InteractionConcept->activate(BehaviorNode::Begin);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 }
 
@@ -118,11 +116,11 @@ void Game::update() {
 
 		// update blobbs'
 		//Iterator it = m_BlobbArray->
-		m_BlobbArray->getElement(0)->update();
-		m_BlobbArray->getElement(1)->update();
-		m_Canvas->redisplay();
+		//m_BlobbArray->getElement(0)->update();
+		//m_BlobbArray->getElement(1)->update();
 
-		m_Physics->updateWorld(timestep);
+		m_Arena->updateWorld(timestep);
+		m_Canvas->redisplay();
 	}
 }
 
@@ -144,7 +142,7 @@ void Game::processInput() {
 					exit(0);
 					break;
 				case Key::Home:
-					setArenaExtent(Vector(6.0,2.0,2.0));
+						m_Arena->setExtent(Vector(6.0,2.0,2.0));
 					break;
 				case Key::F1:
 					initBackgroundCubeMap();
@@ -161,7 +159,7 @@ void Game::processInput() {
 					break;
 				case Key::F5:	//view field from the side "lying on the ground"
 					m_Navigation->initPath(Vector(0.0, 0.0, -15.0), Vector(0.0, 3.0, 15.0));
-					break;	
+					break;
 			}
 			printf("Key %i pressed\n", ke->keyCode());
 		}
@@ -171,30 +169,26 @@ void Game::processInput() {
 	m_BlobbArray->getElement(1)->processInput(ie);
 }
 
-/**
- * sets Arena bounds and notifies Blobbs etc
- */
-void Game::setArenaExtent(Vector extent) {
-	m_Arena->setExtent(extent);
-	m_BlobbArray->getElement(0)->setBounds(m_Arena->getTeamBounds(0));
-	m_BlobbArray->getElement(1)->setBounds(m_Arena->getTeamBounds(1));
-}
-
-
 void Game::initBackgroundCubeMap()
 {
 	printf("Loading Background Cupemap...\n");
 	SO<Array<SO<Image> > > cubemapImages = new Array<SO<Image> >(6);
-    (*cubemapImages)[ImageCubeMapTextureGL::Right]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Left]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Top]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
+    (*cubemapImages)[ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
 	(*cubemapImages)[ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negy.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Front]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Back]	= VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
+	(*cubemapImages)[ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
 
 	m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
-	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal 
+	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
 	//m_BackNode->append(new Sphere(19.0));
 	m_Background = new BackgroundGL(m_BackCubeMap);
 	m_RootScene->append(m_Background);
+
+	///m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
+	///m_BackNode = new SceneThing(m_RootScene);
+    ///m_BackNode->append(m_BackCubeMap);
+	///m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
+	///m_BackNode->append(new Sphere(19.0));
 }

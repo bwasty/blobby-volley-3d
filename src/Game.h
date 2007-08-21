@@ -9,11 +9,9 @@
 #include <vrs/sg/behaviorcallback.h>
 #include <vrs/opengl/transparencytechniquegl.h>
 #include <vrs/container/array.h>
-#include <vrs/sg/jumpnavigation.h>
 #include <vrs/sg/interactionmode.h>
 #include <vrs/sg/interactionconcept.h>
 #include <vrs/opengl/imagecubemaptexturegl.h>
-#include <vrs/opengl/backgroundgl.h>
 //#include <vrs/image/compressedimage.h>
 #include <vrs/io/pngreader.h>
 #include <vrs/lookat.h>
@@ -24,9 +22,13 @@
 #include "Arena.h"
 #include "Blobb.h"
 #include "Ball.h"
-#include "Physics.h"
 
 using namespace VRS;
+
+namespace VRS {
+	class JumpNavigation;
+	class BackgroundGL;
+}
 
 namespace BV3D
 {
@@ -36,13 +38,12 @@ namespace BV3D
 		~Game();
 		void update();			// render new frame
 		void processInput();	// process and dispatch input
-		void setArenaExtent(Vector extent);		// change Arena bounds and notify Blobbs etc
 	protected:
 		SO<GlutCanvas>			m_Canvas;		// main canvas
 		SO<SceneThing>			m_RootScene;	// root node where Blobbs etc will be appended to
 		SO<TransparencyTechniqueGL>	m_TransparencyTechnique;	// to enable transparency
-		SO<Perspective>			m_Perspective;
-		SO<LookAt>				m_LookAt;
+		SO<Perspective>			m_perspective;
+		SO<LookAt>				m_lookAt;
 		SO<Camera>				m_Camera;			// scene camera
 		SO<AmbientLight>		m_AmbientLight;
 		SO<BehaviorCallback>	m_cbInput;		// callback to receive input from canvas
@@ -52,8 +53,6 @@ namespace BV3D
 		SO<JumpNavigation>		m_Navigation;	// select and fly between different camera settings
 		SO<BackgroundGL>		m_Background;		//SceneNode for background
 		SO<VRS::ImageCubeMapTextureGL> m_BackCubeMap;	//CubeMap for background
-
-		VRS::SO<Physics>		m_Physics;
 
 		int			m_iFramerate;		// frame counter to allow frame rate checking
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking

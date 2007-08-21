@@ -2,47 +2,110 @@
 #define BV3D_BLOBB
 
 #include <vrs/sharedobj.h>
-#include <vrs/so.h>
-#include "Controls.h"
-#include <vrs/bounds.h>
-#include <vrs/sg/scenething.h>
-#include <vrs/translation.h>
-#include <vrs/opengl/shapematerialgl.h>
-#include <vrs/sg/inputevent.h>
+#include <vrs/vector.h>
 
-using namespace BV3D;
-using namespace VRS;
+struct NewtonBody;
+
+namespace VRS {
+	class SceneThing;
+	class ShapeMaterialGL;
+	class InputEvent;
+}
 
 namespace BV3D
 {
-	class Blobb : public SharedObj {
+	class Arena;
+	class Controls;
+
+	class Blobb : public VRS::SharedObj {
 	public:
-		Blobb();
+		/**
+		 * ctor
+		 * \param arena specifies the arena in which the blobb is simulated
+		 */
+		Blobb(VRS::SO<BV3D::Arena> arena);
+
+		/**
+		 * dtor
+		 */
 		~Blobb();
-		void moveForward();
-		void moveBackward();
-		void moveRight();
-		void moveLeft();
-		void jump();
-		void setPosition(Vector position);
-		void setCtrlsOrientation(Vector ctrlsOri);
+
+		/**
+		 * move blobb to specified position
+		 */
+		void setPosition(VRS::Vector position);
+
+		/**
+		 * sets the orientation of the controls
+		 * \param ctrlsOri is the direction the blobb moves to when controlling forward
+		 */
+		void setCtrlsOrientation(VRS::Vector ctrlsOri);
+
+		/**
+		 * sets the distance the blobb moves with one step
+		 */
 		void setStepDistance(double distance);
-		void setBounds(Bounds bounds);
-		void setControls(SO<Controls> controls);
-		SO<Controls> getControls();
+
+		/**
+		 * assigns the controls for controlling the blobb
+		 */
+		void setControls(VRS::SO<BV3D::Controls> controls) {m_Controls = controls;}
+
+		/**
+		 * returns the current controls for this blobb
+		 */
+		VRS::SO<BV3D::Controls> getControls() {return m_Controls;}
+
+		/**
+		 * returns the blobb local scene
+		 */
+		VRS::SO<VRS::SceneThing> getScene() {return m_Scene;}
+
+		/**
+		 * returns the blobb's current color
+		 */
+		VRS::Color BV3D::Blobb::getColor();
+
+		/**
+		 * set the blobb's color
+		 */
+		void setColor(VRS::Color color);
+
+		/**
+		 * processes user input for this blobb
+		 * \param ie is an input event that was explicitely forwarded from the input callback in BV3D::Game
+		 */
+		void processInput(VRS::SO<VRS::InputEvent> ie);
+
+	protected:
+		/**
+		 * evaluates the controls state and returns the movement vector for the current frame.
+		 * this resets the controls state for the next frame.
+		 */
+		VRS::Vector getMovement();
+
+		/**
+		 * updates physical and visual blobb
+		 */
 		void update();
-		SO<SceneThing> getScene();
-		Color getColor();
-		void setColor(Color color);
-		void processInput(SO<InputEvent> ie);
+
+	public:
+		/**
+		 * callback which notifies that a NewtonBody in the NewtonWorld has changed
+		 * \param body is the changed NewtonBody
+		 */
+		static void applyForceAndTorqueCallback(const NewtonBody* body);
+
 	private:
-		SO<SceneThing>	m_Scene;
-		SO<Translation>	m_Translation;
-		SO<ShapeMaterialGL>	m_Material;
-		SO<Controls>	m_Controls;
-		Vector		m_CtrlsOrientation;
-		Vector		m_Position;
-		Bounds		m_Bounds;
+		VRS::SO<VRS::SceneThing>		m_Scene;				// blobb local scene
+		VRS::SO<VRS::ShapeMaterialGL>	m_Material;				// blobb material
+		VRS::SO<Controls>				m_Controls;				// blobb controls
+		VRS::Vector						m_CtrlsOrientation;		// blobb controls orientation
+		bool							m_JumpAllowed;			// indicates if blobb may jump
+
+	private:	// physics
+		VRS::SO<BV3D::Arena>	m_Arena;	// parent physics object
+		NewtonBody*				m_Body;		// physical body in simulated world
 	};
 }
 
