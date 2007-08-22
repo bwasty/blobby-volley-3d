@@ -26,6 +26,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	// create NewtonBody with a collision sphere
 	NewtonCollision* collision = NewtonCreateSphere(world, (dFloat)m_Radius, (dFloat)m_Radius, (dFloat)m_Radius, NULL);
 	m_Body = NewtonCreateBody(world, collision);
+	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBallMaterialID());
 	NewtonReleaseCollision(world, collision);
 
 	// set up mass matrix

@@ -87,6 +87,9 @@ namespace BV3D {
 		 */
 		NewtonWorld* getWorld() {return m_World;}
 
+		int getBallMaterialID() { return mBallMaterialID; }
+		int getBlobbMaterialID() { return mBlobbMaterialID; }
+
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
 		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	m_WallsVertices;	// vertices for walls
@@ -97,7 +100,17 @@ namespace BV3D {
 	private:	// Physics
 		float			m_Gravity;	// gravity of world
 		NewtonWorld*	m_World;	// physics world
-		NewtonBody*		m_Body;		// physical arena body
+		NewtonBody*		m_Body;		// physical arena walls
+		NewtonBody*		m_Floor;		// physical arena floor
+
+		int mBallMaterialID;
+		int mBlobbMaterialID;
+		int mWallMaterialID;
+		int mFloorMaterialID;
+		int mNetMaterialID;
+		int mInvisibleBarrierID;
+
+		void setupMaterials();
 	};
 }
 
