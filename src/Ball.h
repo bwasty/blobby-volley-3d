@@ -57,7 +57,10 @@ namespace BV3D
 
 	private:
 		double						m_Radius;	// ball radius
-		VRS::SO<VRS::SceneThing>	m_Scene;	// ball local scene
+		VRS::SO<VRS::SceneThing>	m_Scene;	// local scene
+		VRS::SO<VRS::SceneThing>	m_BallScene;	// ball scene
+		VRS::SO<VRS::SceneThing>	m_ShadowScene;	// scene for shadows
+		VRS::SO<VRS::SceneThing>			m_FloorShadowScene;	// scene for ball's shadow on the floor
 
 	private: // physics
 		VRS::SO<BV3D::Arena>	m_Arena;	// parent physics object
