@@ -21,6 +21,8 @@
 
 struct NewtonWorld;
 struct NewtonBody;
+struct NewtonMaterial;
+struct NewtonContact;
 
 namespace VRS {
 	template<class T> class SO;
@@ -111,6 +113,9 @@ namespace BV3D {
 		int mInvisibleBarrierID;
 
 		void setupMaterials();
+		static int contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
+		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
+		static void contactEndCallback(const NewtonMaterial* material);
 	};
 }
 

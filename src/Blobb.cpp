@@ -45,7 +45,6 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena) {
 	collision[1] = NewtonCreateSphere(world, radius, radius, radius, matrix);
 	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(world, 2, collision);
 	m_Body = NewtonCreateBody(world, compoundCollision);
-	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBlobbMaterialID());
 	NewtonReleaseCollision(world, collision[0]);
 	NewtonReleaseCollision(world, collision[1]);
 	NewtonReleaseCollision(world, compoundCollision);
@@ -60,7 +59,7 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena) {
 
 	NewtonBodySetUserData(m_Body, this);
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
-	NewtonBodySetMaterialGroupID(m_Body, NewtonMaterialGetDefaultGroupID(world));
+	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBlobbMaterialID());
 	NewtonBodySetAutoFreeze (m_Body, 0);
 	NewtonBodySetContinuousCollisionMode(m_Body, 0); // needed?
 	NewtonWorldUnfreezeBody(world, m_Body);

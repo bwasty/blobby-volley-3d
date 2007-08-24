@@ -145,7 +145,7 @@ void BV3D::Arena::setupMaterials() {
 	NewtonMaterialSetDefaultElasticity (m_World, defaultID, defaultID, 0.4f);
 	NewtonMaterialSetDefaultCollidable (m_World, defaultID, defaultID, 1);
 	NewtonMaterialSetDefaultFriction (m_World, defaultID, defaultID, 1.0f, 0.5f);
-	NewtonMaterialSetCollisionCallback (m_World, defaultID, defaultID, NULL, NULL, NULL, NULL);//GenericContactBegin, GenericContactProcess, GenericContactEnd); 
+	NewtonMaterialSetCollisionCallback (m_World, defaultID, defaultID, NULL, NULL, NULL, NULL);//contactBeginCallback, contactProcessCallback, contactEndCallback);
 
 	// create all material IDs
 	mBallMaterialID = NewtonMaterialCreateGroupID(m_World);
@@ -160,14 +160,15 @@ void BV3D::Arena::setupMaterials() {
 
 	// TODO: ball on blobb - high elasticity, game logic->special callback?
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 1.0f);
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mBlobbMaterialID, NULL, NULL, NULL, NULL);//GenericContactBegin, GenericContactProcess, GenericContactEnd); 
+	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mBlobbMaterialID, NULL, contactBeginCallback, contactProcessCallback, contactEndCallback);
+
 
 	// TODO: ball on wall - high elasticity, special effect->special callback?
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 1.0f);
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mWallMaterialID, NULL, NULL, NULL, NULL);//GenericContactBegin, GenericContactProcess, GenericContactEnd); 
 
 	// TODO: ball on floor? - low elasticity, game logic->special callback?
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 2.0f);//0.2f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.3f);
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mFloorMaterialID, NULL, NULL, NULL, NULL);//GenericContactBegin, GenericContactProcess, GenericContactEnd); 
 
 	// TODO: ball on net? - low elasticity
@@ -180,4 +181,19 @@ void BV3D::Arena::setupMaterials() {
 	// TODO: blobb on invisibleBarrier? - little/high elasticity?, collidable->special callback?, use to detect when ball flies over the net?
 	NewtonMaterialSetDefaultElasticity (m_World, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
 	NewtonMaterialSetCollisionCallback (m_World, mBlobbMaterialID, mInvisibleBarrierID, NULL, NULL, NULL, NULL);//GenericContactBegin, GenericContactProcess, GenericContactEnd); 
+}
+
+int BV3D::Arena::contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {
+	//printf("contactBEGINCallback called\n"); 
+
+	return 1;
+}
+
+int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact) {
+	//printf("contactPROCESSCallback called\n"); 
+	return 1;
+}
+
+void BV3D::Arena::contactEndCallback(const NewtonMaterial* material) {
+	//printf("contactENDCallback called\n"); 
 }

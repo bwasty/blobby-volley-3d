@@ -84,7 +84,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 
 	NewtonBodySetUserData(m_Body, this);
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
-	NewtonBodySetMaterialGroupID(m_Body, NewtonMaterialGetDefaultGroupID(world));
+	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBallMaterialID());
 	NewtonBodySetAutoFreeze (m_Body, 0);
 	NewtonBodySetContinuousCollisionMode(m_Body, 0); // needed?
 	NewtonWorldUnfreezeBody(world, m_Body);
