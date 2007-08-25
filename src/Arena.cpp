@@ -6,17 +6,22 @@
 #include <vrs/polygonset.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/facestyle.h>
+//#include <vrs/container/array.h>
+
 #include <Newton.h>
 #include "Ball.h"
 #include "Constants.h"
 #include "Referee.h"
 #include "Game.h"
+#include "Blobb.h"
 
 struct CollisionData {
 	int material1;
 	int material2;
+	VRS::SO<BV3D::Arena> arena;
 	VRS::SO<BV3D::Ball> ball;
 	VRS::SO<BV3D::Referee> referee;
+	VRS::SO<BV3D::Blobb> currentBlobb;
 };
 
 /**
@@ -156,7 +161,7 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetDefaultElasticity (m_World, defaultID, defaultID, 0.4f);
 	NewtonMaterialSetDefaultCollidable (m_World, defaultID, defaultID, 1);
 	NewtonMaterialSetDefaultFriction (m_World, defaultID, defaultID, 1.0f, 0.5f);
-	NewtonMaterialSetCollisionCallback (m_World, defaultID, defaultID, NULL, NULL, NULL, NULL);//contactBeginCallback, contactProcessCallback, contactEndCallback);
+	//NewtonMaterialSetCollisionCallback (m_World, defaultID, defaultID, NULL, NULL, NULL, NULL);//contactBeginCallback, contactProcessCallback, contactEndCallback);
 
 	// create all material IDs
 	mBallMaterialID = NewtonMaterialCreateGroupID(m_World);
@@ -164,54 +169,97 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	mWallMaterialID = NewtonMaterialCreateGroupID(m_World);
 	mFloorMaterialID = NewtonMaterialCreateGroupID(m_World);
 	mNetMaterialID = NewtonMaterialCreateGroupID(m_World);
-	mInvisibleBarrierID = NewtonMaterialCreateGroupID(m_World);
-
-	
-	
+	mInvisibleBarrierID = NewtonMaterialCreateGroupID(m_World); // invisible Wall beneath the net - lets ball through but not blobb
 
 	// set material interaction properties if they should differ from the default value
 	// a question mark means that the default values might be enough
 	// TODO: setup userdata
-	CollisionData collData;
-	collData.ball = game->getBall();
-	collData.referee = game->getReferee();
+	CollisionData* collData = new CollisionData();
+	collData->arena = this;
+	collData->ball = game->getBall();
+	collData->referee = game->getReferee();
+	//collData->blobb1 = game->getBlobbs()->getElement(0);
+	//collData->blobb2 = game->getBlobbs()->getElement(1);
 
 	// TODO: ball on blobb - high elasticity, game logic->special callback?
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 1.0f);
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mBlobbMaterialID, NULL, contactBeginCallback, contactProcessCallback, contactEndCallback);
-
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 0.9f);
+	CollisionData* collDataBallBlobb = new CollisionData(*collData);
+	collDataBallBlobb->material1 = mBallMaterialID;
+	collDataBallBlobb->material2 = mBlobbMaterialID;
+	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mBlobbMaterialID, collDataBallBlobb, contactBeginCallback, contactProcessCallback, contactEndCallback);
 
 	// TODO: ball on wall - high elasticity, special effect->special callback?
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 1.0f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 0.9f);
 
 	// TODO: ball on floor? - low elasticity, game logic->special callback?
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.3f);
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mFloorMaterialID, NULL, contactBeginCallback, contactProcessCallback, contactEndCallback);
+	CollisionData* collDataBallFloor = new CollisionData(*collData);
+	collDataBallFloor->material1 = mBallMaterialID;
+	collDataBallFloor->material2 = mFloorMaterialID;
+	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mFloorMaterialID, collDataBallFloor, contactBeginCallback, contactProcessCallback, contactEndCallback);
 
 	// TODO: ball on net? - low elasticity
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.2f);
 
 	// TODO: ball on invisibleBarrier? - no collision->special callback?
-	NewtonMaterialSetDefaultCollidable(m_World, mBallMaterialID, mInvisibleBarrierID, 0); // => non-collidable
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mInvisibleBarrierID, NULL, contactBeginCallback, contactProcessCallback, contactEndCallback);
+	//NewtonMaterialSetDefaultCollidable(m_World, mBallMaterialID, mInvisibleBarrierID, 0); // => non-collidable
+	CollisionData* collDataBallBarrier = new CollisionData(*collData);
+	collDataBallBarrier->material1 = mBallMaterialID;
+	collDataBallBarrier->material2 = mInvisibleBarrierID;
+	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mInvisibleBarrierID, collDataBallBarrier, contactBeginCallback, contactProcessCallback, contactEndCallback);
 
 
 	// TODO: blobb on invisibleBarrier? - little/high elasticity?, collidable->special callback?, use to detect when ball flies over the net?
 	NewtonMaterialSetDefaultElasticity (m_World, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
-	NewtonMaterialSetCollisionCallback (m_World, mBlobbMaterialID, mInvisibleBarrierID, NULL, contactBeginCallback, contactProcessCallback, contactEndCallback);
+	CollisionData* collDataBlobbBarrier = new CollisionData(*collData);
+	collDataBlobbBarrier->material1 = mBlobbMaterialID;
+	collDataBlobbBarrier->material2 = mInvisibleBarrierID;
+	NewtonMaterialSetCollisionCallback (m_World, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, contactBeginCallback, contactProcessCallback, contactEndCallback);
 }
 
 int BV3D::Arena::contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {
 	//printf("contactBEGINCallback called\n"); 
+	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
+
+	if (collData->material2 == collData->arena->getBlobbMaterialID()) {
+		VRS::SharedObj* so = (VRS::SharedObj*)NewtonBodyGetUserData(body0);
+		if (so->classNameVRS() == BV3D::Blobb::ClassNameVRS())
+			collData->currentBlobb = (BV3D::Blobb*)so;
+		else
+			collData->currentBlobb = (BV3D::Blobb*)NewtonBodyGetUserData(body1);
+	}
 
 	return 1;
 }
 
 int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact) {
 	//printf("contactPROCESSCallback called\n"); 
+
+	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
+
+	if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getBlobbMaterialID()) {
+		//printf("Blobb touched Ball PROCESS\n");
+		if (collData->currentBlobb->getTeam() == BV3D::BV3D_TEAM1)
+			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM1);
+		else
+			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
+		printf("Contacts Blobb1: %i, Blobb2: %i\n", collData->referee->getCurrentContacts(BV3D::BV3D_TEAM1), collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2));
+	}
+	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getFloorMaterialID()) {
+		//if (collData->ball->getPosition->getX() > 0)						Pseudocode
+		//	collData->referee->ballOnField(BV3D::BV3D_TEAM1);
+		//else
+		//	collData->referee->ballOnField(BV3D::BV3D_TEAM2);
+	}
+	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getInvisibleBarrierID()) {
+		//TODO: tell referee that ball passed under the net
+		return 0;
+	}
+	
 	return 1;
 }
 
 void BV3D::Arena::contactEndCallback(const NewtonMaterial* material) {
 	//printf("contactENDCallback called\n"); 
+
 }

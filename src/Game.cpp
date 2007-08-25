@@ -35,6 +35,7 @@
 #include <vrs/opengl/texgengl.h>
 #include <vrs/sphere.h>
 
+
 #include <vrs/color.h>
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
@@ -42,6 +43,8 @@
 //#include "Constants.h"
 #include "Arena.h"
 #include "Blobb.h"
+#include "ClassicReferee.h"
+#include "TieBreakReferee.h"
 
 using namespace BV3D;
 
@@ -63,17 +66,20 @@ Game::Game() {
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
 
+	// TODO: select specific referee via menu/config
+	m_Referee = new BV3D::ClassicReferee(this);
+
 	m_Arena = new Arena(this);
 	m_RootScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
-	SO<Blobb> blobb = new Blobb(m_Arena);
+	SO<Blobb> blobb = new Blobb(m_Arena, BV3D::BV3D_TEAM1);
 	blobb->setPosition(Vector(-2.0,1.0,1.0));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
-	blobb = new Blobb(m_Arena);
+	blobb = new Blobb(m_Arena, BV3D::BV3D_TEAM2);
 	blobb->setPosition(Vector(2.0,2.0,2.0));
 	blobb->setControls(new MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));

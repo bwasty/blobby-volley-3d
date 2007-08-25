@@ -3,6 +3,7 @@
 
 #include <vrs/sharedobj.h>
 #include <vrs/vector.h>
+#include "Constants.h"
 
 struct NewtonBody;
 
@@ -23,7 +24,7 @@ namespace BV3D
 		 * ctor
 		 * \param arena specifies the arena in which the blobb is simulated
 		 */
-		Blobb(VRS::SO<BV3D::Arena> arena);
+		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team);
 
 		/**
 		 * dtor
@@ -96,12 +97,15 @@ namespace BV3D
 		 */
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
 
+		BV3D::BV3D_TEAM	getTeam() {return m_Team;}
+
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;				// blobb local scene
 		VRS::SO<VRS::ShapeMaterialGL>	m_Material;				// blobb material
 		VRS::SO<Controls>				m_Controls;				// blobb controls
 		VRS::Vector						m_CtrlsOrientation;		// blobb controls orientation
 		bool							m_JumpAllowed;			// indicates if blobb may jump
+		BV3D::BV3D_TEAM					m_Team;
 
 	private:	// physics
 		VRS::SO<BV3D::Arena>	m_Arena;	// parent physics object

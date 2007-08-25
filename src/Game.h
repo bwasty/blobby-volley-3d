@@ -39,6 +39,7 @@ namespace BV3D
 		void processInput();	// process and dispatch input
 		VRS::SO<BV3D::Ball> getBall() {return m_Ball;}
 		VRS::SO<BV3D::Referee> getReferee() {return m_Referee;}
+		//VRS::SO<Array<SO<Blobb>>> getBlobbs() {return m_BlobbArray;}
 
 	protected:
 		SO<GlutCanvas>			m_Canvas;		// main canvas

@@ -18,8 +18,9 @@
 #include <vrs/io/threedsreader.h>
 #include <Newton.h>
 
-BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena) {
+BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	m_Arena = arena;
+	m_Team = team;
 	m_Controls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
 	m_CtrlsOrientation = VRS::Vector(0.0,0.0,5.0);	// TODO: use as default value in constructor
 	m_JumpAllowed = false;

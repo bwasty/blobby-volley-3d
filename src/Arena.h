@@ -90,8 +90,12 @@ namespace BV3D {
 		 */
 		NewtonWorld* getWorld() {return m_World;}
 
-		int getBallMaterialID() { return mBallMaterialID; }
-		int getBlobbMaterialID() { return mBlobbMaterialID; }
+		int getBallMaterialID() {return mBallMaterialID;}
+		int getBlobbMaterialID() {return mBlobbMaterialID;}
+		int getWallMaterialID() {return mWallMaterialID;}
+		int getFloorMaterialID() {return mFloorMaterialID;}
+		int getNetMaterialID() {return mNetMaterialID;}
+		int getInvisibleBarrierID() {return mInvisibleBarrierID;}
 
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
