@@ -22,6 +22,9 @@
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
 #include "Ball.h"
+//#include "Constants.h"
+#include "Arena.h"
+#include "Blobb.h"
 
 using namespace BV3D;
 
@@ -43,7 +46,7 @@ Game::Game() {
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
 
-	m_Arena = new Arena();
+	m_Arena = new Arena(this);
 	m_RootScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene

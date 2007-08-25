@@ -33,12 +33,13 @@ namespace VRS {
 }
 
 namespace BV3D {
+	class Game;
 	class Arena : public VRS::SharedObj {
 	public:
 		/**
 		 * ctor
 		 */
-		Arena();
+		Arena(/*VRS::SO<BV3D::Game>*/ BV3D::Game* game);
 
 		/**
 		 * dtor
@@ -112,7 +113,7 @@ namespace BV3D {
 		int mNetMaterialID;
 		int mInvisibleBarrierID;
 
-		void setupMaterials();
+		void setupMaterials(BV3D::Game* game);
 		static int contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
 		static void contactEndCallback(const NewtonMaterial* material);

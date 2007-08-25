@@ -19,25 +19,35 @@
 #include <vrs/opengl/texgengl.h>
 #include <vrs/sphere.h>
 
-#include "Arena.h"
-#include "Blobb.h"
-#include "Ball.h"
+//#include "Blobb.h"
+//#include "Ball.h"
+//#include "Arena.h"
+//#include "Referee.h"
 
 using namespace VRS;
 
 namespace VRS {
 	class JumpNavigation;
 	class BackgroundGL;
+	
 }
 
 namespace BV3D
 {
+	class Arena;
+	class Referee;
+	class Ball;
+	class Blobb;
+
 	class Game : public SharedObj {
 	public:
 		Game();
 		~Game();
 		void update();			// render new frame
 		void processInput();	// process and dispatch input
+		VRS::SO<BV3D::Ball> getBall() {return m_Ball;}
+		VRS::SO<BV3D::Referee> getReferee() {return m_Referee;}
+
 	protected:
 		SO<GlutCanvas>			m_Canvas;		// main canvas
 		SO<SceneThing>			m_RootScene;	// root node where Blobbs etc will be appended to
@@ -58,9 +68,11 @@ namespace BV3D
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
 		double		m_FPS;		// desired frame rate
-		SO<Arena>	m_Arena;	// Arena object
-		SO<Array<SO<Blobb>>>	m_BlobbArray;	// list of Blobbs
+		VRS::SO<Arena>	m_Arena;	// Arena object
+		VRS::SO<Array<SO<Blobb>>>	m_BlobbArray;	// list of Blobbs
 		VRS::SO<BV3D::Ball>		m_Ball;
+		VRS::SO<BV3D::Referee>	m_Referee;
+
 
 		void initBackgroundCubeMap();
 	};

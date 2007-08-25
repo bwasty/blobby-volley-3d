@@ -8,7 +8,6 @@
  *	- taking actions if faults occur(starting a new rally(results in new serve), ending the game,...)
  *
  */
-
 #include "Constants.h"
 #include "Referee.h"
 
