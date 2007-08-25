@@ -10,7 +10,7 @@
 #include "Ball.h"
 #include "Constants.h"
 #include "Referee.h"
-//#include "Game.h"
+#include "Game.h"
 
 struct CollisionData {
 	int material1;
@@ -173,8 +173,8 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	// a question mark means that the default values might be enough
 	// TODO: setup userdata
 	CollisionData collData;
-	//collData.ball = game->getBall();
-	//collData.referee = game->getReferee();
+	collData.ball = game->getBall();
+	collData.referee = game->getReferee();
 
 	// TODO: ball on blobb - high elasticity, game logic->special callback?
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 1.0f);

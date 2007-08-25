@@ -2,34 +2,26 @@
 #define BV3D_GAME
 
 #include <vrs/sharedobj.h>
-#include <vrs/glut/glutcanvas.h>
-#include <vrs/camera.h>
-#include <vrs/sg/scenething.h>
-#include <vrs/ambientlight.h>
-#include <vrs/sg/behaviorcallback.h>
-#include <vrs/opengl/transparencytechniquegl.h>
 #include <vrs/container/array.h>
-#include <vrs/sg/interactionmode.h>
-#include <vrs/sg/interactionconcept.h>
-#include <vrs/opengl/imagecubemaptexturegl.h>
-//#include <vrs/image/compressedimage.h>
-#include <vrs/io/pngreader.h>
-#include <vrs/lookat.h>
-#include <vrs/perspective.h>
-#include <vrs/opengl/texgengl.h>
-#include <vrs/sphere.h>
-
-//#include "Blobb.h"
-//#include "Ball.h"
-//#include "Arena.h"
-//#include "Referee.h"
 
 using namespace VRS;
 
 namespace VRS {
 	class JumpNavigation;
 	class BackgroundGL;
-	
+	class GlutCanvas;
+	class Camera;
+	class SceneThing;
+	class AmbientLight;
+	class BehaviorCallback;
+	class TransparencyTechniqueGL;
+	class InteractionMode;
+	class InteractionConcept;
+	class ImageCubeMapTextureGL;
+	class LookAt;
+	class Perspective;
+	class TexGenGL;
+	class Sphere;
 }
 
 namespace BV3D
