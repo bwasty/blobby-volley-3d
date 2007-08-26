@@ -67,9 +67,9 @@ Game::Game() {
 	m_RootScene->append(m_AmbientLight);
 
 	// TODO: select specific referee via menu/config
-	m_Referee = new BV3D::ClassicReferee(this);
+	m_Referee = new BV3D::TieBreakReferee(this);
 
-	m_Arena = new Arena(this);
+	m_Arena = new Arena();
 	m_RootScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
@@ -93,6 +93,8 @@ Game::Game() {
 	m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 
 	m_Canvas->append(m_RootScene);
+
+	m_Arena->setupMaterials(this);
 
 	// init update callback
 	m_FPS = 30.0;	// assuming 30 fps are desired
@@ -122,7 +124,7 @@ Game::~Game() {
 }
 
 /**
- * update() is called peridically on timer events to redisplay the whole scene
+ * update() is called periodically on timer events to redisplay the whole scene
  */
 void Game::update() {
 	VRSTime time = m_Canvas->clock()->time();

@@ -80,7 +80,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 
 	// set up mass matrix
 	dFloat inertia = 2*1/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
-	NewtonBodySetMassMatrix(m_Body, 10 /*mass*/,inertia,inertia,inertia);
+	NewtonBodySetMassMatrix(m_Body, 5 /*mass*/,inertia,inertia,inertia);
 
 	NewtonBodySetUserData(m_Body, this);
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
@@ -112,6 +112,10 @@ void BV3D::Ball::resetPosition(VRS::Vector& position) {
 	dFloat nullVelocity[3] = {0.0,0.0,0.0};
 	NewtonBodySetVelocity(m_Body, nullVelocity);
 	m_IsLocked = true;	// lock the ball at the newly set position
+}
+
+VRS::Vector BV3D::Ball::getPosition() {
+	return m_BallScene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
 }
 
 void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {

@@ -22,12 +22,13 @@ struct CollisionData {
 	VRS::SO<BV3D::Ball> ball;
 	VRS::SO<BV3D::Referee> referee;
 	VRS::SO<BV3D::Blobb> currentBlobb;
+	NewtonWorld* world;
 };
 
 /**
  * sets up an Arena with an extent of (1.0,1.0,1.0)
  */
-BV3D::Arena::Arena(/*VRS::SO<BV3D::Game>*/ BV3D::Game* game) {
+BV3D::Arena::Arena() {
 	///m_ArenaPhysics = 0;
 	m_WallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
 
@@ -43,7 +44,7 @@ BV3D::Arena::Arena(/*VRS::SO<BV3D::Game>*/ BV3D::Game* game) {
 
 	// Physics setup
 	m_World = NewtonCreate(0,0);
-	setupMaterials(game);
+	createMaterials();
 	m_Gravity = 9.81f;
 	m_Floor = 0;
 	m_Body = 0;
@@ -151,18 +152,7 @@ void BV3D::Arena::updateWorld(float timestep) {
 	NewtonUpdate(m_World, (dFloat)timestep);
 }
 
-void BV3D::Arena::setupMaterials(BV3D::Game* game) {
-	// get the default material ID
-	int defaultID = NewtonMaterialGetDefaultGroupID (m_World);
-
-	// set default material properties TODO: find appropriate values, define callbacks
-	// TODO: only little bouncing? low elasticity/softness?
-	NewtonMaterialSetDefaultSoftness (m_World, defaultID, defaultID, 0.05f);
-	NewtonMaterialSetDefaultElasticity (m_World, defaultID, defaultID, 0.4f);
-	NewtonMaterialSetDefaultCollidable (m_World, defaultID, defaultID, 1);
-	NewtonMaterialSetDefaultFriction (m_World, defaultID, defaultID, 1.0f, 0.5f);
-	//NewtonMaterialSetCollisionCallback (m_World, defaultID, defaultID, NULL, NULL, NULL, NULL);//contactBeginCallback, contactProcessCallback, contactEndCallback);
-
+void BV3D::Arena::createMaterials() {
 	// create all material IDs
 	mBallMaterialID = NewtonMaterialCreateGroupID(m_World);
 	mBlobbMaterialID = NewtonMaterialCreateGroupID(m_World);
@@ -170,16 +160,27 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	mFloorMaterialID = NewtonMaterialCreateGroupID(m_World);
 	mNetMaterialID = NewtonMaterialCreateGroupID(m_World);
 	mInvisibleBarrierID = NewtonMaterialCreateGroupID(m_World); // invisible Wall beneath the net - lets ball through but not blobb
+	}
+
+void BV3D::Arena::setupMaterials(BV3D::Game* game) {
+	// get the default material ID
+	int defaultID = NewtonMaterialGetDefaultGroupID (m_World);
+
+	// set default material properties TODO: find appropriate values, define callbacks
+	// TODO: only little bouncing? low elasticity/softness? - not working?
+	//NewtonMaterialSetDefaultSoftness (m_World, defaultID, defaultID, 0.05f);
+	//NewtonMaterialSetDefaultElasticity (m_World, defaultID, defaultID, 0.4f);
+	//NewtonMaterialSetDefaultCollidable (m_World, defaultID, defaultID, 1);
+	//NewtonMaterialSetDefaultFriction (m_World, defaultID, defaultID, 1.0f, 0.5f);
+	//NewtonMaterialSetCollisionCallback (m_World, defaultID, defaultID, NULL, NULL, NULL, NULL);//contactBeginCallback, contactProcessCallback, contactEndCallback);
 
 	// set material interaction properties if they should differ from the default value
 	// a question mark means that the default values might be enough
-	// TODO: setup userdata
 	CollisionData* collData = new CollisionData();
 	collData->arena = this;
 	collData->ball = game->getBall();
 	collData->referee = game->getReferee();
-	//collData->blobb1 = game->getBlobbs()->getElement(0);
-	//collData->blobb2 = game->getBlobbs()->getElement(1);
+	collData->world = m_World;
 
 	// TODO: ball on blobb - high elasticity, game logic->special callback?
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 0.9f);
@@ -188,11 +189,11 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	collDataBallBlobb->material2 = mBlobbMaterialID;
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mBlobbMaterialID, collDataBallBlobb, contactBeginCallback, contactProcessCallback, contactEndCallback);
 
-	// TODO: ball on wall - high elasticity, special effect->special callback?
+	// TODO: ball on wall - high elasticity, special effect(energy wall)?
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 0.9f);
 
-	// TODO: ball on floor? - low elasticity, game logic->special callback?
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.3f);
+	// TODO: ball on floor? - low elasticity, game logic
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 1.25f);//0.3f);
 	CollisionData* collDataBallFloor = new CollisionData(*collData);
 	collDataBallFloor->material1 = mBallMaterialID;
 	collDataBallFloor->material2 = mFloorMaterialID;
@@ -246,13 +247,18 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		printf("Contacts Blobb1: %i, Blobb2: %i\n", collData->referee->getCurrentContacts(BV3D::BV3D_TEAM1), collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2));
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getFloorMaterialID()) {
-		//if (collData->ball->getPosition->getX() > 0)						Pseudocode
-		//	collData->referee->ballOnField(BV3D::BV3D_TEAM1);
-		//else
-		//	collData->referee->ballOnField(BV3D::BV3D_TEAM2);
+		if (collData->ball->getPosition()[0] < 0)
+			collData->referee->ballOnField(BV3D::BV3D_TEAM1);
+		else
+			collData->referee->ballOnField(BV3D::BV3D_TEAM2);
+	
+		printf("Ball touched floor - blobb1: %i, blobb2: %i\n", collData->referee->getCurrentScore(BV3D::BV3D_TEAM1), collData->referee->getCurrentScore(BV3D::BV3D_TEAM2));
+		//printf("%f\n", collData->ball->getPosition()[0]); // x-coordinate of the ball
+		
+		//NewtonMaterialSetDefaultElasticity (collData->world, collData->arena->getBallMaterialID(), collData->arena->getFloorMaterialID(), 1.3f);
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getInvisibleBarrierID()) {
-		//TODO: tell referee that ball passed under the net
+		//TODO: tell referee that ball passes under the net
 		return 0;
 	}
 	

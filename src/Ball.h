@@ -42,6 +42,8 @@ namespace BV3D
 		 */
 		void resetPosition(VRS::Vector& position);
 
+		VRS::Vector getPosition();
+
 	protected:
 		/**
 		 * update ball physics and visuals

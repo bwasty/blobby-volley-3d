@@ -52,7 +52,7 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 
 	// set up mass matrix
 	dFloat inertia = 2*1*(radius * radius) / 5; 
-	NewtonBodySetMassMatrix(m_Body, 10 ,inertia,inertia,inertia);
+	NewtonBodySetMassMatrix(m_Body, 50 ,inertia,inertia,inertia);
 
 	// attach an up-vector joint prevent blobb from leaning and tipping over
 	dFloat upVector[3] = {0.0,1.0,0.0};

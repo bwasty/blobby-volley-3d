@@ -39,7 +39,7 @@ namespace BV3D {
 		/**
 		 * ctor
 		 */
-		Arena(/*VRS::SO<BV3D::Game>*/ BV3D::Game* game);
+		Arena();
 
 		/**
 		 * dtor
@@ -90,6 +90,9 @@ namespace BV3D {
 		 */
 		NewtonWorld* getWorld() {return m_World;}
 
+		void createMaterials();
+		void setupMaterials(BV3D::Game* game);
+
 		int getBallMaterialID() {return mBallMaterialID;}
 		int getBlobbMaterialID() {return mBlobbMaterialID;}
 		int getWallMaterialID() {return mWallMaterialID;}
@@ -117,7 +120,6 @@ namespace BV3D {
 		int mNetMaterialID;
 		int mInvisibleBarrierID;
 
-		void setupMaterials(BV3D::Game* game);
 		static int contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
 		static void contactEndCallback(const NewtonMaterial* material);
