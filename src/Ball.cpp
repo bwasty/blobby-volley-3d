@@ -33,6 +33,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	m_BallScene = new VRS::SceneThing(m_Scene);
 	//m_BallScene->append(new VRS::ShapeMaterialGL(VRS::Color(1.0,1.0,0.0)));
 	//m_BallScene->append(new VRS::Sphere(m_Radius));
+	
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
 	m_BallScene->append(new VRS::Scaling(0.6, 0.6, 0.6));
 	m_BallScene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/volleyball-white.3ds"));	// TODO: exception handling
