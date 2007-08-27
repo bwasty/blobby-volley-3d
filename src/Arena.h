@@ -18,6 +18,7 @@
 
 #include <vrs/sharedobj.h>
 #include <vrs/bounds.h>
+#include "Constants.h"
 
 struct NewtonWorld;
 struct NewtonBody;
@@ -61,7 +62,7 @@ namespace BV3D {
 		/**
 		 * get the valid bounds for one of the blobbs
 		 */
-		VRS::Bounds getTeamBounds(int team);
+		VRS::Bounds getTeamBounds(BV3D::BV3D_TEAM team);
 
 		/**
 		 * get the local arena scene

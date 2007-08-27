@@ -44,6 +44,8 @@ namespace BV3D
 
 		VRS::Vector getPosition();
 
+		NewtonBody* getBody() {return m_Body;}
+
 	protected:
 		/**
 		 * update ball physics and visuals

@@ -10,7 +10,6 @@
 
 #include <Newton.h>
 #include "Ball.h"
-#include "Constants.h"
 #include "Referee.h"
 #include "Game.h"
 #include "Blobb.h"
@@ -138,11 +137,11 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	NewtonReleaseCollision(m_World, compoundCollision);
 }
 
-VRS::Bounds BV3D::Arena::getTeamBounds(int team) {
+VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::BV3D_TEAM team) {
 	VRS::Vector llf = m_Bounds.getLLF();
 	VRS::Vector urb = m_Bounds.getURB();
 
-	if(team)
+	if(team == BV3D::BV3D_TEAM1)
 		return VRS::Bounds(VRS::Vector(0.0,0.0,llf[2]), urb);
 	else
 		return VRS::Bounds(llf, VRS::Vector(0.0,urb[1],urb[2]));
@@ -193,7 +192,7 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 0.9f);
 
 	// TODO: ball on floor? - low elasticity, game logic
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 1.25f);//0.3f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.25f);//0.3f);
 	CollisionData* collDataBallFloor = new CollisionData(*collData);
 	collDataBallFloor->material1 = mBallMaterialID;
 	collDataBallFloor->material2 = mFloorMaterialID;
@@ -247,12 +246,26 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		printf("Contacts Blobb1: %i, Blobb2: %i\n", collData->referee->getCurrentContacts(BV3D::BV3D_TEAM1), collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2));
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getFloorMaterialID()) {
-		if (collData->ball->getPosition()[0] < 0)
-			collData->referee->ballOnField(BV3D::BV3D_TEAM1);
-		else
-			collData->referee->ballOnField(BV3D::BV3D_TEAM2);
+		BV3D::BV3D_TEAM team;
+		if (collData->ball->getPosition()[0] < 0) {
+			team = BV3D::BV3D_TEAM1;
+		}
+		else {
+			team = BV3D::BV3D_TEAM2;
+		}
+
+
+		collData->referee->ballOnField(team);
+
+		// Reset ball -> setForce into applyForceAndTorque-Callback?
+		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+		NewtonBodySetForce(collData->ball->getBody(), nullForce);
+		//NewtonBodySetTorque(collData->ball->getBody(), nullForce);
+		//collData->ball->setLocked(true);
+		collData->ball->resetPosition(collData->arena->getTeamBounds(team).center());
 	
 		printf("Ball touched floor - blobb1: %i, blobb2: %i\n", collData->referee->getCurrentScore(BV3D::BV3D_TEAM1), collData->referee->getCurrentScore(BV3D::BV3D_TEAM2));
+
 		//printf("%f\n", collData->ball->getPosition()[0]); // x-coordinate of the ball
 		
 		//NewtonMaterialSetDefaultElasticity (collData->world, collData->arena->getBallMaterialID(), collData->arena->getFloorMaterialID(), 1.3f);
