@@ -10,7 +10,7 @@ Must:
 	- CollisionCallbacks -> Spiellogik
 - Regeln/Spiellogik einbinden (erik, benny)
 - Menüs (erik)
-- Clipping anpassen (phil)
+V Clipping anpassen (phil)
 
 Should:
 - verschiedene Umgebungen, 3ds-files + skyboxes (phil)
@@ -19,3 +19,7 @@ Should:
 NiceTo:
 - Netzwerk(Lib: Boost)
 - KI
+
+Known Bugs:
+___________
+- Ball springt bei Berührung mit Boden immer höher 

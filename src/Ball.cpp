@@ -7,6 +7,7 @@
 #include <vrs/opengl/texenvgl.h>
 #include <vrs/color.h>
 #include <vrs/io/objectloader.h>
+#include <vrs/io/threedsreader.h>
 #include <vrs/image/image.h>
 #include <vrs/opengl/imagetexture2dgl.h>
 #include <vrs/container/fixedsizeiterator.h>
@@ -29,10 +30,10 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 
 	// create visual ball
 	m_BallScene = new VRS::SceneThing(m_Scene);
-	m_BallScene->append(new VRS::ShapeMaterialGL(VRS::Color(1.0,1.0,0.0)));
-	m_BallScene->append(new VRS::Sphere(m_Radius));
-	//VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
-	//m_BallScene->append(VRS::ThreeDSReader::readObject("../Modelle/volleyball-colored.3ds"));	// TODO: exception handling
+	//m_BallScene->append(new VRS::ShapeMaterialGL(VRS::Color(1.0,1.0,0.0)));
+	//m_BallScene->append(new VRS::Sphere(m_Radius));
+	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
+	m_BallScene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/volleyball-white.3ds"));	// TODO: exception handling
 
 	// configure shadow texture mapping
 	VRS::SO<VRS::TexEnvGL> envGL = new VRS::TexEnvGL(VRS::TexEnvGL::Modulate,VRS::Color(1.0, 1.0, 1.0));

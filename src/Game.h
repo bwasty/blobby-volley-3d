@@ -3,6 +3,7 @@
 
 #include <vrs/sharedobj.h>
 #include <vrs/container/array.h>
+#include <vrs/pointlight.h>
 
 using namespace VRS;
 
@@ -13,6 +14,7 @@ namespace VRS {
 	class Camera;
 	class SceneThing;
 	class AmbientLight;
+	class PointLight;
 	class BehaviorCallback;
 	class TransparencyTechniqueGL;
 	class InteractionMode;
@@ -49,6 +51,7 @@ namespace BV3D
 		SO<LookAt>				m_lookAt;
 		SO<Camera>				m_Camera;			// scene camera
 		SO<AmbientLight>		m_AmbientLight;
+		SO<PointLight>			m_PointLight;
 		SO<BehaviorCallback>	m_cbInput;		// callback to receive input from canvas
 		SO<BehaviorCallback>	m_cbUpdate;		// callback to receive timer events for frame stepping
 		SO<InteractionMode>		m_InteractionMode;	//needed for navigation technique

@@ -57,14 +57,18 @@ Game::Game() {
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	m_RootScene->append(m_TransparencyTechnique);
 
-	m_perspective = new Perspective(30, 1.0, 20.0);
-	m_lookAt = new LookAt(Vector(0.0, 5.0, -10.0));
+	m_perspective = new Perspective(30, 1.0, 1000.0);
+	m_lookAt = new LookAt(Vector(0.0, 8.0, -15.0));
 	m_Camera = new Camera(m_perspective, m_lookAt);
 	m_RootScene->append(m_Camera);
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
+
+	// add PointLight for shadows and reflection
+	m_PointLight = new PointLight(Vector(0, -20, 0));
+	m_RootScene->append(m_PointLight);
 
 	// TODO: select specific referee via menu/config
 	m_Referee = new BV3D::TieBreakReferee(this);
