@@ -17,24 +17,28 @@
 #include <vrs/sg/keyevent.h>
 #include <vrs/sg/jumpnavigation.h>
 #include <vrs/opengl/backgroundgl.h>
-
 #include <vrs/glut/glutcanvas.h>
 #include <vrs/camera.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/ambientlight.h>
+#include <vrs/pointlight.h>
+#include <vrs/distantlight.h>
 #include <vrs/sg/behaviorcallback.h>
 #include <vrs/opengl/transparencytechniquegl.h>
-//#include <vrs/container/array.h>
 #include <vrs/sg/interactionmode.h>
 #include <vrs/sg/interactionconcept.h>
 #include <vrs/opengl/imagecubemaptexturegl.h>
-//#include <vrs/image/compressedimage.h>
 #include <vrs/io/pngreader.h>
 #include <vrs/lookat.h>
 #include <vrs/perspective.h>
 #include <vrs/opengl/texgengl.h>
-#include <vrs/sphere.h>
 #include <vrs/color.h>
+#include <vrs/opengl/shadowtechniquegl.h>
+#include <vrs/shadowcaster.h>
+#include <vrs/shadowed.h>
+
+// temporarily used for floor
+#include <vrs/box.h>
 
 #include <Newton.h>
 
@@ -47,16 +51,15 @@
 #include "ClassicReferee.h"
 #include "TieBreakReferee.h"
 
-using namespace BV3D;
-
-Game::Game() {
+BV3D::Game::Game() {
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
 	m_RootScene = new SceneThing();
 
-	// add transparency support to scene
+	// add transparency and shadow support to scene
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	m_RootScene->append(m_TransparencyTechnique);
+	m_RootScene->append(new VRS::ShadowTechniqueGL());
 
 	m_perspective = new Perspective(30, 1.0, 1000.0);
 	m_lookAt = new LookAt(Vector(0.0, 8.0, -15.0));
@@ -71,29 +74,41 @@ Game::Game() {
 	m_PointLight = new PointLight(Vector(0, -20, 0));
 	m_RootScene->append(m_PointLight);
 
+	// create directional light for shadows
+	VRS::SO<VRS::DistantLight> topLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
+	m_RootScene->append(topLight);
+
+	// create TEMPORARY floor
+	VRS::SO<VRS::SceneThing> floorScene = new VRS::SceneThing(m_RootScene);
+	floorScene->append(new VRS::Shadowed(topLight));
+	floorScene->append(new VRS::Box(VRS::Vector(-5.0,-1.0,-5.0),VRS::Vector(5.0,0.0,5.0)));
+
 	// TODO: select specific referee via menu/config
 	m_Referee = new BV3D::TieBreakReferee(this);
 
-	m_Arena = new Arena();
+	m_Arena = new BV3D::Arena();
 	m_RootScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
-	SO<Blobb> blobb = new Blobb(m_Arena, BV3D::BV3D_TEAM1);
+	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1);
 	blobb->setPosition(Vector(-2.0,1.0,1.0));
+	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
-	blobb = new Blobb(m_Arena, BV3D::BV3D_TEAM2);
+	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
 	blobb->setPosition(Vector(2.0,2.0,2.0));
-	blobb->setControls(new MouseControls());
+	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));
+	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
 	m_Arena->setExtent(Vector(8.0,10.0,6.0));
 
 	m_Ball = new BV3D::Ball(m_Arena);
+	m_Ball->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(m_Ball->getScene());
 	m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 
@@ -124,14 +139,14 @@ Game::Game() {
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 }
 
-Game::~Game() {
+BV3D::Game::~Game() {
 	delete[] m_BlobbArray;
 }
 
 /**
  * update() is called periodically on timer events to redisplay the whole scene
  */
-void Game::update() {
+void BV3D::Game::update() {
 	VRSTime time = m_Canvas->clock()->time();
 
 	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
@@ -147,11 +162,6 @@ void Game::update() {
 			m_iFramerate = 0;
 		}
 
-		// update blobbs'
-		//Iterator it = m_BlobbArray->
-		//m_BlobbArray->getElement(0)->update();
-		//m_BlobbArray->getElement(1)->update();
-
 		m_Arena->updateWorld(timestep);
 		m_Canvas->redisplay();
 	}
@@ -160,13 +170,13 @@ void Game::update() {
 /**
  * evaluates incoming InputEvents from canvas, processes and dispatches them
  */
-void Game::processInput() {
+void BV3D::Game::processInput() {
 	InputEvent* ie = VRS_Cast(InputEvent, m_cbInput->currentCanvasEvent());
 	if(ie==NULL)
 		return;
 
 	// process general controls (pausing, camera positioning,...)
-	KeyEvent* ke = VRS_Cast(KeyEvent, ie);
+	KeyEvent* ke = VRS_Cast(VRS::KeyEvent, ie);
 	if(ke != NULL)
 		if(ke->pressed()) {
 			switch (ke->keyCode())
@@ -202,21 +212,21 @@ void Game::processInput() {
 	m_BlobbArray->getElement(1)->processInput(ie);
 }
 
-void Game::initBackgroundCubeMap()
+void BV3D::Game::initBackgroundCubeMap()
 {
 	printf("Loading Background Cupemap...\n");
-	SO<Array<SO<Image> > > cubemapImages = new Array<SO<Image> >(6);
-    (*cubemapImages)[ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negy.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
-	(*cubemapImages)[ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
+	SO<Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<SO<Image> >(6);
+    (*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negy.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
 
-	m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
+	m_BackCubeMap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
 	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
 	//m_BackNode->append(new Sphere(19.0));
-	m_Background = new BackgroundGL(m_BackCubeMap);
+	m_Background = new VRS::BackgroundGL(m_BackCubeMap);
 	m_RootScene->append(m_Background);
 
 	///m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
@@ -226,7 +236,7 @@ void Game::initBackgroundCubeMap()
 	///m_BackNode->append(new Sphere(19.0));
 }
 
-void Game::newServe() {
+void BV3D::Game::newServe() {
 	BV3D::BV3D_TEAM team = m_Referee->getServingTeam();
 
 	// Reset ball -> setForce into applyForceAndTorque-Callback?

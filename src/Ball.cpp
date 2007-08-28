@@ -4,18 +4,7 @@
 #include "Arena.h"
 #include <vrs/sg/scenething.h>
 #include <vrs/matrix.h>
-#include <vrs/opengl/texenvgl.h>
-#include <vrs/color.h>
-#include <vrs/io/objectloader.h>
 #include <vrs/io/threedsreader.h>
-#include <vrs/image/image.h>
-#include <vrs/opengl/imagetexture2dgl.h>
-#include <vrs/container/fixedsizeiterator.h>
-#include <vrs/facestyle.h>
-#include <vrs/facet.h>
-#include <vrs/opengl/shapematerialgl.h>
-#include <vrs/sphere.h>
-//#include <vrs/io/threedsreader.h>
 #include <vrs/vector.h>
 #include <vrs/scaling.h>
 #include <Newton.h>
@@ -29,49 +18,10 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	// create ball local scene
 	m_Scene = new VRS::SceneThing();
 
-	// create visual ball
-	m_BallScene = new VRS::SceneThing(m_Scene);
-	//m_BallScene->append(new VRS::ShapeMaterialGL(VRS::Color(1.0,1.0,0.0)));
-	//m_BallScene->append(new VRS::Sphere(m_Radius));
-	
+	// load ball model
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
-	m_BallScene->append(new VRS::Scaling(0.6, 0.6, 0.6));
-	m_BallScene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/volleyball-white.3ds"));	// TODO: exception handling
-
-	// configure shadow texture mapping
-	VRS::SO<VRS::TexEnvGL> envGL = new VRS::TexEnvGL(VRS::TexEnvGL::Modulate,VRS::Color(1.0, 1.0, 1.0));
-
-	// load shadow image
-	VRS::SO<VRS::Image> image = VRS_LoadObject(VRS::Image, "../Modelle/shadow_ball.bmp");
-	VRS::SO<VRS::ImageTexture2DGL> texture = new VRS::ImageTexture2DGL(image);
-
-	// create shadow faces
-	VRS::SO<VRS::FixedSizeIterator<VRS::Vector> > vertices = 
-		new VRS::FixedSizeIterator<VRS::Vector>(4);
-			vertices->set(0,VRS::Vector(-1.0,0.0,1.0));
-			vertices->set(1,VRS::Vector(1.0,0.0,1.0));
-			vertices->set(2,VRS::Vector(1.0,0.0,-1.0));
-			vertices->set(3,VRS::Vector(-1.0,0.0,-1.0));
-
-	VRS::SO<VRS::FixedSizeIterator<VRS::Vector> > normals = 
-		new VRS::FixedSizeIterator<VRS::Vector>(4,VRS::Vector(0.0,1.0,0.0));
-
-	VRS::SO<VRS::FixedSizeIterator<VRS::Vector> > texcoords =
-		new VRS::FixedSizeIterator<VRS::Vector>(4);
-			texcoords->set(0,VRS::Vector(0.0,0.0));
-			texcoords->set(1,VRS::Vector(1.0,0.0));
-			texcoords->set(2,VRS::Vector(1.0,1.0));
-			texcoords->set(3,VRS::Vector(0.0,1.0));
-
-	VRS::SO<VRS::Facet> floorShadow = new VRS::Facet(vertices, normals, texcoords);
-	m_FloorShadowScene = new VRS::SceneThing(m_ShadowScene);
-	m_FloorShadowScene->append(floorShadow);
-
-	m_ShadowScene = new VRS::SceneThing(m_Scene);
-	m_ShadowScene->append(envGL);
-	m_ShadowScene->append(texture);
-	m_ShadowScene->append(new VRS::FaceStyle(VRS::FaceStyle::Filled, VRS::FaceStyle::Culled));
-	m_ShadowScene->append(m_FloorShadowScene);
+	m_Scene->append(new VRS::Scaling(0.6, 0.6, 0.6));
+	m_Scene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/volleyball-white.3ds"));	// TODO: exception handling
 
 	// physics setup
 	NewtonWorld* world = m_Arena->getWorld();
@@ -105,9 +55,7 @@ BV3D::Ball::~Ball() {
 void BV3D::Ball::resetPosition(VRS::Vector& position) {
 	// translate visual ball to specified position
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
-	m_BallScene->setLocalMatrix(vrsMatrix);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(position[0],0.0,position[2]));
-	m_FloorShadowScene->setLocalMatrix(vrsMatrix);
+	m_Scene->setLocalMatrix(vrsMatrix);
 
 	// translate physical body
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
@@ -119,7 +67,7 @@ void BV3D::Ball::resetPosition(VRS::Vector& position) {
 }
 
 VRS::Vector BV3D::Ball::getPosition() {
-	return m_BallScene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
+	return m_Scene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
 }
 
 void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
@@ -156,8 +104,6 @@ void BV3D::Ball::update() {
 			newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
 		// apply matrix to visual ball
-		m_BallScene->setLocalMatrix(vrsMatrix);
-		vrsMatrix = VRS::Matrix::translation(VRS::Vector(newtonMatrix[12],0.0,newtonMatrix[14]));
-		m_FloorShadowScene->setLocalMatrix(vrsMatrix);
+		m_Scene->setLocalMatrix(vrsMatrix);
 	}
 }
