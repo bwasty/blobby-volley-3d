@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SceneLoader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TieBreakReferee.cpp"
 				>
 			</File>
@@ -265,6 +269,10 @@
 			</File>
 			<File
 				RelativePath=".\Referee.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SceneLoader.h"
 				>
 			</File>
 			<File

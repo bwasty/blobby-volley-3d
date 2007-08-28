@@ -106,7 +106,7 @@ namespace BV3D {
 		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	m_WallsVertices;	// vertices for walls
 		VRS::SO<VRS::ShapeMaterialGL>	m_Material;		// wall material
 		VRS::SO<VRS::PolygonSet>		m_Walls;		// walls shape
-		VRS::Bounds				m_Bounds;			// bounds of the Arena box
+		VRS::Bounds						m_Bounds;		// bounds of the Arena box
 
 	private:	// Physics
 		float			m_Gravity;	// gravity of world

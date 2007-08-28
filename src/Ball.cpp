@@ -2,6 +2,7 @@
 
 #include "Ball.h"
 #include "Arena.h"
+//#include "Constants.h"
 #include <vrs/sg/scenething.h>
 #include <vrs/matrix.h>
 #include <vrs/io/threedsreader.h>
@@ -11,7 +12,7 @@
 
 BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	m_Arena = arena;
-	m_Radius = 1.0;
+	m_Radius = ballRadius;
 	m_Body = 0;
 	m_IsLocked = true;
 
@@ -19,8 +20,14 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	m_Scene = new VRS::SceneThing();
 
 	// load ball model
+	//m_BallScene = new VRS::SceneThing(m_Scene);
+	//m_BallScene->append(new VRS::ShapeMaterialGL(VRS::Color(1.0,1.0,0.0)));
+	//m_BallScene->append(new VRS::Sphere(m_Radius));
+
+	//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
+	double factor = ballRadius / 1.7;
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
-	m_Scene->append(new VRS::Scaling(0.6, 0.6, 0.6));
+	m_Scene->append(new VRS::Scaling(factor, factor, factor));
 	m_Scene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/volleyball-white.3ds"));	// TODO: exception handling
 
 	// physics setup

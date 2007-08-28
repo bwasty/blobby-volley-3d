@@ -22,5 +22,5 @@ NiceTo:
 
 Known Bugs:
 ___________
-- Ball springt bei Berührung mit Boden immer höher 
+V Ball springt bei Berührung mit Boden immer höher 
 	- das ist kein bug, sondern absicht, zum besseren testen (steht auch im svn-log)

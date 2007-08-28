@@ -25,7 +25,7 @@ struct CollisionData {
 };
 
 /**
- * sets up an Arena with an extent of (1.0,1.0,1.0)
+ * sets up an Arena with a predefined extent
  */
 BV3D::Arena::Arena() {
 	///m_ArenaPhysics = 0;
@@ -48,7 +48,7 @@ BV3D::Arena::Arena() {
 	m_Floor = 0;
 	m_Body = 0;
 
-	setExtent(VRS::Vector(1.0,1.0,1.0));
+	setExtent(arenaExtent);//VRS::Vector(1.0,1.0,1.0));
 }
 
 BV3D::Arena::~Arena() {

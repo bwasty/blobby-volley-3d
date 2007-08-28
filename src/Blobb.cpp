@@ -31,7 +31,9 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	m_Material = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,0.4));
 	m_Scene->append(m_Material);
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-	m_Scene->append(VRS::ThreeDSReader::readObject("blobb1.3ds"));	// TODO: exception handling
+	/*3ds-blobb 
+		height: 2.6		lower radius: 1.0 (lower center at 1.0)	upper radius: 0.7 (upper center should be at 1.9)*/
+	m_Scene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/blobb1.3ds"));	// TODO: exception handling
 
 	// physics setup
 	dFloat radius = 1.0;

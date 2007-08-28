@@ -92,20 +92,20 @@ BV3D::Game::Game() {
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1);
-	blobb->setPosition(Vector(-2.0,1.0,1.0));
+	blobb->setPosition(Vector(-2.0,1.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
-	blobb->setPosition(Vector(2.0,2.0,2.0));
+	blobb->setPosition(Vector(2.0,1.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
-	m_Arena->setExtent(Vector(8.0,10.0,6.0));
+	//m_Arena->setExtent(Vector(8.0,10.0,6.0));
 
 	m_Ball = new BV3D::Ball(m_Arena);
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(topLight));
