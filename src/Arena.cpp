@@ -141,7 +141,7 @@ VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::BV3D_TEAM team) {
 	VRS::Vector llf = m_Bounds.getLLF();
 	VRS::Vector urb = m_Bounds.getURB();
 
-	if(team == BV3D::BV3D_TEAM1)
+	if(team == BV3D::BV3D_TEAM2)
 		return VRS::Bounds(VRS::Vector(0.0,0.0,llf[2]), urb);
 	else
 		return VRS::Bounds(llf, VRS::Vector(0.0,urb[1],urb[2]));
@@ -254,15 +254,7 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 			team = BV3D::BV3D_TEAM2;
 		}
 
-
 		collData->referee->ballOnField(team);
-
-		// Reset ball -> setForce into applyForceAndTorque-Callback?
-		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-		NewtonBodySetForce(collData->ball->getBody(), nullForce);
-		//NewtonBodySetTorque(collData->ball->getBody(), nullForce);
-		//collData->ball->setLocked(true);
-		collData->ball->resetPosition(collData->arena->getTeamBounds(team).center());
 	
 		printf("Ball touched floor - blobb1: %i, blobb2: %i\n", collData->referee->getCurrentScore(BV3D::BV3D_TEAM1), collData->referee->getCurrentScore(BV3D::BV3D_TEAM2));
 

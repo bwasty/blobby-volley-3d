@@ -34,9 +34,10 @@
 #include <vrs/perspective.h>
 #include <vrs/opengl/texgengl.h>
 #include <vrs/sphere.h>
-
-
 #include <vrs/color.h>
+
+#include <Newton.h>
+
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
 #include "Ball.h"
@@ -223,4 +224,15 @@ void Game::initBackgroundCubeMap()
     ///m_BackNode->append(m_BackCubeMap);
 	///m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
 	///m_BackNode->append(new Sphere(19.0));
+}
+
+void Game::newServe() {
+	BV3D::BV3D_TEAM team = m_Referee->getServingTeam();
+
+	// Reset ball -> setForce into applyForceAndTorque-Callback?
+	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+	NewtonBodySetForce(m_Ball->getBody(), nullForce);
+	//NewtonBodySetTorque(collData->ball->getBody(), nullForce);
+	//collData->ball->setLocked(true);
+	m_Ball->resetPosition(m_Arena->getTeamBounds(team).center());
 }

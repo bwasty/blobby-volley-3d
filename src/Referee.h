@@ -34,13 +34,19 @@ namespace BV3D
 		BV3D_ERROR setMaximumContacts(int maxContacts);
 		BV3D_ERROR setMinimumDifference(int minDifference);
 		void startNewGame();
+		BV3D_TEAM getServingTeam() {return m_ServingTeam;}
+		void setRunning(bool b) {m_Running = b;}
 
 	private:
 		int m_score[2], m_contacts[2];
 		int m_winningScore, m_maxContacts, m_minDifference;
-		SO<Game> m_game;
+		
 
 	protected:
+		SO<Game> m_game;
+		BV3D_TEAM m_ServingTeam;
+		bool m_Running;
+
 		int increaseScore(BV3D_TEAM team);
 		int increaseContacts(BV3D_TEAM team);
 		void resetContacts(BV3D_TEAM team);

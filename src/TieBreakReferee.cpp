@@ -6,6 +6,7 @@
 
 #include "Constants.h"
 #include "TieBreakReferee.h"
+#include "Game.h"
 
 using namespace BV3D;
 
@@ -32,17 +33,24 @@ TieBreakReferee::~TieBreakReferee(void)
  */
 void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	BV3D_TEAM opponent = getOpponent(team);
-	resetContacts(opponent);
-	if (increaseContacts(team) > getMaximumContacts())
-	{
-		increaseScore(opponent);
-		if (isGameOver())					//only opponent could have scored since last test
-		{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
-		}
-		else
-		{	//m_game->newServe(opponent);
-			resetContacts(team);
+	if (m_Running) {
+		BV3D_TEAM opponent = getOpponent(team);
+		resetContacts(opponent);
+		if (increaseContacts(team) > getMaximumContacts())
+		{
+			increaseScore(opponent);
+			if (isGameOver())					//only opponent could have scored since last test
+			{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
+			}
+			else
+			{	//m_game->newServe(opponent);
+				m_ServingTeam = opponent;
+
+				// TODO: call after some time...
+				m_game->newServe();
+
+				resetContacts(team);
+			}
 		}
 	}
 }
@@ -54,15 +62,22 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
  */
 void TieBreakReferee::ballOnField(BV3D_TEAM team)
 {
-	BV3D_TEAM opponent = getOpponent(team);
-	increaseScore(opponent);	//opponent of 'isInLeftField' scores
-	if (isGameOver())					//only opponent could have scored since last test
-	{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
-	}
-	else
-	{	//m_game->newServe(opponent);
-		resetContacts(team);		//reset current contact counters
-		resetContacts(opponent);
+	if (m_Running) {
+		BV3D_TEAM opponent = getOpponent(team);
+		increaseScore(opponent);	//opponent of 'isInLeftField' scores
+		if (isGameOver())					//only opponent could have scored since last test
+		{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
+		}
+		else
+		{	//m_game->newServe(opponent);
+			m_ServingTeam = opponent;
+
+			// TODO: call after some time...
+			m_game->newServe();	
+
+			resetContacts(team);		//reset current contact counters
+			resetContacts(opponent);
+		}
 	}
 }
 
