@@ -70,9 +70,9 @@ BV3D::Game::Game() {
 	m_AmbientLight = new AmbientLight(Color(0.7));
 	m_RootScene->append(m_AmbientLight);
 
-	// add PointLight for shadows and reflection
-	m_PointLight = new PointLight(Vector(0, -20, 0));
-	m_RootScene->append(m_PointLight);
+	//// add PointLight for shadows and reflection
+	//m_PointLight = new PointLight(Vector(0, -20, 0));
+	//m_RootScene->append(m_PointLight);
 
 	// create directional light for shadows
 	VRS::SO<VRS::DistantLight> topLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
@@ -192,16 +192,24 @@ void BV3D::Game::processInput() {
 					break;
 				case Key::F2:	//view field from the side
 					m_Navigation->initPath(Vector(0.0, 10.0, -15.0), Vector(0.0, -10.0, 15.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
 				case Key::F3:	//view field from above
 					m_Navigation->initPath(Vector(0.0, 15.0, -0.1), Vector(0.0, -15.0, 0.1));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					//printf("Key F2 pressed\n");
 					break;
 				case Key::F4:	//view field from the front(from baseline of one blobb's field)
 					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(-15.0, -15.0, 0.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(-1.0, 0.0, 0.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(-1.0, 0.0, 0.0));
 					break;
 				case Key::F5:	//view field from the side "lying on the ground"
 					m_Navigation->initPath(Vector(0.0, 0.0, -15.0), Vector(0.0, 3.0, 15.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
 			}
 			printf("Key %i pressed\n", ke->keyCode());
@@ -216,12 +224,12 @@ void BV3D::Game::initBackgroundCubeMap()
 {
 	printf("Loading Background Cupemap...\n");
 	SO<Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<SO<Image> >(6);
-    (*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posx.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negx.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posy.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negy.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_posz.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, "waterscape_cubemap/waterscape_negz.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posx.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_negx.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posy.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_negy.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posz.png");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_negz.png");
 
 	m_BackCubeMap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
 	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal

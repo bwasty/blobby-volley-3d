@@ -12,7 +12,7 @@
 
 BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	m_Arena = arena;
-	m_Radius = ballRadius;
+	m_Radius = BV3D::ballRadius;
 	m_Body = 0;
 	m_IsLocked = true;
 
@@ -25,10 +25,10 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	//m_BallScene->append(new VRS::Sphere(m_Radius));
 
 	//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
-	double factor = ballRadius / 1.7;
+	double factor = BV3D::ballRadius / 1.7;
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
 	m_Scene->append(new VRS::Scaling(factor, factor, factor));
-	m_Scene->append(VRS::ThreeDSReader::readObject("../Modelle/3ds/volleyball-white.3ds"));	// TODO: exception handling
+	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-white.3ds"));	// TODO: exception handling
 
 	// physics setup
 	NewtonWorld* world = m_Arena->getWorld();

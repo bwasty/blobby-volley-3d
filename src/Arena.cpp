@@ -48,7 +48,7 @@ BV3D::Arena::Arena() {
 	m_Floor = 0;
 	m_Body = 0;
 
-	setExtent(arenaExtent);//VRS::Vector(1.0,1.0,1.0));
+	setExtent(BV3D::arenaExtent);//VRS::Vector(1.0,1.0,1.0));
 }
 
 BV3D::Arena::~Arena() {

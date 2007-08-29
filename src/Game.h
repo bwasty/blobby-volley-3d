@@ -49,14 +49,14 @@ namespace BV3D
 		VRS::SO<VRS::Perspective>			m_perspective;
 		VRS::SO<VRS::LookAt>				m_lookAt;
 		VRS::SO<VRS::Camera>				m_Camera;			// scene camera
-		VRS::SO<VRS::AmbientLight>		m_AmbientLight;
+		VRS::SO<VRS::AmbientLight>			m_AmbientLight;
 		VRS::SO<VRS::PointLight>			m_PointLight;
-		VRS::SO<VRS::BehaviorCallback>	m_cbInput;		// callback to receive input from canvas
-		VRS::SO<VRS::BehaviorCallback>	m_cbUpdate;		// callback to receive timer events for frame stepping
+		VRS::SO<VRS::BehaviorCallback>		m_cbInput;		// callback to receive input from canvas
+		VRS::SO<VRS::BehaviorCallback>		m_cbUpdate;		// callback to receive timer events for frame stepping
 		VRS::SO<VRS::InteractionMode>		m_InteractionMode;	//needed for navigation technique
 		VRS::SO<VRS::InteractionConcept>	m_InteractionConcept;	//needed for navigation technique
 		VRS::SO<VRS::JumpNavigation>		m_Navigation;	// select and fly between different camera settings
-		VRS::SO<VRS::BackgroundGL>		m_Background;		//SceneNode for background
+		VRS::SO<VRS::BackgroundGL>			m_Background;		//SceneNode for background
 		VRS::SO<VRS::ImageCubeMapTextureGL> m_BackCubeMap;	//CubeMap for background
 
 		int			m_iFramerate;		// frame counter to allow frame rate checking
