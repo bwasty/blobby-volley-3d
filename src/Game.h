@@ -30,6 +30,7 @@ namespace BV3D
 	class Referee;
 	class Ball;
 	class Blobb;
+	class SceneLoader;
 
 	class Game : public VRS::SharedObj {
 	public:
@@ -67,6 +68,7 @@ namespace BV3D
 		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	m_BlobbArray;	// list of Blobbs
 		VRS::SO<Ball>		m_Ball;
 		VRS::SO<Referee>	m_Referee;
+		VRS::SO<SceneLoader>	m_SceneLoader;
 
 
 		void initBackgroundCubeMap();

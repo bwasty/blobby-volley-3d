@@ -50,10 +50,12 @@
 #include "Blobb.h"
 #include "ClassicReferee.h"
 #include "TieBreakReferee.h"
+#include "SceneLoader.h"
 
 BV3D::Game::Game() {
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
+	m_SceneLoader = new SceneLoader();
 	m_RootScene = new SceneThing();
 
 	// add transparency and shadow support to scene
@@ -81,8 +83,9 @@ BV3D::Game::Game() {
 	// create TEMPORARY floor
 	VRS::SO<VRS::SceneThing> floorScene = new VRS::SceneThing(m_RootScene);
 	floorScene->append(new VRS::Shadowed(topLight));
-	floorScene->append(new VRS::Box(VRS::Vector(-5.0,-1.0,-5.0),VRS::Vector(5.0,0.0,5.0)));
-
+	floorScene->append(new VRS::Box(VRS::Vector(-BV3D::arenaExtent[0]/2,0.0,-BV3D::arenaExtent[2]/2),
+									VRS::Vector(BV3D::arenaExtent[0]/2,0.01,BV3D::arenaExtent[2]/2)));
+	
 	// TODO: select specific referee via menu/config
 	m_Referee = new BV3D::TieBreakReferee(this);
 
@@ -92,13 +95,13 @@ BV3D::Game::Game() {
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1);
-	blobb->setPosition(Vector(-2.0,1.0,0.0));
+	blobb->setPosition(Vector(-2.0,0.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
-	blobb->setPosition(Vector(2.0,1.0,0.0));
+	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
@@ -111,7 +114,7 @@ BV3D::Game::Game() {
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	m_RootScene->append(m_Ball->getScene());
 	m_Ball->resetPosition(Vector(0.0,3.5,0.0));
-
+	
 	m_Canvas->append(m_RootScene);
 
 	m_Arena->setupMaterials(this);
@@ -211,6 +214,39 @@ void BV3D::Game::processInput() {
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
+				case Key::F6:
+					m_Navigation->initPath(Vector(0.0, 10.0, 15.0), Vector(0.0, -10.0, -15.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, -1.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, -1.0));
+					break;
+				case Key::F7:	//view field from 
+					m_Navigation->initPath(Vector(-15.0, 15.0, 0.0), Vector(15.0, -15.0, 0.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					break;
+				case Key::F8:	//view field from center in -x direction
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(-1.0, 1.0, 0.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					break;	
+				case Key::F9:	//view field from center in -z direction
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, -1.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					break;
+				case Key::F10:	//view field from center in x direction
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(1.0, 1.0, 0.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					break;
+				case Key::F11:	//view field from center in z direction
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, 1.0));
+					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
+					break;
+				case Key::Insert:	//load surroundings
+					printf("Loading beach...\n");
+					m_RootScene->append(m_SceneLoader->loadBeach());
 			}
 			printf("Key %i pressed\n", ke->keyCode());
 		}

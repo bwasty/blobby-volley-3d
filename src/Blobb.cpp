@@ -44,8 +44,9 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,1.0,0.0,1.0};
 
 	// use two sphere collision objects as physics body
-	collision[0] = NewtonCreateSphere(world, radius, radius, radius, NULL);
-	collision[1] = NewtonCreateSphere(world, radius, radius, radius, matrix);
+	collision[0] = NewtonCreateSphere(world, radius, radius, radius, matrix);
+	matrix[13] = 1.9;
+	collision[1] = NewtonCreateSphere(world, 0.7, 0.7, 0.7, matrix);
 	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(world, 2, collision);
 	m_Body = NewtonCreateBody(world, compoundCollision);
 	NewtonReleaseCollision(world, collision[0]);
