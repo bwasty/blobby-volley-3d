@@ -36,6 +36,7 @@
 #include <vrs/opengl/shadowtechniquegl.h>
 #include <vrs/shadowcaster.h>
 #include <vrs/shadowed.h>
+#include <vrs/sg/selector.h>
 
 // temporarily used for floor
 #include <vrs/box.h>
@@ -51,6 +52,7 @@
 #include "ClassicReferee.h"
 #include "TieBreakReferee.h"
 #include "SceneLoader.h"
+#include "Menu.h"
 
 BV3D::Game::Game() {
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
@@ -119,6 +121,9 @@ BV3D::Game::Game() {
 
 	m_Arena->setupMaterials(this);
 
+	mMenu = new Menu(this);
+	switchToMenu();
+
 	// init update callback
 	m_FPS = 30.0;	// assuming 30 fps are desired
 	m_cbUpdate = new BehaviorCallback();
@@ -165,7 +170,8 @@ void BV3D::Game::update() {
 			m_iFramerate = 0;
 		}
 
-		m_Arena->updateWorld(timestep);
+		if(!mMenu->isActive())	// simulate world only if not in menu mode
+			m_Arena->updateWorld(timestep);
 		m_Canvas->redisplay();
 	}
 }
@@ -178,6 +184,8 @@ void BV3D::Game::processInput() {
 	if(ie==NULL)
 		return;
 
+	if(mMenu->isActive()) return;	// process input only if not in menu mode
+
 	// process general controls (pausing, camera positioning,...)
 	KeyEvent* ke = VRS_Cast(VRS::KeyEvent, ie);
 	if(ke != NULL)
@@ -185,11 +193,8 @@ void BV3D::Game::processInput() {
 			switch (ke->keyCode())
 			{
 				case Key::Escape:
-					exit(0);
-					break;
-				case Key::Home:
-						m_Arena->setExtent(Vector(6.0,2.0,2.0));
-					break;
+					switchToMenu();
+					return;
 				case Key::F1:
 					initBackgroundCubeMap();
 					break;
@@ -289,4 +294,23 @@ void BV3D::Game::newServe() {
 	//NewtonBodySetTorque(collData->ball->getBody(), nullForce);
 	//collData->ball->setLocked(true);
 	m_Ball->resetPosition(m_Arena->getTeamBounds(team).center());
+}
+
+// called by menu
+void BV3D::Game::switchToGame(bool bRestart) {
+	// replace menu scene with root scene
+	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->remove(mMenu->getScene());
+	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->remove(mMenu->getSelector());
+	if(!m_Canvas->contains(m_RootScene)) m_Canvas->append(m_RootScene);
+
+	//if(bRestart) start new game
+	//else resume old game
+}
+
+void BV3D::Game::switchToMenu() {
+	// replace root scene with menu scene
+	if(m_Canvas->contains(m_RootScene)) m_Canvas->remove(m_RootScene);
+	mMenu->showMainMenu();
+	if(!m_Canvas->contains(mMenu->getScene())) m_Canvas->append(mMenu->getScene());
+	if(!m_Canvas->contains(mMenu->getSelector())) m_Canvas->append(mMenu->getSelector());
 }

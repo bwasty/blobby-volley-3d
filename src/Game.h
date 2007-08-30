@@ -31,6 +31,7 @@ namespace BV3D
 	class Ball;
 	class Blobb;
 	class SceneLoader;
+	class Menu;
 
 	class Game : public VRS::SharedObj {
 	public:
@@ -42,6 +43,10 @@ namespace BV3D
 		VRS::SO<Referee> getReferee() {return m_Referee;}
 		void newServe();
 
+	public:
+		void switchToGame(bool bRestart);
+	protected:
+		void switchToMenu();
 
 	protected:
 		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
@@ -69,6 +74,7 @@ namespace BV3D
 		VRS::SO<Ball>		m_Ball;
 		VRS::SO<Referee>	m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
+		VRS::SO<Menu>		mMenu;
 
 
 		void initBackgroundCubeMap();
