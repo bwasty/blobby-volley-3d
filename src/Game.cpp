@@ -58,32 +58,33 @@ BV3D::Game::Game() {
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
 	m_SceneLoader = new SceneLoader();
-	m_RootScene = new SceneThing();
+
+	mScene = new SceneThing();	// create absolute root scene for bv3d
 
 	// add transparency and shadow support to scene
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
-	m_RootScene->append(m_TransparencyTechnique);
-	m_RootScene->append(new VRS::ShadowTechniqueGL());
+	mScene->append(m_TransparencyTechnique);
+	mScene->append(new VRS::ShadowTechniqueGL());
 
 	m_perspective = new Perspective(30, 1.0, 1000.0);
 	m_lookAt = new LookAt(Vector(0.0, 8.0, -15.0));
 	m_Camera = new Camera(m_perspective, m_lookAt);
-	m_RootScene->append(m_Camera);
+	mScene->append(m_Camera);
 
 	// do some global lighting
 	m_AmbientLight = new AmbientLight(Color(0.7));
-	m_RootScene->append(m_AmbientLight);
+	mScene->append(m_AmbientLight);
 
 	//// add PointLight for shadows and reflection
 	//m_PointLight = new PointLight(Vector(0, -20, 0));
-	//m_RootScene->append(m_PointLight);
+	//mScene->append(m_PointLight);
 
 	// create directional light for shadows
 	VRS::SO<VRS::DistantLight> topLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
-	m_RootScene->append(topLight);
+	mScene->append(topLight);
 
 	// create TEMPORARY floor
-	VRS::SO<VRS::SceneThing> floorScene = new VRS::SceneThing(m_RootScene);
+	VRS::SO<VRS::SceneThing> floorScene = new VRS::SceneThing(mScene);
 	floorScene->append(new VRS::Shadowed(topLight));
 	floorScene->append(new VRS::Box(VRS::Vector(-BV3D::arenaExtent[0]/2,0.0,-BV3D::arenaExtent[2]/2),
 									VRS::Vector(BV3D::arenaExtent[0]/2,0.01,BV3D::arenaExtent[2]/2)));
@@ -92,14 +93,14 @@ BV3D::Game::Game() {
 	m_Referee = new BV3D::TieBreakReferee(this);
 
 	m_Arena = new BV3D::Arena();
-	m_RootScene->append(m_Arena->getScene());
+	mScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
-	m_RootScene->append(blobb->getScene());
+	mScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
@@ -107,22 +108,23 @@ BV3D::Game::Game() {
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
-	m_RootScene->append(blobb->getScene());
+	mScene->append(blobb->getScene());
 	m_BlobbArray->append(blobb);
 
 	//m_Arena->setExtent(Vector(8.0,10.0,6.0));
 
 	m_Ball = new BV3D::Ball(m_Arena);
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(topLight));
-	m_RootScene->append(m_Ball->getScene());
+	mScene->append(m_Ball->getScene());
 	m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 	
-	m_Canvas->append(m_RootScene);
-
 	m_Arena->setupMaterials(this);
 
+	m_Canvas->append(mScene);
+
 	mMenu = new Menu(this);
-	switchToMenu();
+	m_Canvas->append(mMenu->getScene());
+	m_Canvas->append(mMenu->getSelector());
 
 	// init update callback
 	m_FPS = 30.0;	// assuming 30 fps are desired
@@ -145,6 +147,8 @@ BV3D::Game::Game() {
 	///m_InteractionConcept->addInteractionMode(m_InteractionMode);
 	///m_InteractionConcept->activate(BehaviorNode::Begin);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
+
+	switchToMenu();	// start showing menu
 }
 
 BV3D::Game::~Game() {
@@ -170,7 +174,7 @@ void BV3D::Game::update() {
 			m_iFramerate = 0;
 		}
 
-		if(!mMenu->isActive())	// simulate world only if not in menu mode
+		if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
 			m_Arena->updateWorld(timestep);
 		m_Canvas->redisplay();
 	}
@@ -183,8 +187,6 @@ void BV3D::Game::processInput() {
 	InputEvent* ie = VRS_Cast(InputEvent, m_cbInput->currentCanvasEvent());
 	if(ie==NULL)
 		return;
-
-	if(mMenu->isActive()) return;	// process input only if not in menu mode
 
 	// process general controls (pausing, camera positioning,...)
 	KeyEvent* ke = VRS_Cast(VRS::KeyEvent, ie);
@@ -251,13 +253,13 @@ void BV3D::Game::processInput() {
 					break;
 				case Key::Insert:	//load surroundings
 					printf("Loading beach...\n");
-					m_RootScene->append(m_SceneLoader->loadBeach());
+					mScene->append(m_SceneLoader->loadBeach());
 			}
 			printf("Key %i pressed\n", ke->keyCode());
 		}
 
 	// pass input to blobbs
-		m_BlobbArray->getElement(0)->processInput(ie);
+	m_BlobbArray->getElement(0)->processInput(ie);
 	m_BlobbArray->getElement(1)->processInput(ie);
 }
 
@@ -276,7 +278,7 @@ void BV3D::Game::initBackgroundCubeMap()
 	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
 	//m_BackNode->append(new Sphere(19.0));
 	m_Background = new VRS::BackgroundGL(m_BackCubeMap);
-	m_RootScene->append(m_Background);
+	mScene->append(m_Background);
 
 	///m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
 	///m_BackNode = new SceneThing(m_RootScene);
@@ -298,19 +300,25 @@ void BV3D::Game::newServe() {
 
 // called by menu
 void BV3D::Game::switchToGame(bool bRestart) {
-	// replace menu scene with root scene
-	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->remove(mMenu->getScene());
-	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->remove(mMenu->getSelector());
-	if(!m_Canvas->contains(m_RootScene)) m_Canvas->append(m_RootScene);
+	// deactivate menu
+	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOff(mMenu->getScene());
+	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOff(mMenu->getSelector());
+
+	// activate game
+	if(m_Canvas->contains(mScene)) m_Canvas->switchOn(mScene);
+	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOn(m_cbInput);
 
 	//if(bRestart) start new game
 	//else resume old game
 }
 
 void BV3D::Game::switchToMenu() {
-	// replace root scene with menu scene
-	if(m_Canvas->contains(m_RootScene)) m_Canvas->remove(m_RootScene);
+	// deactivate game
+	if(m_Canvas->contains(mScene)) m_Canvas->switchOff(mScene);
+	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOff(m_cbInput);
+
+	// activate menu
 	mMenu->showMainMenu();
-	if(!m_Canvas->contains(mMenu->getScene())) m_Canvas->append(mMenu->getScene());
-	if(!m_Canvas->contains(mMenu->getSelector())) m_Canvas->append(mMenu->getSelector());
+	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOn(mMenu->getScene());
+	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
 }

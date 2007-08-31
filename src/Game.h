@@ -50,7 +50,7 @@ namespace BV3D
 
 	protected:
 		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
-		VRS::SO<VRS::SceneThing>			m_RootScene;	// root node where Blobbs etc will be appended to
+		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
 		VRS::SO<VRS::TransparencyTechniqueGL>	m_TransparencyTechnique;	// to enable transparency
 		VRS::SO<VRS::Perspective>			m_perspective;
 		VRS::SO<VRS::LookAt>				m_lookAt;

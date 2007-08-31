@@ -21,14 +21,12 @@ namespace BV3D
 		virtual ~Menu() {}
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 		VRS::SO<VRS::Selector> getSelector() {return mSelector;}
-		bool isActive() {return mIsActive;}
 		void showMainMenu();
 
 	protected:
 		void select();
 
 	private:
-		bool						mIsActive;
 		VRS::SO<VRS::SceneThing>	mScene;
 		VRS::SO<VRS::SceneThing>	mCurrentMenuScene;
 		VRS::SO<VRS::Selector>		mSelector;

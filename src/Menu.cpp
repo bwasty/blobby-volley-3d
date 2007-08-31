@@ -25,12 +25,9 @@
 #include <vrs/box.h>
 #include <stdio.h>
 
-// tmp
-#include <vrs/box.h>
 
 BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mGame = game;
-	mIsActive = false;
 
 	mScene = new VRS::SceneThing();
 	mScene->append(new VRS::TransparencyTechniqueGL());
@@ -54,15 +51,12 @@ void BV3D::Menu::select() {
 
         const std::string& name = info->getShape()->getObjectName();
 
-		if(name.compare("play")==0) {mIsActive=false; mGame->switchToGame(false);}
+		if(name.compare("play")==0) mGame->switchToGame(false);
 		if(name.compare("quit")==0) exit(0);
     }
 }
 
 void BV3D::Menu::showMainMenu() {
-	// indicate that menu wants to process input events
-	mIsActive = true;
-
 	mCurrentMenuScene->clear();
 
 	VRS::SO<VRS::Font> font = VRS::Font::searchFont("Arial (TrueType)", VRS::Font::EXTRUDE, 50);
