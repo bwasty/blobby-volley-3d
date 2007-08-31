@@ -35,7 +35,7 @@ namespace BV3D
 		BV3D_ERROR setMinimumDifference(int minDifference);
 		void startNewGame();
 		BV3D_TEAM getServingTeam() {return m_ServingTeam;}
-		void setRunning(bool b) {m_Running = b;}
+		void setActive(bool b) {m_Active = b;}
 
 	private:
 		int m_score[2], m_contacts[2];
@@ -45,7 +45,7 @@ namespace BV3D
 	protected:
 		SO<Game> m_game;
 		BV3D_TEAM m_ServingTeam;
-		bool m_Running;
+		bool m_Active;
 
 		int increaseScore(BV3D_TEAM team);
 		int increaseContacts(BV3D_TEAM team);

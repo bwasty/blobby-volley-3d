@@ -33,12 +33,15 @@ TieBreakReferee::~TieBreakReferee(void)
  */
 void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	if (m_Running) {
+	if (m_Active) {
+
 		BV3D_TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
 			increaseScore(opponent);
+			printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
+
 			if (isGameOver())					//only opponent could have scored since last test
 			{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
 			}
@@ -47,11 +50,14 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 				m_ServingTeam = opponent;
 
 				// TODO: call after some time...
-				m_game->newServe();
+				m_game->scheduleNewServe();
 
 				resetContacts(team);
+				m_Active = false;
 			}
 		}
+		printf("Contacts Blobb1: %i, Blobb2: %i\n", getCurrentContacts(BV3D::BV3D_TEAM1), getCurrentContacts(BV3D::BV3D_TEAM2));
+
 	}
 }
 
@@ -62,7 +68,7 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
  */
 void TieBreakReferee::ballOnField(BV3D_TEAM team)
 {
-	if (m_Running) {
+	if (m_Active) {
 		BV3D_TEAM opponent = getOpponent(team);
 		increaseScore(opponent);	//opponent of 'isInLeftField' scores
 		if (isGameOver())					//only opponent could have scored since last test
@@ -73,11 +79,15 @@ void TieBreakReferee::ballOnField(BV3D_TEAM team)
 			m_ServingTeam = opponent;
 
 			// TODO: call after some time...
-			m_game->newServe();	
+			m_game->scheduleNewServe();
 
 			resetContacts(team);		//reset current contact counters
 			resetContacts(opponent);
+
+			m_Active = false;
 		}
+		printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
+
 	}
 }
 

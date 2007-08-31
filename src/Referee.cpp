@@ -17,9 +17,10 @@ Referee::Referee(SO<Game> game)
 {
 	m_game = game;
 	m_score[0] = m_score[1] = m_contacts[0] = m_contacts[1] = 0; //set start values
+	//std::cout << m_contacts[1] << std::endl;
 	m_winningScore = m_maxContacts = m_minDifference = 1;		//set dummy values
 	m_ServingTeam = BV3D::BV3D_TEAM1;
-	m_Running = true;
+	m_Active = true;
 }
 
 SO<Game> Referee::getGame()

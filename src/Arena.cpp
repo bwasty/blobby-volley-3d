@@ -192,7 +192,7 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 0.9f);
 
 	// TODO: ball on floor? - low elasticity, game logic
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.25f);//0.3f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.35f);
 	CollisionData* collDataBallFloor = new CollisionData(*collData);
 	collDataBallFloor->material1 = mBallMaterialID;
 	collDataBallFloor->material2 = mFloorMaterialID;
@@ -243,7 +243,6 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM1);
 		else
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
-		printf("Contacts Blobb1: %i, Blobb2: %i\n", collData->referee->getCurrentContacts(BV3D::BV3D_TEAM1), collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2));
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getFloorMaterialID()) {
 		BV3D::BV3D_TEAM team;
@@ -255,8 +254,6 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		}
 
 		collData->referee->ballOnField(team);
-	
-		printf("Ball touched floor - blobb1: %i, blobb2: %i\n", collData->referee->getCurrentScore(BV3D::BV3D_TEAM1), collData->referee->getCurrentScore(BV3D::BV3D_TEAM2));
 
 		//printf("%f\n", collData->ball->getPosition()[0]); // x-coordinate of the ball
 		

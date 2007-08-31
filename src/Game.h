@@ -22,6 +22,7 @@ namespace VRS {
 	class Perspective;
 	class TexGenGL;
 	class Sphere;
+	class VRSTime;
 }
 
 namespace BV3D
@@ -41,6 +42,7 @@ namespace BV3D
 		void processInput();	// process and dispatch input
 		VRS::SO<Ball> getBall() {return m_Ball;}
 		VRS::SO<Referee> getReferee() {return m_Referee;}
+		void scheduleNewServe();
 		void newServe();
 
 	public:
@@ -49,6 +51,9 @@ namespace BV3D
 		void switchToMenu();
 
 	protected:
+		double m_DelayedActionStart;
+		bool m_ScheduleNewServe;
+
 		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
 		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
 		VRS::SO<VRS::TransparencyTechniqueGL>	m_TransparencyTechnique;	// to enable transparency
@@ -75,7 +80,6 @@ namespace BV3D
 		VRS::SO<Referee>	m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
 		VRS::SO<Menu>		mMenu;
-
 
 		void initBackgroundCubeMap();
 	};

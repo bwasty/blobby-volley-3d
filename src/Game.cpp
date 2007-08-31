@@ -54,7 +54,10 @@
 #include "SceneLoader.h"
 #include "Menu.h"
 
-BV3D::Game::Game() {
+BV3D::Game::Game() {	
+	m_DelayedActionStart = 0;
+	m_ScheduleNewServe = false;
+
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
 	m_SceneLoader = new SceneLoader();
@@ -148,7 +151,11 @@ BV3D::Game::Game() {
 	///m_InteractionConcept->activate(BehaviorNode::Begin);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 
+
 	switchToMenu();	// start showing menu
+
+	m_Referee->startNewGame();
+	
 }
 
 BV3D::Game::~Game() {
@@ -176,6 +183,22 @@ void BV3D::Game::update() {
 
 		if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
 			m_Arena->updateWorld(timestep);
+
+
+		if (m_DelayedActionStart != 0) {
+			//printf("time: %f\n", double(time));
+			//printf("m_DelayedActionStart: %f\n", m_DelayedActionStart);
+			//printf("time: %f\n", time);
+			if (double(time) - m_DelayedActionStart >= 2.5) {
+				newServe();
+				m_DelayedActionStart = 0;
+			}
+		}
+		if (m_ScheduleNewServe) {
+			m_DelayedActionStart = double(time);
+			m_ScheduleNewServe = false;
+		}
+
 		m_Canvas->redisplay();
 	}
 }
@@ -287,15 +310,24 @@ void BV3D::Game::initBackgroundCubeMap()
 	///m_BackNode->append(new Sphere(19.0));
 }
 
+void BV3D::Game::scheduleNewServe() {
+	//m_DelayedActionStart = new VRSTime(VRSTime::now());
+	//printf("scheduleNewServe: %f\n", double(*m_DelayedActionStart));
+	m_ScheduleNewServe = true;
+}
+
 void BV3D::Game::newServe() {
 	BV3D::BV3D_TEAM team = m_Referee->getServingTeam();
 
 	// Reset ball -> setForce into applyForceAndTorque-Callback?
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
 	NewtonBodySetForce(m_Ball->getBody(), nullForce);
-	//NewtonBodySetTorque(collData->ball->getBody(), nullForce);
+	NewtonBodySetTorque(m_Ball->getBody(), nullForce);
 	//collData->ball->setLocked(true);
 	m_Ball->resetPosition(m_Arena->getTeamBounds(team).center());
+
+	m_Referee->setActive(true);
+
 }
 
 // called by menu
@@ -322,3 +354,4 @@ void BV3D::Game::switchToMenu() {
 	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOn(mMenu->getScene());
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
 }
+
