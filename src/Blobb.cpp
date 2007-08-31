@@ -18,6 +18,23 @@
 #include <vrs/io/threedsreader.h>
 #include <Newton.h>
 
+/*3ds-blobb measures: 
+		blobb1.3ds:
+			height: 2.6		lower radius: 1.0	lower center: 1.0
+							upper radius: 0.9	upper center: 1.5)
+		blobb2.3ds:
+			height: 2.45	lower radius: 1.01	lower center: 0.9
+							upper radius: 0.9	upper center: 1.35
+		blobb2.3ds:
+			height: 2.3		lower radius: 1.05	lower center: 0.8
+							upper radius: 0.9	upper center: 1.2
+		blobb2.3ds:
+			height: 2.1		lower radius: 1.1	lower center: 0.65
+							upper radius: 0.9	upper center: 1.1
+		blobb2.3ds:
+			height: 1.9		lower radius: 1.2	lower center: 0.5
+							upper radius: 0.9	upper center: 1.0
+	*/
 BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	m_Arena = arena;
 	m_Team = team;
@@ -31,12 +48,11 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	m_Material = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,0.4));
 	m_Scene->append(m_Material);
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-	/*3ds-blobb 
-		height: 2.6		lower radius: 1.0 (lower center at 1.0)	upper radius: 0.7 (upper center should be at 1.9)*/
+	
 	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds"));	// TODO: exception handling
 
 	// physics setup
-	dFloat radius = 1.0;
+	dFloat radius = 1.01;
 	NewtonWorld* world = m_Arena->getWorld();
 
 	// create NewtonBody with a collision sphere

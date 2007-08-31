@@ -6,6 +6,8 @@
 #include <vrs/sg/scenething.h>
 #include <vrs/matrix.h>
 #include <vrs/io/threedsreader.h>
+#include <vrs/io/wavefrontreader.h>
+#include <vrs/io/filedataresource.h>
 #include <vrs/vector.h>
 #include <vrs/scaling.h>
 #include <Newton.h>
@@ -26,9 +28,15 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 
 	//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
 	double factor = BV3D::ballRadius / 1.7;
-	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
+	/*VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
 	m_Scene->append(new VRS::Scaling(factor, factor, factor));
-	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-white.3ds"));	// TODO: exception handling
+	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-colored.3ds"));*/	// TODO: exception handling
+
+	VRS::ID id = VRS::ID("ball");
+	VRS::WavefrontReader reader = VRS::WavefrontReader();
+	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");
+	m_Scene->append(new VRS::Scaling(factor, factor, factor));
+	m_Scene->append(reader.read(file, id));
 
 	// physics setup
 	NewtonWorld* world = m_Arena->getWorld();

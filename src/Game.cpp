@@ -70,7 +70,7 @@ BV3D::Game::Game() {
 	mScene->append(new VRS::ShadowTechniqueGL());
 
 	m_perspective = new Perspective(30, 1.0, 1000.0);
-	m_lookAt = new LookAt(Vector(0.0, 8.0, -15.0));
+	m_lookAt = new LookAt(Vector(0.0, 8.0, -15.0), BV3D::lookTo);
 	m_Camera = new Camera(m_perspective, m_lookAt);
 	mScene->append(m_Camera);
 
@@ -79,8 +79,8 @@ BV3D::Game::Game() {
 	mScene->append(m_AmbientLight);
 
 	//// add PointLight for shadows and reflection
-	//m_PointLight = new PointLight(Vector(0, -20, 0));
-	//mScene->append(m_PointLight);
+	m_PointLight = new PointLight(Vector(0, -20, 0));
+	mScene->append(m_PointLight);
 
 	// create directional light for shadows
 	VRS::SO<VRS::DistantLight> topLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
@@ -151,8 +151,8 @@ BV3D::Game::Game() {
 	///m_InteractionConcept->activate(BehaviorNode::Begin);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 
-
-	switchToMenu();	// start showing menu
+	switchToGame(true);
+	//switchToMenu();	// start showing menu
 
 	m_Referee->startNewGame();
 	
@@ -224,18 +224,18 @@ void BV3D::Game::processInput() {
 					initBackgroundCubeMap();
 					break;
 				case Key::F2:	//view field from the side
-					m_Navigation->initPath(Vector(0.0, 10.0, -15.0), Vector(0.0, -10.0, 15.0));
+					m_Navigation->initPath(Vector(0.0, 10.0, -15.0), Vector(0.0, -10.0, 15.0) + BV3D::lookTo);
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
 				case Key::F3:	//view field from above
-					m_Navigation->initPath(Vector(0.0, 15.0, -0.1), Vector(0.0, -15.0, 0.1));
+					m_Navigation->initPath(Vector(0.0, 15.0, -0.1), Vector(0.0, -15.0, 0.1) + BV3D::lookTo);
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					//printf("Key F2 pressed\n");
 					break;
 				case Key::F4:	//view field from the front(from baseline of one blobb's field)
-					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(-15.0, -15.0, 0.0));
+					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(-15.0, -15.0, 0.0) + BV3D::lookTo);
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(-1.0, 0.0, 0.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(-1.0, 0.0, 0.0));
 					break;
@@ -244,13 +244,13 @@ void BV3D::Game::processInput() {
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
-				case Key::F6:
-					m_Navigation->initPath(Vector(0.0, 10.0, 15.0), Vector(0.0, -10.0, -15.0));
+				case Key::F6:	//view field from +y-axis
+					m_Navigation->initPath(Vector(0.0, 10.0, 15.0), Vector(0.0, -10.0, -15.0) + BV3D::lookTo);
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, -1.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, -1.0));
 					break;
-				case Key::F7:	//view field from 
-					m_Navigation->initPath(Vector(-15.0, 15.0, 0.0), Vector(15.0, -15.0, 0.0));
+				case Key::F7:	//view field from -x-axis
+					m_Navigation->initPath(Vector(-15.0, 15.0, 0.0), Vector(15.0, -15.0, 0.0) + BV3D::lookTo);
 					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					break;
@@ -288,6 +288,7 @@ void BV3D::Game::processInput() {
 
 void BV3D::Game::initBackgroundCubeMap()
 {
+	VRS::SO<VRS::SceneThing> backgroundScene = new VRS::SceneThing();
 	printf("Loading Background Cupemap...\n");
 	SO<Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<SO<Image> >(6);
 	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posx.png");
@@ -300,8 +301,10 @@ void BV3D::Game::initBackgroundCubeMap()
 	m_BackCubeMap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
 	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
 	//m_BackNode->append(new Sphere(19.0));
+
 	m_Background = new VRS::BackgroundGL(m_BackCubeMap);
-	mScene->append(m_Background);
+	backgroundScene->append(m_Background);
+	mScene->append(backgroundScene);
 
 	///m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
 	///m_BackNode = new SceneThing(m_RootScene);

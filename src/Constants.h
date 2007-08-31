@@ -26,6 +26,7 @@ namespace BV3D
 		static const double blobbHeight = 2.6;
 		static const std::string threeDSPath = "../Modelle/3ds/";
 		static const std::string cubemapsPath = "../Modelle/cubemaps/";
+		static const VRS::Vector lookTo = VRS::Vector(0.0, 3.0, 0.0);
 
 };
 
