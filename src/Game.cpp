@@ -324,8 +324,10 @@ void BV3D::Game::newServe() {
 
 	// Reset ball -> setForce into applyForceAndTorque-Callback?
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+	NewtonWorldFreezeBody(m_Arena->getWorld(), m_Ball->getBody());
 	NewtonBodySetForce(m_Ball->getBody(), nullForce);
-	NewtonBodySetTorque(m_Ball->getBody(), nullForce);
+	//NewtonWorldUnfreezeBody(m_Arena->getWorld(), m_Ball->getBody());
+	//NewtonBodySetTorque(m_Ball->getBody(), nullForce);
 	//collData->ball->setLocked(true);
 	m_Ball->resetPosition(m_Arena->getTeamBounds(team).center());
 

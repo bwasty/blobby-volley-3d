@@ -6,6 +6,10 @@
 #include <vrs/polygonset.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/facestyle.h>
+#include <vrs/cylinder.h>
+#include <vrs/cone.h>
+#include <vrs/translation.h>
+#include <vrs/box.h>
 //#include <vrs/container/array.h>
 
 #include <Newton.h>
@@ -29,9 +33,31 @@ struct CollisionData {
  */
 BV3D::Arena::Arena() {
 	///m_ArenaPhysics = 0;
-	m_WallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
 
 	m_Scene = new VRS::SceneThing();
+
+	// TODO: create net
+	VRS::SO<VRS::SceneThing> net = new VRS::SceneThing();
+	net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
+
+	net->append(new VRS::Box(Bounds(Vector(0.03, BV3D::netHeight/2+0.1, BV3D::arenaExtent[2]/2+0.1), Vector(-0.03, BV3D::netHeight-0.05, -(BV3D::arenaExtent[2]/2+0.1)))));
+	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), 0.14 /* pole radius */);
+	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, 0.14 /* pole radius */);
+	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
+	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
+	net->append(pole1);
+	net->append(pole2);
+	pole1->append(new VRS::Translation(Vector(0,0,-3.16)));
+	pole1->append(cone);
+	pole1->append(cylinder);
+	pole2->append(new VRS::Translation(Vector(0,0,3.16)));
+	pole2->append(cone);
+	pole2->append(cylinder);
+	m_Scene->append(net);
+
+	///
+
+	m_WallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
 
 	m_Material = new VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.3));
 	m_Scene->append(m_Material);
@@ -135,6 +161,8 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	for(int i=0;i<4;i++)
 		NewtonReleaseCollision(m_World, collision[i]);
 	NewtonReleaseCollision(m_World, compoundCollision);
+
+
 }
 
 VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::BV3D_TEAM team) {
@@ -239,6 +267,7 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 
 	if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getBlobbMaterialID()) {
 		//printf("Blobb touched Ball PROCESS\n");
+		NewtonWorldUnfreezeBody(collData->arena->getWorld(), collData->ball->getBody());
 		if (collData->currentBlobb->getTeam() == BV3D::BV3D_TEAM1)
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM1);
 		else
