@@ -132,10 +132,8 @@ BV3D::Game::Game() {
 	m_Canvas->append(mMenu->getScene());
 	m_Canvas->append(mMenu->getSelector());
 
-	
 	// Init sound
 	setupSound();
-
 
 	// init update callback
 	m_FPS = 30.0;	// assuming 30 fps are desired

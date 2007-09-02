@@ -81,7 +81,7 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
 	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBlobbMaterialID());
 	NewtonBodySetAutoFreeze (m_Body, 0);
-	NewtonBodySetContinuousCollisionMode(m_Body, 0); // needed?
+	//NewtonBodySetContinuousCollisionMode(m_Body, 1); // needed?
 	NewtonWorldUnfreezeBody(world, m_Body);
 
 	// move body to blobb position

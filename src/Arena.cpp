@@ -52,7 +52,7 @@ BV3D::Arena::Arena() {
 	// Physics setup
 	m_World = NewtonCreate(0,0);
 	createMaterials();
-	m_Gravity = 9.81f;
+	m_Gravity = 12.81f;
 	m_Floor = 0;
 	m_Body = 0;
 
@@ -108,6 +108,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	NewtonCollision* floorCollision = NewtonCreateBox(m_World, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
 	m_Floor = NewtonCreateBody(m_World, floorCollision);
 	NewtonBodySetMaterialGroupID(m_Floor, mFloorMaterialID);
+	NewtonBodySetContinuousCollisionMode(m_Floor, 0);
 	NewtonReleaseCollision(m_World, floorCollision);
 
 	// create wall bounding the arena on the positive z axis
@@ -231,8 +232,9 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	collData->referee = game->getReferee();
 	collData->world = m_World;
 
-	// TODO: ball on blobb - high elasticity, game logic->special callback?
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 0.9f);
+	// TODO: ball on blobb - high elasticity, game logic
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 1.0f);
+	NewtonMaterialSetContinuousCollisionMode(m_World, mBallMaterialID, mBlobbMaterialID, 1);
 	CollisionData* collDataBallBlobb = new CollisionData(*collData);
 	collDataBallBlobb->material1 = mBallMaterialID;
 	collDataBallBlobb->material2 = mBlobbMaterialID;
@@ -251,13 +253,11 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	// TODO: ball on net? - middle elasticity
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.6f);
 
-	// TODO: ball on invisibleBarrier? - no collision->special callback?
-	//NewtonMaterialSetDefaultCollidable(m_World, mBallMaterialID, mInvisibleBarrierID, 0); // => non-collidable
+	// TODO: ball on invisibleBarrier? - no collision
 	CollisionData* collDataBallBarrier = new CollisionData(*collData);
 	collDataBallBarrier->material1 = mBallMaterialID;
 	collDataBallBarrier->material2 = mInvisibleBarrierID;
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mInvisibleBarrierID, collDataBallBarrier, contactBeginCallback, contactProcessCallback, contactEndCallback);
-
 
 	// TODO: blobb on invisibleBarrier? - little/high elasticity?, collidable->special callback?, use to detect when ball flies over the net?
 	NewtonMaterialSetDefaultElasticity (m_World, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
@@ -265,6 +265,15 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	collDataBlobbBarrier->material1 = mBlobbMaterialID;
 	collDataBlobbBarrier->material2 = mInvisibleBarrierID;
 	NewtonMaterialSetCollisionCallback (m_World, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, contactBeginCallback, contactProcessCallback, contactEndCallback);
+
+	// TODO: set friction for  blobb on surrounding
+	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mWallMaterialID, 0, 0);
+	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mFloorMaterialID, 0, 0);
+	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mNetMaterialID, 0, 0);
+	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
+
+	// continous collisions for ball on floor?
+	NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mFloorMaterialID, 0);
 }
 
 int BV3D::Arena::contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {

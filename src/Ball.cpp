@@ -48,14 +48,14 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	NewtonReleaseCollision(world, collision);
 
 	// set up mass matrix
-	dFloat inertia = 2*1/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
+	dFloat inertia = 2*0.6/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
 	NewtonBodySetMassMatrix(m_Body, 5 /*mass*/,inertia,inertia,inertia);
 
 	NewtonBodySetUserData(m_Body, this);
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
 	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBallMaterialID());
 	NewtonBodySetAutoFreeze (m_Body, 0);
-	NewtonBodySetContinuousCollisionMode(m_Body, 0); // needed?
+	//NewtonBodySetContinuousCollisionMode(m_Body, 1); // needed?
 	NewtonWorldUnfreezeBody(world, m_Body);
 
 	// move ball (and ball body!) to origin
