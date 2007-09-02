@@ -42,6 +42,8 @@
 #include <vrs/box.h>
 
 #include <Newton.h>
+#include <fmod.hpp>
+#include <fmod_errors.h>
 
 #include "Game.h"
 #include "MouseControls.h"	// TODO: delete if no longer needed
@@ -130,6 +132,11 @@ BV3D::Game::Game() {
 	m_Canvas->append(mMenu->getScene());
 	m_Canvas->append(mMenu->getSelector());
 
+	
+	// Init sound
+	setupSound();
+
+
 	// init update callback
 	m_FPS = 30.0;	// assuming 30 fps are desired
 	m_cbUpdate = new BehaviorCallback();
@@ -156,7 +163,6 @@ BV3D::Game::Game() {
 	//switchToMenu();	// start showing menu
 
 	m_Referee->startNewGame();
-	
 }
 
 BV3D::Game::~Game() {
@@ -201,6 +207,7 @@ void BV3D::Game::update() {
 		}
 
 		m_Canvas->redisplay();
+		m_fmodSystem->update();
 	}
 }
 
@@ -361,3 +368,27 @@ void BV3D::Game::switchToMenu() {
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
 }
 
+//void ERRCHECK(FMOD_RESULT result)
+//{
+//    if (result != FMOD_OK)
+//    {
+//        printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+//        //exit(-1);
+//    }
+//}
+
+
+void BV3D::Game::setupSound() {
+	FMOD::System_Create(&m_fmodSystem);
+	m_fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
+	m_fmodSystem->createSound("../Sounds/bums.wav", FMOD_DEFAULT, 0, &soundTouch);
+	m_fmodSystem->createSound("../Sounds/pfiff.wav", FMOD_DEFAULT, 0, &soundWhistle);
+}
+
+void BV3D::Game::playSoundTouch() {
+	m_fmodSystem->playSound(FMOD_CHANNEL_FREE, soundTouch, false, NULL);
+}
+
+void BV3D::Game::playSoundWhistle() {
+	m_fmodSystem->playSound(FMOD_CHANNEL_FREE, soundWhistle, false, NULL);
+}

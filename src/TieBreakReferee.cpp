@@ -33,12 +33,16 @@ TieBreakReferee::~TieBreakReferee(void)
  */
 void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
+	m_game->playSoundTouch();
+
 	if (m_Active) {
 
 		BV3D_TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
+			m_game->playSoundWhistle();
+
 			increaseScore(opponent);
 			printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
 
@@ -70,6 +74,8 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 void TieBreakReferee::ballOnField(BV3D_TEAM team)
 {
 	if (m_Active) {
+		m_game->playSoundWhistle();
+
 		BV3D_TEAM opponent = getOpponent(team);
 		increaseScore(opponent);	//opponent of 'isInLeftField' scores
 		if (isGameOver())					//only opponent could have scored since last test

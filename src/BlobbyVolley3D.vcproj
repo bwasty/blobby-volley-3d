@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(VRS_HOME)\include;$(NEWTON_SDK)"
+				AdditionalIncludeDirectories="&quot;$(VRS_HOME)\include&quot;;.\fmod;&quot;$(NEWTON_SDK)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;VRS_VERSION_RELEASE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -137,9 +137,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="newton.lib"
+				AdditionalOptions="newton.lib fmodex_vc.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(VRS_HOME)\lib;$(NEWTON_SDK)\dll"
+				AdditionalLibraryDirectories="$(VRS_HOME)\lib;$(NEWTON_SDK)\dll;.\fmod"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

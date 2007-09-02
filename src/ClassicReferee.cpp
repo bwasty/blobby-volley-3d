@@ -34,13 +34,18 @@ ClassicReferee::~ClassicReferee(void)
  */
 void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 {
+	m_game->playSoundTouch();
+
 	if (m_Active) {
 		BV3D_TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
+			m_game->playSoundWhistle();
+
 			if (m_ServingTeam != team)
 			{
+
 				increaseScore(m_ServingTeam);
 				printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
 
@@ -82,6 +87,8 @@ void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 void ClassicReferee::ballOnField(BV3D_TEAM team)
 {
 	if (m_Active) {
+		m_game->playSoundWhistle();
+
 		if (m_ServingTeam != team)
 		{
 			increaseScore(m_ServingTeam);

@@ -3,6 +3,7 @@
 
 #include <vrs/sharedobj.h>
 #include <vrs/container/array.h>
+#include <fmod.hpp>
 
 namespace VRS {
 	class JumpNavigation;
@@ -25,6 +26,10 @@ namespace VRS {
 	class VRSTime;
 }
 
+namespace FMOD {
+	class System;
+}
+
 namespace BV3D
 {
 	class Arena;
@@ -45,14 +50,20 @@ namespace BV3D
 		void scheduleNewServe();
 		void newServe();
 
-	public:
+		void playSoundTouch();
+		void playSoundWhistle();
+
 		void switchToGame(bool bRestart);
 	protected:
 		void switchToMenu();
+		void initBackgroundCubeMap();
+		void setupSound();
 
 	protected:
 		double m_DelayedActionStart;
 		bool m_ScheduleNewServe;
+		FMOD::System     *m_fmodSystem;
+		FMOD::Sound      *soundTouch, *soundWhistle;
 
 		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
 		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
@@ -80,8 +91,6 @@ namespace BV3D
 		VRS::SO<Referee>	m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
 		VRS::SO<Menu>		mMenu;
-
-		void initBackgroundCubeMap();
 	};
 }
 
