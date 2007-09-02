@@ -36,26 +36,8 @@ BV3D::Arena::Arena() {
 
 	m_Scene = new VRS::SceneThing();
 
-	// TODO: create net
-	VRS::SO<VRS::SceneThing> net = new VRS::SceneThing();
-	net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
-
-	net->append(new VRS::Box(Bounds(Vector(0.03, BV3D::netHeight/2+0.1, BV3D::arenaExtent[2]/2+0.1), Vector(-0.03, BV3D::netHeight-0.05, -(BV3D::arenaExtent[2]/2+0.1)))));
-	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), 0.14 /* pole radius */);
-	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, 0.14 /* pole radius */);
-	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
-	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
-	net->append(pole1);
-	net->append(pole2);
-	pole1->append(new VRS::Translation(Vector(0,0,-3.16)));
-	pole1->append(cone);
-	pole1->append(cylinder);
-	pole2->append(new VRS::Translation(Vector(0,0,3.16)));
-	pole2->append(cone);
-	pole2->append(cylinder);
-	m_Scene->append(net);
-
-	///
+	m_Net = new VRS::SceneThing();
+	m_Scene->append(m_Net);
 
 	m_WallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
 
@@ -163,6 +145,46 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	NewtonReleaseCollision(m_World, compoundCollision);
 
 
+	// create net
+	m_Net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
+	double netDepth = 0.03;
+	Bounds netBoxBounds = Bounds(Vector(netDepth, BV3D::netHeight/2+0.1, BV3D::arenaExtent[2]/2+0.1), Vector(-netDepth, BV3D::netHeight-0.05, -(BV3D::arenaExtent[2]/2+0.1)));
+	m_Net->append(new VRS::Box(netBoxBounds));
+	double poleRadius = 0.14;
+	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), poleRadius);
+	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, poleRadius);
+	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
+	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
+	m_Net->append(pole1);
+	m_Net->append(pole2);
+	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::arenaExtent[2]/2+poleRadius))));
+	pole1->append(cone);
+	pole1->append(cylinder);
+	pole2->append(new VRS::Translation(Vector(0,0,BV3D::arenaExtent[2]/2+poleRadius)));
+	pole2->append(cone);
+	pole2->append(cylinder);
+
+	//physical part of net
+	matrix[12] = 0.0;
+	matrix[13] = (dFloat)(BV3D::netHeight/2+0.1 + (netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1])/2);
+	matrix[14] = 0.0;
+	NewtonCollision* netCollision = NewtonCreateBox(m_World, (dFloat)(netBoxBounds.getLLF()[0] - netBoxBounds.getURB()[0]), 
+															(dFloat)(netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1]),
+															(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);
+	NewtonBody* netBody = NewtonCreateBody(m_World, netCollision);
+	NewtonReleaseCollision(m_World, netCollision);
+	NewtonBodySetMaterialGroupID(netBody, mNetMaterialID);
+
+	// TODO: invisible Barrier (only physical, positioned under the net, lets ball through but stops blobbs)
+	matrix[12] = 0.0;
+	matrix[13] = (dFloat)(netBoxBounds.getLLF()[1] - 0.1) / 2 ;
+	matrix[14] = 0.0;
+	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.001, 
+															(dFloat)netBoxBounds.getLLF()[1] - 0.1,
+															(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);	
+	NewtonBody* invisibleBarrierBody = NewtonCreateBody(m_World, invisibleBarrierCollision);
+	NewtonReleaseCollision(m_World, invisibleBarrierCollision);
+	NewtonBodySetMaterialGroupID(invisibleBarrierBody, mInvisibleBarrierID);
 }
 
 VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::BV3D_TEAM team) {
@@ -226,8 +248,8 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	collDataBallFloor->material2 = mFloorMaterialID;
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mFloorMaterialID, collDataBallFloor, contactBeginCallback, contactProcessCallback, contactEndCallback);
 
-	// TODO: ball on net? - low elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.2f);
+	// TODO: ball on net? - middle elasticity
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.6f);
 
 	// TODO: ball on invisibleBarrier? - no collision->special callback?
 	//NewtonMaterialSetDefaultCollidable(m_World, mBallMaterialID, mInvisibleBarrierID, 0); // => non-collidable
@@ -264,6 +286,7 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 	//printf("contactPROCESSCallback called\n"); 
 
 	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
+	BV3D::BV3D_TEAM team;
 
 	if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getBlobbMaterialID()) {
 		//printf("Blobb touched Ball PROCESS\n");
@@ -274,7 +297,6 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getFloorMaterialID()) {
-		BV3D::BV3D_TEAM team;
 		if (collData->ball->getPosition()[0] < 0) {
 			team = BV3D::BV3D_TEAM1;
 		}
@@ -289,7 +311,14 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		//NewtonMaterialSetDefaultElasticity (collData->world, collData->arena->getBallMaterialID(), collData->arena->getFloorMaterialID(), 1.3f);
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getInvisibleBarrierID()) {
-		//TODO: tell referee that ball passes under the net
+		// tell referee that ball passes under the net
+		if (collData->ball->getPosition()[0] < 0) {
+			team = BV3D::BV3D_TEAM2;
+		}
+		else {
+			team = BV3D::BV3D_TEAM1;
+		}
+		collData->referee->ballOnField(team);
 		return 0;
 	}
 	

@@ -119,6 +119,7 @@ BV3D_ERROR Referee::setMinimumDifference(int minDifference)
 void Referee::startNewGame()
 {
 	m_score[0] = m_score[1] = m_contacts[0] = m_contacts[1] = 0;
+	m_ServingTeam = BV3D_TEAM1;
 }
 
 /*

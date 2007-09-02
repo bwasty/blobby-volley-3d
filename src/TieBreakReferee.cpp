@@ -44,15 +44,16 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 
 			if (isGameOver())					//only opponent could have scored since last test
 			{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
+				printf("Game Over");
+				m_Active = false;
 			}
 			else
-			{	//m_game->newServe(opponent);
+			{	
 				m_ServingTeam = opponent;
-
-				// TODO: call after some time...
 				m_game->scheduleNewServe();
 
 				resetContacts(team);
+
 				m_Active = false;
 			}
 		}
@@ -73,6 +74,8 @@ void TieBreakReferee::ballOnField(BV3D_TEAM team)
 		increaseScore(opponent);	//opponent of 'isInLeftField' scores
 		if (isGameOver())					//only opponent could have scored since last test
 		{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
+			printf("Game Over");
+			m_Active = false;
 		}
 		else
 		{	//m_game->newServe(opponent);

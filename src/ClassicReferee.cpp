@@ -6,6 +6,7 @@
 
 #include "Constants.h"
 #include "ClassicReferee.h"
+#include "Game.h"
 
 using namespace BV3D;
 
@@ -18,7 +19,6 @@ ClassicReferee::ClassicReferee(SO<Game> game) : Referee(game)
 	setMaximumContacts(3);
 	setMinimumDifference(2);
 	//game->newServe(true);
-	m_servingTeam = BV3D_TEAM1;
 }
 
 ClassicReferee::~ClassicReferee(void)
@@ -34,24 +34,43 @@ ClassicReferee::~ClassicReferee(void)
  */
 void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	BV3D_TEAM opponent = getOpponent(team);
-	resetContacts(opponent);
-	if (increaseContacts(team) > getMaximumContacts())
-	{
-		if (m_servingTeam != team)
+	if (m_Active) {
+		BV3D_TEAM opponent = getOpponent(team);
+		resetContacts(opponent);
+		if (increaseContacts(team) > getMaximumContacts())
 		{
-			increaseScore(m_servingTeam);
-			if (isGameOver())					//only opponent could have scored since last test
-			{	//m_game->gameOver(m_servingTeam);	//if game over then opponent must be winner
+			if (m_ServingTeam != team)
+			{
+				increaseScore(m_ServingTeam);
+				printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
+
+				if (isGameOver())					//only opponent could have scored since last test
+				{	//m_game->gameOver(m_servingTeam);	//if game over then opponent must be winner
+					printf("Game Over");
+					m_Active = false;
+				}
+				else
+				{
+					m_game->scheduleNewServe();
+
+					resetContacts(team);
+
+					m_Active = false;
+				}
 			}
 			else
-			{	//m_game->newServe(m_servingTeam);
+			{	
+				m_ServingTeam = opponent;
+				m_game->scheduleNewServe();
+
+				resetContacts(team);
+
+				m_Active = false;
 			}
+			resetContacts(team);
 		}
-		else
-		{	//m_game->newServe(opponent)	
-		}
-		resetContacts(team);
+		printf("Contacts Blobb1: %i, Blobb2: %i\n", getCurrentContacts(BV3D::BV3D_TEAM1), getCurrentContacts(BV3D::BV3D_TEAM2));
+
 	}
 }
 
@@ -62,21 +81,38 @@ void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
  */
 void ClassicReferee::ballOnField(BV3D_TEAM team)
 {
-	if (m_servingTeam != team)
-	{
-		increaseScore(m_servingTeam);
-		if (isGameOver())					//only servingTeam could have scored since last test
-		{	//m_game->gameOver(m_servingTeam);	//if game over then servingTeam must be winner
+	if (m_Active) {
+		if (m_ServingTeam != team)
+		{
+			increaseScore(m_ServingTeam);
+			if (isGameOver())					//only servingTeam could have scored since last test
+			{	//m_game->gameOver(m_servingTeam);	//if game over then servingTeam must be winner
+				printf("Game Over");
+				m_Active = false;
+			}
+			else
+			{	
+				m_game->scheduleNewServe();
+
+				resetContacts(team);
+
+				m_Active = false;
+			}
 		}
 		else
-		{	//m_game->newServe(m_servingTeam);
+		{
+			m_ServingTeam = getOpponent(team);
+			m_game->scheduleNewServe();
+
+			resetContacts(team);
+
+			m_Active = false;
 		}
+		resetContacts(BV3D_TEAM1);
+		resetContacts(BV3D_TEAM2);
+
+		printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
 	}
-	else
-	{	//m_game->newServe(getOpponent(team));	
-	}
-	resetContacts(BV3D_TEAM1);
-	resetContacts(BV3D_TEAM2);
 }
 
 /*
@@ -86,5 +122,4 @@ void ClassicReferee::startNewGame()
 {
 	Referee::startNewGame();
 	//game->newServe(true);
-	m_servingTeam = BV3D_TEAM1;
 }

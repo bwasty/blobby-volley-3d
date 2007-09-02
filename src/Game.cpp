@@ -119,7 +119,8 @@ BV3D::Game::Game() {
 	m_Ball = new BV3D::Ball(m_Arena);
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	mScene->append(m_Ball->getScene());
-	m_Ball->resetPosition(Vector(0.0,3.5,0.0));
+	//m_Ball->resetPosition(Vector(0.0,3.5,0.0));
+	newServe();
 	
 	m_Arena->setupMaterials(this);
 
@@ -278,7 +279,7 @@ void BV3D::Game::processInput() {
 					printf("Loading beach...\n");
 					mScene->append(m_SceneLoader->loadBeach());
 			}
-			printf("Key %i pressed\n", ke->keyCode());
+			//printf("Key %i pressed\n", ke->keyCode());
 		}
 
 	// pass input to blobbs

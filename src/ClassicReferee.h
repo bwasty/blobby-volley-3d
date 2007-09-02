@@ -17,8 +17,6 @@ namespace BV3D
 		void ballOnField(BV3D_TEAM team);	
 		void startNewGame();
 
-	private:
-		BV3D_TEAM m_servingTeam;
 	};
 }
 

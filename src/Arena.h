@@ -107,6 +107,7 @@ namespace BV3D {
 		VRS::SO<VRS::ShapeMaterialGL>	m_Material;		// wall material
 		VRS::SO<VRS::PolygonSet>		m_Walls;		// walls shape
 		VRS::Bounds						m_Bounds;		// bounds of the Arena box
+		VRS::SO<VRS::SceneThing>		m_Net;
 
 	private:	// Physics
 		float			m_Gravity;	// gravity of world
