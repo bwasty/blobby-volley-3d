@@ -1,10 +1,10 @@
 Must:
-- Blobbs animieren (erik, benny)
+v Blobbs animieren (erik, benny)
 - Netz hinzufügen(phil)
 - Boden(Sand, Linien) (phil)
 v Schatten - besonders Ball! (erik)
 v Physik: (erik, benny)
-	X User-Joints
+	v User-Joints
 	v versch. Materialien
 	v Physik-Körper für restliche Objekte (Blobb, Netz mit CollisionTree, Decke)
 	v CollisionCallbacks -> Spiellogik
@@ -14,7 +14,7 @@ V Clipping anpassen (phil)
 
 Should:
 - verschiedene Umgebungen, 3ds-files + skyboxes (phil)
-- Sound
+v Sound
 - HUD implementieren(Erik)
 
 NiceTo:
@@ -23,5 +23,3 @@ NiceTo:
 
 Known Bugs:
 ___________
-V Ball springt bei Berührung mit Boden immer höher 
-	- das ist kein bug, sondern absicht, zum besseren testen (steht auch im svn-log)
