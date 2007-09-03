@@ -16,6 +16,8 @@ namespace VRS {
 	//template <typename T> class Array;
 }
 
+struct NewtonCollision;
+
 namespace BV3D
 {
 	class Arena;
@@ -48,7 +50,6 @@ namespace BV3D
 
 	private:
 		VRS::SO<VRS::SceneThing>		mScene;				// blobb local scene
-		//VRS::SO<VRS::SceneThing>		mBlobbShape;			// scene for blobb-shape
 		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;				// blobb material
 		VRS::SO<Controls>				mControls;				// blobb controls
 		VRS::Vector						mCtrlsOrientation;		// blobb controls orientation
@@ -66,6 +67,7 @@ namespace BV3D
 	private:	// physics
 		VRS::SO<BV3D::Arena>			mArena;		// parent physics object
 		NewtonBody*						mBody;		// physical body in simulated world
+		NewtonCollision**				mCollision;	// pointer to newton (compound) collision objects
 	};
 }
 

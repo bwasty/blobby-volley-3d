@@ -36,7 +36,15 @@
 			height: 1.9		lower radius: 1.2	lower center: 0.5
 							upper radius: 0.9	upper center: 1.0
 	*/
-
+// data per blobb:
+//	lower vertical offset/radius, lower horizontal radius
+//	upper vertical offset, upper horizontal radius, upper vertical radius
+dFloat colData[5][5] = {
+	{1.0, 1.0, 1.5, 0.9, 1.1},
+	{0.9, 1.01, 1.35, 0.9, 1.1},
+	{0.8, 1.05, 1.2, 0.9, 1.1},
+	{0.65, 1.1, 1.1, 0.9, 1.0},
+	{0.5, 1.2, 1.0, 0.9, 0.9} };
 /**
  * ctor
  * \param arena specifies the arena in which the blobb is simulated
@@ -48,13 +56,14 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	mCtrlsOrientation = VRS::Vector(0.0,0.0,5.0);	// TODO: use as default value in constructor
 	mJumpAllowed = false;
 	mBody = 0;
+	mCollision = 0;
 	mCurrentShape = 0;
 	mDecreasing = false;
 	mIsMoving = false;
 	mInit = true;
 	
 	// set up the blobb animation scenes
-	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing>>;
+	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
 	mShapes->clear();
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 	
@@ -69,31 +78,43 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(0.5), 
 		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mScene->append(mMaterial);
-	/*mBlobbShape = mShapes->getElement(mCurrentShape);
-	mScene->append(mBlobbShape);*/
 	for(int i = 0; i < mNumShapes; i++)
 		mScene->append(mShapes->getElement(i));
 	
 	// physics setup
-
-	dFloat radius = 1.05;
 	NewtonWorld* world = mArena->getWorld();
+	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
+	mCollision = new NewtonCollision*[5];	// compound collisions for blobb
+	NewtonCollision* colSphere[2];			// two sphere collisions per compound collision
 
-	// create NewtonBody with a collision sphere
-	NewtonCollision* collision[2];
-	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,1.0,0.0,1.0};
+	// create one compound collision for each blobb?.3ds
+	for(int shape=0; shape<5; shape++) {
+		// create lower collision sphere
+		matrix[13] = colData[shape][0];		// set vertical offset of lower sphere
+		colSphere[0] = NewtonCreateSphere(world,
+			colData[shape][1],	// use lower horizontal radius
+			colData[shape][0],	// use lower vertical radius
+			colData[shape][1],	// use lower horizontal radius
+			matrix);
 
-	// use two sphere collision objects as physics body
-	collision[0] = NewtonCreateSphere(world, radius, radius, radius, matrix);
-	matrix[13] = 1.9;
-	collision[1] = NewtonCreateSphere(world, 0.7, 0.7, 0.7, matrix);
-	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(world, 2, collision);
-	mBody = NewtonCreateBody(world, compoundCollision);
-	NewtonReleaseCollision(world, collision[0]);
-	NewtonReleaseCollision(world, collision[1]);
-	NewtonReleaseCollision(world, compoundCollision);
+		// create upper collision sphere
+		matrix[13] = colData[shape][2];	// set vertical offset of upper sphere
+		colSphere[1] = NewtonCreateSphere(world,
+			colData[shape][3],	// use upper horizontal radius
+			colData[shape][4],	// use upper vertical radius
+			colData[shape][3],	// use upper horizontal radius
+			matrix);
+
+		mCollision[shape] = NewtonCreateCompoundCollision(world, 2, colSphere);
+		NewtonReleaseCollision(world, colSphere[0]);
+		NewtonReleaseCollision(world, colSphere[1]);
+	}
+
+	// create newton body with first compound collision object
+	mBody = NewtonCreateBody(world, mCollision[0]);
 
 	// set up mass matrix
+	dFloat radius = 1.0;
 	dFloat inertia = 2*1*(radius * radius) / 5; 
 	NewtonBodySetMassMatrix(mBody, 50 ,inertia,inertia,inertia);
 
@@ -107,7 +128,7 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
 	NewtonBodySetMaterialGroupID(mBody, mArena->getBlobbMaterialID());
 	NewtonBodySetAutoFreeze (mBody, 0);
-	//NewtonBodySetContinuousCollisionMode(mBody, 0); // needed?
+	//NewtonBodySetContinuousCollisionMode(mBody, 1); // needed?
 	NewtonWorldUnfreezeBody(world, mBody);
 
 	// move body to blobb position
@@ -120,6 +141,11 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
  * dtor
  */
 BV3D::Blobb::~Blobb() {
+	if(mCollision) {
+		for(int i=0;i<5;i++)
+			NewtonReleaseCollision(mArena->getWorld(), mCollision[i]);
+		delete[] mCollision;
+	}
 	if(mBody)
 		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
@@ -224,9 +250,7 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 				return mScene;
 			}
 			canvas->switchOn(mShapes->getElement(--mCurrentShape));
-			/*mScene->remove(mBlobbShape);
-			mBlobbShape = mShapes->getElement(--mCurrentShape);
-			mScene->append(mBlobbShape);*/
+			NewtonBodySetCollision(mBody, mCollision[mCurrentShape]);	// replaces physical body
 		}
 		else
 		{

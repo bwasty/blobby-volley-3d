@@ -8,6 +8,9 @@ namespace VRS {
 	class SceneThing;
 	class Selector;
 	class RayRequest;
+	class Font;
+	class ShapeMaterialGL;
+	class Translation;
 }
 
 namespace BV3D
@@ -25,12 +28,17 @@ namespace BV3D
 
 	protected:
 		void select();
+		void addText(const char* label, const char* command = 0);
+		void showOptionsMenu();
 
 	private:
 		VRS::SO<VRS::SceneThing>	mScene;
 		VRS::SO<VRS::SceneThing>	mCurrentMenuScene;
 		VRS::SO<VRS::Selector>		mSelector;
 		VRS::SO<VRS::RayRequest>	mRayRequest;
+		VRS::SO<VRS::Font>			mFont;
+		VRS::SO<VRS::ShapeMaterialGL>	mMenuTextMaterial;
+		VRS::SO<VRS::ShapeMaterialGL>	mMenuHitBoxMaterial;
 
 	private:
 		VRS::SO<Game>	mGame;
