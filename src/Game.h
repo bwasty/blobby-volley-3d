@@ -67,6 +67,7 @@ namespace BV3D
 
 		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
 		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
+		VRS::SO<VRS::Array<VRS::SO<VRS::SceneThing> > >	mBlobbScenesArray;	// list of BlobbScenes
 		VRS::SO<VRS::TransparencyTechniqueGL>	m_TransparencyTechnique;	// to enable transparency
 		VRS::SO<VRS::Perspective>			m_perspective;
 		VRS::SO<VRS::LookAt>				m_lookAt;
@@ -85,12 +86,12 @@ namespace BV3D
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
 		double		m_FPS;		// desired frame rate
-		VRS::SO<Arena>	m_Arena;	// Arena object
+		VRS::SO<Arena>			m_Arena;	// Arena object
 		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	m_BlobbArray;	// list of Blobbs
-		VRS::SO<Ball>		m_Ball;
-		VRS::SO<Referee>	m_Referee;
+		VRS::SO<Ball>			m_Ball;
+		VRS::SO<Referee>		m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
-		VRS::SO<Menu>		mMenu;
+		VRS::SO<Menu>			mMenu;
 	};
 }
 

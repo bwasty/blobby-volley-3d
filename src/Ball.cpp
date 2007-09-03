@@ -8,6 +8,8 @@
 #include <vrs/io/threedsreader.h>
 #include <vrs/io/wavefrontreader.h>
 #include <vrs/io/filedataresource.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/color.h>
 #include <vrs/vector.h>
 #include <vrs/scaling.h>
 #include <Newton.h>
@@ -34,6 +36,8 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 
 	VRS::ID id = VRS::ID("ball");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();
+	/*VRS::SO<VRS::ShapeMaterialGL>	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0, 1.0, 1.0, 1.0), VRS::Color(0.5), 
+		115.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0));*/
 	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");
 	m_Scene->append(new VRS::Scaling(factor, factor, factor));
 	m_Scene->append(reader.read(file, id));

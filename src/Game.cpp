@@ -102,10 +102,13 @@ BV3D::Game::Game() {
 
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
+	mBlobbScenesArray = new Array<SO<SceneThing>>();
 	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
-	mScene->append(blobb->getScene());
+	mBlobbScenesArray->append(new SceneThing());
+	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
+	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1));
 	m_BlobbArray->append(blobb);
 
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
@@ -113,7 +116,9 @@ BV3D::Game::Game() {
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0,0.4));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
-	mScene->append(blobb->getScene());
+	mBlobbScenesArray->append(new SceneThing());
+	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
+	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM2));
 	m_BlobbArray->append(blobb);
 
 	//m_Arena->setExtent(Vector(8.0,10.0,6.0));
@@ -171,6 +176,7 @@ BV3D::Game::~Game() {
  * update() is called periodically on timer events to redisplay the whole scene
  */
 void BV3D::Game::update() {
+	int team;
 	VRSTime time = m_Canvas->clock()->time();
 
 	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
@@ -203,6 +209,23 @@ void BV3D::Game::update() {
 			m_DelayedActionStart = double(time);
 			m_ScheduleNewServe = false;
 		}
+		
+		//animate blobbs if they're moving
+		m_BlobbArray->getElement(BV3D::BV3D_TEAM1)->updateShape(m_Canvas);
+		m_BlobbArray->getElement(BV3D::BV3D_TEAM2)->updateShape(m_Canvas);
+
+		/*	team = BV3D::BV3D_TEAM1;
+			if (m_BlobbArray->getElement(team)->isMoving())
+			{
+				mBlobbScenesArray->getElement(team)->clear();
+				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+			}
+			team = BV3D::BV3D_TEAM2;
+			if (m_BlobbArray->getElement(team)->isMoving())
+			{
+				mBlobbScenesArray->getElement(team)->clear();
+				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+			}*/
 
 		m_Canvas->redisplay();
 		m_fmodSystem->update();

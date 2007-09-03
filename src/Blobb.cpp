@@ -16,6 +16,7 @@
 #include <vrs/opengl/shapematerialgl.h>
 #include <vrs/sg/inputevent.h>
 #include <vrs/io/threedsreader.h>
+#include <vrs/sg/canvas.h>
 #include <Newton.h>
 
 /*3ds-blobb measures: 
@@ -36,24 +37,41 @@
 							upper radius: 0.9	upper center: 1.0
 	*/
 BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
-	m_Arena = arena;
-	m_Team = team;
-	m_Controls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
-	m_CtrlsOrientation = VRS::Vector(0.0,0.0,5.0);	// TODO: use as default value in constructor
-	m_JumpAllowed = false;
-	m_Body = 0;
-
-	// set up the blobb local scene
-	m_Scene = new VRS::SceneThing();
-	m_Material = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,0.4));
-	m_Scene->append(m_Material);
+	mArena = arena;
+	mTeam = team;
+	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
+	mCtrlsOrientation = VRS::Vector(0.0,0.0,5.0);	// TODO: use as default value in constructor
+	mJumpAllowed = false;
+	mBody = 0;
+	mCurrentShape = 0;
+	mDecreasing = false;
+	mIsMoving = false;
+	mInit = true;
+	
+	// set up the blobb animation scenes
+	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing>>;
+	mShapes->clear();
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 	
-	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds"));	// TODO: exception handling
+	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds"));	// TODO: exception handling
+	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb2.3ds"));
+	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb3.3ds"));
+	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb4.3ds"));
+	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb5.3ds"));
 
+	// set blobb local scene
+	mScene = new VRS::SceneThing();
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,0.4));
+	mScene->append(mMaterial);
+	/*mBlobbShape = mShapes->getElement(mCurrentShape);
+	mScene->append(mBlobbShape);*/
+	for(int i = 0; i < mNumShapes; i++)
+		mScene->append(mShapes->getElement(i));
+	
 	// physics setup
+
 	dFloat radius = 1.01;
-	NewtonWorld* world = m_Arena->getWorld();
+	NewtonWorld* world = mArena->getWorld();
 
 	// create NewtonBody with a collision sphere
 	NewtonCollision* collision[2];
@@ -64,90 +82,90 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	matrix[13] = 1.9;
 	collision[1] = NewtonCreateSphere(world, 0.7, 0.7, 0.7, matrix);
 	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(world, 2, collision);
-	m_Body = NewtonCreateBody(world, compoundCollision);
+	mBody = NewtonCreateBody(world, compoundCollision);
 	NewtonReleaseCollision(world, collision[0]);
 	NewtonReleaseCollision(world, collision[1]);
 	NewtonReleaseCollision(world, compoundCollision);
 
 	// set up mass matrix
 	dFloat inertia = 2*1*(radius * radius) / 5; 
-	NewtonBodySetMassMatrix(m_Body, 50 ,inertia,inertia,inertia);
+	NewtonBodySetMassMatrix(mBody, 50 ,inertia,inertia,inertia);
 
 	// attach an up-vector joint prevent blobb from leaning and tipping over
 	dFloat upVector[3] = {0.0,1.0,0.0};
-	NewtonConstraintCreateUpVector(world,upVector,m_Body);
+	NewtonConstraintCreateUpVector(world,upVector,mBody);
 
-	NewtonBodySetUserData(m_Body, this);
-	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
-	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBlobbMaterialID());
-	NewtonBodySetAutoFreeze (m_Body, 0);
-	//NewtonBodySetContinuousCollisionMode(m_Body, 1); // needed?
-	NewtonWorldUnfreezeBody(world, m_Body);
+	NewtonBodySetUserData(mBody, this);
+	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
+	NewtonBodySetMaterialGroupID(mBody, mArena->getBlobbMaterialID());
+	NewtonBodySetAutoFreeze (mBody, 0);
+	NewtonBodySetContinuousCollisionMode(mBody, 0); // needed?
+	NewtonWorldUnfreezeBody(world, mBody);
 
 	// move body to blobb position
 	setPosition(VRS::Vector(0.0,0.0,0.0));
 }
 
 BV3D::Blobb::~Blobb() {
-	if(m_Body)
-		NewtonDestroyBody(m_Arena->getWorld(), m_Body);
+	if(mBody)
+		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
 void BV3D::Blobb::setCtrlsOrientation(VRS::Vector ctrlsOri) {
 	// normalize new orientation vector and use previous step distance to scale it
-	double dStepDistance = sqrt(m_CtrlsOrientation.dotProduct(m_CtrlsOrientation));
-	m_CtrlsOrientation = ctrlsOri.normalized() * dStepDistance;
+	double dStepDistance = sqrt(mCtrlsOrientation.dotProduct(mCtrlsOrientation));
+	mCtrlsOrientation = ctrlsOri.normalized() * dStepDistance;
 }
 
 void BV3D::Blobb::setStepDistance(double distance) {
 	// scale normalized orientation vector by new step distance
-	m_CtrlsOrientation = m_CtrlsOrientation.normalized() * distance;
+	mCtrlsOrientation = mCtrlsOrientation.normalized() * distance;
 }
 
 VRS::Vector BV3D::Blobb::getMovement() {
 	VRS::Vector movement;
-	char requests = m_Controls->getRequests();	// get controls' request bitfield
+	char requests = mControls->getRequests();	// get controls' request bitfield
 
 	// evaluate requests and setup movement vector accordingly
-	if(Controls::isRequested(requests, Controls::FORWARD)) movement += m_CtrlsOrientation;
-	if(Controls::isRequested(requests, Controls::BACKWARD)) movement -= m_CtrlsOrientation;
+	if(Controls::isRequested(requests, Controls::FORWARD)) movement += mCtrlsOrientation;
+	if(Controls::isRequested(requests, Controls::BACKWARD)) movement -= mCtrlsOrientation;
 	if(Controls::isRequested(requests, Controls::RIGHT)) {
-		movement += VRS::Vector(m_CtrlsOrientation[2], 0, -m_CtrlsOrientation[0]);
+		movement += VRS::Vector(mCtrlsOrientation[2], 0, -mCtrlsOrientation[0]);
 	}
 	if(Controls::isRequested(requests, Controls::LEFT)) {
-		movement += VRS::Vector(-m_CtrlsOrientation[2], 0, m_CtrlsOrientation[0]);
+		movement += VRS::Vector(-mCtrlsOrientation[2], 0, mCtrlsOrientation[0]);
 	}
 	if(Controls::isRequested(requests, Controls::JUMP)) {
-		if(m_JumpAllowed)
+		if(mJumpAllowed)
 			movement += VRS::Vector(0.0,3.0,0.0);	// blobb may jump only if it is allowed
 	}
 	else
-		m_JumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
+		mJumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
 
 	return movement;
 }
 
 void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
-	m_Controls->processInput(ie);	// pass input events to blobb's controls
+	mControls->processInput(ie);	// pass input events to blobb's controls
 }
 
 void BV3D::Blobb::setPosition(VRS::Vector position) {
 	// relocate visual blobb
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
-	m_Scene->setLocalMatrix(vrsMatrix);
+	mScene->setLocalMatrix(vrsMatrix);
 
 	// translate physical body
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
 						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
-	NewtonBodySetMatrix(m_Body, newtonMatrix);
+	NewtonBodySetMatrix(mBody, newtonMatrix);
 }
 
 VRS::Color BV3D::Blobb::getColor() {
-	return m_Material->getPerVertexColor();
+	return mMaterial->getPerVertexColor();
 }
 
 void BV3D::Blobb::setColor(VRS::Color color) {
-	m_Material->setPerVertexColor(color);
+	mMaterial->setPerVertexColor(color);
 }
 
 void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
@@ -163,26 +181,32 @@ void BV3D::Blobb::update() {
 	// get current and requested movement
 	VRS::Vector movement = getMovement();
 	dFloat currentVelocity[3];
-	NewtonBodyGetVelocity(m_Body, currentVelocity);
+	NewtonBodyGetVelocity(mBody, currentVelocity);
 
 	// jump if requested (linear up-movement, ignoring current movement) or continue current movement
 	dFloat move[3] = {(dFloat)movement[0], (movement[1]>0) ? (dFloat)movement[1] : currentVelocity[1], (dFloat)movement[2]};
-	NewtonBodySetVelocity(m_Body, move);
+	NewtonBodySetVelocity(mBody, move);
 
 	// clear any forces
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-	NewtonBodySetForce(m_Body, nullForce);
+	NewtonBodySetForce(mBody, nullForce);
 
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
-		NewtonBodyGetMassMatrix(m_Body, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -m_Arena->getGravity() * mass, 0.0f};
-		NewtonBodyAddForce(m_Body, gravitation);
+		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
+		dFloat gravitation[3] = {0.0f, -mArena->getGravity() * mass, 0.0f};
+		NewtonBodyAddForce(mBody, gravitation);
 	}
+
+	//set moving flag when moving
+	if ((movement[0] != 0) || (movement[2] != 0))
+		mIsMoving = true;
+	else
+		mIsMoving = false;
 
 	// set up blobb matrix
 	dFloat newtonMatrix[16];
-	NewtonBodyGetMatrix(m_Body,newtonMatrix);
+	NewtonBodyGetMatrix(mBody,newtonMatrix);
 	VRS::Matrix vrsMatrix (
 		newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
 		newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
@@ -190,9 +214,52 @@ void BV3D::Blobb::update() {
 		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
 	if(newtonMatrix[13]>2.0)	// prevent blobb from jumping too high
-		m_JumpAllowed = false;
+		mJumpAllowed = false;
 	else if(newtonMatrix[13]<1.1)	// re-enable jumping when landed
-		m_JumpAllowed = true;
+		mJumpAllowed = true;
 
-	m_Scene->setLocalMatrix(vrsMatrix);
+	mScene->setLocalMatrix(vrsMatrix);
+}
+
+VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
+{
+	printf("%i\n", mCurrentShape);
+	if ((mIsMoving) || (mInit) || (mCurrentShape != 0))//! canvas->isSwitchedOn(mShapes->getElement(mCurrentShape)))
+	{
+		mInit = false;
+		for(int i = 0; i < mNumShapes; i++)
+			canvas->switchOff(mShapes->getElement(i));
+
+		if (mDecreasing)
+		{
+			if (mCurrentShape == 1)
+				mDecreasing = false;
+			else if (mCurrentShape < 1)
+			{
+				mDecreasing = false;
+				++mCurrentShape;
+				return mScene;
+			}
+			canvas->switchOn(mShapes->getElement(--mCurrentShape));
+			/*mScene->remove(mBlobbShape);
+			mBlobbShape = mShapes->getElement(--mCurrentShape);
+			mScene->append(mBlobbShape);*/
+		}
+		else
+		{
+			if (mCurrentShape == (mNumShapes - 2))
+				mDecreasing = true;
+			else if (mCurrentShape > (mNumShapes - 2))
+			{
+				mDecreasing = true;
+				--mCurrentShape;
+				return mScene;
+			}
+			canvas->switchOn(mShapes->getElement(++mCurrentShape));
+			/*mScene->remove(mBlobbShape);
+			mBlobbShape = mShapes->getElement(++mCurrentShape);
+			mScene->append(mBlobbShape);*/
+		}
+		return mScene;
+	}
 }

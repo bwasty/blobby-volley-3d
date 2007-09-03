@@ -8,7 +8,7 @@ BV3D::KeyboardControls::KeyboardControls() : Controls() {
 	setBinding(BACKWARD, VRS::Key::Down);
 	setBinding(RIGHT ,VRS::Key::Right);
 	setBinding(LEFT ,VRS::Key::Left);
-	setBinding(JUMP, VRS::Key::End);	// TODO: Enter dont work :-(
+	setBinding(JUMP, 32);	// Space
 }
 
 void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {

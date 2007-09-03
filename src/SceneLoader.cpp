@@ -28,7 +28,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 10.0));
 	beachScene->append(groundPlane);
 
-	//palm trees
+	/*//palm trees
 	VRS::SO<VRS::SceneThing> palmTrees = new VRS::SceneThing();
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);	
 	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
@@ -36,7 +36,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalPalm, scalPalm, scalPalm));
 	palmTrees->setLocalMatrix(vrsMatrix);
 	palmTrees->append(VRS::ThreeDSReader::readScene(BV3D::threeDSPath + "palmtrees1_mrealms.3ds", "", false, false));
-	beachScene->append(palmTrees);
+	beachScene->append(palmTrees);*/
 
 	//yucca plants
 	VRS::SO<VRS::SceneThing> yucca2 = new VRS::SceneThing();
