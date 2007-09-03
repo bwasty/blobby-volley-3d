@@ -93,7 +93,9 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 
 	// attach an up-vector joint prevent blobb from leaning and tipping over
 	dFloat upVector[3] = {0.0,1.0,0.0};
+	dFloat xVector[3] = {1.0,0.0,0.0};
 	NewtonConstraintCreateUpVector(world,upVector,mBody);
+	NewtonConstraintCreateUpVector(world,xVector,mBody);
 
 	NewtonBodySetUserData(mBody, this);
 	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
@@ -104,6 +106,8 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 
 	// move body to blobb position
 	setPosition(VRS::Vector(0.0,0.0,0.0));
+
+	setStepDistance(9);
 }
 
 BV3D::Blobb::~Blobb() {
@@ -137,7 +141,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	}
 	if(Controls::isRequested(requests, Controls::JUMP)) {
 		if(mJumpAllowed)
-			movement += VRS::Vector(0.0,3.0,0.0);	// blobb may jump only if it is allowed
+			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
 	}
 	else
 		mJumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
@@ -194,7 +198,7 @@ void BV3D::Blobb::update() {
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -mArena->getGravity() * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -mArena->getGravity()* 3.5 * mass, 0.0f};
 		NewtonBodyAddForce(mBody, gravitation);
 	}
 
@@ -215,7 +219,7 @@ void BV3D::Blobb::update() {
 
 	if(newtonMatrix[13]>2.0)	// prevent blobb from jumping too high
 		mJumpAllowed = false;
-	else if(newtonMatrix[13]<1.1)	// re-enable jumping when landed
+	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
 		mJumpAllowed = true;
 
 	mScene->setLocalMatrix(vrsMatrix);

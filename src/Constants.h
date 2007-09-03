@@ -21,8 +21,8 @@ namespace BV3D
 			BV3D_ARENA
 		};
 
-		static const VRS::Vector arenaExtent = VRS::Vector(12.0,10.0,6.0);
-		static const double netHeight = 4.0;
+		static const VRS::Vector arenaExtent = VRS::Vector(12.0,20.0,6.0);
+		static const double netHeight = 4.2;
 		static const double ballRadius = 0.9;
 		static const double blobbHeight = 2.6;
 		static const std::string threeDSPath = "../Modelle/3ds/";

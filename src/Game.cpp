@@ -358,7 +358,9 @@ void BV3D::Game::newServe() {
 	//NewtonWorldUnfreezeBody(m_Arena->getWorld(), m_Ball->getBody());
 	//NewtonBodySetTorque(m_Ball->getBody(), nullForce);
 	//collData->ball->setLocked(true);
-	m_Ball->resetPosition(m_Arena->getTeamBounds(team).center());
+	Vector pos(m_Arena->getTeamBounds(team).center());
+	pos[1] = 5;
+	m_Ball->resetPosition(pos);
 
 	m_Referee->setActive(true);
 
@@ -404,6 +406,7 @@ void BV3D::Game::setupSound() {
 	m_fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
 	m_fmodSystem->createSound("../Sounds/bums.wav", FMOD_DEFAULT, 0, &soundTouch);
 	m_fmodSystem->createSound("../Sounds/pfiff.wav", FMOD_DEFAULT, 0, &soundWhistle);
+	soundWhistle->setDefaults(44100, 0.5, 1.0, 128);
 }
 
 void BV3D::Game::playSoundTouch() {

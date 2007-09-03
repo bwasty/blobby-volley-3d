@@ -52,7 +52,7 @@ BV3D::Arena::Arena() {
 	// Physics setup
 	m_World = NewtonCreate(0,0);
 	createMaterials();
-	m_Gravity = 12.81f;
+	m_Gravity = 20.81f;
 	m_Floor = 0;
 	m_Body = 0;
 
@@ -178,10 +178,10 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 
 	// TODO: invisible Barrier (only physical, positioned under the net, lets ball through but stops blobbs)
 	matrix[12] = 0.0;
-	matrix[13] = (dFloat)(netBoxBounds.getLLF()[1] - 0.1) / 2 ;
+	matrix[13] = (dFloat)(BV3D::arenaExtent[1]/2);//(dFloat)(netBoxBounds.getLLF()[1] - 0.1) / 2 ;
 	matrix[14] = 0.0;
 	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.001, 
-															(dFloat)netBoxBounds.getLLF()[1] - 0.1,
+											/*(dFloat)netBoxBounds.getLLF()[1] - 0.1,*/ (dFloat)BV3D::arenaExtent[1],
 															(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);	
 	NewtonBody* invisibleBarrierBody = NewtonCreateBody(m_World, invisibleBarrierCollision);
 	NewtonReleaseCollision(m_World, invisibleBarrierCollision);
@@ -233,7 +233,7 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	collData->world = m_World;
 
 	// TODO: ball on blobb - high elasticity, game logic
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 1.0f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 0.8f);
 	NewtonMaterialSetContinuousCollisionMode(m_World, mBallMaterialID, mBlobbMaterialID, 1);
 	CollisionData* collDataBallBlobb = new CollisionData(*collData);
 	collDataBallBlobb->material1 = mBallMaterialID;
@@ -244,7 +244,7 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 0.9f);
 
 	// TODO: ball on floor? - low elasticity, game logic
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.35f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.2f);
 	CollisionData* collDataBallFloor = new CollisionData(*collData);
 	collDataBallFloor->material1 = mBallMaterialID;
 	collDataBallFloor->material2 = mFloorMaterialID;
@@ -272,8 +272,8 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mNetMaterialID, 0, 0);
 	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
 
-	// continous collisions for ball on floor?
-	NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mFloorMaterialID, 0);
+	// continous collisions for ball on net?
+	//NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mNetMaterialID, 0);
 }
 
 int BV3D::Arena::contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {
@@ -321,13 +321,16 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getInvisibleBarrierID()) {
 		// tell referee that ball passes under the net
-		if (collData->ball->getPosition()[0] < 0) {
-			team = BV3D::BV3D_TEAM2;
+		Vector pos = collData->ball->getPosition();
+		if (pos[1] < BV3D::netHeight/2) {
+			if (pos[0] < 0) {
+				team = BV3D::BV3D_TEAM2;
+			}
+			else {
+				team = BV3D::BV3D_TEAM1;
+			}
+			collData->referee->ballOnField(team);
 		}
-		else {
-			team = BV3D::BV3D_TEAM1;
-		}
-		collData->referee->ballOnField(team);
 		return 0;
 	}
 	
