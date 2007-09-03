@@ -114,7 +114,7 @@ BV3D::Game::Game() {
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
-	blobb->setColor(Color(0.0,0.0,1.0,0.4));
+	blobb->setColor(Color(0.0,0.0,1.0, BV3D::blobbAlpha));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
@@ -176,7 +176,6 @@ BV3D::Game::~Game() {
  * update() is called periodically on timer events to redisplay the whole scene
  */
 void BV3D::Game::update() {
-	int team;
 	VRSTime time = m_Canvas->clock()->time();
 
 	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)

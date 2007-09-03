@@ -36,6 +36,11 @@
 			height: 1.9		lower radius: 1.2	lower center: 0.5
 							upper radius: 0.9	upper center: 1.0
 	*/
+
+/**
+ * ctor
+ * \param arena specifies the arena in which the blobb is simulated
+ */
 BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	mArena = arena;
 	mTeam = team;
@@ -61,7 +66,8 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 
 	// set blobb local scene
 	mScene = new VRS::SceneThing();
-	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,0.4));
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(0.5), 
+		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mScene->append(mMaterial);
 	/*mBlobbShape = mShapes->getElement(mCurrentShape);
 	mScene->append(mBlobbShape);*/
@@ -70,7 +76,7 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	
 	// physics setup
 
-	dFloat radius = 1.01;
+	dFloat radius = 1.05;
 	NewtonWorld* world = mArena->getWorld();
 
 	// create NewtonBody with a collision sphere
@@ -101,7 +107,7 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
 	NewtonBodySetMaterialGroupID(mBody, mArena->getBlobbMaterialID());
 	NewtonBodySetAutoFreeze (mBody, 0);
-	NewtonBodySetContinuousCollisionMode(mBody, 0); // needed?
+	//NewtonBodySetContinuousCollisionMode(mBody, 0); // needed?
 	NewtonWorldUnfreezeBody(world, mBody);
 
 	// move body to blobb position
@@ -110,22 +116,149 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 	setStepDistance(9);
 }
 
+/**
+ * dtor
+ */
 BV3D::Blobb::~Blobb() {
 	if(mBody)
 		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
+/**
+ * move blobb to specified position
+ */
+void BV3D::Blobb::setPosition(VRS::Vector position) {
+	// relocate visual blobb
+	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
+	mScene->setLocalMatrix(vrsMatrix);
+
+	// translate physical body
+	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
+						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
+	NewtonBodySetMatrix(mBody, newtonMatrix);
+}
+
+/**
+ * sets the orientation of the controls
+ * \param ctrlsOri is the direction the blobb moves to when controlling forward
+ */
 void BV3D::Blobb::setCtrlsOrientation(VRS::Vector ctrlsOri) {
 	// normalize new orientation vector and use previous step distance to scale it
 	double dStepDistance = sqrt(mCtrlsOrientation.dotProduct(mCtrlsOrientation));
 	mCtrlsOrientation = ctrlsOri.normalized() * dStepDistance;
 }
 
+/**
+ * sets the distance the blobb moves with one step
+ */
 void BV3D::Blobb::setStepDistance(double distance) {
 	// scale normalized orientation vector by new step distance
 	mCtrlsOrientation = mCtrlsOrientation.normalized() * distance;
 }
 
+/**
+ * assigns the controls for controlling the blobb
+ */
+void BV3D::Blobb::setControls(VRS::SO<BV3D::Controls> controls) {
+	mControls = controls;
+}
+
+/**
+ * set the blobb's color
+ */
+void BV3D::Blobb::setColor(VRS::Color color) {
+	mMaterial->setPerVertexColor(color);
+}
+
+/**
+ * returns the current controls for this blobb
+ */
+inline VRS::SO<BV3D::Controls> BV3D::Blobb::getControls() {
+	return mControls;
+}
+
+/**
+ * returns the blobb local scene
+ */
+VRS::SO<VRS::SceneThing> BV3D::Blobb::getScene() {
+	return mScene;
+}
+
+/**
+ * returns the blobb's current color
+ */
+inline VRS::Color BV3D::Blobb::getColor() {
+	return mMaterial->getPerVertexColor();
+}
+
+BV3D::BV3D_TEAM	BV3D::Blobb::getTeam() {
+	return mTeam;
+}
+
+inline bool BV3D::Blobb::isMoving() {//not needed anymore?
+	return mIsMoving;
+}
+
+VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
+{
+	//printf("%i\n", mCurrentShape);
+	mStep = ++mStep % mMaxStep;
+	//animate blobb initially once and then if he is moving or to return to initial shape
+	if ((mStep == 0) && ((mIsMoving) || (mInit) || (mCurrentShape != 0)))
+	{
+		//if blobb is in the air, don't animate
+		if ((mCurrentShape == 0) && (mScene->getLocalMatrix().element(1, 3) >= 0.2))
+			return mScene;
+		mInit = false;
+		for(int i = 0; i < mNumShapes; i++)
+			canvas->switchOff(mShapes->getElement(i));
+
+		if (mDecreasing)
+		{
+			if (mCurrentShape == 1)
+				mDecreasing = false;
+			else if (mCurrentShape < 1)
+			{
+				mDecreasing = false;
+				++mCurrentShape;
+				return mScene;
+			}
+			canvas->switchOn(mShapes->getElement(--mCurrentShape));
+			/*mScene->remove(mBlobbShape);
+			mBlobbShape = mShapes->getElement(--mCurrentShape);
+			mScene->append(mBlobbShape);*/
+		}
+		else
+		{
+			if (mCurrentShape == (mNumShapes - 2))
+				mDecreasing = true;
+			else if (mCurrentShape > (mNumShapes - 2))
+			{
+				mDecreasing = true;
+				--mCurrentShape;
+				return mScene;
+			}
+			canvas->switchOn(mShapes->getElement(++mCurrentShape));
+			/*mScene->remove(mBlobbShape);
+			mBlobbShape = mShapes->getElement(++mCurrentShape);
+			mScene->append(mBlobbShape);*/
+		}
+		return mScene;
+	}
+}
+
+/**
+ * processes user input for this blobb
+ * \param ie is an input event that was explicitely forwarded from the input callback in BV3D::Game
+ */
+void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
+	mControls->processInput(ie);	// pass input events to blobb's controls
+}
+
+/**
+* evaluates the controls state and returns the movement vector for the current frame.
+* this resets the controls state for the next frame.
+*/
 VRS::Vector BV3D::Blobb::getMovement() {
 	VRS::Vector movement;
 	char requests = mControls->getRequests();	// get controls' request bitfield
@@ -149,36 +282,9 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	return movement;
 }
 
-void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
-	mControls->processInput(ie);	// pass input events to blobb's controls
-}
-
-void BV3D::Blobb::setPosition(VRS::Vector position) {
-	// relocate visual blobb
-	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
-	mScene->setLocalMatrix(vrsMatrix);
-
-	// translate physical body
-	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
-						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
-	NewtonBodySetMatrix(mBody, newtonMatrix);
-}
-
-VRS::Color BV3D::Blobb::getColor() {
-	return mMaterial->getPerVertexColor();
-}
-
-void BV3D::Blobb::setColor(VRS::Color color) {
-	mMaterial->setPerVertexColor(color);
-}
-
-void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
-	// TODO: use c++/vrs cast
-	BV3D::Blobb* blobb = (BV3D::Blobb*)NewtonBodyGetUserData(body);
-	if (blobb)
-		blobb->update();
-}
-
+/**
+* updates physical and visual blobb
+*/
 void BV3D::Blobb::update() {
 	dFloat Ixx, Iyy, Izz, mass;
 
@@ -221,49 +327,16 @@ void BV3D::Blobb::update() {
 		mJumpAllowed = false;
 	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
 		mJumpAllowed = true;
-
 	mScene->setLocalMatrix(vrsMatrix);
 }
 
-VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
-{
-	printf("%i\n", mCurrentShape);
-	if ((mIsMoving) || (mInit) || (mCurrentShape != 0))//! canvas->isSwitchedOn(mShapes->getElement(mCurrentShape)))
-	{
-		mInit = false;
-		for(int i = 0; i < mNumShapes; i++)
-			canvas->switchOff(mShapes->getElement(i));
-
-		if (mDecreasing)
-		{
-			if (mCurrentShape == 1)
-				mDecreasing = false;
-			else if (mCurrentShape < 1)
-			{
-				mDecreasing = false;
-				++mCurrentShape;
-				return mScene;
-			}
-			canvas->switchOn(mShapes->getElement(--mCurrentShape));
-			/*mScene->remove(mBlobbShape);
-			mBlobbShape = mShapes->getElement(--mCurrentShape);
-			mScene->append(mBlobbShape);*/
-		}
-		else
-		{
-			if (mCurrentShape == (mNumShapes - 2))
-				mDecreasing = true;
-			else if (mCurrentShape > (mNumShapes - 2))
-			{
-				mDecreasing = true;
-				--mCurrentShape;
-				return mScene;
-			}
-			canvas->switchOn(mShapes->getElement(++mCurrentShape));
-			/*mScene->remove(mBlobbShape);
-			mBlobbShape = mShapes->getElement(++mCurrentShape);
-			mScene->append(mBlobbShape);*/
-		}
-		return mScene;
-	}
+/**
+* callback which notifies that a NewtonBody in the NewtonWorld has changed
+* \param body is the changed NewtonBody
+*/
+void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
+	// TODO: use c++/vrs cast
+	BV3D::Blobb* blobb = (BV3D::Blobb*)NewtonBodyGetUserData(body);
+	if (blobb)
+		blobb->update();
 }

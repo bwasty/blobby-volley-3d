@@ -21,6 +21,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	double scalYucca2, scalPalm;
 	scalYucca2 = scalPalm = 0.02;
 	VRS::Matrix vrsMatrix, scalMatrix;
+	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
 
 	//ground plane
 	VRS::SO<VRS::SceneThing> groundPlane = new VRS::SceneThing();
