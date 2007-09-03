@@ -15,9 +15,6 @@ namespace BV3D {
 	class KeyboardControls : public Controls {
 
 	public:
-		/**
-		 * ctor
-		 */
 		KeyboardControls();
 
 		/**
@@ -25,18 +22,12 @@ namespace BV3D {
 		 */
 		virtual ~KeyboardControls() {}
 
-		/**
-		 * is a callback for processing InputEvent's (KeyEvent)
-		 */
 		void processInput(VRS::SO<VRS::InputEvent> ie);
-
-		/**
-		 * map VRS virtual key codes to move requests
-		 */
 		void setBinding(REQUEST req, int keyCode);
-
+		virtual VRS::Vector getRequestedMovement();
 	protected:
 		int		m_Binding[5];	// key-to-request mapping
+		bool	mRequests[5];		// bit field representing issued requests
 	};
 }
 

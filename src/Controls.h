@@ -15,6 +15,7 @@
 
 #include <vrs/sharedobj.h>
 #include <vrs/sg/inputevent.h>
+#include <vrs/vector.h>
 
 namespace BV3D
 {
@@ -26,12 +27,6 @@ namespace BV3D
 		 */
 		enum REQUEST {FORWARD=1, BACKWARD=2, RIGHT=4, LEFT=8, JUMP=16, MOVE_REQUESTS=15, ALL_REQUESTS=31};
 
-	protected:
-		/**
-		 * ctor
-		 */
-		Controls() {m_Requests = 0;}
-	public:
 		/**
 		 * dtor
 		 */
@@ -46,30 +41,7 @@ namespace BV3D
 		 * is called by Blobb to check for move requests for the current frame
 		 * blobbs should move accordingly
 		 */
-		virtual char getRequests() {return m_Requests;}
-
-	protected:
-		/**
-		 * issue a move request
-		 */
-		void setRequest(REQUEST req) {m_Requests |= req;}
-
-		/**
-		 * drop a move request
-		 */
-		void clearRequest(REQUEST req) {m_Requests &= ~req;}
-
-	public:
-		/**
-		 * convenience function for examining request bitfields
-		 * \param requests specifies the bitfield holding any or no requests
-		 * \param request specifies the requests that should be tested
-		 * \return the result is requests AND-masked with request
-		 */
-		static bool isRequested(char requests, REQUEST request) {return (requests & request);}
-
-	private:
-		char	m_Requests;		// bit field holding move requests for the Blobb
+		virtual VRS::Vector getRequestedMovement() = 0;
 	};
 }
 

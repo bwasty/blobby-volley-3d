@@ -29,9 +29,6 @@ namespace BV3D {
 		 */
 		virtual ~MouseControls() {}
 
-		/**
-		 * is a callback for processing InputEvent's (MotionEvent, ButtonEvent)
-		 */
 		void processInput(VRS::SO<VRS::InputEvent> ie);
 
 		/**
@@ -39,14 +36,11 @@ namespace BV3D {
 		 */
 		void setJumpBinding(VRS::InputEvent::Button button) {m_JumpButton = button;}
 
-		/**
-		 * is called by Blobb to check for move requests for the current frame
-		 * blobbs should move accordingly
-		 */
-		virtual char getRequests() {char requests = Controls::getRequests(); clearRequest(MOVE_REQUESTS); return requests;}
+		virtual VRS::Vector getRequestedMovement();
 
 	protected:
-		VRS::InputEvent::Button		m_JumpButton;	// stores button for jumping
+		VRS::InputEvent::Button		m_JumpButton;		// stores button for jumping
+		VRS::Vector					mRequestedMovement;	// vector holding move requests for the Blobb
 	};
 }
 

@@ -263,9 +263,6 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 				return mScene;
 			}
 			canvas->switchOn(mShapes->getElement(++mCurrentShape));
-			/*mScene->remove(mBlobbShape);
-			mBlobbShape = mShapes->getElement(++mCurrentShape);
-			mScene->append(mBlobbShape);*/
 		}
 		return mScene;
 	}
@@ -284,19 +281,20 @@ void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
 * this resets the controls state for the next frame.
 */
 VRS::Vector BV3D::Blobb::getMovement() {
-	VRS::Vector movement;
-	char requests = mControls->getRequests();	// get controls' request bitfield
+	VRS::Vector requestedMovement = mControls->getRequestedMovement();
 
 	// evaluate requests and setup movement vector accordingly
-	if(Controls::isRequested(requests, Controls::FORWARD)) movement += mCtrlsOrientation;
+	VRS::Vector movement = requestedMovement[0] * VRS::Vector(mCtrlsOrientation[2], 0, -mCtrlsOrientation[0])
+			+ requestedMovement[2] * mCtrlsOrientation;
+	/*if(Controls::isRequested(requests, Controls::FORWARD)) movement += mCtrlsOrientation;
 	if(Controls::isRequested(requests, Controls::BACKWARD)) movement -= mCtrlsOrientation;
 	if(Controls::isRequested(requests, Controls::RIGHT)) {
 		movement += VRS::Vector(mCtrlsOrientation[2], 0, -mCtrlsOrientation[0]);
 	}
 	if(Controls::isRequested(requests, Controls::LEFT)) {
 		movement += VRS::Vector(-mCtrlsOrientation[2], 0, mCtrlsOrientation[0]);
-	}
-	if(Controls::isRequested(requests, Controls::JUMP)) {
+	}*/
+	if(requestedMovement[1]) {
 		if(mJumpAllowed)
 			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
 	}
