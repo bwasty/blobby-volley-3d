@@ -39,12 +39,12 @@ namespace BV3D
 		void setActive(bool b) {m_Active = b;}
 		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}
 		void gameOver(BV3D_TEAM winner);
+		bool isGameOver();
 
 	protected:
 		int increaseScore(BV3D_TEAM team);
 		int increaseContacts(BV3D_TEAM team);
 		void resetContacts(BV3D_TEAM team);
-		bool isGameOver();
 		int getTeamIndex(BV3D_TEAM team);
 		BV3D_TEAM getOpponent(BV3D_TEAM team);
 

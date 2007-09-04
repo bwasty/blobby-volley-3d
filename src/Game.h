@@ -65,7 +65,7 @@ namespace BV3D
 	private:
 		double m_DelayedActionStart;
 		bool m_ScheduleNewServe;
-		int				mPreviousWidth, mPreviousHeight;
+		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
 		FMOD::System     *m_fmodSystem;
 		FMOD::Sound      *soundTouch, *soundWhistle;
 

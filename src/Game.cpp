@@ -58,11 +58,10 @@
 #include "Menu.h"
 #include "Hud.h"
 
-BV3D::Game::Game() {	
+BV3D::Game::Game() {
 	m_DelayedActionStart = 0;
 	m_ScheduleNewServe = false;
-	mPreviousWidth = 0;
-	mPreviousHeight = 0;
+	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
@@ -97,7 +96,7 @@ BV3D::Game::Game() {
 	floorScene->append(new VRS::Shadowed(topLight));
 	floorScene->append(new VRS::Box(VRS::Vector(-BV3D::arenaExtent[0]/2,0.0,-BV3D::arenaExtent[2]/2),
 									VRS::Vector(BV3D::arenaExtent[0]/2,0.01,BV3D::arenaExtent[2]/2)));
-	
+
 	// TODO: select specific referee via menu/config
 	m_Referee = new BV3D::TieBreakReferee(this);
 
@@ -132,7 +131,7 @@ BV3D::Game::Game() {
 	mScene->append(m_Ball->getScene());
 	//m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 	newServe();
-	
+
 	m_Arena->setupMaterials(this);
 
 	VRS::SO<HUD> mHud = new HUD();
@@ -206,7 +205,7 @@ void BV3D::Game::update() {
 			m_DelayedActionStart = double(time);
 			m_ScheduleNewServe = false;
 		}
-		
+
 		//animate blobbs if they're moving
 		m_BlobbArray->getElement(BV3D::BV3D_TEAM1)->updateShape(m_Canvas);
 		m_BlobbArray->getElement(BV3D::BV3D_TEAM2)->updateShape(m_Canvas);
@@ -270,7 +269,7 @@ void BV3D::Game::processInput() {
 					break;
 				case Key::F8:	//view field from center in -x direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(-1.0, 1.0, 0.0));
-					break;	
+					break;
 				case Key::F9:	//view field from center in -z direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, -1.0));
 					break;
@@ -368,21 +367,24 @@ void BV3D::Game::switchToMenu() {
 	if(m_Canvas->contains(mScene)) m_Canvas->switchOff(mScene);
 	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOff(m_cbInput);
 
-	// activate menu
-	mMenu->showMainMenu();
+	// activate menu (allow resume game if game is not yet over)
+	mMenu->showMainMenu(!m_Referee->isGameOver());
 	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOn(mMenu->getScene());
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
 	m_Canvas->setCursor(VRS::Cursor::Arrow);
 }
 
 void BV3D::Game::toggleFullscreen() {
-	if(mPreviousWidth) {
-		m_Canvas->setSize(mPreviousWidth, mPreviousHeight);
-		mPreviousWidth = 0;
-		mPreviousHeight = 0;
-	} else {
-		mPreviousWidth = m_Canvas->getWidth();
-		mPreviousHeight = m_Canvas->getHeight();
+	if(mPrevWidth) {	// reset to windowed mode
+		glutPositionWindow(mPrevPosX, mPrevPosY);
+		glutReshapeWindow(mPrevWidth, mPrevHeight);
+		mPrevPosX = 0; mPrevPosY = 0;
+		mPrevWidth = 0; mPrevHeight = 0;
+	} else {	// switch to fullscreen mode
+		mPrevPosX = glutGet(GLUT_WINDOW_X);
+		mPrevPosY = glutGet(GLUT_WINDOW_Y);
+		mPrevWidth = glutGet(GLUT_WINDOW_WIDTH);
+		mPrevHeight = glutGet(GLUT_WINDOW_HEIGHT);
 		glutFullScreen();
 	}
 }
