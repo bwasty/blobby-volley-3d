@@ -53,7 +53,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 
 	// set up mass matrix
 	dFloat inertia = 2*0.6/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
-	NewtonBodySetMassMatrix(m_Body, 20 /*mass*/,inertia,inertia,inertia);
+	NewtonBodySetMassMatrix(m_Body, 5 /*mass*/,inertia,inertia,inertia);
 
 	NewtonBodySetUserData(m_Body, this);
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
@@ -112,6 +112,23 @@ void BV3D::Ball::update() {
 		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
 		NewtonBodySetForce(m_Body, nullForce);
 		NewtonBodyAddForce(m_Body, gravitation);
+
+		// check for max speed
+		dFloat vel[3];
+		NewtonBodyGetVelocity(m_Body, vel);
+		VRS::Vector v(vel[0], vel[1], vel[2]);
+		//printf("%f\n", v.abs());
+		float length = v.abs();
+		if (length > BV3D::maxBallVelocity) {
+			v = v.normalized() * BV3D::maxBallVelocity;
+			vel[0] = v[0];
+			vel[1] = v[1];
+			vel[2] = v[2];
+			NewtonBodySetVelocity(m_Body, vel);
+			//printf("%f\n", v.abs());
+		}
+
+		
 
 		// set up matrix for visual ball
 		dFloat newtonMatrix[16];

@@ -55,6 +55,8 @@ namespace BV3D
 
 		void switchToGame(bool bRestart);
 		void toggleFullscreen();
+
+		int getFrameCount() {return m_iFramerate;}
 	protected:
 		void switchToMenu();
 		void initBackgroundCubeMap();
@@ -94,6 +96,8 @@ namespace BV3D
 		VRS::SO<Referee>		m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
 		VRS::SO<Menu>			mMenu;
+
+		
 	};
 }
 

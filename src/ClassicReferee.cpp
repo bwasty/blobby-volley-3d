@@ -34,8 +34,6 @@ ClassicReferee::~ClassicReferee(void)
  */
 void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	m_game->playSoundTouch();
-
 	if (m_Active) {
 		BV3D_TEAM opponent = getOpponent(team);
 		resetContacts(opponent);

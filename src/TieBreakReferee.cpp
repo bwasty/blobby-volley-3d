@@ -33,8 +33,6 @@ TieBreakReferee::~TieBreakReferee(void)
  */
 void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	m_game->playSoundTouch();
-
 	if (m_Active) {
 
 		BV3D_TEAM opponent = getOpponent(team);

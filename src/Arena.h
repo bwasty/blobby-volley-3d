@@ -100,6 +100,7 @@ namespace BV3D {
 		int getFloorMaterialID() {return mFloorMaterialID;}
 		int getNetMaterialID() {return mNetMaterialID;}
 		int getInvisibleBarrierID() {return mInvisibleBarrierID;}
+		int getAITriggerID(){return mAITriggerID;}
 
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
@@ -121,10 +122,12 @@ namespace BV3D {
 		int mFloorMaterialID;
 		int mNetMaterialID;
 		int mInvisibleBarrierID;
+		int mAITriggerID;
 
 		static int contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
 		static void contactEndCallback(const NewtonMaterial* material);
+		static int AICallback(const NewtonMaterial* material, const NewtonContact* contact);
 	};
 }
 

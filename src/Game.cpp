@@ -197,9 +197,6 @@ void BV3D::Game::update() {
 
 
 		if (m_DelayedActionStart != 0) {
-			//printf("time: %f\n", double(time));
-			//printf("m_DelayedActionStart: %f\n", m_DelayedActionStart);
-			//printf("time: %f\n", time);
 			if (double(time) - m_DelayedActionStart >= 2.5) {
 				newServe();
 				m_DelayedActionStart = 0;
@@ -341,7 +338,7 @@ void BV3D::Game::newServe() {
 	NewtonWorldFreezeBody(m_Arena->getWorld(), m_Ball->getBody());
 	NewtonBodySetForce(m_Ball->getBody(), nullForce);
 	//NewtonWorldUnfreezeBody(m_Arena->getWorld(), m_Ball->getBody());
-	//NewtonBodySetTorque(m_Ball->getBody(), nullForce);
+	NewtonBodySetTorque(m_Ball->getBody(), nullForce);
 	//collData->ball->setLocked(true);
 	Vector pos(m_Arena->getTeamBounds(team).center());
 	pos[1] = 5;
