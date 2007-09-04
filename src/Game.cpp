@@ -37,6 +37,7 @@
 #include <vrs/shadowcaster.h>
 #include <vrs/shadowed.h>
 #include <vrs/sg/selector.h>
+#include <gl/glut.h>
 
 // temporarily used for floor
 #include <vrs/box.h>
@@ -59,6 +60,8 @@
 BV3D::Game::Game() {	
 	m_DelayedActionStart = 0;
 	m_ScheduleNewServe = false;
+	mPreviousWidth = 0;
+	mPreviousHeight = 0;
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
@@ -103,7 +106,7 @@ BV3D::Game::Game() {
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
-	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1);
+	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1, m_lookAt);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	mBlobbScenesArray->append(new SceneThing());
@@ -111,7 +114,7 @@ BV3D::Game::Game() {
 	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1));
 	m_BlobbArray->append(blobb);
 
-	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2);
+	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2, m_lookAt);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0, BV3D::blobbAlpha));
@@ -151,15 +154,8 @@ BV3D::Game::Game() {
 	m_cbInput->setCanvasCallback(new MethodCallback<Game>(this,&Game::processInput));
 	m_Canvas->append(m_cbInput);
 
-	// init BookmarkNavigation
+	// init JumpNavigation
 	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_lookAt, 3.0);
-	///m_Navigation = new BookmarkNavigation();
-	///m_Navigation->setPathStyle(BookmarkNavigation::Simple);
-	///m_InteractionMode = new InteractionMode();
-	///m_InteractionMode->addInteractionTechnique(m_Navigation);
-	///m_InteractionConcept = new InteractionConcept(m_lookAt);
-	///m_InteractionConcept->addInteractionMode(m_InteractionMode);
-	///m_InteractionConcept->activate(BehaviorNode::Begin);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 
 	switchToGame(true);
@@ -253,54 +249,34 @@ void BV3D::Game::processInput() {
 					break;
 				case Key::F2:	//view field from the side
 					m_Navigation->initPath(Vector(0.0, 10.0, -15.0), Vector(0.0, -10.0, 15.0) + BV3D::lookTo);
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
 				case Key::F3:	//view field from above
 					m_Navigation->initPath(Vector(0.0, 15.0, -0.1), Vector(0.0, -15.0, 0.1) + BV3D::lookTo);
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					//printf("Key F2 pressed\n");
 					break;
 				case Key::F4:	//view field from the front(from baseline of one blobb's field)
 					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(-15.0, -15.0, 0.0) + BV3D::lookTo);
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(-1.0, 0.0, 0.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(-1.0, 0.0, 0.0));
 					break;
 				case Key::F5:	//view field from the side "lying on the ground"
 					m_Navigation->initPath(Vector(0.0, 0.0, -15.0), Vector(0.0, 3.0, 15.0));
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, 1.0));
 					break;
 				case Key::F6:	//view field from +y-axis
 					m_Navigation->initPath(Vector(0.0, 10.0, 15.0), Vector(0.0, -10.0, -15.0) + BV3D::lookTo);
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, -1.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(0.0, 0.0, -1.0));
 					break;
 				case Key::F7:	//view field from -x-axis
 					m_Navigation->initPath(Vector(-15.0, 15.0, 0.0), Vector(15.0, -15.0, 0.0) + BV3D::lookTo);
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					break;
 				case Key::F8:	//view field from center in -x direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(-1.0, 1.0, 0.0));
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					break;	
 				case Key::F9:	//view field from center in -z direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, -1.0));
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					break;
 				case Key::F10:	//view field from center in x direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(1.0, 1.0, 0.0));
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					break;
 				case Key::F11:	//view field from center in z direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, 1.0));
-					m_BlobbArray->getElement(0)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
-					m_BlobbArray->getElement(1)->setCtrlsOrientation(VRS::Vector(1.0, 0.0, 0.0));
 					break;
 				case Key::Insert:	//load surroundings
 					printf("Loading beach...\n");
@@ -312,6 +288,11 @@ void BV3D::Game::processInput() {
 	// pass input to blobbs
 	m_BlobbArray->getElement(0)->processInput(ie);
 	m_BlobbArray->getElement(1)->processInput(ie);
+
+	// warping the pointer freezes the simulation
+	/*MotionEvent* me = VRS_Cast(MotionEvent, ie);
+	if(me!=NULL)
+		glutWarpPointer(m_Canvas->getWidth()/2,m_Canvas->getHeight()/2);*/
 }
 
 void BV3D::Game::initBackgroundCubeMap()
@@ -374,6 +355,7 @@ void BV3D::Game::switchToGame(bool bRestart) {
 	// activate game
 	if(m_Canvas->contains(mScene)) m_Canvas->switchOn(mScene);
 	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOn(m_cbInput);
+	m_Canvas->setCursor(VRS::Cursor::Blank);
 
 	//if(bRestart) start new game
 	//else resume old game
@@ -388,6 +370,19 @@ void BV3D::Game::switchToMenu() {
 	mMenu->showMainMenu();
 	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOn(mMenu->getScene());
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
+	m_Canvas->setCursor(VRS::Cursor::Arrow);
+}
+
+void BV3D::Game::toggleFullscreen() {
+	if(mPreviousWidth) {
+		m_Canvas->setSize(mPreviousWidth, mPreviousHeight);
+		mPreviousWidth = 0;
+		mPreviousHeight = 0;
+	} else {
+		mPreviousWidth = m_Canvas->getWidth();
+		mPreviousHeight = m_Canvas->getHeight();
+		glutFullScreen();
+	}
 }
 
 //void ERRCHECK(FMOD_RESULT result)

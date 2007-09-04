@@ -2,8 +2,8 @@
 #define BV3D_BLOBB
 
 #include <vrs/sharedobj.h>
-#include <vrs/vector.h>
 #include <vrs/container/array.h>
+#include <vrs/vector.h>
 #include "Constants.h"
 
 struct NewtonBody;
@@ -14,6 +14,7 @@ namespace VRS {
 	class InputEvent;
 	class Canvas;
 	//template <typename T> class Array;
+	class LookAt;
 }
 
 struct NewtonCollision;
@@ -25,11 +26,11 @@ namespace BV3D
 
 	class Blobb : public VRS::SharedObj {
 	public:
-		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team);
+		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt);
 		~Blobb();
 		void setPosition(VRS::Vector position);
-		void setCtrlsOrientation(VRS::Vector ctrlsOri);
-		void setStepDistance(double distance);
+		void setLookAt(VRS::SO<VRS::LookAt> lookAt) {mLookAt = lookAt;}
+		void setStepDistance(double distance) {mStepDistance = distance;}
 		void setControls(VRS::SO<BV3D::Controls> controls);
 		void setColor(VRS::Color color);
 		VRS::SO<BV3D::Controls> getControls();
@@ -52,7 +53,8 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>		mScene;				// blobb local scene
 		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;				// blobb material
 		VRS::SO<Controls>				mControls;				// blobb controls
-		VRS::Vector						mCtrlsOrientation;		// blobb controls orientation
+		VRS::SO<VRS::LookAt>			mLookAt;				// blobb movement orientation
+		double							mStepDistance;			// blobb step distance
 		bool							mJumpAllowed;			// indicates if blobb may jump
 		BV3D::BV3D_TEAM					mTeam;
 		static const int				mNumShapes = 5;		//number of animation shapes

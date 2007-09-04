@@ -54,14 +54,16 @@ namespace BV3D
 		void playSoundWhistle();
 
 		void switchToGame(bool bRestart);
+		void toggleFullscreen();
 	protected:
 		void switchToMenu();
 		void initBackgroundCubeMap();
 		void setupSound();
 
-	protected:
+	private:
 		double m_DelayedActionStart;
 		bool m_ScheduleNewServe;
+		int				mPreviousWidth, mPreviousHeight;
 		FMOD::System     *m_fmodSystem;
 		FMOD::Sound      *soundTouch, *soundWhistle;
 

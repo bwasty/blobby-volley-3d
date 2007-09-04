@@ -26,7 +26,6 @@
 #include <vrs/box.h>
 #include <vrs/scaling.h>
 #include <vrs/translation.h>
-#include <gl/glut.h>
 #include <stdio.h>
 
 
@@ -51,18 +50,16 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 }
 
 void BV3D::Menu::select() {
-	// TODO: deactivate menu when leaving
-
     if(mRayRequest->results()>0) {
 		VRS::SO<VRS::IntersectionInfo> info = mRayRequest->result(0);
 
         const std::string& name = info->getShape()->getObjectName();
 
 		if(name.compare("Play")==0) mGame->switchToGame(false);
-		if(name.compare("Main")==0) showMainMenu();
-		if(name.compare("Options")==0) showOptionsMenu();
-		if(name.compare("Toggle Fullscreen")==0) glutFullScreen();
-		if(name.compare("Quit")==0) exit(0);
+		else if(name.compare("Main")==0) showMainMenu();
+		else if(name.compare("Options")==0) showOptionsMenu();
+		else if(name.compare("Toggle Fullscreen")==0) mGame->toggleFullscreen();
+		else if(name.compare("Quit")==0) exit(0);
     }
 }
 

@@ -17,6 +17,7 @@
 #include <vrs/sg/inputevent.h>
 #include <vrs/io/threedsreader.h>
 #include <vrs/sg/canvas.h>
+#include <vrs/lookat.h>
 #include <Newton.h>
 
 /*3ds-blobb measures: 
@@ -40,20 +41,21 @@
 //	lower vertical offset/radius, lower horizontal radius
 //	upper vertical offset, upper horizontal radius, upper vertical radius
 dFloat colData[5][5] = {
-	{1.0, 1.0, 1.5, 0.9, 1.1},
-	{0.9, 1.01, 1.35, 0.9, 1.1},
-	{0.8, 1.05, 1.2, 0.9, 1.1},
-	{0.65, 1.1, 1.1, 0.9, 1.0},
-	{0.5, 1.2, 1.0, 0.9, 0.9} };
+	{1.0f, 1.0f, 1.5f, 0.9f, 1.1f},
+	{0.9f, 1.01f, 1.35f, 0.9f, 1.1f},
+	{0.8f, 1.05f, 1.2f, 0.9f, 1.1f},
+	{0.65f, 1.1f, 1.1f, 0.9f, 1.0f},
+	{0.5f, 1.2f, 1.0f, 0.9f, 0.9f} };
 /**
  * ctor
  * \param arena specifies the arena in which the blobb is simulated
  */
-BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
+	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt) {
 	mArena = arena;
 	mTeam = team;
 	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
-	mCtrlsOrientation = VRS::Vector(0.0,0.0,5.0);	// TODO: use as default value in constructor
+	mLookAt = lookAt;
+	mStepDistance = 9.0;
 	mJumpAllowed = false;
 	mBody = 0;
 	mCollision = 0;
@@ -133,8 +135,6 @@ BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team) {
 
 	// move body to blobb position
 	setPosition(VRS::Vector(0.0,0.0,0.0));
-
-	setStepDistance(9);
 }
 
 /**
@@ -162,24 +162,6 @@ void BV3D::Blobb::setPosition(VRS::Vector position) {
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
 						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
 	NewtonBodySetMatrix(mBody, newtonMatrix);
-}
-
-/**
- * sets the orientation of the controls
- * \param ctrlsOri is the direction the blobb moves to when controlling forward
- */
-void BV3D::Blobb::setCtrlsOrientation(VRS::Vector ctrlsOri) {
-	// normalize new orientation vector and use previous step distance to scale it
-	double dStepDistance = sqrt(mCtrlsOrientation.dotProduct(mCtrlsOrientation));
-	mCtrlsOrientation = ctrlsOri.normalized() * dStepDistance;
-}
-
-/**
- * sets the distance the blobb moves with one step
- */
-void BV3D::Blobb::setStepDistance(double distance) {
-	// scale normalized orientation vector by new step distance
-	mCtrlsOrientation = mCtrlsOrientation.normalized() * distance;
 }
 
 /**
@@ -281,19 +263,17 @@ void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
 * this resets the controls state for the next frame.
 */
 VRS::Vector BV3D::Blobb::getMovement() {
+	// create orientation vector for movement to the specified mLookAt object
+	VRS::Vector orientation = mLookAt->getTo() - mLookAt->getFrom();	// get from-to vector
+	orientation[1] = 0;												// map vector onto xz-plane
+	orientation = orientation.normalized() * mStepDistance;			// normalize vector and resize to step distance
+
 	VRS::Vector requestedMovement = mControls->getRequestedMovement();
 
-	// evaluate requests and setup movement vector accordingly
-	VRS::Vector movement = requestedMovement[0] * VRS::Vector(mCtrlsOrientation[2], 0, -mCtrlsOrientation[0])
-			+ requestedMovement[2] * mCtrlsOrientation;
-	/*if(Controls::isRequested(requests, Controls::FORWARD)) movement += mCtrlsOrientation;
-	if(Controls::isRequested(requests, Controls::BACKWARD)) movement -= mCtrlsOrientation;
-	if(Controls::isRequested(requests, Controls::RIGHT)) {
-		movement += VRS::Vector(mCtrlsOrientation[2], 0, -mCtrlsOrientation[0]);
-	}
-	if(Controls::isRequested(requests, Controls::LEFT)) {
-		movement += VRS::Vector(-mCtrlsOrientation[2], 0, mCtrlsOrientation[0]);
-	}*/
+	// evaluate requests and setup movement vector according to mLookAt
+	VRS::Vector movement = requestedMovement[0] * VRS::Vector(orientation[2], 0, -orientation[0])
+			+ requestedMovement[2] * orientation;
+
 	if(requestedMovement[1]) {
 		if(mJumpAllowed)
 			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
@@ -326,7 +306,7 @@ void BV3D::Blobb::update() {
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -mArena->getGravity()* 3.5 * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -mArena->getGravity()* 3.5f * mass, 0.0f};
 		NewtonBodyAddForce(mBody, gravitation);
 	}
 
