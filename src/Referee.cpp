@@ -203,3 +203,8 @@ BV3D_TEAM Referee::getOpponent(BV3D_TEAM team)
 		return BV3D_TEAM1;		//TODO: throw error 
 	}
 }
+
+void BV3D::Referee::gameOver(BV3D::BV3D_TEAM winner) {
+	if(mHud)
+		mHud->showWinner(winner);
+}

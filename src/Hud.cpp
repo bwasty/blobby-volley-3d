@@ -19,6 +19,7 @@ BV3D::HUD::HUD() {
 	mScoreP1Index = -1;
 	mScoreP2Index = -1;
 	mServingIndex = -1;
+	mWinnerIndex = -1;
 }
 
 void BV3D::HUD::setScore(int scoreP1, int scoreP2, BV3D_TEAM servingTeam) {
@@ -26,6 +27,7 @@ void BV3D::HUD::setScore(int scoreP1, int scoreP2, BV3D_TEAM servingTeam) {
 	if(mScoreP1Index>=0) overlay->removeOverlayItem(mScoreP1Index);
 	if(mScoreP2Index>=0) overlay->removeOverlayItem(mScoreP2Index);
 	if(mServingIndex>=0) overlay->removeOverlayItem(mServingIndex);
+	if(mWinnerIndex>=0) overlay->removeOverlayItem(mWinnerIndex);
 
 	// set up player 1 score
 	char buffer[5];
@@ -46,4 +48,13 @@ void BV3D::HUD::setScore(int scoreP1, int scoreP2, BV3D_TEAM servingTeam) {
 		servingMin = VRS::Vector(0.85,0.95); servingMax = VRS::Vector(0.9,1.0);}
 	mServingIndex = overlay->addText(VRS::Font::searchFont("Arial Black (TrueType)", VRS::Font::TEXTURE, 150),
 		"!",servingMin,servingMax,VRS::Text::LEFT,VRS::Text::TOP,VRS::Color(0.8,0.0,0.0));
+}
+
+void BV3D::HUD::showWinner(BV3D_TEAM winner) {
+	char buffer[15];
+	sprintf_s(buffer,15, "Player %d wins!",(int)winner+1);
+	VRS::SO<VRS::OverlayImageGL> overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
+	if(mWinnerIndex>=0) overlay->removeOverlayItem(mWinnerIndex);
+	mWinnerIndex = overlay->addText(VRS::Font::searchFont("Arial Black (TrueType)", VRS::Font::TEXTURE, 150),
+		buffer,VRS::Vector(0.1,0.45),VRS::Vector(0.9,0.65),VRS::Text::LEFT,VRS::Text::CENTER_V,VRS::Color(0.0,0.0,1.0));
 }

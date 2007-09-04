@@ -19,10 +19,12 @@ namespace BV3D
 		virtual ~HUD() {}
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 		void setScore(int scoreP1, int scoreP2, BV3D_TEAM servingTeam);
+		void showWinner(BV3D_TEAM winner);
 	private:
 		int		mScoreP1Index;
 		int		mScoreP2Index;
 		int		mServingIndex;
+		int		mWinnerIndex;
 		VRS::SO<VRS::SceneThing>	mScene;
 	};
 }

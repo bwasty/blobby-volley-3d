@@ -45,11 +45,10 @@ void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 			{
 
 				increaseScore(m_ServingTeam);
-				printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
 
 				if (isGameOver())					//only opponent could have scored since last test
-				{	//m_game->gameOver(m_servingTeam);	//if game over then opponent must be winner
-					printf("Game Over");
+				{
+					gameOver(m_ServingTeam);	//if game over then opponent must be winner
 					m_Active = false;
 				}
 				else
@@ -72,8 +71,6 @@ void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 			}
 			resetContacts(team);
 		}
-		printf("Contacts Blobb1: %i, Blobb2: %i\n", getCurrentContacts(BV3D::BV3D_TEAM1), getCurrentContacts(BV3D::BV3D_TEAM2));
-
 	}
 }
 
@@ -91,8 +88,8 @@ void ClassicReferee::ballOnField(BV3D_TEAM team)
 		{
 			increaseScore(m_ServingTeam);
 			if (isGameOver())					//only servingTeam could have scored since last test
-			{	//m_game->gameOver(m_servingTeam);	//if game over then servingTeam must be winner
-				printf("Game Over");
+			{
+				gameOver(m_ServingTeam);	//if game over then servingTeam must be winner
 				m_Active = false;
 			}
 			else
@@ -115,8 +112,6 @@ void ClassicReferee::ballOnField(BV3D_TEAM team)
 		}
 		resetContacts(BV3D_TEAM1);
 		resetContacts(BV3D_TEAM2);
-
-		printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
 	}
 }
 

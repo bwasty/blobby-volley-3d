@@ -42,11 +42,10 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 			m_game->playSoundWhistle();
 
 			increaseScore(opponent);
-			printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
 
 			if (isGameOver())					//only opponent could have scored since last test
-			{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
-				printf("Game Over");
+			{
+				gameOver(opponent);	//if game over then opponent must be winner
 				m_Active = false;
 			}
 			else
@@ -59,8 +58,6 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 				m_Active = false;
 			}
 		}
-		printf("Contacts Blobb1: %i, Blobb2: %i\n", getCurrentContacts(BV3D::BV3D_TEAM1), getCurrentContacts(BV3D::BV3D_TEAM2));
-
 	}
 }
 
@@ -77,8 +74,8 @@ void TieBreakReferee::ballOnField(BV3D_TEAM team)
 		BV3D_TEAM opponent = getOpponent(team);
 		increaseScore(opponent);	//opponent of 'isInLeftField' scores
 		if (isGameOver())					//only opponent could have scored since last test
-		{	//m_game->gameOver(opponent);	//if game over then opponent must be winner
-			printf("Game Over");
+		{
+			gameOver(opponent);	//if game over then opponent must be winner
 			m_Active = false;
 		}
 		else
@@ -93,8 +90,6 @@ void TieBreakReferee::ballOnField(BV3D_TEAM team)
 
 			m_Active = false;
 		}
-		printf("score - blobb1: %i, blobb2: %i\n", getCurrentScore(BV3D::BV3D_TEAM1), getCurrentScore(BV3D::BV3D_TEAM2));
-
 	}
 }
 
