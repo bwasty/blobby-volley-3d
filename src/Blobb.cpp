@@ -162,6 +162,7 @@ void BV3D::Blobb::setPosition(VRS::Vector position) {
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
 						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
 	NewtonBodySetMatrix(mBody, newtonMatrix);
+	//printf("%f, %f, %f\n", position[0], position[1], position[2]);
 }
 
 /**

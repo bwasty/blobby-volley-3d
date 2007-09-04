@@ -182,7 +182,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat)(BV3D::arenaExtent[1]/2);//(dFloat)(netBoxBounds.getLLF()[1] - 0.1) / 2 ;
 	matrix[14] = 0.0;
-	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.001, 
+	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.06, 
 											/*(dFloat)netBoxBounds.getLLF()[1] - 0.1,*/ (dFloat)BV3D::arenaExtent[1],
 															(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);	
 	NewtonBody* invisibleBarrierBody = NewtonCreateBody(m_World, invisibleBarrierCollision);
@@ -191,7 +191,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 
 	// TODO: create temporary AI trigger
 	matrix[12] = (dFloat)extent.get(0)/4;
-	matrix[13] = 2.6;
+	matrix[13] = BV3D::blobbHeight+0.2;
 	matrix[14] = 0.0;
 	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)extent.get(0)/2 - 0.2, 0, (dFloat)extent.get(2), matrix);
 	NewtonBody* AITriggerBody = NewtonCreateBody(m_World, AITriggerCollision);
@@ -284,13 +284,14 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mNetMaterialID, 0, 0);
 	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
 
-	// continous collisions for ball on net?
-	//NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mNetMaterialID, 0);
+	// continous collisions for ball on floor?
+	//NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mFloorMaterialID, 1);
 
 	// TODO: Ball on AI Trigger:
+	//collData->currentBlobb = game->getBlobb(2);
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mAITriggerID, collData, NULL, AICallback, NULL);
 
-	// AI trigger shouldnt collide with blobbs
+	// AI trigger shouldn't collide with blobbs
 	NewtonMaterialSetDefaultCollidable(m_World, mBlobbMaterialID, mAITriggerID, 0);
 }
 
@@ -322,9 +323,9 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		BV3D::BV3D_TEAM team = collData->currentBlobb->getTeam();
 
 		// wait some frames after blobb touches ball before new touch gets counted
-		if (collData->referee->getCurrentContacts(team) > 0 && collData->game->getFrameCount() - collData->delayStartFrame < 15) {
+		if (collData->referee->getCurrentContacts(team) > 0 && collData->game->getFrameCount() - collData->delayStartFrame < 25) {
 			collData->delayStartFrame = 0;
-			//printf("prevented touch\n");
+			printf("prevented touch\n");
 		}
 		else {
 			if (team == BV3D::BV3D_TEAM1)
@@ -373,14 +374,23 @@ void BV3D::Arena::contactEndCallback(const NewtonMaterial* material) {
 int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact* contact) {
 	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
 
+	if (!collData->referee->getActive())
+		return 0;
+
 	srand(time(0));
 
 	NewtonBody* body = collData->ball->getBody();
 	dFloat v[3];
 	NewtonBodyGetVelocity(body, v);
 
-	int random = rand() % 10;
-	if (random < 8) {
+	int random = rand() % 15;
+	if (random < 14) {
+		// move blobb to contact point
+		dFloat pos[3], norm[3];
+		NewtonMaterialGetContactPositionAndNormal(material, pos, norm);
+		//printf("contact position: %f, %f, %f\n", pos[0], pos[1], pos[2]);
+		collData->game->getBlobb(2)->setPosition(Vector(pos[0], 0, pos[2]));
+
 		if (v[0] < 0) { // ball moves toward the net -> use normal collision
 			NewtonMaterialSetContactElasticity(material, 0.9+(rand()%9)/10.0);
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
@@ -390,7 +400,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		else {
 			random = rand() % 10;
 			//printf("%d", random);
-			if (random<5) {
+			if (random<5 || (collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2)>1 && v[0] > 0)) {
 				random = rand()%8;
 				v[0] = - v[0]*(0.7+random/10.0);
 				v[1] = - v[1]*(0.7+random/10.0);
@@ -413,7 +423,6 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		NewtonMaterialSetDefaultCollidable(collData->world, collData->arena->getBallMaterialID(), collData->arena->getAITriggerID(), 0);
 		return 0;
 	}
-	
 
 	// pseudocode
 	//if (richtung netz) -> x negativ

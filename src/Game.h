@@ -57,6 +57,7 @@ namespace BV3D
 		void toggleFullscreen();
 
 		int getFrameCount() {return m_iFramerate;}
+		VRS::SO<Blobb> getBlobb(int i) {return m_BlobbArray->getElement(i-1);}
 	protected:
 		void switchToMenu();
 		void initBackgroundCubeMap();

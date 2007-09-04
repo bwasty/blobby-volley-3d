@@ -52,8 +52,8 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	NewtonReleaseCollision(world, collision);
 
 	// set up mass matrix
-	dFloat inertia = 2*0.6/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
-	NewtonBodySetMassMatrix(m_Body, 5 /*mass*/,inertia,inertia,inertia);
+	dFloat inertia = 2*0.5/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
+	NewtonBodySetMassMatrix(m_Body, 4 /*mass*/,inertia,inertia,inertia);
 
 	NewtonBodySetUserData(m_Body, this);
 	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);

@@ -37,6 +37,7 @@ namespace BV3D
 		void startNewGame();
 		BV3D_TEAM getServingTeam() {return m_ServingTeam;}
 		void setActive(bool b) {m_Active = b;}
+		bool getActive() {return m_Active;}
 		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}
 		void gameOver(BV3D_TEAM winner);
 		bool isGameOver();
