@@ -14,6 +14,7 @@ using namespace VRS;
 namespace BV3D
 {
 	class Game;
+	class HUD;
 
 	class Referee
 	{
@@ -36,6 +37,7 @@ namespace BV3D
 		void startNewGame();
 		BV3D_TEAM getServingTeam() {return m_ServingTeam;}
 		void setActive(bool b) {m_Active = b;}
+		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}
 
 	private:
 		int m_score[2], m_contacts[2];
@@ -53,6 +55,7 @@ namespace BV3D
 		bool isGameOver();
 		int getTeamIndex(BV3D_TEAM team);
 		BV3D_TEAM getOpponent(BV3D_TEAM team);
+		VRS::SO<HUD>	mHud;
 	};
 }
 

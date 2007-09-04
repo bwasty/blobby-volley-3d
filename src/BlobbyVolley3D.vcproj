@@ -206,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Hud.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\KeyboardControls.cpp"
 				>
 			</File>
@@ -261,6 +265,10 @@
 			</File>
 			<File
 				RelativePath=".\Game.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Hud.h"
 				>
 			</File>
 			<File

@@ -10,6 +10,7 @@
  */
 #include "Constants.h"
 #include "Referee.h"
+#include "Hud.h"
 
 using namespace BV3D;
 
@@ -21,6 +22,7 @@ Referee::Referee(SO<Game> game)
 	m_winningScore = m_maxContacts = m_minDifference = 1;		//set dummy values
 	m_ServingTeam = BV3D::BV3D_TEAM1;
 	m_Active = true;
+	mHud = 0;
 }
 
 SO<Game> Referee::getGame()
@@ -120,6 +122,8 @@ void Referee::startNewGame()
 {
 	m_score[0] = m_score[1] = m_contacts[0] = m_contacts[1] = 0;
 	m_ServingTeam = BV3D_TEAM1;
+	if(mHud)
+		mHud->setScore(0,0,BV3D_TEAM1);
 }
 
 /*
@@ -127,7 +131,10 @@ void Referee::startNewGame()
  */
 int Referee::increaseScore(BV3D_TEAM team)
 {
-	return m_score[getTeamIndex(team)]++;
+	m_score[getTeamIndex(team)]++;
+	if(mHud)
+		mHud->setScore(m_score[BV3D_TEAM1],m_score[BV3D_TEAM2],team);
+	return m_score[getTeamIndex(team)];
 }
 
 /*

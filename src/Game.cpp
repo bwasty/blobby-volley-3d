@@ -56,6 +56,7 @@
 #include "TieBreakReferee.h"
 #include "SceneLoader.h"
 #include "Menu.h"
+#include "Hud.h"
 
 BV3D::Game::Game() {	
 	m_DelayedActionStart = 0;
@@ -133,6 +134,10 @@ BV3D::Game::Game() {
 	newServe();
 	
 	m_Arena->setupMaterials(this);
+
+	VRS::SO<HUD> mHud = new HUD();
+	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
+	m_Referee->setHUD(mHud);
 
 	m_Canvas->append(mScene);
 
