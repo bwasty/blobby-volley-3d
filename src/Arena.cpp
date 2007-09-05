@@ -342,9 +342,9 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		BV3D::BV3D_TEAM team = collData->currentBlobb->getTeam();
 
 		// wait some frames after blobb touches ball before new touch gets counted
-		if (collData->referee->getCurrentContacts(team) > 0 && collData->game->getFrameCount() - collData->delayStartFrame < 25) {
+		if (collData->referee->getCurrentContacts(team) > 0 && (collData->game->getFrameCount() - collData->delayStartFrame < 20)) {
 			collData->delayStartFrame = 0;
-			//printf("prevented touch\n");
+			//printf("prevented touch - framecount: %d, StartFrame: %d\n", collData->game->getFrameCount(), collData->delayStartFrame);
 		}
 		else {
 			if (team == BV3D::BV3D_TEAM1)

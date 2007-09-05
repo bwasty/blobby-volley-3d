@@ -56,7 +56,7 @@ namespace BV3D
 		void switchToGame(bool bRestart);
 		void toggleFullscreen();
 
-		int getFrameCount() {return m_iFramerate;}
+		int getFrameCount() {return m_FrameCount;}
 		VRS::SO<Blobb> getBlobb(int i) {return m_BlobbArray->getElement(i-1);}
 	protected:
 		void switchToMenu();
@@ -89,6 +89,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>			mBackground;		//SceneNode for background
 
 		int			m_iFramerate;		// frame counter to allow frame rate checking
+		int			m_FrameCount;
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
 		double		m_FPS;		// desired frame rate

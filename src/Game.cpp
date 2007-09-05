@@ -60,6 +60,8 @@ BV3D::Game::Game() {
 	m_DelayedActionStart = 0;
 	m_ScheduleNewServe = false;
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
+	m_FrameCount = 0;
+
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
@@ -187,7 +189,7 @@ void BV3D::Game::update() {
 	//while (true) {
 
 		VRSTime time = m_Canvas->clock()->time();
-
+		//m_iFramerate++;
 		// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
 		if(double(time) - m_dLastUpdateTime >= 0.7/m_FPS) {
 			float timestep = (double)time - m_dLastUpdateTime;
@@ -195,6 +197,7 @@ void BV3D::Game::update() {
 
 			// count frames per second
 			m_iFramerate++;
+			m_FrameCount++;
 			if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
 				printf("framerate: %d\n",m_iFramerate);
 				m_dLastSecond = m_dLastUpdateTime;
@@ -241,8 +244,8 @@ void BV3D::Game::update() {
 			//printf("update\n");
 			//m_cbUpdate->deactivate();
 		}
-		else
-			printf("frame discarded\n");
+		else;
+			//printf("frame discarded\n");
 	//}
 }
 
