@@ -251,3 +251,13 @@ void BV3D::Menu::addText(const char* label, const char* command) {
 	matrix.setElement(1,3,menuHeightOffset);
 	mCurrentMenuScene->setLocalMatrix(matrix);
 }
+
+VRS::Color BV3D::Menu::getPlayer1Color() {
+	VRS::Color color = colors()[mP1Color];
+	return VRS::Color(color[0],color[1],color[2],BV3D::blobbAlpha);
+}
+
+VRS::Color BV3D::Menu::getPlayer2Color() {
+	VRS::Color color = colors()[mP2Color];
+	return VRS::Color(color[0],color[1],color[2],BV3D::blobbAlpha);
+}

@@ -62,6 +62,7 @@ namespace BV3D
 		void switchToMenu();
 		void initBackgroundCubeMap();
 		void setupSound();
+		void applyMenuSettings();
 
 	private:
 		double m_DelayedActionStart;

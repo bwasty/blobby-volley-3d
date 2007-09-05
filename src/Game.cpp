@@ -114,7 +114,6 @@ BV3D::Game::Game() {
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2, m_lookAt, true);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
-	blobb->setColor(Color(0.0,1.0,0.0, BV3D::blobbAlpha));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
@@ -171,6 +170,11 @@ BV3D::Game::Game() {
 
 BV3D::Game::~Game() {
 	delete[] m_BlobbArray;
+}
+
+void BV3D::Game::applyMenuSettings() {
+	m_BlobbArray->getElement(BV3D_TEAM1)->setColor(mMenu->getPlayer1Color());
+	m_BlobbArray->getElement(BV3D_TEAM2)->setColor(mMenu->getPlayer2Color());
 }
 
 /**
@@ -359,7 +363,9 @@ void BV3D::Game::newServe() {
 }
 
 // called by menu
-void BV3D::Game::switchToGame(bool bRestart) {
+void BV3D::Game::switchToGame(bool restart) {
+	applyMenuSettings();
+
 	// deactivate menu
 	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOff(mMenu->getScene());
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOff(mMenu->getSelector());
@@ -368,9 +374,6 @@ void BV3D::Game::switchToGame(bool bRestart) {
 	if(m_Canvas->contains(mScene)) m_Canvas->switchOn(mScene);
 	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOn(m_cbInput);
 	m_Canvas->setCursor(VRS::Cursor::Blank);
-
-	//if(bRestart) start new game
-	//else resume old game
 }
 
 void BV3D::Game::switchToMenu() {

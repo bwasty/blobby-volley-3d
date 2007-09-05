@@ -101,7 +101,7 @@ dFloat colData[5][5] = {
 
 	// set blobb local scene
 	mScene = new VRS::SceneThing();
-	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(0.5), 
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(0.5), 
 		100.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mScene->append(mMaterial);
 

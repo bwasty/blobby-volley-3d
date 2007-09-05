@@ -40,8 +40,8 @@ namespace BV3D
 	public:
 		CONTROLS getPlayer1Controls() {return mP1Controls;}
 		CONTROLS getPlayer2Controls() {return mP2Controls;}
-		COLOR getPlayer1Color() {return mP1Color;}
-		COLOR getPlayer2Color() {return mP2Color;}
+		VRS::Color getPlayer1Color();
+		VRS::Color getPlayer2Color();
 		RULES getRules() {return mRules;}
 		PLACE getPlace() {return mPlace;}
 
