@@ -209,7 +209,7 @@ void BV3D::Arena::createAItrigger(BV3D::BV3D_TEAM team) {
 	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
 
 	matrix[12] = (dFloat)BV3D::arenaExtent.get(0)/4;
-	matrix[13] = BV3D::blobbHeight+0.2;
+	matrix[13] = BV3D::blobbHeight+0.3;
 	matrix[14] = 0.0;
 	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)BV3D::arenaExtent.get(0)/2 - 0.2, 0, (dFloat)BV3D::arenaExtent.get(2), matrix);
 	NewtonBody* AITriggerBody = NewtonCreateBody(m_World, AITriggerCollision);
@@ -281,7 +281,7 @@ void BV3D::Arena::setupMaterials(BV3D::Game* game) {
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mFloorMaterialID, collDataBallFloor, contactBeginCallback, contactProcessCallback, NULL);
 
 	// TODO: ball on net? - middle elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.6f);
+	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.75f);
 
 	// TODO: ball on invisibleBarrier? - no collision
 	CollisionData* collDataBallBarrier = new CollisionData(*collData);
@@ -409,7 +409,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		collData->game->getBlobb(2)->setPosition(Vector(pos[0], 0, pos[2]));
 
 		if (v[0] < 0) { // ball moves toward the net -> use normal collision
-			NewtonMaterialSetContactElasticity(material, 0.8+(rand()%8)/10.0);
+			NewtonMaterialSetContactElasticity(material, 0.9+(rand()%9)/10.0);
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
 			collData->game->playSoundTouch();
 			return 1;
@@ -418,7 +418,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 			random = rand() % 10;
 			//printf("%d", random);
 			if (random<5 || (collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2)>1 && v[0] > 0)) {
-				random = (rand()%8) / 10.0;
+				random = (rand()%10) / 10.0;
 				v[0] = - v[0]*(0.8+random);
 				v[1] = - v[1]*(0.8+random);
 				v[2] = - v[2]*(0.8+random);

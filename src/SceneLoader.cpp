@@ -64,23 +64,23 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 
 
 	//palm trees
-	VRS::SO<VRS::SceneThing> palmTrees = new VRS::SceneThing();
-	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);	
-	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(0.0, 0.0, extent[2] + 10));
-	vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalPalm, scalPalm, scalPalm));
-	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 140.0);
-	palmTrees->setLocalMatrix(vrsMatrix);
-	palmTrees->append(VRS::ThreeDSReader::readScene(BV3D::threeDSPath + "palmtrees1_mrealms.3ds", "", false, false));
-	beachScene->append(palmTrees);
+	//VRS::SO<VRS::SceneThing> palmTrees = new VRS::SceneThing();
+	//VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);	
+	//VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
+	//vrsMatrix = VRS::Matrix::translation(VRS::Vector(0.0, 0.0, extent[2] + 10));
+	//vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalPalm, scalPalm, scalPalm));
+	//vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 140.0);
+	//palmTrees->setLocalMatrix(vrsMatrix);
+	//palmTrees->append(VRS::ThreeDSReader::readScene(BV3D::threeDSPath + "palmtrees1_mrealms.3ds", "", false, false));
+	//beachScene->append(palmTrees);
 
-	//yucca plants
-	VRS::SO<VRS::SceneThing> yucca = new VRS::SceneThing();
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0] / 2, 0.0, (extent[2] + 4)));
-	vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalYucca2, scalYucca2, scalYucca2));
-	yucca->setLocalMatrix(vrsMatrix);
-	yucca->append(VRS::ThreeDSReader::readScene(BV3D::threeDSPath + "yucca_mrealms.3ds", "", false, false));
-	beachScene->append(yucca);
+	////yucca plants
+	//VRS::SO<VRS::SceneThing> yucca = new VRS::SceneThing();
+	//vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0] / 2, 0.0, (extent[2] + 4)));
+	//vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalYucca2, scalYucca2, scalYucca2));
+	//yucca->setLocalMatrix(vrsMatrix);
+	//yucca->append(VRS::ThreeDSReader::readScene(BV3D::threeDSPath + "yucca_mrealms.3ds", "", false, false));
+	//beachScene->append(yucca);
 
 	//yucca 2
 	VRS::SO<VRS::SceneThing> yucca2 = new VRS::SceneThing();
