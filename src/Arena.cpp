@@ -188,12 +188,16 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	NewtonBody* invisibleBarrierBody = NewtonCreateBody(m_World, invisibleBarrierCollision);
 	NewtonReleaseCollision(m_World, invisibleBarrierCollision);
 	NewtonBodySetMaterialGroupID(invisibleBarrierBody, mInvisibleBarrierID);
+}
 
-	// TODO: create temporary AI trigger
-	matrix[12] = (dFloat)extent.get(0)/4;
+void BV3D::Arena::createAItrigger(BV3D::BV3D_TEAM team) {
+	// TODO: parameter is currently ignored!!
+	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
+
+	matrix[12] = (dFloat)BV3D::arenaExtent.get(0)/4;
 	matrix[13] = BV3D::blobbHeight+0.2;
 	matrix[14] = 0.0;
-	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)extent.get(0)/2 - 0.2, 0, (dFloat)extent.get(2), matrix);
+	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)BV3D::arenaExtent.get(0)/2 - 0.2, 0, (dFloat)BV3D::arenaExtent.get(2), matrix);
 	NewtonBody* AITriggerBody = NewtonCreateBody(m_World, AITriggerCollision);
 	NewtonBodySetMaterialGroupID(AITriggerBody, mAITriggerID);
 	NewtonReleaseCollision(m_World, AITriggerCollision);
@@ -325,7 +329,7 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		// wait some frames after blobb touches ball before new touch gets counted
 		if (collData->referee->getCurrentContacts(team) > 0 && collData->game->getFrameCount() - collData->delayStartFrame < 25) {
 			collData->delayStartFrame = 0;
-			printf("prevented touch\n");
+			//printf("prevented touch\n");
 		}
 		else {
 			if (team == BV3D::BV3D_TEAM1)
@@ -392,7 +396,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		collData->game->getBlobb(2)->setPosition(Vector(pos[0], 0, pos[2]));
 
 		if (v[0] < 0) { // ball moves toward the net -> use normal collision
-			NewtonMaterialSetContactElasticity(material, 0.9+(rand()%9)/10.0);
+			NewtonMaterialSetContactElasticity(material, 0.8+(rand()%8)/10.0);
 			collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
 			collData->game->playSoundTouch();
 			return 1;
@@ -401,10 +405,10 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 			random = rand() % 10;
 			//printf("%d", random);
 			if (random<5 || (collData->referee->getCurrentContacts(BV3D::BV3D_TEAM2)>1 && v[0] > 0)) {
-				random = rand()%8;
-				v[0] = - v[0]*(0.7+random/10.0);
-				v[1] = - v[1]*(0.7+random/10.0);
-				v[2] = - v[2]*(0.7+random/10.0);
+				random = (rand()%8) / 10.0;
+				v[0] = - v[0]*(0.8+random);
+				v[1] = - v[1]*(0.8+random);
+				v[2] = - v[2]*(0.8+random);
 				NewtonBodySetVelocity(body, v);
 				collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
 				collData->game->playSoundTouch();

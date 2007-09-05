@@ -26,7 +26,7 @@ namespace BV3D
 
 	class Blobb : public VRS::SharedObj {
 	public:
-		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt);
+		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled);
 		~Blobb();
 		void setPosition(VRS::Vector position);
 		void setLookAt(VRS::SO<VRS::LookAt> lookAt) {mLookAt = lookAt;}
@@ -40,6 +40,7 @@ namespace BV3D
 		bool isMoving();
 		VRS::SO<VRS::SceneThing> updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
+		bool isAIcontrolled() {return mIsAIcontrolled;}
 
 	protected:
 		VRS::Vector getMovement();
@@ -47,6 +48,7 @@ namespace BV3D
 
 	public:
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
+		void aiServe();
 		
 
 	private:
@@ -65,11 +67,14 @@ namespace BV3D
 		bool							mInit;
 		int								mStep;
 		static const int				mMaxStep = 1;
+		bool							mIsAIcontrolled;
+		bool							mAIjump;
 
 	private:	// physics
 		VRS::SO<BV3D::Arena>			mArena;		// parent physics object
 		NewtonBody*						mBody;		// physical body in simulated world
 		NewtonCollision**				mCollision;	// pointer to newton (compound) collision objects
+
 	};
 }
 

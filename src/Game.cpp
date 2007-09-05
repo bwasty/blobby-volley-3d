@@ -106,7 +106,7 @@ BV3D::Game::Game() {
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
-	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1, m_lookAt);
+	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1, m_lookAt, false);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
 	mBlobbScenesArray->append(new SceneThing());
@@ -114,7 +114,7 @@ BV3D::Game::Game() {
 	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1));
 	m_BlobbArray->append(blobb);
 
-	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2, m_lookAt);
+	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2, m_lookAt, true);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->setColor(Color(0.0,0.0,1.0, BV3D::blobbAlpha));
@@ -133,6 +133,7 @@ BV3D::Game::Game() {
 	newServe();
 
 	m_Arena->setupMaterials(this);
+	m_Arena->createAItrigger();
 
 	VRS::SO<HUD> mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
@@ -196,7 +197,7 @@ void BV3D::Game::update() {
 
 
 		if (m_DelayedActionStart != 0) {
-			if (double(time) - m_DelayedActionStart >= 2.5) {
+			if (double(time) - m_DelayedActionStart >= 3.0) {
 				newServe();
 				m_DelayedActionStart = 0;
 			}
@@ -344,6 +345,8 @@ void BV3D::Game::newServe() {
 	m_Ball->resetPosition(pos);
 
 	m_Referee->setActive(true);
+	if (team == BV3D::BV3D_TEAM2 && getBlobb(2)->isAIcontrolled())
+		getBlobb(2)->aiServe();
 
 }
 

@@ -102,6 +102,8 @@ namespace BV3D {
 		int getInvisibleBarrierID() {return mInvisibleBarrierID;}
 		int getAITriggerID(){return mAITriggerID;}
 
+		void createAItrigger(BV3D::BV3D_TEAM team = BV3D::BV3D_TEAM2);
+
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
 		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	m_WallsVertices;	// vertices for walls

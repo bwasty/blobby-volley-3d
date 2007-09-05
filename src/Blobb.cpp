@@ -50,7 +50,7 @@ dFloat colData[5][5] = {
  * ctor
  * \param arena specifies the arena in which the blobb is simulated
  */
-	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt) {
+	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled) {
 	mArena = arena;
 	mTeam = team;
 	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
@@ -63,6 +63,8 @@ dFloat colData[5][5] = {
 	mDecreasing = false;
 	mIsMoving = false;
 	mInit = true;
+	mIsAIcontrolled = isAIcontrolled;
+	mAIjump = false;
 	
 	// set up the blobb animation scenes
 	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
@@ -275,7 +277,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	VRS::Vector movement = requestedMovement[0] * VRS::Vector(orientation[2], 0, -orientation[0])
 			+ requestedMovement[2] * orientation;
 
-	if(requestedMovement[1]) {
+	if(requestedMovement[1] || mAIjump) {
 		if(mJumpAllowed)
 			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
 	}
@@ -326,8 +328,10 @@ void BV3D::Blobb::update() {
 		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
 		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
-	if(newtonMatrix[13]>2.0)	// prevent blobb from jumping too high
+	if(newtonMatrix[13]>2.0) {	// prevent blobb from jumping too high
 		mJumpAllowed = false;
+		mAIjump = false;
+	}
 	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
 		mJumpAllowed = true;
 	mScene->setLocalMatrix(vrsMatrix);
@@ -342,4 +346,10 @@ void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
 	BV3D::Blobb* blobb = (BV3D::Blobb*)NewtonBodyGetUserData(body);
 	if (blobb)
 		blobb->update();
+}
+
+void BV3D::Blobb::aiServe() {
+	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
+	setPosition(VRS::Vector(BV3D::arenaExtent[0]/4+1.3+random/6, 0.0,random));
+	mAIjump = true;
 }
