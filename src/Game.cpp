@@ -147,7 +147,10 @@ BV3D::Game::Game() {
 	m_FPS = 30.0;	// assuming 30 fps are desired
 	m_cbUpdate = new BehaviorCallback();
 	m_cbUpdate->setTimeCallback(new MethodCallback<Game>(this,&Game::update));
+	//m_cbUpdate->setTimeRequirement(TimeRequirement::infinite);
+	//m_cbUpdate->activate();
 	m_Canvas->append(m_cbUpdate);
+	//m_Canvas->switchOn(m_cbUpdate);
 	//m_Canvas->engine()->addPreRenderCallback();
 
 	// init input callback
@@ -186,7 +189,7 @@ void BV3D::Game::update() {
 		VRSTime time = m_Canvas->clock()->time();
 
 		// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
-		if(double(time) - m_dLastUpdateTime >= 0.8/m_FPS) {
+		if(double(time) - m_dLastUpdateTime >= 0.7/m_FPS) {
 			float timestep = (double)time - m_dLastUpdateTime;
 			m_dLastUpdateTime = double(time);
 
@@ -230,11 +233,16 @@ void BV3D::Game::update() {
 					mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
 				}*/
 
-			m_Canvas->redisplay();
+			//m_Canvas->redisplay();
 			//m_Canvas->postForRedisplay();
+			m_cbUpdate->nextRedraw(BehaviorNode::RedrawWindow);
+
 			m_fmodSystem->update();
 			//printf("update\n");
+			//m_cbUpdate->deactivate();
 		}
+		else
+			printf("frame discarded\n");
 	//}
 }
 
