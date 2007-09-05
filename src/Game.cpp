@@ -56,6 +56,7 @@
 #include "Hud.h"
 
 BV3D::Game::Game() {
+	m_dLastSecond = 0;
 	m_DelayedActionStart = 0;
 	m_ScheduleNewServe = false;
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
