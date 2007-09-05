@@ -23,7 +23,7 @@
 #include <vrs/lookat.h>
 #include <Newton.h>
 
-/*3ds-blobb measures: 
+/*3ds-blobb measures:
 		blobb1.3ds:
 			height: 2.6		lower radius: 1.0	lower center: 1.0
 							upper radius: 0.9	upper center: 1.5)
@@ -68,12 +68,12 @@ dFloat colData[5][5] = {
 	mInit = true;
 	mIsAIcontrolled = isAIcontrolled;
 	mAIjump = false;
-	
+
 	// set up the blobb animation scenes
 	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
 	mShapes->clear();
 
-	
+
 	//VRS::WavefrontReader reader = VRS::WavefrontReader();
 	//VRS::ID id = VRS::ID("blobb1");
 	//VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb1.obj");
@@ -92,7 +92,7 @@ dFloat colData[5][5] = {
 	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
 
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-	
+
 	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds"));	// TODO: exception handling
 	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb2.3ds"));
 	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb3.3ds"));
@@ -101,13 +101,13 @@ dFloat colData[5][5] = {
 
 	// set blobb local scene
 	mScene = new VRS::SceneThing();
-	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(0.5), 
-		100.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(1.0),
+		6.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mScene->append(mMaterial);
 
 	for(int i = 0; i < mNumShapes; i++)
 		mScene->append(mShapes->getElement(i));
-	
+
 	// physics setup
 	NewtonWorld* world = mArena->getWorld();
 	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
@@ -142,7 +142,7 @@ dFloat colData[5][5] = {
 
 	// set up mass matrix
 	dFloat radius = 1.0;
-	dFloat inertia = 2*1*(radius * radius) / 5; 
+	dFloat inertia = 2*1*(radius * radius) / 5;
 	NewtonBodySetMassMatrix(mBody, 50 ,inertia,inertia,inertia);
 
 	// attach an up-vector joint prevent blobb from leaning and tipping over
@@ -346,9 +346,9 @@ void BV3D::Blobb::update() {
 	dFloat newtonMatrix[16];
 	NewtonBodyGetMatrix(mBody,newtonMatrix);
 	VRS::Matrix vrsMatrix (
-		newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
-		newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
-		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
+		newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12],
+		newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13],
+		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14],
 		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
 	if(newtonMatrix[13]>2.0) {	// prevent blobb from jumping too high

@@ -88,12 +88,10 @@ BV3D::Game::Game() {
 	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
 	mScene->append(mTopLight);
 
-	// create TEMPORARY floor
-	VRS::SO<VRS::SceneThing> floorScene = new VRS::SceneThing(mScene);
-	floorScene->append(new VRS::Shadowed(mTopLight));
-	floorScene->append(new VRS::Box(VRS::Vector(-BV3D::arenaExtent[0]/2,0.0,-BV3D::arenaExtent[2]/2),
-									VRS::Vector(BV3D::arenaExtent[0]/2,0.01,BV3D::arenaExtent[2]/2)));
-
+	mBackground = m_SceneLoader->loadBeach();
+	mBackground->prepend(new VRS::Shadowed(mTopLight));
+	mScene->append(mBackground);
+	
 	// TODO: select specific referee via menu/config
 	m_Referee = new BV3D::TieBreakReferee(this);
 

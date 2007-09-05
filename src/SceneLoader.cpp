@@ -192,7 +192,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHotDesertSkybox()
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBrightDaySkybox()
 {
-	printf("Loading Hot Desert Background...\n");
+	printf("Loading Bright Day Background...\n");
 	VRS::SO<VRS::Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<VRS::SO<VRS::Image> >(6);
 	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "brightday_cubemap/brightday1_posx.png");
 	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "brightday_cubemap/brightday1_negx.png");
