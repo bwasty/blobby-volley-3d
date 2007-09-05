@@ -153,6 +153,7 @@ BV3D::Game::Game() {
 	m_cbUpdate = new BehaviorCallback();
 	m_cbUpdate->setTimeCallback(new MethodCallback<Game>(this,&Game::update));
 	m_Canvas->append(m_cbUpdate);
+	//m_Canvas->engine()->addPreRenderCallback();
 
 	// init input callback
 	m_cbInput = new BehaviorCallback();
@@ -167,6 +168,8 @@ BV3D::Game::Game() {
 	//switchToMenu();	// start showing menu
 
 	m_Referee->startNewGame();
+
+	//update();
 }
 
 BV3D::Game::~Game() {
@@ -177,56 +180,62 @@ BV3D::Game::~Game() {
  * update() is called periodically on timer events to redisplay the whole scene
  */
 void BV3D::Game::update() {
-	VRSTime time = m_Canvas->clock()->time();
 
-	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
-	if(double(time) - m_dLastUpdateTime >= 0.8/m_FPS) {
-		float timestep = (double)time - m_dLastUpdateTime;
-		m_dLastUpdateTime = double(time);
+	//while (true) {
 
-		// count frames per second
-		m_iFramerate++;
-		if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
-			printf("framerate: %d\n",m_iFramerate);
-			m_dLastSecond = m_dLastUpdateTime;
-			m_iFramerate = 0;
-		}
+		VRSTime time = m_Canvas->clock()->time();
 
-		if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
-			m_Arena->updateWorld(timestep);
+		// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
+		if(double(time) - m_dLastUpdateTime >= 0.8/m_FPS) {
+			float timestep = (double)time - m_dLastUpdateTime;
+			m_dLastUpdateTime = double(time);
 
-
-		if (m_DelayedActionStart != 0) {
-			if (double(time) - m_DelayedActionStart >= 3.0) {
-				newServe();
-				m_DelayedActionStart = 0;
+			// count frames per second
+			m_iFramerate++;
+			if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
+				printf("framerate: %d\n",m_iFramerate);
+				m_dLastSecond = m_dLastUpdateTime;
+				m_iFramerate = 0;
 			}
-		}
-		if (m_ScheduleNewServe) {
-			m_DelayedActionStart = double(time);
-			m_ScheduleNewServe = false;
-		}
 
-		//animate blobbs if they're moving
-		m_BlobbArray->getElement(BV3D::BV3D_TEAM1)->updateShape(m_Canvas);
-		m_BlobbArray->getElement(BV3D::BV3D_TEAM2)->updateShape(m_Canvas);
+			if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
+				m_Arena->updateWorld(timestep);
 
-		/*	team = BV3D::BV3D_TEAM1;
-			if (m_BlobbArray->getElement(team)->isMoving())
-			{
-				mBlobbScenesArray->getElement(team)->clear();
-				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+
+			if (m_DelayedActionStart != 0) {
+				if (double(time) - m_DelayedActionStart >= 3.0) {
+					newServe();
+					m_DelayedActionStart = 0;
+				}
 			}
-			team = BV3D::BV3D_TEAM2;
-			if (m_BlobbArray->getElement(team)->isMoving())
-			{
-				mBlobbScenesArray->getElement(team)->clear();
-				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
-			}*/
+			if (m_ScheduleNewServe) {
+				m_DelayedActionStart = double(time);
+				m_ScheduleNewServe = false;
+			}
 
-		m_Canvas->redisplay();
-		m_fmodSystem->update();
-	}
+			//animate blobbs if they're moving
+			m_BlobbArray->getElement(BV3D::BV3D_TEAM1)->updateShape(m_Canvas);
+			m_BlobbArray->getElement(BV3D::BV3D_TEAM2)->updateShape(m_Canvas);
+
+			/*	team = BV3D::BV3D_TEAM1;
+				if (m_BlobbArray->getElement(team)->isMoving())
+				{
+					mBlobbScenesArray->getElement(team)->clear();
+					mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+				}
+				team = BV3D::BV3D_TEAM2;
+				if (m_BlobbArray->getElement(team)->isMoving())
+				{
+					mBlobbScenesArray->getElement(team)->clear();
+					mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+				}*/
+
+			m_Canvas->redisplay();
+			//m_Canvas->postForRedisplay();
+			m_fmodSystem->update();
+			//printf("update\n");
+		}
+	//}
 }
 
 /**

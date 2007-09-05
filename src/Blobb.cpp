@@ -41,11 +41,11 @@
 //	lower vertical offset/radius, lower horizontal radius
 //	upper vertical offset, upper horizontal radius, upper vertical radius
 dFloat colData[5][5] = {
-	{1.0f, 1.0f, 1.5f, 0.9f, 1.1f},
-	{0.9f, 1.01f, 1.35f, 0.9f, 1.1f},
-	{0.8f, 1.05f, 1.2f, 0.9f, 1.1f},
-	{0.65f, 1.1f, 1.1f, 0.9f, 1.0f},
-	{0.5f, 1.2f, 1.0f, 0.9f, 0.9f} };
+	{1.0f+0.1, 1.0f, 1.5f, 0.9f, 1.1f},
+	{0.9f+0.1, 1.01f, 1.35f, 0.9f, 1.1f},
+	{0.8f+0.1, 1.05f, 1.2f, 0.9f, 1.1f},
+	{0.65f+0.1, 1.1f, 1.1f, 0.9f, 1.0f},
+	{0.5f+0.1, 1.2f, 1.0f, 0.9f, 0.9f} };
 /**
  * ctor
  * \param arena specifies the arena in which the blobb is simulated
@@ -94,7 +94,7 @@ dFloat colData[5][5] = {
 	// create one compound collision for each blobb?.3ds
 	for(int shape=0; shape<5; shape++) {
 		// create lower collision sphere
-		matrix[13] = colData[shape][0];		// set vertical offset of lower sphere
+		matrix[13] = colData[shape][0]-0.1;		// set vertical offset of lower sphere
 		colSphere[0] = NewtonCreateSphere(world,
 			colData[shape][1],	// use lower horizontal radius
 			colData[shape][0],	// use lower vertical radius
