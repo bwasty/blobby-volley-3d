@@ -25,15 +25,25 @@ namespace BV3D
 		enum RULES {CLASSIC, TIE_BREAK, MAX_RULES};
 		enum COLOR {RED, GREEN, BLUE, YELLOW, CORAL, CYAN, MAX_COLORS};
 		enum CONTROLS {KB_ARROWS, KB_WASD, MOUSE, AI, MAX_CONTROLS};
+
 	private:
 		enum MENUSCREEN {MAIN,CREDITS,OPTIONS,GAME,P1,P2};
 		enum FULLSCREEN {OFF,ON};
+
 	public:
 		Menu(VRS::SO<Game> game);
 		virtual ~Menu() {}
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 		VRS::SO<VRS::Selector> getSelector() {return mSelector;}
 		void showMainMenu(bool paused);
+
+	public:
+		CONTROLS getPlayer1Controls() {return mP1Controls;}
+		CONTROLS getPlayer2Controls() {return mP2Controls;}
+		COLOR getPlayer1Color() {return mP1Color;}
+		COLOR getPlayer2Color() {return mP2Color;}
+		RULES getRules() {return mRules;}
+		PLACE getPlace() {return mPlace;}
 
 	protected:
 		void select();
