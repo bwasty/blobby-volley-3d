@@ -11,6 +11,7 @@
 #include <vrs/cone.h>
 #include <vrs/translation.h>
 #include <vrs/box.h>
+#include <vrs/io/threedsreader.h>
 //#include <vrs/container/array.h>
 
 #include <Newton.h>
@@ -149,21 +150,34 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 
 
 	// create net
-	m_Net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
+	/* net1.3ds
+		width: 12.0		height: 2.1		depth: 0.14
+	*/
+	double width3ds = 12.0;
+	double height3ds = 2.1;
+	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(m_Net);
 	double netDepth = 0.03;
+	double poleOffset = 1.0;
 	Bounds netBoxBounds = Bounds(Vector(netDepth, BV3D::netHeight/2+0.1, BV3D::arenaExtent[2]/2+0.1), Vector(-netDepth, BV3D::netHeight-0.05, -(BV3D::arenaExtent[2]/2+0.1)));
-	m_Net->append(new VRS::Box(netBoxBounds));
+	VRS::Matrix netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(BV3D::arenaExtent[2]/2 + poleOffset)), -90.0);
+	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::netHeight - height3ds, -(BV3D::arenaExtent[2]/2 + poleOffset)));
+	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((arenaExtent[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+	localNet->setLocalMatrix(netMatrix);
+	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
+	localNet->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "net1.3ds"));
+
 	double poleRadius = 0.14;
+	m_Net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
 	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), poleRadius);
 	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, poleRadius);
 	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
 	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
 	m_Net->append(pole1);
 	m_Net->append(pole2);
-	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::arenaExtent[2]/2+poleRadius))));
+	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::arenaExtent[2]/2+poleRadius+poleOffset))));
 	pole1->append(cone);
 	pole1->append(cylinder);
-	pole2->append(new VRS::Translation(Vector(0,0,BV3D::arenaExtent[2]/2+poleRadius)));
+	pole2->append(new VRS::Translation(Vector(0,0,BV3D::arenaExtent[2]/2+poleRadius+poleOffset)));
 	pole2->append(cone);
 	pole2->append(cylinder);
 

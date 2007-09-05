@@ -16,6 +16,9 @@
 #include <vrs/opengl/shapematerialgl.h>
 #include <vrs/sg/inputevent.h>
 #include <vrs/io/threedsreader.h>
+#include <vrs/io/wavefrontreader.h>
+#include <vrs/io/vrml1reader.h>
+#include <vrs/io/filedataresource.h>
 #include <vrs/sg/canvas.h>
 #include <vrs/lookat.h>
 #include <Newton.h>
@@ -69,6 +72,25 @@ dFloat colData[5][5] = {
 	// set up the blobb animation scenes
 	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
 	mShapes->clear();
+
+	
+	//VRS::WavefrontReader reader = VRS::WavefrontReader();
+	//VRS::ID id = VRS::ID("blobb1");
+	//VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb1.obj");
+	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
+	//id = VRS::ID("blobb2");
+	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb2.obj");
+	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
+	//id = VRS::ID("blobb3");
+	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb3.obj");
+	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
+	//id = VRS::ID("blobb4");
+	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb4.obj");
+	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
+	//id = VRS::ID("blobb5");
+	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb5.obj");
+	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
+
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 	
 	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds"));	// TODO: exception handling
@@ -80,8 +102,9 @@ dFloat colData[5][5] = {
 	// set blobb local scene
 	mScene = new VRS::SceneThing();
 	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(0.5), 
-		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
+		100.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mScene->append(mMaterial);
+
 	for(int i = 0; i < mNumShapes; i++)
 		mScene->append(mShapes->getElement(i));
 	

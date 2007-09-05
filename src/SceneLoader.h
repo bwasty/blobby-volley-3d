@@ -11,6 +11,8 @@ namespace VRS{
 	template<class T> class SO;
 	class SceneThing;
 	class ThreeDSReader;
+	class Light;
+	class Image;
 }
 
 namespace BV3D
@@ -21,6 +23,14 @@ namespace BV3D
 		SceneLoader(void);
 		~SceneLoader(void);
 		VRS::SO<VRS::SceneThing> loadBeach();
+
+		VRS::SO<VRS::SceneThing> loadDesertSkybox();
+		VRS::SO<VRS::SceneThing> loadWaterscapeSkybox();
+		VRS::SO<VRS::SceneThing> loadIslandsSkybox();
+		VRS::SO<VRS::SceneThing> loadHotDesertSkybox();
+		VRS::SO<VRS::SceneThing> loadBrightDaySkybox();
+		VRS::SO<VRS::SceneThing> loadZolsky6Skybox();
+
 	};
 }
 

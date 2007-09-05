@@ -16,7 +16,6 @@
 #include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
 #include <vrs/sg/jumpnavigation.h>
-#include <vrs/opengl/backgroundgl.h>
 #include <vrs/glut/glutcanvas.h>
 #include <vrs/camera.h>
 #include <vrs/sg/scenething.h>
@@ -27,8 +26,6 @@
 #include <vrs/opengl/transparencytechniquegl.h>
 #include <vrs/sg/interactionmode.h>
 #include <vrs/sg/interactionconcept.h>
-#include <vrs/opengl/imagecubemaptexturegl.h>
-#include <vrs/io/pngreader.h>
 #include <vrs/lookat.h>
 #include <vrs/perspective.h>
 #include <vrs/opengl/texgengl.h>
@@ -88,12 +85,12 @@ BV3D::Game::Game() {
 	mScene->append(m_PointLight);
 
 	// create directional light for shadows
-	VRS::SO<VRS::DistantLight> topLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
-	mScene->append(topLight);
+	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
+	mScene->append(mTopLight);
 
 	// create TEMPORARY floor
 	VRS::SO<VRS::SceneThing> floorScene = new VRS::SceneThing(mScene);
-	floorScene->append(new VRS::Shadowed(topLight));
+	floorScene->append(new VRS::Shadowed(mTopLight));
 	floorScene->append(new VRS::Box(VRS::Vector(-BV3D::arenaExtent[0]/2,0.0,-BV3D::arenaExtent[2]/2),
 									VRS::Vector(BV3D::arenaExtent[0]/2,0.01,BV3D::arenaExtent[2]/2)));
 
@@ -108,7 +105,7 @@ BV3D::Game::Game() {
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
 	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1, m_lookAt, false);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
-	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
+	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1));
@@ -117,8 +114,8 @@ BV3D::Game::Game() {
 	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2, m_lookAt, true);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
-	blobb->setColor(Color(0.0,0.0,1.0, BV3D::blobbAlpha));
-	blobb->getScene()->prepend(new VRS::ShadowCaster(topLight));
+	blobb->setColor(Color(0.0,1.0,0.0, BV3D::blobbAlpha));
+	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM2));
@@ -127,7 +124,7 @@ BV3D::Game::Game() {
 	//m_Arena->setExtent(Vector(8.0,10.0,6.0));
 
 	m_Ball = new BV3D::Ball(m_Arena);
-	m_Ball->getScene()->prepend(new VRS::ShadowCaster(topLight));
+	m_Ball->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mScene->append(m_Ball->getScene());
 	//m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 	newServe();
@@ -259,35 +256,35 @@ void BV3D::Game::processInput() {
 					initBackgroundCubeMap();
 					break;
 				case Key::F2:	//view field from the side
-					m_Navigation->initPath(Vector(0.0, 10.0, -15.0), Vector(0.0, -10.0, 15.0) + BV3D::lookTo);
+					m_Navigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
 					break;
 				case Key::F3:	//view field from above
-					m_Navigation->initPath(Vector(0.0, 15.0, -0.1), Vector(0.0, -15.0, 0.1) + BV3D::lookTo);
+					m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
 					//printf("Key F2 pressed\n");
 					break;
 				case Key::F4:	//view field from the front(from baseline of one blobb's field)
-					m_Navigation->initPath(Vector(15.0, 15.0, 0.0), Vector(-15.0, -15.0, 0.0) + BV3D::lookTo);
+					m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 5.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 5, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 					break;
 				case Key::F5:	//view field from the side "lying on the ground"
-					m_Navigation->initPath(Vector(0.0, 0.0, -15.0), Vector(0.0, 3.0, 15.0));
+					m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
 					break;
 				case Key::F6:	//view field from +y-axis
-					m_Navigation->initPath(Vector(0.0, 10.0, 15.0), Vector(0.0, -10.0, -15.0) + BV3D::lookTo);
+					m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
 					break;
 				case Key::F7:	//view field from -x-axis
-					m_Navigation->initPath(Vector(-15.0, 15.0, 0.0), Vector(15.0, -15.0, 0.0) + BV3D::lookTo);
+					m_Navigation->initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 					break;
 				case Key::F8:	//view field from center in -x direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(-1.0, 1.0, 0.0));
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(-1.0, 0.5, 0.0));
 					break;
 				case Key::F9:	//view field from center in -z direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, -1.0));
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.5, -1.0));
 					break;
 				case Key::F10:	//view field from center in x direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(1.0, 1.0, 0.0));
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(1.0, 0.5, 0.0));
 					break;
 				case Key::F11:	//view field from center in z direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 1.0, 1.0));
+					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.5, 1.0));
 					break;
 				case Key::Insert:	//load surroundings
 					printf("Loading beach...\n");
@@ -308,29 +305,31 @@ void BV3D::Game::processInput() {
 
 void BV3D::Game::initBackgroundCubeMap()
 {
-	VRS::SO<VRS::SceneThing> backgroundScene = new VRS::SceneThing();
-	printf("Loading Background Cupemap...\n");
-	SO<Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<SO<Image> >(6);
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posx.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_negx.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posy.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_negy.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_posz.png");
-	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(Image, BV3D::cubemapsPath + "waterscape_cubemap/waterscape_negz.png");
-
-	m_BackCubeMap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
-	//m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
-	//m_BackNode->append(new Sphere(19.0));
-
-	m_Background = new VRS::BackgroundGL(m_BackCubeMap);
-	backgroundScene->append(m_Background);
-	mScene->append(backgroundScene);
-
-	///m_BackCubeMap = new ImageCubeMapTextureGL(cubemapImages->newIterator());
-	///m_BackNode = new SceneThing(m_RootScene);
-    ///m_BackNode->append(m_BackCubeMap);
-	///m_BackNode->append(new TexGenGL(TexGenGL::EyeLocal));//Spherical, ReflectionMap, Object, Eye, Object, EyeLocal
-	///m_BackNode->append(new Sphere(19.0));
+	int selector = 4;
+	if (mBackground)
+		mScene->remove(mBackground);
+	switch (selector)
+	{
+		case 0:
+			mBackground = m_SceneLoader->loadDesertSkybox();
+			break;
+		case 1:
+			mBackground = m_SceneLoader->loadWaterscapeSkybox();
+			break;
+		case 2:
+			mBackground = m_SceneLoader->loadIslandsSkybox();
+			break;
+		case 3:
+			mBackground = m_SceneLoader->loadHotDesertSkybox();
+			break;
+		case 4:
+			mBackground = m_SceneLoader->loadBrightDaySkybox();
+			break;
+		case 5:
+			mBackground = m_SceneLoader->loadZolsky6Skybox();
+			break;
+	}
+	mScene->append(mBackground);
 }
 
 void BV3D::Game::scheduleNewServe() {
