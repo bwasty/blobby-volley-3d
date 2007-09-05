@@ -24,7 +24,7 @@ namespace BV3D
 		enum PLACE {BEACH, BEACH_AGAIN, MAX_PLACES};
 		enum RULES {CLASSIC, TIE_BREAK, MAX_RULES};
 		enum COLOR {RED, GREEN, BLUE, YELLOW, CORAL, CYAN, MAX_COLORS};
-		enum CONTROLS {KB_ARROWS, KB_WASD, MOUSE, AI, MAX_CONTROLS};
+		enum CONTROLS {KB_ARROWS, KB_WASD, MOUSE, AI, MAX_CONTROLS, MAX_P1_CONTROLS=3};
 
 	private:
 		enum MENUSCREEN {MAIN,CREDITS,OPTIONS,GAME,P1,P2};
@@ -56,7 +56,7 @@ namespace BV3D
 			static const VRS::Color colorz[] = {VRS::Color::red, VRS::Color::green, VRS::Color::blue,
 				VRS::Color::yellow, VRS::Color::coral, VRS::Color::cyan}; return colorz;}
 		static const char** controls() {
-			static const char* controlz[] = {"Arrows + Space", "WASD+Shift", "Mouse", "Ai"}; return controlz;}
+			static const char* controlz[] = {"Arrows + Space", "WASD+Shift", "Mouse", "Computer"}; return controlz;}
 
 	private:	// settings
 		MENUSCREEN	mCurrentScreen;

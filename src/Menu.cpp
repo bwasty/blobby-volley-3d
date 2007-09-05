@@ -124,7 +124,7 @@ void BV3D::Menu::select() {
 			mGame->playSoundWhistle();
 			showMenu(P2);}
 		else if(name.compare("P1Controls")==0) {
-			mP1Controls = (CONTROLS)((mP1Controls+1) % MAX_CONTROLS);
+			mP1Controls = (CONTROLS)((mP1Controls+1) % MAX_P1_CONTROLS);
 			mGame->playSoundWhistle();
 			showMenu(P1);}
 		else if(name.compare("P2Controls")==0) {
