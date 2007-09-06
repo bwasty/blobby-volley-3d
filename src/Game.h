@@ -72,6 +72,8 @@ namespace BV3D
 		FMOD::System     *m_fmodSystem;
 		FMOD::Sound      *soundTouch, *soundWhistle;
 
+		VRS::SO<HUD>			mHud;
+
 		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
 		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
 		VRS::SO<VRS::Array<VRS::SO<VRS::SceneThing> > >	mBlobbScenesArray;	// list of BlobbScenes
@@ -100,7 +102,7 @@ namespace BV3D
 		VRS::SO<Referee>		m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
 		VRS::SO<Menu>			mMenu;
-		VRS::SO<HUD>			mHud;
+
 		
 	};
 }
