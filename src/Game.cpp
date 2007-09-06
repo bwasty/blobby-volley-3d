@@ -179,10 +179,11 @@ void BV3D::Game::applyMenuSettings() {
 		case Menu::KB_ARROWS: controls = new KeyboardControls(); break;
 		case Menu::KB_WASD: {
 			VRS::SO<KeyboardControls> kb = new KeyboardControls();
-			kb->setBinding(Controls::FORWARD,0);
-			kb->setBinding(Controls::BACKWARD,0);
-			kb->setBinding(Controls::LEFT,0);
-			kb->setBinding(Controls::RIGHT,0);
+			kb->setBinding(Controls::FORWARD,119);	//
+			kb->setBinding(Controls::BACKWARD,115);
+			kb->setBinding(Controls::LEFT,97);
+			kb->setBinding(Controls::RIGHT,100);
+			kb->setBinding(Controls::JUMP,113);
 			controls = kb;
 			break;}
 		case Menu::MOUSE: controls = new MouseControls(); break;
@@ -230,7 +231,7 @@ void BV3D::Game::update() {
 			m_iFramerate++;
 			m_FrameCount++;
 			if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
-				printf("framerate: %d\n",m_iFramerate);
+				//printf("framerate: %d\n",m_iFramerate);
 				m_dLastSecond = m_dLastUpdateTime;
 				m_iFramerate = 0;
 			}

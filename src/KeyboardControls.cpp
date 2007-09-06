@@ -25,7 +25,7 @@ void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
 	VRS::SO<VRS::KeyEvent> ke = VRS_Cast(VRS::KeyEvent, ie);
 
 	// process KeyEvents only
-	if(ke != NULL) { printf("%d\n",ke->keyCode());
+	if(ke != NULL) { //printf("%d\n",ke->keyCode());
 		for(int i=0;i<5;i++)
 			if(ke->keyCode()==m_Binding[i])
 				mRequests[i] = ke->pressed();	// signal state of request

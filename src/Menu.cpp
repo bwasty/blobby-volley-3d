@@ -147,7 +147,7 @@ void BV3D::Menu::showMenu(MENUSCREEN screen) {
 		case MAIN:
 			if(mGameIsPaused) {
 				addText("Resume");
-				addText("Restart","Start");}
+				addText("Start New Game","Start");}
 			else
 				addText("Start");
 			addText("Options");

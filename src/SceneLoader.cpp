@@ -60,11 +60,11 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	palmTree->setLocalMatrix(vrsMatrix);
 	palmTree->append(palmModel);
 
-	palmTree = new VRS::SceneThing(beachScene);
+	/*palmTree = new VRS::SceneThing(beachScene);
 	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/2, 0.0, extent[2] + 5));
 	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 140.0);
 	palmTree->setLocalMatrix(vrsMatrix);
-	palmTree->append(palmModel);	
+	palmTree->append(palmModel);*/	
 
 	/*palmTree = new VRS::SceneThing(beachScene);
 	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/3, 0.0, extent[2] + 8));
