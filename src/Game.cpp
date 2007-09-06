@@ -44,7 +44,8 @@
 #include <fmod_errors.h>
 
 #include "Game.h"
-#include "MouseControls.h"	// TODO: delete if no longer needed
+#include "MouseControls.h"
+#include "KeyboardControls.h"
 #include "Ball.h"
 //#include "Constants.h"
 #include "Arena.h"
@@ -97,9 +98,6 @@ BV3D::Game::Game() {
 	mBackground->prepend(new VRS::Shadowed(mTopLight));
 	mScene->append(mBackground);
 	
-	// TODO: select specific referee via menu/config
-	m_Referee = new BV3D::TieBreakReferee(this);
-
 	m_Arena = new BV3D::Arena();
 	mScene->append(m_Arena->getScene());
 
@@ -129,15 +127,12 @@ BV3D::Game::Game() {
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mScene->append(m_Ball->getScene());
 	//m_Ball->resetPosition(Vector(0.0,3.5,0.0));
-	newServe();
 
 	m_Arena->setupMaterials(this);
 	m_Arena->createAItrigger();
 
-	VRS::SO<HUD> mHud = new HUD();
+	mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
-	m_Referee->setHUD(mHud);
-
 	m_Canvas->append(mScene);
 
 	mMenu = new Menu(this);
@@ -168,10 +163,6 @@ BV3D::Game::Game() {
 
 	switchToGame(true);
 	//switchToMenu();	// start showing menu
-
-	m_Referee->startNewGame();
-
-	//update();
 }
 
 BV3D::Game::~Game() {
@@ -181,6 +172,30 @@ BV3D::Game::~Game() {
 void BV3D::Game::applyMenuSettings() {
 	m_BlobbArray->getElement(BV3D_TEAM1)->setColor(mMenu->getPlayer1Color());
 	m_BlobbArray->getElement(BV3D_TEAM2)->setColor(mMenu->getPlayer2Color());
+
+	VRS::SO<Controls> controls = 0;
+	switch(mMenu->getPlayer1Controls()) {
+		case Menu::KB_ARROWS: controls = new KeyboardControls(); break;
+		case Menu::KB_WASD: {
+			VRS::SO<KeyboardControls> kb = new KeyboardControls();
+			kb->setBinding(Controls::FORWARD,0);
+			kb->setBinding(Controls::BACKWARD,0);
+			kb->setBinding(Controls::LEFT,0);
+			kb->setBinding(Controls::RIGHT,0);
+			controls = kb;
+			break;}
+		case Menu::MOUSE: controls = new MouseControls(); break;
+		default: break;
+	}
+	m_BlobbArray->getElement(BV3D_TEAM1)->setControls(controls);
+
+	if(mMenu->getRules()==Menu::CLASSIC)
+		m_Referee = new BV3D::ClassicReferee(this);
+	else
+		m_Referee = new BV3D::TieBreakReferee(this);
+	m_Referee->setHUD(mHud);
+	m_Referee->startNewGame();
+	newServe();
 }
 
 /**

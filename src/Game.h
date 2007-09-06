@@ -38,6 +38,7 @@ namespace BV3D
 	class Blobb;
 	class SceneLoader;
 	class Menu;
+	class HUD;
 
 	class Game : public VRS::SharedObj {
 	public:
@@ -99,7 +100,7 @@ namespace BV3D
 		VRS::SO<Referee>		m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
 		VRS::SO<Menu>			mMenu;
-
+		VRS::SO<HUD>			mHud;
 		
 	};
 }
