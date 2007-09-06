@@ -1,25 +1,12 @@
-Must:
-v Blobbs animieren (erik, benny)
-- Netz hinzufügen(phil)
-- Boden(Sand, Linien) (phil)
-v Schatten - besonders Ball! (erik)
-v Physik: (erik, benny)
-	v User-Joints
-	v versch. Materialien
-	v Physik-Körper für restliche Objekte (Blobb, Netz mit CollisionTree, Decke)
-	v CollisionCallbacks -> Spiellogik
-v Regeln/Spiellogik einbinden (erik, benny) - bis auf gameover
-- Menüs (erik)
-V Clipping anpassen (phil)
-
-Should:
-- verschiedene Umgebungen, 3ds-files + skyboxes (phil)
-v Sound
-- HUD implementieren(Erik)
-
-NiceTo:
-- Netzwerk(Lib: Boost)
-- KI(benny)
-
-Known Bugs:
-___________
+--------------------
+Neue ToDo:
+- KI ausschaltbar (benny, erik)
+- Refactoring
+	- KI zentral
+	- m_...
+	- Kommentare
+	- Includes
+- Blobb animieren bei Landung
+- Szenen + Optimierung
+- Spiellogik aus Callbacks auslagern
+- Webseite
