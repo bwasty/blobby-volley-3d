@@ -74,8 +74,8 @@ BV3D::Game::Game() {
 	mScene->append(m_TransparencyTechnique);
 	mScene->append(new VRS::ShadowTechniqueGL());
 
-	m_perspective = new Perspective(30, 1.0, 1000.0);
-	m_lookAt = new LookAt(Vector(0.0, 8.0, -15.0), BV3D::lookTo);
+	m_perspective = new Perspective(45, 1.0, 100.0);
+	m_lookAt = new LookAt(BV3D::lookFrom, BV3D::lookTo);
 	m_Camera = new Camera(m_perspective, m_lookAt);
 	mScene->append(m_Camera);
 
@@ -84,14 +84,16 @@ BV3D::Game::Game() {
 	mScene->append(m_AmbientLight);
 
 	//// add PointLight for shadows and reflection
-	m_PointLight = new PointLight(Vector(0, -20, 0));
-	mScene->append(m_PointLight);
+	/*m_PointLight = new PointLight(Vector(-BV3D::arenaExtent[0]/2, BV3D::arenaExtent[1], BV3D::arenaExtent[2]), VRS::Color(0.3));
+	mScene->append(m_PointLight);*/
 
 	// create directional light for shadows
 	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
 	mScene->append(mTopLight);
 
 	mBackground = m_SceneLoader->loadBeach();
+	//mBackground = m_SceneLoader->loadArena();
+	//mBackground = m_SceneLoader->loadHeaven();
 	mBackground->prepend(new VRS::Shadowed(mTopLight));
 	mScene->append(mBackground);
 	
@@ -266,9 +268,9 @@ void BV3D::Game::processInput() {
 				case Key::Escape:
 					switchToMenu();
 					return;
-				case Key::F1:
+				/*case Key::F1:
 					initBackgroundCubeMap();
-					break;
+					break;*/
 				case Key::F2:	//view field from the side
 					m_Navigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
 					break;
@@ -277,7 +279,7 @@ void BV3D::Game::processInput() {
 					//printf("Key F2 pressed\n");
 					break;
 				case Key::F4:	//view field from the front(from baseline of one blobb's field)
-					m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 5.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 5, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+					m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 10.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 					break;
 				case Key::F5:	//view field from the side "lying on the ground"
 					m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
@@ -300,9 +302,9 @@ void BV3D::Game::processInput() {
 				case Key::F11:	//view field from center in z direction
 					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.5, 1.0));
 					break;
-				case Key::Insert:	//load surroundings
-					printf("Loading beach...\n");
-					mScene->append(m_SceneLoader->loadBeach());
+				//case Key::Insert:	//load surroundings
+				//	printf("Loading beach...\n");
+				//	mScene->append(m_SceneLoader->loadBeach());
 			}
 			//printf("Key %i pressed\n", ke->keyCode());
 		}

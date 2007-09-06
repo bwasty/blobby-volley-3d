@@ -19,6 +19,7 @@
 #include "Referee.h"
 #include "Game.h"
 #include "Blobb.h"
+#include "ModelOptimizer.h"
 
 struct CollisionData {
 	int material1;
@@ -153,6 +154,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	/* net1.3ds
 		width: 12.0		height: 2.1		depth: 0.14
 	*/
+	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 	double width3ds = 12.0;
 	double height3ds = 2.1;
 	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(m_Net);
@@ -163,8 +165,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::netHeight - height3ds, -(BV3D::arenaExtent[2]/2 + poleOffset)));
 	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((arenaExtent[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	localNet->setLocalMatrix(netMatrix);
-	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
-	localNet->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "net1.3ds"));
+	localNet->append(optimizer->get3dsModel(BV3D::threeDSPath + "net1.3ds"));
 
 	double poleRadius = 0.14;
 	m_Net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));

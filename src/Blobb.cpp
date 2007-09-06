@@ -11,6 +11,7 @@
 #include "Blobb.h"
 #include "Arena.h"
 #include "KeyboardControls.h"
+#include "ModelOptimizer.h"
 #include <vrs/so.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/opengl/shapematerialgl.h>
@@ -68,41 +69,22 @@ dFloat colData[5][5] = {
 	mInit = true;
 	mIsAIcontrolled = isAIcontrolled;
 	mAIjump = false;
+	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 
 	// set up the blobb animation scenes
 	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
 	mShapes->clear();
 
-
-	//VRS::WavefrontReader reader = VRS::WavefrontReader();
-	//VRS::ID id = VRS::ID("blobb1");
-	//VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb1.obj");
-	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
-	//id = VRS::ID("blobb2");
-	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb2.obj");
-	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
-	//id = VRS::ID("blobb3");
-	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb3.obj");
-	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
-	//id = VRS::ID("blobb4");
-	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb4.obj");
-	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
-	//id = VRS::ID("blobb5");
-	//file = new VRS::FileDataResource(BV3D::threeDSPath + "blobb5.obj");
-	//mShapes->append(VRS_Cast(VRS::SceneThing, reader.read(file, id)));
-
-	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-
-	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds"));	// TODO: exception handling
-	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb2.3ds"));
-	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb3.3ds"));
-	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb4.3ds"));
-	mShapes->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb5.3ds"));
+	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb2.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb3.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb4.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb5.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 
 	// set blobb local scene
 	mScene = new VRS::SceneThing();
 	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(1.0),
-		6.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
+		90.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mScene->append(mMaterial);
 
 	for(int i = 0; i < mNumShapes; i++)

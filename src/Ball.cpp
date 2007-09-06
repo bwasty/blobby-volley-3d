@@ -2,6 +2,7 @@
 
 #include "Ball.h"
 #include "Arena.h"
+#include "ModelOptimizer.h"
 //#include "Constants.h"
 #include <vrs/sg/scenething.h>
 #include <vrs/matrix.h>
@@ -19,7 +20,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	m_Radius = BV3D::ballRadius;
 	m_Body = 0;
 	m_IsLocked = true;
-
+	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 	// create ball local scene
 	m_Scene = new VRS::SceneThing();
 
@@ -34,13 +35,14 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	m_Scene->append(new VRS::Scaling(factor, factor, factor));
 	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-colored.3ds"));*/	// TODO: exception handling
 
-	VRS::ID id = VRS::ID("ball");
-	VRS::WavefrontReader reader = VRS::WavefrontReader();
+	/*VRS::ID id = VRS::ID("ball");
+	VRS::WavefrontReader reader = VRS::WavefrontReader();*/
 	/*VRS::SO<VRS::ShapeMaterialGL>	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0, 1.0, 1.0, 1.0), VRS::Color(0.5), 
 		115.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0));*/
-	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");
+	/*VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");*/
+
 	m_Scene->append(new VRS::Scaling(factor, factor, factor));
-	m_Scene->append(reader.read(file, id));
+	m_Scene->append(optimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
 
 	// physics setup
 	NewtonWorld* world = m_Arena->getWorld();

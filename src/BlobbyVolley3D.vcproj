@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ModelOptimizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MouseControls.cpp"
 				>
 			</File>
@@ -277,6 +281,10 @@
 			</File>
 			<File
 				RelativePath=".\Menu.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ModelOptimizer.h"
 				>
 			</File>
 			<File

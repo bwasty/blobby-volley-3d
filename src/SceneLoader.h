@@ -17,12 +17,16 @@ namespace VRS{
 
 namespace BV3D
 {
+	class ModelOptimizer;
+
 	class SceneLoader :	public VRS::SharedObj
 	{
 	public:
 		SceneLoader(void);
 		~SceneLoader(void);
 		VRS::SO<VRS::SceneThing> loadBeach();
+		VRS::SO<VRS::SceneThing> loadArena();
+		VRS::SO<VRS::SceneThing> loadHeaven();
 
 		VRS::SO<VRS::SceneThing> loadDesertSkybox();
 		VRS::SO<VRS::SceneThing> loadWaterscapeSkybox();
@@ -30,7 +34,10 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing> loadHotDesertSkybox();
 		VRS::SO<VRS::SceneThing> loadBrightDaySkybox();
 		VRS::SO<VRS::SceneThing> loadZolsky6Skybox();
+		VRS::SO<VRS::SceneThing> loadZolsky9Skybox();
 
+	protected:
+		VRS::SO<ModelOptimizer> mOptimizer;
 	};
 }
 
