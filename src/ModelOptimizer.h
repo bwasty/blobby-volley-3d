@@ -32,7 +32,7 @@ namespace BV3D
 
 	protected:
 		bool	mStaticLighting;
-		VRS::SO<VRS::SceneThing> optimizeModel(VRS::SO<VRS::SceneThing> model);
+		VRS::SO<VRS::SceneThing> optimizeModel(VRS::SO<VRS::SceneThing> model, bool withSceneCollapse);
 		VRS::SO<VRS::ShapeMaterialGL> getMaterial(VRS::SO<VRS::SceneThing> model);
 	};
 }

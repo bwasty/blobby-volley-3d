@@ -92,11 +92,11 @@ BV3D::Game::Game() {
 	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
 	mScene->append(mTopLight);
 
-	mBackground = m_SceneLoader->loadBeach();
+	//mBackground = m_SceneLoader->loadBeach();
 	//mBackground = m_SceneLoader->loadArena();
 	//mBackground = m_SceneLoader->loadHeaven();
-	mBackground->prepend(new VRS::Shadowed(mTopLight));
-	mScene->append(mBackground);
+	//mBackground->prepend(new VRS::Shadowed(mTopLight));
+	//mScene->append(mBackground);
 	
 	m_Arena = new BV3D::Arena();
 	mScene->append(m_Arena->getScene());
@@ -161,8 +161,9 @@ BV3D::Game::Game() {
 	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_lookAt, 3.0);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 
-	switchToGame(true);
-	//switchToMenu();	// start showing menu
+	//switchToGame(true);
+	applyMenuSettings();
+	switchToMenu();	// start showing menu
 }
 
 BV3D::Game::~Game() {
@@ -189,12 +190,25 @@ void BV3D::Game::applyMenuSettings() {
 	}
 	m_BlobbArray->getElement(BV3D_TEAM1)->setControls(controls);
 
+	if (mScene->contains(mBackground))
+		mScene->remove(mBackground);
+	if(mMenu->getPlace()==Menu::BEACH)
+		mBackground = m_SceneLoader->loadBeach();
+	else if(mMenu->getPlace()==Menu::HEAVEN)
+		mBackground = m_SceneLoader->loadHeaven();
+	else
+		mBackground = m_SceneLoader->loadArena();
+
+	mBackground->prepend(new VRS::Shadowed(mTopLight));
+	mScene->append(mBackground);
+
 	if(mMenu->getRules()==Menu::CLASSIC)
 		m_Referee = new BV3D::ClassicReferee(this);
 	else
 		m_Referee = new BV3D::TieBreakReferee(this);
 	m_Referee->setHUD(mHud);
 	m_Referee->startNewGame();
+	m_Arena->setupMaterials(this);
 	newServe();
 }
 
@@ -294,7 +308,7 @@ void BV3D::Game::processInput() {
 					//printf("Key F2 pressed\n");
 					break;
 				case Key::F4:	//view field from the front(from baseline of one blobb's field)
-					m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 10.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+					m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 					break;
 				case Key::F5:	//view field from the side "lying on the ground"
 					m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));

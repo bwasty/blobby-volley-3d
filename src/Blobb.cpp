@@ -66,7 +66,7 @@ dFloat colData[5][5] = {
 	mCurrentShape = 0;
 	mDecreasing = false;
 	mIsMoving = false;
-	mInit = true;
+	mForceAnimation = true;
 	mIsAIcontrolled = isAIcontrolled;
 	mAIjump = false;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
@@ -220,12 +220,12 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 	//printf("%i\n", mCurrentShape);
 	mStep = ++mStep % mMaxStep;
 	//animate blobb initially once and then if he is moving or to return to initial shape
-	if ((mStep == 0) && ((mIsMoving) || (mInit) || (mCurrentShape != 0)))
+	if ((mStep == 0) && ((mIsMoving) || (mForceAnimation) || (mCurrentShape != 0)))
 	{
 		//if blobb is in the air, don't animate
 		if ((mCurrentShape == 0) && (mScene->getLocalMatrix().element(1, 3) >= 0.2))
 			return mScene;
-		mInit = false;
+		mForceAnimation = false;
 		for(int i = 0; i < mNumShapes; i++)
 			canvas->switchOff(mShapes->getElement(i));
 
@@ -357,4 +357,9 @@ void BV3D::Blobb::aiServe() {
 	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
 	setPosition(VRS::Vector(BV3D::arenaExtent[0]/4+1.3+random/6, 0.0,random));
 	mAIjump = true;
+}
+
+void BV3D::Blobb::forceSingleAnimation()
+{
+	mForceAnimation = true;
 }

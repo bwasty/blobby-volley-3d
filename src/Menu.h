@@ -21,7 +21,7 @@ namespace BV3D
 	class Menu : public VRS::SharedObj
 	{
 	public:
-		enum PLACE {BEACH, BEACH_AGAIN, MAX_PLACES};
+		enum PLACE {BEACH, HEAVEN, ARENA, MAX_PLACES};
 		enum RULES {CLASSIC, TIE_BREAK, MAX_RULES};
 		enum COLOR {RED, GREEN, BLUE, YELLOW, CORAL, CYAN, MAX_COLORS};
 		enum CONTROLS {KB_ARROWS, KB_WASD, MOUSE, AI, MAX_CONTROLS, MAX_P1_CONTROLS=3};
@@ -49,7 +49,7 @@ namespace BV3D
 		void select();
 		void addText(const char* label, const char* command = 0);
 		void showMenu(MENUSCREEN screen);
-		static const char** places() {static const char* placez[] = {"Beach", "Beach Again"}; return placez;}
+		static const char** places() {static const char* placez[] = {"Beach", "Heaven","Arena"}; return placez;}
 		static const char** rules() {static const char* rulez[] = {"Classic", "Tie Break"}; return rulez;}
 		static const char** fullscreen() {static const char* full[] = {"Off", "On"}; return full;}
 		static const VRS::Color* colors() {

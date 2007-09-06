@@ -41,6 +41,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing> updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
 		bool isAIcontrolled() {return mIsAIcontrolled;}
+		void forceSingleAnimation();
 
 	protected:
 		VRS::Vector getMovement();
@@ -64,7 +65,7 @@ namespace BV3D
 		VRS::SO<VRS::Array< VRS::SO<VRS::SceneThing>> >	mShapes;	//shapes for animation of blobb
 		bool							mDecreasing;			//true if current shape is decreasing
 		bool							mIsMoving;
-		bool							mInit;
+		bool							mForceAnimation;
 		int								mStep;
 		static const int				mMaxStep = 1;
 		bool							mIsAIcontrolled;

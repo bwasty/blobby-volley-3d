@@ -23,6 +23,7 @@ BV3D::ModelOptimizer::~ModelOptimizer(void)
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
 {
 	mStaticLighting = useStaticLighting;
+	bool useCollapse = false;
 	switch(readMode)
 	{
 		case ReadMode::MATERIAL_AND_TEXTURES:
@@ -36,6 +37,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 		case ReadMode::NO_MATERIAL_NO_TEXTURES:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
+			useCollapse = true;
 			break;
 		case ReadMode::ALL_AND_NO_OPTIMIZATIONS:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
@@ -45,7 +47,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 			break;
 	}
 	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);// || VRS::ThreeDSReader::DISCARD_UNUSED_DATA);
-	return optimizeModel(VRS::ThreeDSReader::readObject(fileName));
+	return optimizeModel(VRS::ThreeDSReader::readObject(fileName), useCollapse);
 		
 }
 
@@ -56,10 +58,10 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::stri
 	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(fileName);
 	VRS::SO<VRS::SceneThing> model = new VRS::SceneThing();
 	model->append(reader.read(file, id));
-	return optimizeModel(model);
+	return optimizeModel(model, false);
 }
 
-VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneThing> origModel)
+VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneThing> origModel, bool withCollapseScene)
 {
 	VRS::SceneGraphAnalyzer analyzer = VRS::SceneGraphAnalyzer();
 	VRS::PolygonSetTool tool = VRS::PolygonSetTool();
@@ -72,15 +74,25 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneT
 
 	newModel = analyzer.createOptimizedScene(origModel, true, mStaticLighting);
 	if(!newModel)
-	newModel = origModel;
+		newModel = origModel;
 
-	/*set = tool.mergePolygonSets(analyzer.collapseScene(newModel, true));
-	tool.computeSmoothingNormals(set);
-	model = new VRS::SceneThing();
-	model->append(material);
-	model->append(set);*/
 	mStaticLighting = false;
-	return newModel;
+	//if(withCollapseScene)
+	//{
+
+	//	set = tool.mergePolygonSets(analyzer.collapseScene(newModel));
+
+	//	tool.computeSmoothingNormals(set);
+
+	//	model = new VRS::SceneThing();
+	//	//model->append(material);
+
+	//	model->append(set);
+
+	//	return model;
+	//}
+//	else
+		return newModel;
 }
 
 VRS::SO<VRS::ShapeMaterialGL> BV3D::ModelOptimizer::getMaterial(VRS::SO<VRS::SceneThing> model)
