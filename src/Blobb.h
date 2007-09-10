@@ -26,7 +26,7 @@ namespace BV3D
 
 	class Blobb : public VRS::SharedObj {
 	public:
-		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled);
+		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled);
 		~Blobb();
 		void setPosition(VRS::Vector position);
 		void setLookAt(VRS::SO<VRS::LookAt> lookAt) {mLookAt = lookAt;}
@@ -36,7 +36,7 @@ namespace BV3D
 		VRS::SO<BV3D::Controls> getControls();
 		VRS::SO<VRS::SceneThing> getScene();
 		VRS::Color BV3D::Blobb::getColor();
-		BV3D::BV3D_TEAM	getTeam();
+		BV3D::TEAM	getTeam();
 		bool isMoving();
 		VRS::SO<VRS::SceneThing> updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
@@ -60,7 +60,7 @@ namespace BV3D
 		VRS::SO<VRS::LookAt>			mLookAt;				// blobb movement orientation
 		double							mStepDistance;			// blobb step distance
 		bool							mJumpAllowed;			// indicates if blobb may jump
-		BV3D::BV3D_TEAM					mTeam;
+		BV3D::TEAM					mTeam;
 		static const int				mNumShapes = 5;		//number of animation shapes
 		int								mCurrentShape;
 		VRS::SO<VRS::Array< VRS::SO<VRS::SceneThing>> >	mShapes;	//shapes for animation of blobb

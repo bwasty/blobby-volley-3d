@@ -54,7 +54,7 @@ dFloat colData[5][5] = {
  * ctor
  * \param arena specifies the arena in which the blobb is simulated
  */
-	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::BV3D_TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled) {
+	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled) {
 	mArena = arena;
 	mTeam = team;
 	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
@@ -207,7 +207,7 @@ inline VRS::Color BV3D::Blobb::getColor() {
 	return mMaterial->getPerVertexColor();
 }
 
-BV3D::BV3D_TEAM	BV3D::Blobb::getTeam() {
+BV3D::TEAM	BV3D::Blobb::getTeam() {
 	return mTeam;
 }
 
@@ -338,7 +338,11 @@ void BV3D::Blobb::update() {
 		mMaxJump = false;
 	}
 	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
+	{
+		//if (!mJumpAllowed)		//if Blobb was jumping high, then animate when landing again
+		//	forceSingleAnimation();
 		mJumpAllowed = true;
+	}
 	mScene->setLocalMatrix(vrsMatrix);
 }
 

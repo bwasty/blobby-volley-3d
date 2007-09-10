@@ -10,7 +10,7 @@ namespace VRS {
 
 namespace BV3D
 {
-	enum BV3D_TEAM;
+	enum TEAM;
 
 	class HUD : public VRS::SharedObj
 	{
@@ -18,8 +18,8 @@ namespace BV3D
 		HUD();
 		virtual ~HUD() {}
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
-		void setScore(int scoreP1, int scoreP2, BV3D_TEAM servingTeam);
-		void showWinner(BV3D_TEAM winner);
+		void setScore(int scoreP1, int scoreP2, TEAM servingTeam);
+		void showWinner(TEAM winner);
 	private:
 		int		mScoreP1Index;
 		int		mScoreP2Index;

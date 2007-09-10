@@ -22,12 +22,12 @@ namespace BV3D
 		Referee(SO<Game> game);
 		virtual ~Referee(void){};
 		
-		virtual void ballOnBlobb(BV3D_TEAM team) = 0;
-		virtual void ballOnField(BV3D_TEAM team) = 0;	
+		virtual void ballOnBlobb(TEAM team) = 0;
+		virtual void ballOnField(TEAM team) = 0;	
 
 		SO<Game> getGame();
-		int getCurrentScore(BV3D_TEAM team);
-		int getCurrentContacts(BV3D_TEAM team);
+		int getCurrentScore(TEAM team);
+		int getCurrentContacts(TEAM team);
 		int getWinningScore();
 		int getMaximumContacts();
 		int getMinimumDifference();
@@ -35,19 +35,20 @@ namespace BV3D
 		BV3D_ERROR setMaximumContacts(int maxContacts);
 		BV3D_ERROR setMinimumDifference(int minDifference);
 		void startNewGame();
-		BV3D_TEAM getServingTeam() {return mServingTeam;}
+		TEAM getServingTeam() {return mServingTeam;}
 		void setActive(bool b) {mActive = b;}
 		bool getActive() {return mActive;}
 		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}
-		void gameOver(BV3D_TEAM winner);
+		void gameOver(TEAM winner);
 		bool isGameOver();
 
 	protected:
-		int increaseScore(BV3D_TEAM team);
-		int increaseContacts(BV3D_TEAM team);
-		void resetContacts(BV3D_TEAM team);
-		int getTeamIndex(BV3D_TEAM team);
-		BV3D_TEAM getOpponent(BV3D_TEAM team);
+		int increaseScore(TEAM team);
+		int increaseContacts(TEAM team);
+		void resetContacts(TEAM team);
+		int getTeamIndex(TEAM team);
+		TEAM getOpponent(TEAM team);
+		void newServe(TEAM servingTeam);
 
 	private:
 		int mScore[2], mContacts[2];
@@ -56,7 +57,7 @@ namespace BV3D
 		
 	protected:
 		SO<Game> mGame;
-		BV3D_TEAM mServingTeam;
+		TEAM mServingTeam;
 		bool mActive;
 
 	};

@@ -32,10 +32,10 @@ ClassicReferee::~ClassicReferee(void)
  *  If that is the case it increases the opponents score(if that team served the ball) and checks whether the game is now over.
  *	If not a new rally is started with the opponent team serving.
  */
-void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
+void ClassicReferee::ballOnBlobb(TEAM team)
 {
 	if (mActive) {
-		BV3D_TEAM opponent = getOpponent(team);
+		TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
@@ -79,7 +79,7 @@ void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
  *	If the opponent team served the ball their score is increased. In that case a check is done whether the game is now over.
  *	The opponent team serves the new ball if the game is not over yet and all contact-counters are reset.
  */
-void ClassicReferee::ballOnField(BV3D_TEAM team)
+void ClassicReferee::ballOnField(TEAM team)
 {
 	if (mActive) {
 		mGame->playSoundWhistle();
@@ -110,8 +110,8 @@ void ClassicReferee::ballOnField(BV3D_TEAM team)
 
 			mActive = false;
 		}
-		resetContacts(BV3D_TEAM1);
-		resetContacts(BV3D_TEAM2);
+		resetContacts(TEAM1);
+		resetContacts(TEAM2);
 	}
 }
 

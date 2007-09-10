@@ -37,7 +37,7 @@ struct CollisionData {
 //	VRS::SO<BV3D::Game> game;
 //	VRS::SO<BV3D::Ball> ball;
 //	VRS::SO<BV3D::Referee> referee;
-//	//BV3D::BV3D_TEAM aiTeam;
+//	//BV3D::TEAM aiTeam;
 //};
 
 /**
@@ -213,8 +213,8 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	NewtonBodySetMaterialGroupID(invisibleBarrierBody, mInvisibleBarrierID);
 }
 
-void BV3D::Arena::createAItrigger(BV3D::BV3D_TEAM team) {
-	int teamModifier = (team == BV3D::BV3D_TEAM1) ? -1 : 1;
+void BV3D::Arena::createAItrigger(BV3D::TEAM team) {
+	int teamModifier = (team == BV3D::TEAM1) ? -1 : 1;
 	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
 
 	matrix[12] = (dFloat)BV3D::arenaExtent.get(0)/4 * teamModifier;
@@ -230,11 +230,11 @@ void BV3D::Arena::destroyAiTrigger() {
 	NewtonDestroyBody(m_World, mAiTriggerBody);
 }
 
-VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::BV3D_TEAM team) {
+VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::TEAM team) {
 	VRS::Vector llf = m_Bounds.getLLF();
 	VRS::Vector urb = m_Bounds.getURB();
 
-	if(team == BV3D::BV3D_TEAM2)
+	if(team == BV3D::TEAM2)
 		return VRS::Bounds(VRS::Vector(0.0,0.0,llf[2]), urb);
 	else
 		return VRS::Bounds(llf, VRS::Vector(0.0,urb[1],urb[2]));
@@ -338,12 +338,12 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 	//printf("contactPROCESSCallback called\n"); 
 
 	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
-	BV3D::BV3D_TEAM team;
+	BV3D::TEAM team;
 
 	if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getBlobbMaterialID()) {
 		//printf("Blobb touched Ball PROCESS\n");
 		NewtonWorldUnfreezeBody(collData->arena->getWorld(), collData->ball->getBody()); // TODO: save body* instead of getting again?
-		BV3D::BV3D_TEAM team = collData->currentBlobb->getTeam();
+		BV3D::TEAM team = collData->currentBlobb->getTeam();
 
 		// wait some frames after blobb touches ball before new touch gets counted
 		if (collData->referee->getCurrentContacts(team) > 0 && (collData->game->getFrameCount() - collData->delayStartFrame < 20)) {
@@ -351,10 +351,10 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 			//printf("prevented touch - framecount: %d, StartFrame: %d\n", collData->game->getFrameCount(), collData->delayStartFrame);
 		}
 		else {
-			if (team == BV3D::BV3D_TEAM1)
-				collData->referee->ballOnBlobb(BV3D::BV3D_TEAM1);
+			if (team == BV3D::TEAM1)
+				collData->referee->ballOnBlobb(BV3D::TEAM1);
 			else {
-				collData->referee->ballOnBlobb(BV3D::BV3D_TEAM2);
+				collData->referee->ballOnBlobb(BV3D::TEAM2);
 			}
 			collData->delayStartFrame=collData->game->getFrameCount();
 			collData->game->playSoundTouch();
@@ -362,10 +362,10 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getFloorMaterialID()) {
 		if (collData->ball->getPosition()[0] < 0) {
-			team = BV3D::BV3D_TEAM1;
+			team = BV3D::TEAM1;
 		}
 		else {
-			team = BV3D::BV3D_TEAM2;
+			team = BV3D::TEAM2;
 		}
 		collData->referee->ballOnField(team);
 
@@ -379,9 +379,9 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		Vector pos = collData->ball->getPosition();
 		if (pos[1] < BV3D::netHeight/2) {
 			if (pos[0] < 0)
-				team = BV3D::BV3D_TEAM1;
+				team = BV3D::TEAM1;
 			else
-				team = BV3D::BV3D_TEAM2;
+				team = BV3D::TEAM2;
 			collData->referee->ballOnField(team);
 		}
 		return 0;
@@ -404,14 +404,14 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 
 	// determine on which side the ball is (which team's AI is currently active)
 	int teamModifier;
-	BV3D::BV3D_TEAM team;
+	BV3D::TEAM team;
 	if (collData->ball->getPosition()[0] < 0) {
 		teamModifier = -1;
-		team = BV3D::BV3D_TEAM1;
+		team = BV3D::TEAM1;
 	}
 	else {
 		teamModifier = 1;
-		team = BV3D::BV3D_TEAM2;
+		team = BV3D::TEAM2;
 	}
 
 	dFloat v[3];

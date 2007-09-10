@@ -62,7 +62,7 @@ namespace BV3D {
 		/**
 		 * get the valid bounds for one of the blobbs
 		 */
-		VRS::Bounds getTeamBounds(BV3D::BV3D_TEAM team);
+		VRS::Bounds getTeamBounds(BV3D::TEAM team);
 
 		/**
 		 * get the local arena scene
@@ -102,7 +102,7 @@ namespace BV3D {
 		int getInvisibleBarrierID() {return mInvisibleBarrierID;}
 		int getAITriggerID(){return mAITriggerID;}
 
-		void createAItrigger(BV3D::BV3D_TEAM team = BV3D::BV3D_TEAM2);
+		void createAItrigger(BV3D::TEAM team = BV3D::TEAM2);
 		void destroyAiTrigger();
 
 	private:

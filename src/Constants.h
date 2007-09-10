@@ -7,18 +7,27 @@
 //}
 namespace BV3D
 {
-		enum BV3D_TEAM { BV3D_TEAM1, BV3D_TEAM2 };
+		enum TEAM { TEAM1, TEAM2 };
 		
 		enum BV3D_ERROR
 		{
-			BV3D_NO_ERROR,
-			BV3D_INVALID_PARAMETER
+			NO_ERROR,
+			INVALID_PARAMETER
 		};
 
-		enum BV3D_SCENE
+		enum SCENE
 		{
-			BV3D_BEACH,
-			BV3D_ARENA
+			BEACH,
+			ARENA,
+			HEAVEN
+		};
+
+		enum CAMERAPOSITION
+		{
+			CLASSIC,
+			REVERSE,
+			TEAM1_BASE,
+			TEAM2_BASE
 		};
 
 		static const VRS::Vector arenaExtent = VRS::Vector(15.0,20.0,6.0);

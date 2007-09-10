@@ -1,8 +1,8 @@
 /**
  * SceneLoader is responsible for loading and setting up different surroundings
  */
-#ifndef BV3D_SCENELOADER
-#define BV3D_SCENELOADER
+#ifndef SCENELOADER
+#define SCENELOADER
 
 #include <vrs/sharedobj.h>
 

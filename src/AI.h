@@ -16,7 +16,7 @@ namespace BV3D
 	{
 	public:
 		AI(BV3D::Game* game);
-		void aiServe(BV3D::BV3D_TEAM team);
+		void aiServe(BV3D::TEAM team);
 		static int AiCallback(const NewtonMaterial* material, const NewtonContact* contact);
 
 		VRS::SO<BV3D::Game> getGame() {return mGame;}

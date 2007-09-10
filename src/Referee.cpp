@@ -11,6 +11,7 @@
 #include "Constants.h"
 #include "Referee.h"
 #include "Hud.h"
+#include "Game.h"
 
 using namespace BV3D;
 
@@ -20,7 +21,7 @@ Referee::Referee(SO<Game> game)
 	mScore[0] = mScore[1] = mContacts[0] = mContacts[1] = 0; //set start values
 	//std::cout << mContacts[1] << std::endl;
 	mWinningScore = mMaxContacts = mMinDifference = 1;		//set dummy values
-	mServingTeam = BV3D::BV3D_TEAM1;
+	mServingTeam = BV3D::TEAM1;
 	mActive = true;
 	mHud = 0;
 }
@@ -33,7 +34,7 @@ SO<Game> Referee::getGame()
 /*
  *	Returns current score for individual teams
  */
-int Referee::getCurrentScore(BV3D_TEAM team)
+int Referee::getCurrentScore(TEAM team)
 {
 	return mScore[getTeamIndex(team)];
 }
@@ -41,7 +42,7 @@ int Referee::getCurrentScore(BV3D_TEAM team)
 /*
  *	Returns current number of consecutive contacts with the ball for individual teams
  */
-int Referee::getCurrentContacts(BV3D_TEAM team)
+int Referee::getCurrentContacts(TEAM team)
 {
 	return mContacts[getTeamIndex(team)];
 }
@@ -79,10 +80,10 @@ BV3D_ERROR Referee::setWinningScore(int winningScore)
 	if (winningScore > 0)
 	{
 		mWinningScore = winningScore;
-		return BV3D_NO_ERROR;
+		return NO_ERROR;
 	}
 	else
-		return BV3D_INVALID_PARAMETER;
+		return INVALID_PARAMETER;
 }
 
 /*
@@ -94,10 +95,10 @@ BV3D_ERROR Referee::setMaximumContacts(int maxContacts)
 	if (maxContacts > 0)
 	{
 		mMaxContacts = maxContacts;
-		return BV3D_NO_ERROR;
+		return NO_ERROR;
 	}
 	else
-		return BV3D_INVALID_PARAMETER;
+		return INVALID_PARAMETER;
 }
 
 /*
@@ -109,10 +110,10 @@ BV3D_ERROR Referee::setMinimumDifference(int minDifference)
 	if (minDifference > 0)
 	{
 		mMinDifference = minDifference;
-		return BV3D_NO_ERROR;
+		return NO_ERROR;
 	}
 	else
-		return BV3D_INVALID_PARAMETER;
+		return INVALID_PARAMETER;
 }
 
 /*
@@ -121,26 +122,26 @@ BV3D_ERROR Referee::setMinimumDifference(int minDifference)
 void Referee::startNewGame()
 {
 	mScore[0] = mScore[1] = mContacts[0] = mContacts[1] = 0;
-	mServingTeam = BV3D_TEAM1;
+	mServingTeam = TEAM1;
 	if(mHud)
-		mHud->setScore(0,0,BV3D_TEAM1);
+		mHud->setScore(0,0,TEAM1);
 }
 
 /*
  * Increases score of 'team' by 1
  */
-int Referee::increaseScore(BV3D_TEAM team)
+int Referee::increaseScore(TEAM team)
 {
 	mScore[getTeamIndex(team)]++;
 	if(mHud)
-		mHud->setScore(mScore[BV3D_TEAM1],mScore[BV3D_TEAM2],team);
+		mHud->setScore(mScore[TEAM1],mScore[TEAM2],team);
 	return mScore[getTeamIndex(team)];
 }
 
 /*
  * Increases contacts-counter of 'team' by 1
  */
-int Referee::increaseContacts(BV3D_TEAM team)
+int Referee::increaseContacts(TEAM team)
 {
 	return mContacts[getTeamIndex(team)]++;
 }
@@ -148,7 +149,7 @@ int Referee::increaseContacts(BV3D_TEAM team)
 /*
  * Resets contacts-counter of 'team' to 0
  */
-void Referee::resetContacts(BV3D_TEAM team)
+void Referee::resetContacts(TEAM team)
 {
 	mContacts[getTeamIndex(team)] = 0;
 }
@@ -175,11 +176,11 @@ bool Referee::isGameOver()
 /*
  * Returns an index corresponding to a teams constant
  */
-int Referee::getTeamIndex(BV3D_TEAM team)
+int Referee::getTeamIndex(TEAM team)
 {
-	if(team == BV3D_TEAM1)
+	if(team == TEAM1)
 		return 0;
-	else if(team == BV3D_TEAM2)
+	else if(team == TEAM2)
 		return 1;
 	else
 	{
@@ -191,20 +192,29 @@ int Referee::getTeamIndex(BV3D_TEAM team)
 /*
  * Returns the constant for opponent of 'team'
  */
-BV3D_TEAM Referee::getOpponent(BV3D_TEAM team)
+TEAM Referee::getOpponent(TEAM team)
 {
-	if(team == BV3D_TEAM1)
-		return BV3D_TEAM2;
-	else if (team == BV3D_TEAM2)
-		return BV3D_TEAM1;
+	if(team == TEAM1)
+		return TEAM2;
+	else if (team == TEAM2)
+		return TEAM1;
 	else
 	{
 		printf("ERROR: Unknown team occured!");
-		return BV3D_TEAM1;		//TODO: throw error 
+		return TEAM1;		//TODO: throw error 
 	}
 }
 
-void BV3D::Referee::gameOver(BV3D::BV3D_TEAM winner) {
+void BV3D::Referee::gameOver(BV3D::TEAM winner)
+{
 	if(mHud)
 		mHud->showWinner(winner);
+}
+
+void BV3D::Referee::newServe(BV3D::TEAM servingTeam)
+{
+	mServingTeam = servingTeam;
+	mGame->scheduleNewServe();
+	if(mHud)
+		mHud->setScore(mScore[TEAM1],mScore[TEAM2],servingTeam);
 }

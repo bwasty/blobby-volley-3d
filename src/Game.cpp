@@ -11,6 +11,11 @@
  * - periodically issue rendering
  */
 
+#include "Game.h"
+
+#include <Newton.h>
+#include <fmod.hpp>
+
 #include <vrs/time.h>
 #include <vrs/sg/clock.h>
 #include <vrs/sg/key.h>
@@ -39,11 +44,11 @@
 // temporarily used for floor
 #include <vrs/box.h>
 
-#include <Newton.h>
-#include <fmod.hpp>
-#include <fmod_errors.h>
 
-#include "Game.h"
+
+
+//#include <fmod_errors.h>
+
 #include "MouseControls.h"
 #include "KeyboardControls.h"
 #include "Ball.h"
@@ -56,12 +61,14 @@
 #include "Menu.h"
 #include "Hud.h"
 
+
 BV3D::Game::Game() {
 	m_dLastSecond = 0;
 	m_DelayedActionStart = 0;
 	m_ScheduleNewServe = false;
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
 	m_FrameCount = 0;
+	isCameraDistant = false;
 
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
@@ -98,21 +105,21 @@ BV3D::Game::Game() {
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
-	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM1, m_lookAt, false);
+	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM1, m_lookAt, false);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
 	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
-	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
-	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1));
+	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
+	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM1));
 	m_BlobbArray->append(blobb);
 
-	blobb = new BV3D::Blobb(m_Arena, BV3D::BV3D_TEAM2, m_lookAt, true);
+	blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM2, m_lookAt, true);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
-	mBlobbScenesArray->getElement(BV3D::BV3D_TEAM1)->append(blobb->getScene());
-	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM2));
+	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
+	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM2));
 	m_BlobbArray->append(blobb);
 
 	m_Ball = new BV3D::Ball(m_Arena);
@@ -120,7 +127,7 @@ BV3D::Game::Game() {
 	mScene->append(m_Ball->getScene());
 
 	m_Arena->setupMaterials();
-	m_Arena->createAItrigger(BV3D::BV3D_TEAM2);
+	m_Arena->createAItrigger();
 
 	mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
@@ -162,8 +169,8 @@ BV3D::Game::~Game() {
 }
 
 void BV3D::Game::applyMenuSettings() {
-	m_BlobbArray->getElement(BV3D_TEAM1)->setColor(mMenu->getPlayer1Color());
-	m_BlobbArray->getElement(BV3D_TEAM2)->setColor(mMenu->getPlayer2Color());
+	m_BlobbArray->getElement(TEAM1)->setColor(mMenu->getPlayer1Color());
+	m_BlobbArray->getElement(TEAM2)->setColor(mMenu->getPlayer2Color());
 
 	VRS::SO<Controls> controls = 0;
 	switch(mMenu->getPlayer1Controls()) {
@@ -180,7 +187,7 @@ void BV3D::Game::applyMenuSettings() {
 		case Menu::MOUSE: controls = new MouseControls(); break;
 		default: break;
 	}
-	m_BlobbArray->getElement(BV3D_TEAM1)->setControls(controls);
+	m_BlobbArray->getElement(TEAM1)->setControls(controls);
 
 	if (mScene->contains(mBackground))
 		mScene->remove(mBackground);
@@ -243,16 +250,16 @@ void BV3D::Game::update() {
 			}
 
 			//animate blobbs if they're moving
-			m_BlobbArray->getElement(BV3D::BV3D_TEAM1)->updateShape(m_Canvas);
-			m_BlobbArray->getElement(BV3D::BV3D_TEAM2)->updateShape(m_Canvas);
+			m_BlobbArray->getElement(BV3D::TEAM1)->updateShape(m_Canvas);
+			m_BlobbArray->getElement(BV3D::TEAM2)->updateShape(m_Canvas);
 
-			/*	team = BV3D::BV3D_TEAM1;
+			/*	team = BV3D::TEAM1;
 				if (m_BlobbArray->getElement(team)->isMoving())
 				{
 					mBlobbScenesArray->getElement(team)->clear();
 					mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
 				}
-				team = BV3D::BV3D_TEAM2;
+				team = BV3D::TEAM2;
 				if (m_BlobbArray->getElement(team)->isMoving())
 				{
 					mBlobbScenesArray->getElement(team)->clear();
@@ -376,7 +383,7 @@ void BV3D::Game::scheduleNewServe() {
 }
 
 void BV3D::Game::newServe() {
-	BV3D::BV3D_TEAM team = m_Referee->getServingTeam();
+	BV3D::TEAM team = m_Referee->getServingTeam();
 
 	// Reset ball -> setForce into applyForceAndTorque-Callback?
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
@@ -394,8 +401,8 @@ void BV3D::Game::newServe() {
 		aiServe(team);
 }
 
-void BV3D::Game::aiServe(BV3D::BV3D_TEAM team) {
-	int teamModifier = team==BV3D::BV3D_TEAM1 ? -1 : 1;
+void BV3D::Game::aiServe(BV3D::TEAM team) {
+	int teamModifier = team==BV3D::TEAM1 ? -1 : 1;
 	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
 	getBlobb(team)->setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
 	getBlobb(team)->maxJump();
@@ -467,3 +474,52 @@ void BV3D::Game::playSoundTouch() {
 void BV3D::Game::playSoundWhistle() {
 	m_fmodSystem->playSound(FMOD_CHANNEL_FREE, soundWhistle, false, NULL);
 }
+
+void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position, bool distant, bool cinemaMode)
+{
+	double offset = 0.0;
+	if (distant)
+		offset = 5.0;
+	if (cinemaMode)
+	{
+		//TODO: stop game and fly camera the long way to destination position
+	}
+	else
+	{
+		switch (position)
+		{
+			case BV3D::CLASSIC:
+				m_Navigation->initPath(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset), -BV3D::lookFrom + BV3D::lookTo);
+				break;
+			case BV3D::REVERSE:
+				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -(BV3D::lookFrom[2] - offset) ), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+				break;
+			case BV3D::TEAM1_BASE:
+				m_Navigation->initPath(Vector(BV3D::lookFrom[2] - offset, BV3D::lookFrom[1], 0.0), Vector(-BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+				break;
+			case BV3D::TEAM2_BASE:
+				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - offset), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+				break;
+		}
+	}
+}
+
+	//case Key::F2:	//view field from the side
+	//				m_Navigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
+	//				break;
+	//			case Key::F3:	//view field from above
+	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
+	//				//printf("Key F2 pressed\n");
+	//				break;
+	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
+	//				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				break;
+	//			case Key::F5:	//view field from the side "lying on the ground"
+	//				m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+	//				break;
+	//			case Key::F6:	//view field from +y-axis
+	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+	//				break;
+	//			case Key::F7:	//view field from -x-axis
+	//				m_Navigation->initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				break;

@@ -49,11 +49,11 @@ namespace BV3D
 		void processInput();	// process and dispatch input
 		VRS::SO<Ball> getBall() {return m_Ball;}
 		VRS::SO<Referee> getReferee() {return m_Referee;}
-		VRS::SO<Blobb> getBlobb(BV3D::BV3D_TEAM team) {return m_BlobbArray->getElement(team==BV3D::BV3D_TEAM1 ? 0 : 1);}
+		VRS::SO<Blobb> getBlobb(BV3D::TEAM team) {return m_BlobbArray->getElement(team==BV3D::TEAM1 ? 0 : 1);}
 		VRS::SO<Arena> getArena() {return m_Arena;}
 		void scheduleNewServe();
 		void newServe();
-		void aiServe(BV3D::BV3D_TEAM team);
+		void aiServe(BV3D::TEAM team);
 
 
 		void playSoundTouch();
@@ -68,13 +68,15 @@ namespace BV3D
 		void initBackgroundCubeMap();
 		void setupSound();
 		void applyMenuSettings();
+		void switchCameraposition(CAMERAPOSITION position, bool distant = false, bool cinemaMode = true);
 
 	private:
-		double m_DelayedActionStart;
-		bool m_ScheduleNewServe;
+		double			m_DelayedActionStart;
+		bool			m_ScheduleNewServe;
 		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
-		FMOD::System     *m_fmodSystem;
-		FMOD::Sound      *soundTouch, *soundWhistle;
+		bool			isCameraDistant;
+		FMOD::System    *m_fmodSystem;
+		FMOD::Sound     *soundTouch, *soundWhistle;
 
 		VRS::SO<HUD>			mHud;
 
@@ -99,7 +101,8 @@ namespace BV3D
 		int			m_FrameCount;
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
-		double		m_FPS;		// desired frame rate
+		double		m_FPS;				// desired frame rate
+		
 		VRS::SO<Arena>			m_Arena;	// Arena object
 		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	m_BlobbArray;	// list of Blobbs
 		VRS::SO<Ball>			m_Ball;

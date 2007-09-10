@@ -59,7 +59,21 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::stri
 	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(fileName);
 	VRS::SO<VRS::SceneThing> model = new VRS::SceneThing();
 	//model->append(new VRS::Cache(VRS_Cast(VRS::Shape, reader.read(file, id))));
-	model->append(reader.read(file, id));
+	VRS::SO<VRS::SceneThing> ball = VRS_Cast(VRS::SceneThing, reader.read(file, id));
+	//VRS::SO<VRS::Iterator<VRS::SO<VRS::SharedObj> > > it;
+	for(int i=0; i< ball->objects(); i++)
+	{
+		if (ball->object(i)->isA(VRS::Shape::ClassNameVRS()))
+		{
+			ball->replace(ball->object(i), new VRS::Cache(
+				VRS_Cast(VRS::Shape, ball->object(i))));
+		}
+		/*model->append(
+		(VRS::Shape*)ball->object(i);
+			it = ball->find(VRS::Shape::ClassNameVRS());*/
+		
+	}
+	model->append(ball);//reader.read(file, id));
 	return optimizeModel(model, false);
 }
 
