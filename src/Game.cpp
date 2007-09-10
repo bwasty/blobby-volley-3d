@@ -66,7 +66,7 @@ BV3D::Game::Game() {
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
-	m_SceneLoader = new SceneLoader();
+	m_SceneLoader = new SceneLoader(m_Canvas);
 
 	mScene = new SceneThing();	// create absolute root scene for bv3d
 
@@ -91,12 +91,6 @@ BV3D::Game::Game() {
 	// create directional light for shadows
 	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
 	mScene->append(mTopLight);
-
-	//mBackground = m_SceneLoader->loadBeach();
-	//mBackground = m_SceneLoader->loadArena();
-	//mBackground = m_SceneLoader->loadHeaven();
-	//mBackground->prepend(new VRS::Shadowed(mTopLight));
-	//mScene->append(mBackground);
 	
 	m_Arena = new BV3D::Arena();
 	mScene->append(m_Arena->getScene());
@@ -121,12 +115,9 @@ BV3D::Game::Game() {
 	mScene->append(mBlobbScenesArray->getElement(BV3D::BV3D_TEAM2));
 	m_BlobbArray->append(blobb);
 
-	//m_Arena->setExtent(Vector(8.0,10.0,6.0));
-
 	m_Ball = new BV3D::Ball(m_Arena);
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mScene->append(m_Ball->getScene());
-	//m_Ball->resetPosition(Vector(0.0,3.5,0.0));
 
 	m_Arena->setupMaterials(this);
 	m_Arena->createAItrigger();
@@ -231,7 +222,7 @@ void BV3D::Game::update() {
 			m_iFramerate++;
 			m_FrameCount++;
 			if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
-				//printf("framerate: %d\n",m_iFramerate);
+				printf("framerate: %d\n",m_iFramerate);
 				m_dLastSecond = m_dLastUpdateTime;
 				m_iFramerate = 0;
 			}
@@ -351,7 +342,7 @@ void BV3D::Game::processInput() {
 
 void BV3D::Game::initBackgroundCubeMap()
 {
-	int selector = 4;
+	/*int selector = 4;
 	if (mBackground)
 		mScene->remove(mBackground);
 	switch (selector)
@@ -375,7 +366,7 @@ void BV3D::Game::initBackgroundCubeMap()
 			mBackground = m_SceneLoader->loadZolsky6Skybox();
 			break;
 	}
-	mScene->append(mBackground);
+	mScene->append(mBackground);*/
 }
 
 void BV3D::Game::scheduleNewServe() {

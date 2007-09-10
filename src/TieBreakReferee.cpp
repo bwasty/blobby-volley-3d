@@ -33,29 +33,29 @@ TieBreakReferee::~TieBreakReferee(void)
  */
 void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	if (m_Active) {
+	if (mActive) {
 
 		BV3D_TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
-			m_game->playSoundWhistle();
+			mGame->playSoundWhistle();
 
 			increaseScore(opponent);
 
 			if (isGameOver())					//only opponent could have scored since last test
 			{
 				gameOver(opponent);	//if game over then opponent must be winner
-				m_Active = false;
+				mActive = false;
 			}
 			else
 			{	
-				m_ServingTeam = opponent;
-				m_game->scheduleNewServe();
+				mServingTeam = opponent;
+				mGame->scheduleNewServe();
 
 				resetContacts(team);
 
-				m_Active = false;
+				mActive = false;
 			}
 		}
 	}
@@ -68,27 +68,27 @@ void TieBreakReferee::ballOnBlobb(BV3D_TEAM team)
  */
 void TieBreakReferee::ballOnField(BV3D_TEAM team)
 {
-	if (m_Active) {
-		m_game->playSoundWhistle();
+	if (mActive) {
+		mGame->playSoundWhistle();
 
 		BV3D_TEAM opponent = getOpponent(team);
 		increaseScore(opponent);	//opponent of 'isInLeftField' scores
 		if (isGameOver())					//only opponent could have scored since last test
 		{
 			gameOver(opponent);	//if game over then opponent must be winner
-			m_Active = false;
+			mActive = false;
 		}
 		else
-		{	//m_game->newServe(opponent);
-			m_ServingTeam = opponent;
+		{	//mGame->newServe(opponent);
+			mServingTeam = opponent;
 
 			// TODO: call after some time...
-			m_game->scheduleNewServe();
+			mGame->scheduleNewServe();
 
 			resetContacts(team);		//reset current contact counters
 			resetContacts(opponent);
 
-			m_Active = false;
+			mActive = false;
 		}
 	}
 }

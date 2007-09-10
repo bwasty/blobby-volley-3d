@@ -35,9 +35,9 @@ namespace BV3D
 		BV3D_ERROR setMaximumContacts(int maxContacts);
 		BV3D_ERROR setMinimumDifference(int minDifference);
 		void startNewGame();
-		BV3D_TEAM getServingTeam() {return m_ServingTeam;}
-		void setActive(bool b) {m_Active = b;}
-		bool getActive() {return m_Active;}
+		BV3D_TEAM getServingTeam() {return mServingTeam;}
+		void setActive(bool b) {mActive = b;}
+		bool getActive() {return mActive;}
 		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}
 		void gameOver(BV3D_TEAM winner);
 		bool isGameOver();
@@ -50,14 +50,14 @@ namespace BV3D
 		BV3D_TEAM getOpponent(BV3D_TEAM team);
 
 	private:
-		int m_score[2], m_contacts[2];
-		int m_winningScore, m_maxContacts, m_minDifference;
+		int mScore[2], mContacts[2];
+		int mWinningScore, mMaxContacts, mMinDifference;
 		VRS::SO<HUD>	mHud;
 		
 	protected:
-		SO<Game> m_game;
-		BV3D_TEAM m_ServingTeam;
-		bool m_Active;
+		SO<Game> mGame;
+		BV3D_TEAM mServingTeam;
+		bool mActive;
 
 	};
 }

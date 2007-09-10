@@ -34,40 +34,40 @@ ClassicReferee::~ClassicReferee(void)
  */
 void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
 {
-	if (m_Active) {
+	if (mActive) {
 		BV3D_TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
-			m_game->playSoundWhistle();
+			mGame->playSoundWhistle();
 
-			if (m_ServingTeam != team)
+			if (mServingTeam != team)
 			{
 
-				increaseScore(m_ServingTeam);
+				increaseScore(mServingTeam);
 
 				if (isGameOver())					//only opponent could have scored since last test
 				{
-					gameOver(m_ServingTeam);	//if game over then opponent must be winner
-					m_Active = false;
+					gameOver(mServingTeam);	//if game over then opponent must be winner
+					mActive = false;
 				}
 				else
 				{
-					m_game->scheduleNewServe();
+					mGame->scheduleNewServe();
 
 					resetContacts(team);
 
-					m_Active = false;
+					mActive = false;
 				}
 			}
 			else
 			{	
-				m_ServingTeam = opponent;
-				m_game->scheduleNewServe();
+				mServingTeam = opponent;
+				mGame->scheduleNewServe();
 
 				resetContacts(team);
 
-				m_Active = false;
+				mActive = false;
 			}
 			resetContacts(team);
 		}
@@ -81,34 +81,34 @@ void ClassicReferee::ballOnBlobb(BV3D_TEAM team)
  */
 void ClassicReferee::ballOnField(BV3D_TEAM team)
 {
-	if (m_Active) {
-		m_game->playSoundWhistle();
+	if (mActive) {
+		mGame->playSoundWhistle();
 
-		if (m_ServingTeam != team)
+		if (mServingTeam != team)
 		{
-			increaseScore(m_ServingTeam);
+			increaseScore(mServingTeam);
 			if (isGameOver())					//only servingTeam could have scored since last test
 			{
-				gameOver(m_ServingTeam);	//if game over then servingTeam must be winner
-				m_Active = false;
+				gameOver(mServingTeam);	//if game over then servingTeam must be winner
+				mActive = false;
 			}
 			else
 			{	
-				m_game->scheduleNewServe();
+				mGame->scheduleNewServe();
 
 				resetContacts(team);
 
-				m_Active = false;
+				mActive = false;
 			}
 		}
 		else
 		{
-			m_ServingTeam = getOpponent(team);
-			m_game->scheduleNewServe();
+			mServingTeam = getOpponent(team);
+			mGame->scheduleNewServe();
 
 			resetContacts(team);
 
-			m_Active = false;
+			mActive = false;
 		}
 		resetContacts(BV3D_TEAM1);
 		resetContacts(BV3D_TEAM2);

@@ -8,6 +8,7 @@
 #include "Menu.h"
 #include "Game.h"
 #include "Constants.h"
+#include "ModelOptimizer.h"
 
 #include <vrs/sg/scenething.h>
 #include <vrs/camera.h>
@@ -38,6 +39,7 @@
 
 BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mGame = game;
+	mOptimizer = new ModelOptimizer();
 	mGameIsPaused = false;
 	mFont = 0;
 	mMenuTextMaterial = 0;
@@ -62,17 +64,19 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mScene->append(mLight = new VRS::PointLight(VRS::Vector(-1.0f,1.0f,-10.0f), VRS::Color(0.3)));
 
 	mBallScene = new VRS::SceneThing(mScene);
-	VRS::ID id = VRS::ID("ball");
+	/*VRS::ID id = VRS::ID("ball");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();
-	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");
+	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");*/
 	mBallScene->append(new VRS::Shadowed(mLight));
 	mBallScene->append(new VRS::Rotation(VRS::Vector(1.0,0.0,0.0),VRS::Vector(),90));
-	mBallScene->append(reader.read(file, id));
+	//mBallScene->append(reader.read(file, id));
+	mBallScene->append(mOptimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
 
 	mCurrentMenuScene = new VRS::SceneThing(mScene);
 
-	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-	mBlobb = VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds");	// TODO: exception handling
+	//VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
+	//mBlobb = VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds");	// TODO: exception handling
+	mBlobb = mOptimizer->get3dsModel(BV3D::threeDSPath + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
 	mBlobbMaterial = new VRS::ShapeMaterialGL(VRS::Color(VRS::Color::blue), VRS::Color(0.5), 
 		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mBlobb->prepend(mBlobbMaterial);

@@ -13,7 +13,10 @@ namespace VRS{
 	class ThreeDSReader;
 	class Light;
 	class Image;
+	class Canvas;
 }
+
+static const double			bumpmapOffset = 10.0;
 
 namespace BV3D
 {
@@ -22,22 +25,25 @@ namespace BV3D
 	class SceneLoader :	public VRS::SharedObj
 	{
 	public:
-		SceneLoader(void);
+		SceneLoader(VRS::SO<VRS::Canvas> canvas);
 		~SceneLoader(void);
-		VRS::SO<VRS::SceneThing> loadBeach();
-		VRS::SO<VRS::SceneThing> loadArena();
-		VRS::SO<VRS::SceneThing> loadHeaven();
+		
+		VRS::SO<VRS::SceneThing>	loadBeach();
+		VRS::SO<VRS::SceneThing>	loadArena();
+		VRS::SO<VRS::SceneThing>	loadHeaven();
 
-		VRS::SO<VRS::SceneThing> loadDesertSkybox();
-		VRS::SO<VRS::SceneThing> loadWaterscapeSkybox();
-		VRS::SO<VRS::SceneThing> loadIslandsSkybox();
-		VRS::SO<VRS::SceneThing> loadHotDesertSkybox();
-		VRS::SO<VRS::SceneThing> loadBrightDaySkybox();
-		VRS::SO<VRS::SceneThing> loadZolsky6Skybox();
-		VRS::SO<VRS::SceneThing> loadZolsky9Skybox();
+		VRS::SO<VRS::SceneThing>	getDesertSkybox();
+		VRS::SO<VRS::SceneThing>	getWaterscapeSkybox();
+		VRS::SO<VRS::SceneThing>	getIslandsSkybox();
+		VRS::SO<VRS::SceneThing>	getHotDesertSkybox();
+		VRS::SO<VRS::SceneThing>	getBrightDaySkybox();
+		VRS::SO<VRS::SceneThing>	getZolsky6Skybox();
+		VRS::SO<VRS::SceneThing>	getZolsky9Skybox();
 
 	protected:
-		VRS::SO<ModelOptimizer> mOptimizer;
+		VRS::SO<VRS::Canvas>		mCanvas;
+		VRS::SO<ModelOptimizer>		mOptimizer;
+		VRS::SO<VRS::SceneThing>	getFieldLines();
 	};
 }
 

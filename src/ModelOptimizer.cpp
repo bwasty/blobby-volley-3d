@@ -7,6 +7,7 @@
 #include <vrs/polygonsettool.h>
 #include <vrs/polygonset.h>
 #include <vrs/opengl/shapematerialgl.h>
+#include <vrs/cache.h>
 
 BV3D::ModelOptimizer::ModelOptimizer(void)
 {
@@ -53,10 +54,11 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::string &fileName)
 {
-	VRS::ID id = VRS::ID("ball");
+	VRS::ID id = VRS::ID("something");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();
 	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(fileName);
 	VRS::SO<VRS::SceneThing> model = new VRS::SceneThing();
+	//model->append(new VRS::Cache(VRS_Cast(VRS::Shape, reader.read(file, id))));
 	model->append(reader.read(file, id));
 	return optimizeModel(model, false);
 }

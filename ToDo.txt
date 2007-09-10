@@ -10,3 +10,6 @@ Neue ToDo:
 - Szenen + Optimierung
 - Spiellogik aus Callbacks auslagern
 - Webseite
+
+Bugs:
+- angabenanzeige(!) ändert nicht, wenn kein punkt gemacht wurde

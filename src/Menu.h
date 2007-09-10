@@ -17,6 +17,7 @@ namespace VRS {
 namespace BV3D
 {
 	class Game;
+	class ModelOptimizer;
 
 	class Menu : public VRS::SharedObj
 	{
@@ -69,6 +70,7 @@ namespace BV3D
 
 	private:
 		VRS::SO<Game>	mGame;
+		VRS::SO<ModelOptimizer>		mOptimizer;
 		VRS::SO<VRS::SceneThing>	mScene;
 		VRS::SO<VRS::SceneThing>	mCurrentMenuScene;
 		VRS::SO<VRS::SceneThing>	mBallScene;
