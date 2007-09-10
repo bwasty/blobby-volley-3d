@@ -92,7 +92,7 @@ BV3D::Game::Game() {
 	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
 	mScene->append(mTopLight);
 	
-	m_Arena = new BV3D::Arena();
+	m_Arena = new BV3D::Arena(this);
 	mScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
@@ -119,8 +119,8 @@ BV3D::Game::Game() {
 	m_Ball->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mScene->append(m_Ball->getScene());
 
-	m_Arena->setupMaterials(this);
-	m_Arena->createAItrigger();
+	m_Arena->setupMaterials();
+	m_Arena->createAItrigger(BV3D::BV3D_TEAM2);
 
 	mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
@@ -200,7 +200,7 @@ void BV3D::Game::applyMenuSettings() {
 		m_Referee = new BV3D::TieBreakReferee(this);
 	m_Referee->setHUD(mHud);
 	m_Referee->startNewGame();
-	m_Arena->setupMaterials(this);
+	m_Arena->setupMaterials();
 	newServe();
 }
 
@@ -390,8 +390,8 @@ void BV3D::Game::newServe() {
 	m_Ball->resetPosition(pos);
 
 	m_Referee->setActive(true);
-	if (team == BV3D::BV3D_TEAM2 && getBlobb(2)->isAIcontrolled())
-		getBlobb(2)->aiServe();
+	if (getBlobb(team)->isAIcontrolled())
+		getBlobb(team)->aiServe();
 
 }
 

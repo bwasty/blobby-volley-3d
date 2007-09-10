@@ -4,6 +4,7 @@
 #include <vrs/sharedobj.h>
 #include <vrs/container/array.h>
 #include <fmod.hpp>
+#include "Constants.h"
 
 namespace VRS {
 	class JumpNavigation;
@@ -58,7 +59,7 @@ namespace BV3D
 		void toggleFullscreen();
 
 		int getFrameCount() {return m_FrameCount;}
-		VRS::SO<Blobb> getBlobb(int i) {return m_BlobbArray->getElement(i-1);}
+		VRS::SO<Blobb> getBlobb(BV3D::BV3D_TEAM team) {return m_BlobbArray->getElement(team==BV3D::BV3D_TEAM1 ? 0 : 1);}
 	protected:
 		void switchToMenu();
 		void initBackgroundCubeMap();

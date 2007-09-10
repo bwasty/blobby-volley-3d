@@ -40,6 +40,7 @@ namespace BV3D
 		bool isMoving();
 		VRS::SO<VRS::SceneThing> updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
+		void setAIcontrolled(bool b) {mIsAIcontrolled = b;}
 		bool isAIcontrolled() {return mIsAIcontrolled;}
 		void forceSingleAnimation();
 

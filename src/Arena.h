@@ -40,7 +40,7 @@ namespace BV3D {
 		/**
 		 * ctor
 		 */
-		Arena();
+		Arena(BV3D::Game* game);
 
 		/**
 		 * dtor
@@ -92,7 +92,7 @@ namespace BV3D {
 		NewtonWorld* getWorld() {return m_World;}
 
 		void createMaterials();
-		void setupMaterials(BV3D::Game* game);
+		void setupMaterials();
 
 		int getBallMaterialID() {return mBallMaterialID;}
 		int getBlobbMaterialID() {return mBlobbMaterialID;}
@@ -103,6 +103,7 @@ namespace BV3D {
 		int getAITriggerID(){return mAITriggerID;}
 
 		void createAItrigger(BV3D::BV3D_TEAM team = BV3D::BV3D_TEAM2);
+		void destroyAiTrigger();
 
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
@@ -111,12 +112,15 @@ namespace BV3D {
 		VRS::SO<VRS::PolygonSet>		m_Walls;		// walls shape
 		VRS::Bounds						m_Bounds;		// bounds of the Arena box
 		VRS::SO<VRS::SceneThing>		m_Net;
+		VRS::SO<BV3D::Game>				mGame;
+
 
 	private:	// Physics
 		float			m_Gravity;	// gravity of world
 		NewtonWorld*	m_World;	// physics world
 		NewtonBody*		m_Body;		// physical arena walls
 		NewtonBody*		m_Floor;		// physical arena floor
+		NewtonBody*		mAiTriggerBody;
 
 		int mBallMaterialID;
 		int mBlobbMaterialID;
@@ -126,9 +130,9 @@ namespace BV3D {
 		int mInvisibleBarrierID;
 		int mAITriggerID;
 
-		static int contactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
+		static int blobbContactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
-		static void contactEndCallback(const NewtonMaterial* material);
+		//static void contactEndCallback(const NewtonMaterial* material);
 		static int AICallback(const NewtonMaterial* material, const NewtonContact* contact);
 	};
 }

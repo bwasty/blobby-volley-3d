@@ -354,8 +354,9 @@ void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
 }
 
 void BV3D::Blobb::aiServe() {
+	int teamModifier = mTeam==BV3D::BV3D_TEAM1 ? -1 : 1;
 	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
-	setPosition(VRS::Vector(BV3D::arenaExtent[0]/4+1.3+random/6, 0.0,random));
+	setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
 	mAIjump = true;
 }
 
