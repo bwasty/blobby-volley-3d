@@ -68,7 +68,7 @@ dFloat colData[5][5] = {
 	mIsMoving = false;
 	mForceAnimation = true;
 	mIsAIcontrolled = isAIcontrolled;
-	mAIjump = false;
+	mMaxJump = false;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 
 	// set up the blobb animation scenes
@@ -282,7 +282,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	VRS::Vector movement = requestedMovement[0] * VRS::Vector(orientation[2], 0, -orientation[0])
 			+ requestedMovement[2] * orientation;
 
-	if(requestedMovement[1] || mAIjump) {
+	if(requestedMovement[1] || mMaxJump) {
 		if(mJumpAllowed)
 			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
 	}
@@ -335,7 +335,7 @@ void BV3D::Blobb::update() {
 
 	if(newtonMatrix[13]>2.0) {	// prevent blobb from jumping too high
 		mJumpAllowed = false;
-		mAIjump = false;
+		mMaxJump = false;
 	}
 	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
 		mJumpAllowed = true;
@@ -353,11 +353,8 @@ void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
 		blobb->update();
 }
 
-void BV3D::Blobb::aiServe() {
-	int teamModifier = mTeam==BV3D::BV3D_TEAM1 ? -1 : 1;
-	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
-	setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
-	mAIjump = true;
+void BV3D::Blobb::maxJump() {
+	mMaxJump = true;
 }
 
 void BV3D::Blobb::forceSingleAnimation()

@@ -31,7 +31,7 @@ namespace BV3D
 		static const std::string cubemapsPath = "../Modelle/cubemaps/";
 		static const VRS::Vector lookTo = VRS::Vector(0.0, 4.0, 0.0);
 		static const VRS::Vector lookFrom = VRS::Vector(0.0, 9.0, -18.0);
-		static const float maxBallVelocity = 18.0;
+		static const float maxBallVelocity = 20.0;
 };
 
 #endif	// BV3D_CONSTANTS

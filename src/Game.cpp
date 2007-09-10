@@ -391,8 +391,14 @@ void BV3D::Game::newServe() {
 
 	m_Referee->setActive(true);
 	if (getBlobb(team)->isAIcontrolled())
-		getBlobb(team)->aiServe();
+		aiServe(team);
+}
 
+void BV3D::Game::aiServe(BV3D::BV3D_TEAM team) {
+	int teamModifier = team==BV3D::BV3D_TEAM1 ? -1 : 1;
+	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
+	getBlobb(team)->setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
+	getBlobb(team)->maxJump();
 }
 
 // called by menu

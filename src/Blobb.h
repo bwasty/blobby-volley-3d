@@ -50,7 +50,7 @@ namespace BV3D
 
 	public:
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
-		void aiServe();
+		void maxJump();
 		
 
 	private:
@@ -70,7 +70,7 @@ namespace BV3D
 		int								mStep;
 		static const int				mMaxStep = 1;
 		bool							mIsAIcontrolled;
-		bool							mAIjump;
+		bool							mMaxJump;
 
 	private:	// physics
 		VRS::SO<BV3D::Arena>			mArena;		// parent physics object

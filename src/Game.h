@@ -49,8 +49,12 @@ namespace BV3D
 		void processInput();	// process and dispatch input
 		VRS::SO<Ball> getBall() {return m_Ball;}
 		VRS::SO<Referee> getReferee() {return m_Referee;}
+		VRS::SO<Blobb> getBlobb(BV3D::BV3D_TEAM team) {return m_BlobbArray->getElement(team==BV3D::BV3D_TEAM1 ? 0 : 1);}
+		VRS::SO<Arena> getArena() {return m_Arena;}
 		void scheduleNewServe();
 		void newServe();
+		void aiServe(BV3D::BV3D_TEAM team);
+
 
 		void playSoundTouch();
 		void playSoundWhistle();
@@ -59,7 +63,6 @@ namespace BV3D
 		void toggleFullscreen();
 
 		int getFrameCount() {return m_FrameCount;}
-		VRS::SO<Blobb> getBlobb(BV3D::BV3D_TEAM team) {return m_BlobbArray->getElement(team==BV3D::BV3D_TEAM1 ? 0 : 1);}
 	protected:
 		void switchToMenu();
 		void initBackgroundCubeMap();

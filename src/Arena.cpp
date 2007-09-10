@@ -416,6 +416,13 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 
 	dFloat v[3];
 	NewtonBodyGetVelocity(body, v);
+	VRS::Vector v_(v[0], v[1], v[2]);
+
+	// accelerate the ball more than usual if it is slow
+	int speedUp = 1;
+	if (v_.abs() < 10) // TODO: tune
+		speedUp = 2.5;
+	printf("ball speed: %f\n", v_.abs());
 
 	int random = rand() % 15;
 	if (random < 14) {
@@ -425,29 +432,28 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		//printf("contact position: %f, %f, %f\n", pos[0], pos[1], pos[2]);
 		collData->game->getBlobb(team)->setPosition(Vector(pos[0], 0, pos[2]));
 
-		if (v[0]*teamModifier < 0) { // ball moves toward the net -> use normal collision // DONE?: parameterize
-			NewtonMaterialSetContactElasticity(material, 0.9+(rand()%9)/10.0);
+		if (v[0]*teamModifier < 0) { // ball moves toward the net -> use normal collision with random elasticity
+			NewtonMaterialSetContactElasticity(material, (0.9+(rand()%9)/10.0)*speedUp);
 			collData->referee->ballOnBlobb(team);
 			collData->game->playSoundTouch();
 			return 1;
 		}
 		else {
 			random = rand() % 10;
-			//printf("%d", random);
-			if (random<5 || (collData->referee->getCurrentContacts(team)>1 && v[0]*teamModifier > 0)) { // DONE?: parameterize
+			if (random<5 || (collData->referee->getCurrentContacts(team)>1 && v[0]*teamModifier > 0)) { // reverse balls direction
 				random = (rand()%10) / 10.0;
-				v[0] = - v[0]*(0.8+random);
-				v[1] = - v[1]*(0.8+random);
-				v[2] = - v[2]*(0.8+random);
+				v[0] = - v[0]*(0.8+random)*speedUp;
+				v[1] = - v[1]*(0.8+random)*speedUp;
+				v[2] = - v[2]*(0.8+random)*speedUp;
 				NewtonBodySetVelocity(body, v);
-				collData->referee->ballOnBlobb(team); // DONE?: parameterize
+				collData->referee->ballOnBlobb(team);
 				collData->game->playSoundTouch();
 				return 0;
 			}
-			else if (random <10) {
+			else if (random <10) { // normal collision with random elasticity
 				random = rand()%9;
-				NewtonMaterialSetContactElasticity(material, 0.9+random/10);
-				collData->referee->ballOnBlobb(team); // DONE: parameterize
+				NewtonMaterialSetContactElasticity(material, (0.9+random/10)*speedUp);
+				collData->referee->ballOnBlobb(team);
 				collData->game->playSoundTouch();
 				return 1;
 			}
