@@ -13,7 +13,7 @@ BV3D::AI::AI(BV3D::Game* game) {
 
 void BV3D::AI::aiServe(BV3D::TEAM team) {
 	int teamModifier = team==BV3D::TEAM1 ? -1 : 1;
-	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
+	float random = ((rand() % 13) - 6.0f) / 10.0f; // from -0.6 to 0.6
 	mGame->getBlobb(team)->setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
 	mGame->getBlobb(team)->maxJump();
 }
@@ -58,7 +58,7 @@ int BV3D::AI::AiCallback(const NewtonMaterial* material, const NewtonContact* co
 		this_->getGame()->getBlobb(team)->setPosition(Vector(pos[0], 0, pos[2]));
 
 		if (v[0]*teamModifier < 0) { // ball moves toward the net -> use normal collision with random elasticity
-			NewtonMaterialSetContactElasticity(material, (0.9+(rand()%9)/10.0)*speedUp);
+			NewtonMaterialSetContactElasticity(material, (dFloat)(0.9+(rand()%9)/10.0)*speedUp);
 			this_->getGame()->getReferee()->ballOnBlobb(team);
 			this_->getGame()->playSoundTouch();
 			return 1;
@@ -66,10 +66,10 @@ int BV3D::AI::AiCallback(const NewtonMaterial* material, const NewtonContact* co
 		else {
 			random = rand() % 10;
 			if (random<5 || (this_->getGame()->getReferee()->getCurrentContacts(team)>1 && v[0]*teamModifier > 0)) { // reverse balls direction
-				random = (rand()%10) / 10.0;
-				v[0] = - v[0]*(0.8+random)*speedUp;
-				v[1] = - v[1]*(0.8+random)*speedUp;
-				v[2] = - v[2]*(0.8+random)*speedUp;
+				dFloat fRand = (rand()%10) / 10.0f;
+				v[0] = - v[0]*(0.8f+fRand)*speedUp;
+				v[1] = - v[1]*(0.8f+fRand)*speedUp;
+				v[2] = - v[2]*(0.8f+fRand)*speedUp;
 				NewtonBodySetVelocity(body, v);
 				this_->getGame()->getReferee()->ballOnBlobb(team);
 				this_->getGame()->playSoundTouch();
@@ -77,7 +77,7 @@ int BV3D::AI::AiCallback(const NewtonMaterial* material, const NewtonContact* co
 			}
 			else if (random <10) { // normal collision with random elasticity
 				random = rand()%9;
-				NewtonMaterialSetContactElasticity(material, (0.9+random/10)*speedUp);
+				NewtonMaterialSetContactElasticity(material, (dFloat)(0.9+random/10)*speedUp);
 				this_->getGame()->getReferee()->ballOnBlobb(team);
 				this_->getGame()->playSoundTouch();
 				return 1;

@@ -51,7 +51,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	NewtonReleaseCollision(world, collision);
 
 	// set up mass matrix
-	dFloat inertia = 2*0.5/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
+	dFloat inertia = 2*0.5f/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
 	NewtonBodySetMassMatrix(m_Body, 4 /*mass*/,inertia,inertia,inertia);
 
 	NewtonBodySetUserData(m_Body, this);
@@ -117,12 +117,12 @@ void BV3D::Ball::update() {
 		NewtonBodyGetVelocity(m_Body, vel);
 		VRS::Vector v(vel[0], vel[1], vel[2]);
 		//printf("%f\n", v.abs());
-		float length = v.abs();
+		double length = v.abs();
 		if (length > BV3D::maxBallVelocity) {
 			v = v.normalized() * BV3D::maxBallVelocity;
-			vel[0] = v[0];
-			vel[1] = v[1];
-			vel[2] = v[2];
+			vel[0] = (dFloat)v[0];
+			vel[1] = (dFloat)v[1];
+			vel[2] = (dFloat)v[2];
 			NewtonBodySetVelocity(m_Body, vel);
 			//printf("%f\n", v.abs());
 		}

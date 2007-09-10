@@ -218,9 +218,9 @@ void BV3D::Arena::createAItrigger(BV3D::TEAM team) {
 	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
 
 	matrix[12] = (dFloat)BV3D::arenaExtent.get(0)/4 * teamModifier;
-	matrix[13] = BV3D::blobbHeight+0.3;
+	matrix[13] = (dFloat)BV3D::blobbHeight+0.3f;
 	matrix[14] = 0.0;
-	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)BV3D::arenaExtent.get(0)/2 - 0.2, 0, (dFloat)BV3D::arenaExtent.get(2), matrix);
+	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)(BV3D::arenaExtent.get(0)/2 - 0.2f), 0, (dFloat)BV3D::arenaExtent.get(2), matrix);
 	mAiTriggerBody = NewtonCreateBody(m_World, AITriggerCollision);
 	NewtonBodySetMaterialGroupID(mAiTriggerBody, mAITriggerID);
 	NewtonReleaseCollision(m_World, AITriggerCollision);
@@ -311,7 +311,8 @@ void BV3D::Arena::setupMaterials() {
 	//NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mFloorMaterialID, 1);
 
 	// Ball on AI Trigger:
-	srand(time(0));
+
+	srand((int)time(0));
 	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mAITriggerID, collData, NULL, AICallback, NULL);
 
 	// AI trigger shouldn't collide with blobbs
@@ -419,7 +420,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 	VRS::Vector v_(v[0], v[1], v[2]);
 
 	// accelerate the ball more than usual if it is slow
-	int speedUp = 1;
+	float speedUp = 1;
 	if (v_.abs() < 10) // TODO: tune
 		speedUp = 2.5;
 	printf("ball speed: %f\n", v_.abs());
@@ -433,7 +434,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		collData->game->getBlobb(team)->setPosition(Vector(pos[0], 0, pos[2]));
 
 		if (v[0]*teamModifier < 0) { // ball moves toward the net -> use normal collision with random elasticity
-			NewtonMaterialSetContactElasticity(material, (0.9+(rand()%9)/10.0)*speedUp);
+			NewtonMaterialSetContactElasticity(material, (0.9f+(rand()%9)/10.0f)*speedUp);
 			collData->referee->ballOnBlobb(team);
 			collData->game->playSoundTouch();
 			return 1;
@@ -441,10 +442,10 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 		else {
 			random = rand() % 10;
 			if (random<5 || (collData->referee->getCurrentContacts(team)>1 && v[0]*teamModifier > 0)) { // reverse balls direction
-				random = (rand()%10) / 10.0;
-				v[0] = - v[0]*(0.8+random)*speedUp;
-				v[1] = - v[1]*(0.8+random)*speedUp;
-				v[2] = - v[2]*(0.8+random)*speedUp;
+				dFloat fRand = (rand()%10) / 10.0f;
+				v[0] = - v[0]*(0.8f+fRand)*speedUp;
+				v[1] = - v[1]*(0.8f+fRand)*speedUp;
+				v[2] = - v[2]*(0.8f+fRand)*speedUp;
 				NewtonBodySetVelocity(body, v);
 				collData->referee->ballOnBlobb(team);
 				collData->game->playSoundTouch();
@@ -452,7 +453,7 @@ int BV3D::Arena::AICallback(const NewtonMaterial* material, const NewtonContact*
 			}
 			else if (random <10) { // normal collision with random elasticity
 				random = rand()%9;
-				NewtonMaterialSetContactElasticity(material, (0.9+random/10)*speedUp);
+				NewtonMaterialSetContactElasticity(material, (0.9f+random/10.0f)*speedUp);
 				collData->referee->ballOnBlobb(team);
 				collData->game->playSoundTouch();
 				return 1;
