@@ -64,6 +64,7 @@ BV3D::Game::Game() {
 	mIsCameraDistant = false;
 	mUseMovieStyleCamera = false;
 	mCurrentCameraPosition = CLASSIC_CAMERA;
+	m_Referee = 0;
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
@@ -91,6 +92,7 @@ BV3D::Game::Game() {
 	mScene->append(m_PointLight);
 
 	m_Arena = new BV3D::Arena(this);
+	m_Arena->setupMaterials();
 	mScene->append(m_Arena->getScene());
 
 	// init Blobbs and add them to the scene
@@ -113,9 +115,6 @@ BV3D::Game::Game() {
 
 	m_Ball = new BV3D::Ball(m_Arena);
 	mScene->append(m_Ball->getScene());
-
-	m_Arena->setupMaterials();
-	m_Arena->createAItrigger();
 
 	mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
@@ -147,9 +146,7 @@ BV3D::Game::Game() {
 	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_lookAt, 3.0);
 	m_Canvas->append(m_Navigation);//m_InteractionConcept);
 
-	//switchToGame(true);
-	applyMenuSettings();
-	switchToMenu();	// start showing menu
+	switchToMenu(false);	// start showing menu
 }
 
 BV3D::Game::~Game() {
@@ -160,27 +157,30 @@ void BV3D::Game::applyMenuSettings() {
 	m_BlobbArray->getElement(TEAM1)->setColor(mMenu->getPlayer1Color());
 	m_BlobbArray->getElement(TEAM2)->setColor(mMenu->getPlayer2Color());
 
+	m_Arena->destroyAiTrigger(BV3D::TEAM1);	// destroy ai for player 1
 	VRS::SO<Controls> controls = 0;
 	switch(mMenu->getPlayer1Controls()) {
 		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
 		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
 		case Menu::MOUSE:		controls = new MouseControls(); break;
-		case Menu::AI:			controls = 0; break;
-		default:				controls = 0; break;
+		case Menu::AI: controls = 0; m_Arena->createAItrigger(TEAM1); break;
+		default:				controls = 0; break;	// TODO: error handling
 	}
 	m_BlobbArray->getElement(TEAM1)->setControls(controls);
-	// TODO: [un]install ai here!!!
+	m_BlobbArray->getElement(TEAM1)->setAIcontrolled(mMenu->getPlayer1Controls()==Menu::AI);
 
+	m_Arena->destroyAiTrigger(BV3D::TEAM2);	// destroy ai for player 2
 	controls = 0;
 	switch(mMenu->getPlayer2Controls()) {
 		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
 		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
 		case Menu::MOUSE:		controls = new MouseControls(); break;
-		case Menu::AI:			controls = 0; break;
-		default:				controls = 0; break;
+		case Menu::AI:			controls = 0; m_Arena->createAItrigger(TEAM2); break;
+		default:				controls = 0; break;	// TODO: error handling
 	}
 	m_BlobbArray->getElement(TEAM2)->setControls(controls);
-	// TODO: [un]install ai here!!!
+	m_BlobbArray->getElement(TEAM2)->setAIcontrolled(mMenu->getPlayer2Controls()==Menu::AI);
+	//getBlobb(TEAM2)->setAIcontrolled(mMenu->getPlayer2Controls()==Menu::AI);
 
 	if (mScene->contains(mBackground))
 		mScene->remove(mBackground);
@@ -193,14 +193,24 @@ void BV3D::Game::applyMenuSettings() {
 
 	mScene->append(mBackground);
 
+	VRS::SO<BV3D::Referee> newReferee;
 	if(mMenu->getRules()==Menu::CLASSIC)
-		m_Referee = new BV3D::ClassicReferee(this);
+		newReferee = new BV3D::ClassicReferee(this);
 	else
-		m_Referee = new BV3D::TieBreakReferee(this);
+		newReferee = new BV3D::TieBreakReferee(this);
+
+	// copy values of current referee to the new referee
+	if(m_Referee) {
+		newReferee->setCurrentScore(BV3D::TEAM1, m_Referee->getCurrentScore(BV3D::TEAM1));
+		newReferee->setCurrentScore(BV3D::TEAM2, m_Referee->getCurrentScore(BV3D::TEAM2));
+		newReferee->setCurrentContacts(BV3D::TEAM1, m_Referee->getCurrentContacts(BV3D::TEAM1));
+		newReferee->setCurrentContacts(BV3D::TEAM2, m_Referee->getCurrentContacts(BV3D::TEAM2));
+		newReferee->setServingTeam(m_Referee->getServingTeam());
+	}
+	m_Referee = newReferee;
 	m_Referee->setHUD(mHud);
-	m_Referee->startNewGame();
+
 	m_Arena->setupMaterials();
-	newServe();
 }
 
 /**
@@ -281,7 +291,7 @@ void BV3D::Game::processInput() {
 			switch (ke->keyCode())
 			{
 				case Key::Escape:
-					switchToMenu();
+					switchToMenu(!m_Referee->isGameOver());
 					return;
 				case Key::F2:	//change to standard camera position
 					switchCameraposition(BV3D::CLASSIC_CAMERA);
@@ -360,11 +370,18 @@ void BV3D::Game::aiServe(BV3D::TEAM team) {
 
 // called by menu
 void BV3D::Game::switchToGame(bool restart) {
-	applyMenuSettings();
-
 	// deactivate menu
 	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOff(mMenu->getScene());
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOff(mMenu->getSelector());
+
+	// adjust settings
+	applyMenuSettings();
+	if(restart) {
+		m_Referee->startNewGame();
+		getBlobb(BV3D::TEAM1)->setPosition(VRS::Vector(-BV3D::arenaExtent[0]/4, 0.0f, 0.0f));
+		getBlobb(BV3D::TEAM2)->setPosition(VRS::Vector( BV3D::arenaExtent[0]/4, 0.0f, 0.0f));
+		newServe();
+	}
 
 	// activate game
 	if(m_Canvas->contains(mScene)) m_Canvas->switchOn(mScene);
@@ -372,13 +389,13 @@ void BV3D::Game::switchToGame(bool restart) {
 	m_Canvas->setCursor(VRS::Cursor::Blank);
 }
 
-void BV3D::Game::switchToMenu() {
+void BV3D::Game::switchToMenu(bool allowResume) {
 	// deactivate game
 	if(m_Canvas->contains(mScene)) m_Canvas->switchOff(mScene);
 	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOff(m_cbInput);
 
 	// activate menu (allow resume game if game is not yet over)
-	mMenu->showMainMenu(!m_Referee->isGameOver());
+	mMenu->showMainMenu(allowResume);
 	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOn(mMenu->getScene());
 	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
 	m_Canvas->setCursor(VRS::Cursor::Arrow);

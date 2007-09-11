@@ -67,6 +67,8 @@ BV3D::Arena::Arena(BV3D::Game* game) {
 	m_Gravity = 20.81f;
 	m_Floor = 0;
 	m_Body = 0;
+	mPlayer1AiTriggerBody = 0;
+	mPlayer2AiTriggerBody = 0;
 
 	setExtent(BV3D::arenaExtent);//VRS::Vector(1.0,1.0,1.0));
 }
@@ -205,7 +207,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat)(BV3D::arenaExtent[1]/2);//(dFloat)(netBoxBounds.getLLF()[1] - 0.1) / 2 ;
 	matrix[14] = 0.0;
-	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.06, 
+	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.06f, 
 											/*(dFloat)netBoxBounds.getLLF()[1] - 0.1,*/ (dFloat)BV3D::arenaExtent[1],
 															(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);	
 	NewtonBody* invisibleBarrierBody = NewtonCreateBody(m_World, invisibleBarrierCollision);
@@ -214,20 +216,40 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 }
 
 void BV3D::Arena::createAItrigger(BV3D::TEAM team) {
-	int teamModifier = (team == BV3D::TEAM1) ? -1 : 1;
+	int teamModifier;
+	if(team == BV3D::TEAM1) teamModifier = -1;
+	else if(team == BV3D::TEAM2) teamModifier = 1;
+	else return;	// TODO: error handling
+
 	dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
 
 	matrix[12] = (dFloat)BV3D::arenaExtent.get(0)/4 * teamModifier;
 	matrix[13] = (dFloat)BV3D::blobbHeight+0.3f;
 	matrix[14] = 0.0;
+	destroyAiTrigger(team);
 	NewtonCollision* AITriggerCollision = NewtonCreateBox(m_World, (dFloat)(BV3D::arenaExtent.get(0)/2 - 0.2f), 0, (dFloat)BV3D::arenaExtent.get(2), matrix);
-	mAiTriggerBody = NewtonCreateBody(m_World, AITriggerCollision);
+	NewtonBody* mAiTriggerBody = NewtonCreateBody(m_World, AITriggerCollision);
 	NewtonBodySetMaterialGroupID(mAiTriggerBody, mAITriggerID);
 	NewtonReleaseCollision(m_World, AITriggerCollision);
+
+	if(team==BV3D::TEAM1)
+		mPlayer1AiTriggerBody = mAiTriggerBody;
+	else if(team==BV3D::TEAM2)
+		mPlayer2AiTriggerBody = mAiTriggerBody;
 }
 
-void BV3D::Arena::destroyAiTrigger() {
-	NewtonDestroyBody(m_World, mAiTriggerBody);
+void BV3D::Arena::destroyAiTrigger(BV3D::TEAM team) {
+	if(team==BV3D::TEAM1) {
+		if(mPlayer1AiTriggerBody) {
+			NewtonDestroyBody(m_World, mPlayer1AiTriggerBody);
+			mPlayer1AiTriggerBody = 0;
+		}
+	} else if(team==BV3D::TEAM2) {
+		if(mPlayer2AiTriggerBody) {
+			NewtonDestroyBody(m_World, mPlayer2AiTriggerBody);
+			mPlayer2AiTriggerBody = 0;
+		}
+	}
 }
 
 VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::TEAM team) {

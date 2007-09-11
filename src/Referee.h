@@ -27,7 +27,9 @@ namespace BV3D
 
 		SO<Game> getGame();
 		int getCurrentScore(TEAM team);
+		void setCurrentScore(TEAM team, int score) {mScore[team] = score;}
 		int getCurrentContacts(TEAM team);
+		void setCurrentContacts(TEAM team, int contacts) {mContacts[team] = contacts;}
 		int getWinningScore();
 		int getMaximumContacts();
 		int getMinimumDifference();
@@ -36,6 +38,7 @@ namespace BV3D
 		BV3D_ERROR setMinimumDifference(int minDifference);
 		void startNewGame();
 		TEAM getServingTeam() {return mServingTeam;}
+		void setServingTeam(TEAM team) {mServingTeam = team;}
 		void setActive(bool b) {mActive = b;}
 		bool getActive() {return mActive;}
 		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}

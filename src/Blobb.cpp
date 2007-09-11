@@ -290,7 +290,12 @@ void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
 * this resets the controls state for the next frame.
 */
 VRS::Vector BV3D::Blobb::getMovement() {
-	if(!mControls) return VRS::Vector();
+	if(!mControls) {
+		if(mMaxJump)
+			return VRS::Vector(0.0,14.0,0.0);
+		else
+			return VRS::Vector();
+	}
 
 	// create orientation vector for movement to the specified mLookAt object
 	VRS::Vector orientation = mLookAt->getTo() - mLookAt->getFrom();	// get from-to vector
@@ -303,7 +308,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	VRS::Vector movement = requestedMovement[0] * VRS::Vector(orientation[2], 0, -orientation[0])
 			+ requestedMovement[2] * orientation;
 
-	if(requestedMovement[1] || mMaxJump) {
+	if(requestedMovement[1]) {
 		if(mJumpAllowed)
 			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
 	}

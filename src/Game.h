@@ -64,7 +64,7 @@ namespace BV3D
 
 		int getFrameCount() {return m_FrameCount;}
 	protected:
-		void switchToMenu();
+		void switchToMenu(bool allowResume);
 		void setupSound();
 		void applyMenuSettings();
 		void switchCameraposition(CAMERAPOSITION position);

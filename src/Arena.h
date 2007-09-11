@@ -103,7 +103,7 @@ namespace BV3D {
 		int getAITriggerID(){return mAITriggerID;}
 
 		void createAItrigger(BV3D::TEAM team = BV3D::TEAM2);
-		void destroyAiTrigger();
+		void destroyAiTrigger(BV3D::TEAM team);
 
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
@@ -120,7 +120,8 @@ namespace BV3D {
 		NewtonWorld*	m_World;	// physics world
 		NewtonBody*		m_Body;		// physical arena walls
 		NewtonBody*		m_Floor;		// physical arena floor
-		NewtonBody*		mAiTriggerBody;
+		NewtonBody*		mPlayer1AiTriggerBody;	// ai helper-physics-body for player 1
+		NewtonBody*		mPlayer2AiTriggerBody;	// ai helper-physics-body for player 2
 
 		int mBallMaterialID;
 		int mBlobbMaterialID;
