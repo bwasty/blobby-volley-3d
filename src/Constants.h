@@ -41,6 +41,9 @@ namespace BV3D
 		static const VRS::Vector lookTo = VRS::Vector(0.0, 4.0, 0.0);
 		static const VRS::Vector lookFrom = VRS::Vector(0.0, 9.0, -18.0);
 		static const float maxBallVelocity = 20.0;
+
+		static const double shadowHeight = 0.01f;
+		static const double shadowMaxHeight = 20.0f;
 };
 
 #endif	// BV3D_CONSTANTS

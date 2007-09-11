@@ -11,6 +11,7 @@ namespace VRS {
 	class SceneThing;
 	template<typename T> class Matrix4x4Base;
 	typedef Matrix4x4Base<double> Matrix;
+	class Disc;
 }
 
 namespace BV3D
@@ -34,7 +35,7 @@ namespace BV3D
 		/**
 		 * returns the local ball scene
 		 */
-		VRS::SO<VRS::SceneThing> getScene() {return m_Scene;}
+		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 
 		/**
 		 * position ball
@@ -44,7 +45,7 @@ namespace BV3D
 
 		VRS::Vector getPosition();
 
-		NewtonBody* getBody() {return m_Body;}
+		NewtonBody* getBody() {return mBody;}
 
 	protected:
 		/**
@@ -60,13 +61,15 @@ namespace BV3D
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
 
 	private:
-		double						m_Radius;	// ball radius
-		VRS::SO<VRS::SceneThing>	m_Scene;	// local scene
+		double						mRadius;	// ball radius
+		VRS::SO<VRS::SceneThing>	mScene;		// local scene
+		VRS::SO<VRS::SceneThing>	mBallScene;	// subscene holding the actual ball
+		VRS::SO<VRS::SceneThing>	mShadowScene;	// subscene holding fake shadow
 
 	private: // physics
-		VRS::SO<BV3D::Arena>	m_Arena;	// parent physics object
-		NewtonBody*				m_Body;		// physical body in simulated world
-		bool					m_IsLocked;	// locks the ball at its current position until collision
+		VRS::SO<BV3D::Arena>	mArena;	// parent physics object
+		NewtonBody*				mBody;		// physical body in simulated world
+		bool					mIsLocked;	// locks the ball at its current position until collision
 	};
 }
 

@@ -89,7 +89,6 @@ namespace BV3D
 		VRS::SO<VRS::Camera>				m_Camera;			// scene camera
 		VRS::SO<VRS::AmbientLight>			m_AmbientLight;
 		VRS::SO<VRS::PointLight>			m_PointLight;
-		VRS::SO<VRS::DistantLight>			mTopLight;
 		VRS::SO<VRS::BehaviorCallback>		m_cbInput;		// callback to receive input from canvas
 		VRS::SO<VRS::BehaviorCallback>		m_cbUpdate;		// callback to receive timer events for frame stepping
 		VRS::SO<VRS::InteractionMode>		m_InteractionMode;	//needed for navigation technique

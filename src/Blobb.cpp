@@ -12,6 +12,7 @@
 #include "Arena.h"
 #include "KeyboardControls.h"
 #include "ModelOptimizer.h"
+#include "Constants.h"
 #include <vrs/so.h>
 #include <vrs/sg/scenething.h>
 #include <vrs/opengl/shapematerialgl.h>
@@ -22,6 +23,8 @@
 #include <vrs/io/filedataresource.h>
 #include <vrs/sg/canvas.h>
 #include <vrs/lookat.h>
+#include <vrs/disc.h>
+#include <vrs/cache.h>
 #include <Newton.h>
 
 /*3ds-blobb measures:
@@ -81,14 +84,23 @@ dFloat colData[5][5] = {
 	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb4.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb5.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 
-	// set blobb local scene
 	mScene = new VRS::SceneThing();
+	mBlobbScene = new VRS::SceneThing();
+	mShadowScene = new VRS::SceneThing();
+
 	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(1.0),
 		90.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
-	mScene->append(mMaterial);
+	mBlobbScene->append(mMaterial);
 
 	for(int i = 0; i < mNumShapes; i++)
-		mScene->append(mShapes->getElement(i));
+		mBlobbScene->append(mShapes->getElement(i));
+
+	mScene->append(mShadowScene = new VRS::SceneThing());
+	mShadowScene->append(new VRS::ShapeMaterialGL(VRS::Color(0.0f,0.0f,0.0f,0.3f)));
+	mShadowScene->append(new VRS::Cache(new VRS::Disc(shadowHeight,1.0f)));
+
+	mScene->append(mBlobbScene);
+	mScene->append(mShadowScene);
 
 	// physics setup
 	NewtonWorld* world = mArena->getWorld();
@@ -163,7 +175,14 @@ BV3D::Blobb::~Blobb() {
 void BV3D::Blobb::setPosition(VRS::Vector position) {
 	// relocate visual blobb
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
-	mScene->setLocalMatrix(vrsMatrix);
+	mBlobbScene->setLocalMatrix(vrsMatrix);
+	double scaling = (shadowMaxHeight - position[1]) * colData[mCurrentShape][1] / shadowMaxHeight;
+	mShadowScene->setLocalMatrix(VRS::Matrix(
+		scaling, 0.0f, 0.0f, position[0],
+		0.0f, scaling, 0.0f, shadowHeight,
+		0.0f, 0.0f, scaling, position[2],
+		0.0f, 0.0f, 0.0f, 1.0f)
+	);
 
 	// translate physical body
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
@@ -215,7 +234,7 @@ inline bool BV3D::Blobb::isMoving() {//not needed anymore?
 	return mIsMoving;
 }
 
-VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
+void BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 {
 	//printf("%i\n", mCurrentShape);
 	mStep = ++mStep % mMaxStep;
@@ -223,8 +242,8 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 	if ((mStep == 0) && ((mIsMoving) || (mForceAnimation) || (mCurrentShape != 0)))
 	{
 		//if blobb is in the air, don't animate
-		if ((mCurrentShape == 0) && (mScene->getLocalMatrix().element(1, 3) >= 0.2))
-			return mScene;
+		if ((mCurrentShape == 0) && (mBlobbScene->getLocalMatrix().element(1, 3) >= 0.2))
+			return;
 		mForceAnimation = false;
 		for(int i = 0; i < mNumShapes; i++)
 			canvas->switchOff(mShapes->getElement(i));
@@ -237,7 +256,7 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 			{
 				mDecreasing = false;
 				++mCurrentShape;
-				return mScene;
+				return;
 			}
 			canvas->switchOn(mShapes->getElement(--mCurrentShape));
 			NewtonBodySetCollision(mBody, mCollision[mCurrentShape]);	// replaces physical body
@@ -250,11 +269,10 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 			{
 				mDecreasing = true;
 				--mCurrentShape;
-				return mScene;
+				return;
 			}
 			canvas->switchOn(mShapes->getElement(++mCurrentShape));
 		}
-		return mScene;
 	}
 }
 
@@ -346,7 +364,14 @@ void BV3D::Blobb::update() {
 		//	forceSingleAnimation();
 		mJumpAllowed = true;
 	}
-	mScene->setLocalMatrix(vrsMatrix);
+	mBlobbScene->setLocalMatrix(vrsMatrix);
+	double scaling = (shadowMaxHeight - newtonMatrix[13]) * colData[mCurrentShape][1] / shadowMaxHeight;
+	mShadowScene->setLocalMatrix(VRS::Matrix(
+		scaling, 0.0f, 0.0f, newtonMatrix[12],
+		0.0f, scaling, 0.0f, shadowHeight,
+		0.0f, 0.0f, scaling, newtonMatrix[14],
+		0.0f, 0.0f, 0.0f, 1.0f)
+	);
 }
 
 /**

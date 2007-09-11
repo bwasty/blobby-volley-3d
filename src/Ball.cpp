@@ -3,7 +3,7 @@
 #include "Ball.h"
 #include "Arena.h"
 #include "ModelOptimizer.h"
-//#include "Constants.h"
+#include "Constants.h"
 #include <vrs/sg/scenething.h>
 #include <vrs/matrix.h>
 #include <vrs/io/threedsreader.h>
@@ -13,24 +13,27 @@
 #include <vrs/color.h>
 #include <vrs/vector.h>
 #include <vrs/scaling.h>
+#include <vrs/disc.h>
+#include <vrs/cache.h>
 #include <Newton.h>
 
+
 BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
-	m_Arena = arena;
-	m_Radius = BV3D::ballRadius;
-	m_Body = 0;
-	m_IsLocked = true;
+	mArena = arena;
+	mRadius = BV3D::ballRadius;
+	mBody = 0;
+	mIsLocked = true;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 
 	// create ball local scene
-	m_Scene = new VRS::SceneThing();
+	mScene = new VRS::SceneThing();
 
 	// load ball model
 	//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
 	double factor = BV3D::ballRadius / 1.7;
 	/*VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
-	m_Scene->append(new VRS::Scaling(factor, factor, factor));
-	m_Scene->append(VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-colored.3ds"));*/	// TODO: exception handling
+	mScene->append(new VRS::Scaling(factor, factor, factor));
+	mScene->append(mBallScene = VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-colored.3ds"));*/	// TODO: exception handling
 
 	/*VRS::ID id = VRS::ID("ball");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();*/
@@ -38,54 +41,65 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 		115.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0));*/
 	/*VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");*/
 
-	m_Scene->append(new VRS::Scaling(factor, factor, factor));
-	m_Scene->append(optimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
+	mScene->append(mBallScene = optimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
+	mBallScene->prepend(new VRS::Scaling(factor, factor, factor));
+
+	mScene->append(mShadowScene = new VRS::SceneThing());
+	mShadowScene->append(new VRS::ShapeMaterialGL(VRS::Color(0.0f,0.0f,0.0f,0.3f)));
+	mShadowScene->append(new VRS::Cache(new VRS::Disc(shadowHeight,mRadius)));
 
 	// physics setup
-	NewtonWorld* world = m_Arena->getWorld();
+	NewtonWorld* world = mArena->getWorld();
 
 	// create NewtonBody with a collision sphere
-	NewtonCollision* collision = NewtonCreateSphere(world, (dFloat)m_Radius, (dFloat)m_Radius, (dFloat)m_Radius, NULL);
-	m_Body = NewtonCreateBody(world, collision);
-	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBallMaterialID());
+	NewtonCollision* collision = NewtonCreateSphere(world, (dFloat)mRadius, (dFloat)mRadius, (dFloat)mRadius, NULL);
+	mBody = NewtonCreateBody(world, collision);
+	NewtonBodySetMaterialGroupID(mBody, mArena->getBallMaterialID());
 	NewtonReleaseCollision(world, collision);
 
 	// set up mass matrix
-	dFloat inertia = 2*0.5f/*mass*/*(dFloat)(m_Radius * m_Radius) / 5; 
-	NewtonBodySetMassMatrix(m_Body, 4 /*mass*/,inertia,inertia,inertia);
+	dFloat inertia = 2*0.5f/*mass*/*(dFloat)(mRadius * mRadius) / 5; 
+	NewtonBodySetMassMatrix(mBody, 4 /*mass*/,inertia,inertia,inertia);
 
-	NewtonBodySetUserData(m_Body, this);
-	NewtonBodySetForceAndTorqueCallback (m_Body, applyForceAndTorqueCallback);
-	NewtonBodySetMaterialGroupID(m_Body, m_Arena->getBallMaterialID());
-	NewtonBodySetAutoFreeze (m_Body, 0);
-	//NewtonBodySetContinuousCollisionMode(m_Body, 1); // needed?
-	NewtonWorldUnfreezeBody(world, m_Body);
+	NewtonBodySetUserData(mBody, this);
+	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
+	NewtonBodySetMaterialGroupID(mBody, mArena->getBallMaterialID());
+	NewtonBodySetAutoFreeze (mBody, 0);
+	//NewtonBodySetContinuousCollisionMode(mBody, 1); // needed?
+	NewtonWorldUnfreezeBody(world, mBody);
 
 	// move ball (and ball body!) to origin
 	resetPosition(VRS::Vector(0.0,0.0,0.0));
 }
 
 BV3D::Ball::~Ball() {
-	if(m_Body)	// destroy ball body if it exists
-		NewtonDestroyBody(m_Arena->getWorld(), m_Body);
+	if(mBody)	// destroy ball body if it exists
+		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
 void BV3D::Ball::resetPosition(VRS::Vector& position) {
 	// translate visual ball to specified position
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
-	m_Scene->setLocalMatrix(vrsMatrix);
+	mBallScene->setLocalMatrix(vrsMatrix);
+	double scaling = (shadowMaxHeight - position[1]) / shadowMaxHeight;
+	mShadowScene->setLocalMatrix(VRS::Matrix(
+		scaling, 0.0f, 0.0f, position[0],
+		0.0f, scaling, 0.0f, shadowHeight,
+		0.0f, 0.0f, scaling, position[2],
+		0.0f, 0.0f, 0.0f, 1.0f)
+	);
 
 	// translate physical body
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
 						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
-	NewtonBodySetMatrix(m_Body, newtonMatrix);
+	NewtonBodySetMatrix(mBody, newtonMatrix);
 	dFloat nullVelocity[3] = {0.0,0.0,0.0};
-	NewtonBodySetVelocity(m_Body, nullVelocity);
-	m_IsLocked = true;	// lock the ball at the newly set position
+	NewtonBodySetVelocity(mBody, nullVelocity);
+	mIsLocked = true;	// lock the ball at the newly set position
 }
 
 VRS::Vector BV3D::Ball::getPosition() {
-	return m_Scene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
+	return mBallScene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
 }
 
 void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
@@ -101,20 +115,20 @@ void BV3D::Ball::update() {
 
 	// apply no forces until ball is unlocked by collision (external force)
 	dFloat force[3];
-	NewtonBodyGetForce(m_Body, force);
-	if(!m_IsLocked || (force[0] != 0) || (force[1] != 0) || (force[2] != 0)) {
-		m_IsLocked = false;
+	NewtonBodyGetForce(mBody, force);
+	if(!mIsLocked || (force[0] != 0) || (force[1] != 0) || (force[2] != 0)) {
+		mIsLocked = false;
 
 		// apply gravitational force
-		NewtonBodyGetMassMatrix(m_Body, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -m_Arena->getGravity() * mass, 0.0f};
+		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
+		dFloat gravitation[3] = {0.0f, -mArena->getGravity() * mass, 0.0f};
 		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-		NewtonBodySetForce(m_Body, nullForce);
-		NewtonBodyAddForce(m_Body, gravitation);
+		NewtonBodySetForce(mBody, nullForce);
+		NewtonBodyAddForce(mBody, gravitation);
 
 		// check for max speed
 		dFloat vel[3];
-		NewtonBodyGetVelocity(m_Body, vel);
+		NewtonBodyGetVelocity(mBody, vel);
 		VRS::Vector v(vel[0], vel[1], vel[2]);
 		//printf("%f\n", v.abs());
 		double length = v.abs();
@@ -123,7 +137,7 @@ void BV3D::Ball::update() {
 			vel[0] = (dFloat)v[0];
 			vel[1] = (dFloat)v[1];
 			vel[2] = (dFloat)v[2];
-			NewtonBodySetVelocity(m_Body, vel);
+			NewtonBodySetVelocity(mBody, vel);
 			//printf("%f\n", v.abs());
 		}
 
@@ -131,7 +145,7 @@ void BV3D::Ball::update() {
 
 		// set up matrix for visual ball
 		dFloat newtonMatrix[16];
-		NewtonBodyGetMatrix(m_Body, newtonMatrix);
+		NewtonBodyGetMatrix(mBody, newtonMatrix);
 		VRS::Matrix vrsMatrix (
 			newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
 			newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
@@ -139,6 +153,13 @@ void BV3D::Ball::update() {
 			newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
 		// apply matrix to visual ball
-		m_Scene->setLocalMatrix(vrsMatrix);
+		mBallScene->setLocalMatrix(vrsMatrix);
+		double scaling = (shadowMaxHeight - newtonMatrix[13]) / shadowMaxHeight;
+		mShadowScene->setLocalMatrix(VRS::Matrix(
+			scaling, 0.0f, 0.0f, newtonMatrix[12],
+			0.0f, scaling, 0.0f, shadowHeight,
+			0.0f, 0.0f, scaling, newtonMatrix[14],
+			0.0f, 0.0f, 0.0f, 1.0f)
+		);
 	}
 }

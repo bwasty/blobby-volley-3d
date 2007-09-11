@@ -38,7 +38,7 @@ namespace BV3D
 		VRS::Color BV3D::Blobb::getColor();
 		BV3D::TEAM	getTeam();
 		bool isMoving();
-		VRS::SO<VRS::SceneThing> updateShape(VRS::SO<VRS::Canvas> canvas);
+		void updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
 		void setAIcontrolled(bool b) {mIsAIcontrolled = b;}
 		bool isAIcontrolled() {return mIsAIcontrolled;}
@@ -55,6 +55,8 @@ namespace BV3D
 
 	private:
 		VRS::SO<VRS::SceneThing>		mScene;				// blobb local scene
+		VRS::SO<VRS::SceneThing>		mBlobbScene;		// subscene holding actual blobb
+		VRS::SO<VRS::SceneThing>		mShadowScene;		// subscene holding blobb shadow
 		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;				// blobb material
 		VRS::SO<Controls>				mControls;				// blobb controls
 		VRS::SO<VRS::LookAt>			mLookAt;				// blobb movement orientation

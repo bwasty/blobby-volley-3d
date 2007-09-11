@@ -35,16 +35,8 @@
 #include <vrs/perspective.h>
 #include <vrs/opengl/texgengl.h>
 #include <vrs/color.h>
-#include <vrs/opengl/shadowtechniquegl.h>
-#include <vrs/shadowcaster.h>
-#include <vrs/shadowed.h>
 #include <vrs/sg/selector.h>
 #include <gl/glut.h>
-
-// temporarily used for floor
-#include <vrs/box.h>
-
-
 
 
 //#include <fmod_errors.h>
@@ -77,10 +69,9 @@ BV3D::Game::Game() {
 
 	mScene = new SceneThing();	// create absolute root scene for bv3d
 
-	// add transparency and shadow support to scene
+	// add transparency support to scene
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	mScene->append(m_TransparencyTechnique);
-	mScene->append(new VRS::ShadowTechniqueGL());
 
 	m_perspective = new Perspective(45, 1.0, 100.0);
 	m_lookAt = new LookAt(BV3D::lookFrom, BV3D::lookTo);
@@ -92,13 +83,9 @@ BV3D::Game::Game() {
 	mScene->append(m_AmbientLight);
 
 	//// add PointLight for shadows and reflection
-	/*m_PointLight = new PointLight(Vector(-BV3D::arenaExtent[0]/2, BV3D::arenaExtent[1], BV3D::arenaExtent[2]), VRS::Color(0.3));
-	mScene->append(m_PointLight);*/
+	m_PointLight = new PointLight(Vector(-BV3D::arenaExtent[0]/2, BV3D::arenaExtent[1], BV3D::arenaExtent[2]), VRS::Color(0.3));
+	mScene->append(m_PointLight);
 
-	// create directional light for shadows
-	mTopLight = new VRS::DistantLight(VRS::Vector(0.0,1.0,0.0), VRS::Color(0.5));
-	mScene->append(mTopLight);
-	
 	m_Arena = new BV3D::Arena(this);
 	mScene->append(m_Arena->getScene());
 
@@ -107,7 +94,6 @@ BV3D::Game::Game() {
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
 	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM1, m_lookAt, false);
 	blobb->setPosition(Vector(-2.0,0.0,0.0));
-	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM1));
@@ -116,14 +102,12 @@ BV3D::Game::Game() {
 	blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM2, m_lookAt, true);
 	blobb->setPosition(Vector(2.0,0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
-	blobb->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM2));
 	m_BlobbArray->append(blobb);
 
 	m_Ball = new BV3D::Ball(m_Arena);
-	m_Ball->getScene()->prepend(new VRS::ShadowCaster(mTopLight));
 	mScene->append(m_Ball->getScene());
 
 	m_Arena->setupMaterials();
@@ -203,7 +187,6 @@ void BV3D::Game::applyMenuSettings() {
 	else
 		mBackground = m_SceneLoader->loadArena();
 
-	mBackground->prepend(new VRS::Shadowed(mTopLight));
 	mScene->append(mBackground);
 
 	if(mMenu->getRules()==Menu::CLASSIC)
@@ -221,67 +204,62 @@ void BV3D::Game::applyMenuSettings() {
  */
 void BV3D::Game::update() {
 
-	//while (true) {
+	VRSTime time = m_Canvas->clock()->time();
+	//m_iFramerate++;
+	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
+	if(double(time) - m_dLastUpdateTime >= 0.7/m_FPS) {
+		float timestep = (double)time - m_dLastUpdateTime;
+		m_dLastUpdateTime = double(time);
 
-		VRSTime time = m_Canvas->clock()->time();
-		//m_iFramerate++;
-		// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
-		if(double(time) - m_dLastUpdateTime >= 0.7/m_FPS) {
-			float timestep = (double)time - m_dLastUpdateTime;
-			m_dLastUpdateTime = double(time);
-
-			// count frames per second
-			m_iFramerate++;
-			m_FrameCount++;
-			if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
-				printf("framerate: %d\n",m_iFramerate);
-				m_dLastSecond = m_dLastUpdateTime;
-				m_iFramerate = 0;
-			}
-
-			if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
-				m_Arena->updateWorld(timestep);
-
-
-			if (m_DelayedActionStart != 0) {
-				if (double(time) - m_DelayedActionStart >= 3.0) {
-					newServe();
-					m_DelayedActionStart = 0;
-				}
-			}
-			if (m_ScheduleNewServe) {
-				m_DelayedActionStart = double(time);
-				m_ScheduleNewServe = false;
-			}
-
-			//animate blobbs if they're moving
-			m_BlobbArray->getElement(BV3D::TEAM1)->updateShape(m_Canvas);
-			m_BlobbArray->getElement(BV3D::TEAM2)->updateShape(m_Canvas);
-
-			/*	team = BV3D::TEAM1;
-				if (m_BlobbArray->getElement(team)->isMoving())
-				{
-					mBlobbScenesArray->getElement(team)->clear();
-					mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
-				}
-				team = BV3D::TEAM2;
-				if (m_BlobbArray->getElement(team)->isMoving())
-				{
-					mBlobbScenesArray->getElement(team)->clear();
-					mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
-				}*/
-
-			//m_Canvas->redisplay();
-			//m_Canvas->postForRedisplay();
-			m_cbUpdate->nextRedraw(BehaviorNode::RedrawWindow);
-
-			m_fmodSystem->update();
-			//printf("update\n");
-			//m_cbUpdate->deactivate();
+		// count frames per second
+		m_iFramerate++;
+		m_FrameCount++;
+		if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
+			printf("framerate: %d\n",m_iFramerate);
+			m_dLastSecond = m_dLastUpdateTime;
+			m_iFramerate = 0;
 		}
-		else;
-			//printf("frame discarded\n");
-	//}
+
+		if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
+			m_Arena->updateWorld(timestep);
+
+
+		if (m_DelayedActionStart != 0) {
+			if (double(time) - m_DelayedActionStart >= 3.0) {
+				newServe();
+				m_DelayedActionStart = 0;
+			}
+		}
+		if (m_ScheduleNewServe) {
+			m_DelayedActionStart = double(time);
+			m_ScheduleNewServe = false;
+		}
+
+		//animate blobbs if they're moving
+		m_BlobbArray->getElement(BV3D::TEAM1)->updateShape(m_Canvas);
+		m_BlobbArray->getElement(BV3D::TEAM2)->updateShape(m_Canvas);
+
+		/*	team = BV3D::TEAM1;
+			if (m_BlobbArray->getElement(team)->isMoving())
+			{
+				mBlobbScenesArray->getElement(team)->clear();
+				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+			}
+			team = BV3D::TEAM2;
+			if (m_BlobbArray->getElement(team)->isMoving())
+			{
+				mBlobbScenesArray->getElement(team)->clear();
+				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
+			}*/
+
+		//m_Canvas->redisplay();
+		//m_Canvas->postForRedisplay();
+		m_cbUpdate->nextRedraw(BehaviorNode::RedrawWindow);
+
+		m_fmodSystem->update();
+		//printf("update\n");
+		//m_cbUpdate->deactivate();
+	}
 }
 
 /**
