@@ -109,31 +109,31 @@ void BV3D::Menu::select() {
 		else if(name.compare("Fullscreen")==0) {
 			mGame->toggleFullscreen();
 			mFullscreen = (mFullscreen==OFF) ? ON : OFF;
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(GAME);}
 		else if(name.compare("Place")==0) {
 			mPlace = (PLACE)((mPlace+1) % MAX_PLACES);
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(GAME);}
 		else if(name.compare("Rules")==0) {
 			mRules = (RULES)((mRules+1) % MAX_RULES);
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(GAME);}
 		else if(name.compare("P1Color")==0) {
 			mP1Color = (COLOR)((mP1Color+1) % MAX_COLORS);
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(P1);}
 		else if(name.compare("P2Color")==0) {
 			mP2Color = (COLOR)((mP2Color+1) % MAX_COLORS);
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(P2);}
 		else if(name.compare("P1Controls")==0) {
 			mP1Controls = (CONTROLS)((mP1Controls+1) % MAX_CONTROLS);
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(P1);}
 		else if(name.compare("P2Controls")==0) {
 			mP2Controls = (CONTROLS)((mP2Controls+1) % MAX_CONTROLS);
-			mGame->playSoundWhistle();
+			mGame->playSoundTouch();
 			showMenu(P2);}
 		else if(name.compare("Quit")==0) exit(0);
 		else return;
