@@ -306,11 +306,11 @@ void BV3D::Game::processInput() {
 					switchCameraposition(BV3D::TEAM2_BASECAMERA);
 					break;
 				case Key::F8:
-					mIsCameraDistant = true;
+					mIsCameraDistant = !mIsCameraDistant;
 					switchCameraposition(mCurrentCameraPosition);
 					break;
 				case Key::F9:
-					mUseMovieStyleCamera = true;
+					mUseMovieStyleCamera = !mUseMovieStyleCamera;
 					break;
 	//			case Key::F3:	//view field from above
 	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
@@ -444,35 +444,74 @@ void BV3D::Game::playSoundWhistle() {
 
 void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
 {
-	double offset = 0.0;
-	if (mIsCameraDistant)
-		offset = 5.0;
 	if (mUseMovieStyleCamera)
 	{
-		VRS::Array<VRS::Vector>	positions = VRS::Array<VRS::Vector>(2);
-		VRS::Array<VRS::Vector>	directions = VRS::Array<VRS::Vector>(2);
 		//TODO: stop game and fly camera the long way to destination position
+		VRS::Array<VRS::Vector>	positions = VRS::Array<VRS::Vector>();
+		VRS::Array<VRS::Vector>	directions = VRS::Array<VRS::Vector>();
+		positions.clear();
+		directions.clear();
+		bool moveLeft = false;
+		if ( ((mCurrentCameraPosition == CLASSIC_CAMERA) && (position == TEAM1_BASECAMERA)) ||
+			 ((mCurrentCameraPosition == TEAM1_BASECAMERA) && (position == REVERSE_CAMERA)) ||
+			 ((mCurrentCameraPosition == REVERSE_CAMERA) && (position == TEAM2_BASECAMERA)) ||
+			 ((mCurrentCameraPosition == TEAM2_BASECAMERA) && (position == CLASSIC_CAMERA)) )
+			moveLeft = true;
+		do
+		{
+			if (moveLeft)
+				mCurrentCameraPosition = (CAMERAPOSITION) ((mCurrentCameraPosition + 1) % MAX_CAMERAS);
+			else
+				mCurrentCameraPosition = (CAMERAPOSITION) ((mCurrentCameraPosition + ((int)MAX_CAMERAS - 1)) % MAX_CAMERAS);
+			positions.append(getPositionVector(mCurrentCameraPosition));
+			directions.append(getDirectionVector(mCurrentCameraPosition));
+		}while(mCurrentCameraPosition != position);
+		//m_Navigation->initMultiStepPath(&positions, &directions);
 	}
 	else
 	{
-		switch (position)
-		{
-			case BV3D::CLASSIC_CAMERA:
-				m_Navigation->initPath(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset), -BV3D::lookFrom + BV3D::lookTo);
-				break;
-			case BV3D::REVERSE_CAMERA:
-				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -(BV3D::lookFrom[2] - offset) ), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
-				break;
-			case BV3D::TEAM1_BASECAMERA:
-				m_Navigation->initPath(Vector(BV3D::lookFrom[2] - offset, BV3D::lookFrom[1], 0.0), Vector(-BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
-				break;
-			case BV3D::TEAM2_BASECAMERA:
-				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - offset), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
-				break;
-		}
+		m_Navigation->initPath(getPositionVector(position), getDirectionVector(position));
+		mCurrentCameraPosition = position;
 	}
 }
 
+VRS::Vector BV3D::Game::getPositionVector(CAMERAPOSITION position)
+{
+	double offset = 0.0;
+	if (mIsCameraDistant)
+		offset = 5.0;
+	switch (position)
+		{
+			case BV3D::CLASSIC_CAMERA:
+				return(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset));
+			case BV3D::REVERSE_CAMERA:
+				return(Vector(0.0, BV3D::lookFrom[1], -(BV3D::lookFrom[2] - offset) ));
+			case BV3D::TEAM1_BASECAMERA:
+				return(Vector(BV3D::lookFrom[2] - offset, BV3D::lookFrom[1], 0.0));
+			case BV3D::TEAM2_BASECAMERA:
+				return(Vector(-(BV3D::lookFrom[2] - offset), BV3D::lookFrom[1], 0.0));
+			default:
+				return(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset));
+	}
+}
+
+
+VRS::Vector BV3D::Game::getDirectionVector(CAMERAPOSITION position)
+{
+	switch (position)
+		{
+			case BV3D::CLASSIC_CAMERA:
+				return (-BV3D::lookFrom + BV3D::lookTo);
+			case BV3D::REVERSE_CAMERA:
+				return (VRS::Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+			case BV3D::TEAM1_BASECAMERA:
+				return (VRS::Vector(-BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+			case BV3D::TEAM2_BASECAMERA:
+				return (Vector(BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+			default:
+				return (-BV3D::lookFrom + BV3D::lookTo);
+	}
+}
 	//case Key::F2:	//view field from the side
 	//				m_Navigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
 	//				break;

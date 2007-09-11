@@ -98,13 +98,13 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	palmTree->setLocalMatrix(vrsMatrix);
 	palmTree->append(palmScene);
 
-	/*palmTree = new VRS::SceneThing(beachScene);
+	palmTree = new VRS::SceneThing(beachScene);
 	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/2, 0.0, extent[2] + 5));
 	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 140.0);
 	palmTree->setLocalMatrix(vrsMatrix);
-	palmTree->append(palmScene);*/	
+	palmTree->append(palmScene);	
 
-	/*palmTree = new VRS::SceneThing(beachScene);
+	palmTree = new VRS::SceneThing(beachScene);
 	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/3, 0.0, extent[2] + 8));
 	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 70.0);
 	palmTree->setLocalMatrix(vrsMatrix);
@@ -114,7 +114,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]*2, 0.0, -(extent[2] + 8)));
 	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 70.0);
 	palmTree->setLocalMatrix(vrsMatrix);
-	palmTree->append(palmScene);*/
+	palmTree->append(palmScene);
 
 	//yucca plants
 	VRS::SO<VRS::SceneThing> yuccaModel = new VRS::SceneThing();
@@ -170,6 +170,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	double scalFenceSideline = (arenaExtent[0]/2)/210.0;
 	double scalFenceHeight = (2 * arenaExtent[2])/210.0;
 	double scalSwing = 0.03;
+	double scalStands = 0.01;
 	VRS::Matrix vrsMatrix;
 
 	//background
@@ -232,14 +233,44 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	fence->append(fenceSceneSide);
 
 	//swingset
-	VRS::SO<VRS::SceneThing> swingset = new VRS::SceneThing();
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]-5.0, 2.0, extent[2] * 3));
-	vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalSwing, scalSwing, scalSwing));
-	swingset->setLocalMatrix(vrsMatrix);
-	swingset->append(mOptimizer->get3dsModel(BV3D::threeDSPath + "swingset_mrealms.3ds"));
-	VRS::SO<VRS::CullingSceneThing> swingsetScene = new VRS::CullingSceneThing(swingset->boundingBox(mCanvas->engine()));
-	swingsetScene->append(swingset);
-	arenaScene->append(swingsetScene);
+	//VRS::SO<VRS::SceneThing> swingset = new VRS::SceneThing();
+	//vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]-5.0, 2.0, extent[2] * 3));
+	//vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalSwing, scalSwing, scalSwing));
+	//swingset->setLocalMatrix(vrsMatrix);
+	//swingset->append(mOptimizer->get3dsModel(BV3D::threeDSPath + "swingset_mrealms.3ds"));
+	//VRS::SO<VRS::CullingSceneThing> swingsetScene = new VRS::CullingSceneThing(swingset->boundingBox(mCanvas->engine()));
+	//swingsetScene->append(swingset);
+	//arenaScene->append(swingsetScene);
+	
+	//metal stands
+	VRS::SO<VRS::SceneThing> standsModel = new VRS::SceneThing();
+	vrsMatrix = VRS::Matrix::scaling(VRS::Vector(scalStands, scalStands, scalStands));
+	standsModel->setLocalMatrix(vrsMatrix);
+	standsModel->append(mOptimizer->get3dsModel(BV3D::threeDSPath + "metal_stands_mrealms.3ds"));
+	VRS::SO<VRS::CullingSceneThing> standsScene = new VRS::CullingSceneThing(standsModel->boundingBox(mCanvas->engine()));
+	standsScene->append(standsModel);
+
+	VRS::SO<VRS::SceneThing> stands = new VRS::SceneThing(arenaScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]/4, 2.5, 2*extent[2]));
+	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
+	stands->setLocalMatrix(vrsMatrix);
+	stands->append(standsScene);
+
+	stands = new VRS::SceneThing(arenaScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/4, 2.5, 2*extent[2]));
+	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
+	stands->setLocalMatrix(vrsMatrix);
+	stands->append(standsScene);
+	
+	stands = new VRS::SceneThing(arenaScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]/4, 2.5, -2*extent[2]));
+	stands->setLocalMatrix(vrsMatrix);
+	stands->append(standsScene);
+
+	stands = new VRS::SceneThing(arenaScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/4, 2.5, -2*extent[2]));
+	stands->setLocalMatrix(vrsMatrix);
+	stands->append(standsScene);
 
 	return arenaScene;
 }
@@ -268,36 +299,6 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHeaven()
 	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 60.0));
 	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, bumpmapOffset)));
 	groundPlane->append(getFieldLines());
-
-	//metal stands
-	/*VRS::SO<VRS::SceneThing> standsModel = new VRS::SceneThing();
-	vrsMatrix = VRS::Matrix::scaling(VRS::Vector(scalStands, scalStands, scalStands));
-	standsModel->setLocalMatrix(vrsMatrix);
-	standsModel->append(mOptimizer->get3dsModel(BV3D::threeDSPath + "metal_stands_mrealms.3ds"));
-	VRS::SO<VRS::CullingSceneThing> standsScene = new VRS::CullingSceneThing(standsModel->boundingBox(mCanvas->engine()));
-	standsScene->append(standsModel);
-
-	VRS::SO<VRS::SceneThing> stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]/4, 2.5, extent[2]));
-	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
-	stands->setLocalMatrix(vrsMatrix);
-	stands->append(standsScene);
-
-	stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/4, 2.5, extent[2]));
-	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
-	stands->setLocalMatrix(vrsMatrix);
-	stands->append(standsScene);
-	
-	stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]/4, 2.5, -extent[2]));
-	stands->setLocalMatrix(vrsMatrix);
-	stands->append(standsScene);
-
-	stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/4, 2.5, -extent[2]));
-	stands->setLocalMatrix(vrsMatrix);
-	stands->append(standsScene);*/
 
 	return heavenScene;
 }

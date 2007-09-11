@@ -143,7 +143,7 @@ int Referee::increaseScore(TEAM team)
  */
 int Referee::increaseContacts(TEAM team)
 {
-	return mContacts[getTeamIndex(team)]++;
+	return ++mContacts[getTeamIndex(team)];
 }
 
 /*

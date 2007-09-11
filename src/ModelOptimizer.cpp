@@ -83,7 +83,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::stri
 	VRS::SO<VRS::SceneThing> model = new VRS::SceneThing();
 	VRS::SO<VRS::SceneThing> ball = VRS_Cast(VRS::SceneThing, reader.read(file, id));
 	//cache shape for better performance
-	printf("Objects in ball model:\n");
+	//printf("Objects in ball model:\n");
 	ball = optimizeModel(ball);
 	//for(int i=0; i< ball->objects(); i++)
 	//{

@@ -27,10 +27,11 @@ namespace BV3D
 			CLASSIC_CAMERA,
 			TEAM1_BASECAMERA,
 			REVERSE_CAMERA,
-			TEAM2_BASECAMERA
+			TEAM2_BASECAMERA,
+			MAX_CAMERAS
 		};
 
-		static const VRS::Vector arenaExtent = VRS::Vector(15.0,20.0,6.0);
+		static const VRS::Vector arenaExtent = VRS::Vector(16.0,20.0,6.0);
 		static const double netHeight = 4.2;
 		static const double linesWidth = 0.2;
 		static const double ballRadius = 0.9;

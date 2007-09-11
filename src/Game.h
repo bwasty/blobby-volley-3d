@@ -68,6 +68,8 @@ namespace BV3D
 		void setupSound();
 		void applyMenuSettings();
 		void switchCameraposition(CAMERAPOSITION position);
+		VRS::Vector getPositionVector(CAMERAPOSITION position);
+		VRS::Vector getDirectionVector(CAMERAPOSITION position);
 
 	private:
 		double			m_DelayedActionStart;
