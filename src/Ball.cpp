@@ -110,16 +110,15 @@ void BV3D::Ball::update() {
 
 		// apply gravitational force
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -mArena->getGravity() * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -BV3D::gravity * mass, 0.0f};
 		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
 		NewtonBodySetForce(mBody, nullForce);
 		NewtonBodyAddForce(mBody, gravitation);
 
-		// check for max speed
+		// check for max speed and reduce if necessary
 		dFloat vel[3];
 		NewtonBodyGetVelocity(mBody, vel);
 		VRS::Vector v(vel[0], vel[1], vel[2]);
-		//printf("%f\n", v.abs());
 		double length = v.abs();
 		if (length > BV3D::maxBallVelocity) {
 			v = v.normalized() * BV3D::maxBallVelocity;
@@ -127,10 +126,7 @@ void BV3D::Ball::update() {
 			vel[1] = (dFloat)v[1];
 			vel[2] = (dFloat)v[2];
 			NewtonBodySetVelocity(mBody, vel);
-			//printf("%f\n", v.abs());
 		}
-
-		
 
 		// set up matrix for visual ball
 		dFloat newtonMatrix[16];

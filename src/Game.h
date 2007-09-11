@@ -40,6 +40,7 @@ namespace BV3D
 	class SceneLoader;
 	class Menu;
 	class HUD;
+	class AI;
 
 	class Game : public VRS::SharedObj {
 	public:
@@ -54,7 +55,6 @@ namespace BV3D
 		void scheduleNewServe();
 		void newServe();
 		void aiServe(BV3D::TEAM team);
-
 
 		void playSoundTouch();
 		void playSoundWhistle();
@@ -99,8 +99,10 @@ namespace BV3D
 		VRS::SO<VRS::JumpNavigation>		m_Navigation;	// select and fly between different camera settings
 		VRS::SO<VRS::SceneThing>			mBackground;		//SceneNode for background
 
+		VRS::SO<AI>							mAI;
+
 		int			m_iFramerate;		// frame counter to allow frame rate checking
-		int			m_FrameCount;
+		int			m_FrameCount;		// total frame count
 		double		m_dLastSecond;		// auxiliary variable for frame rate checking
 		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
 		double		m_FPS;				// desired frame rate
@@ -111,8 +113,6 @@ namespace BV3D
 		VRS::SO<Referee>		m_Referee;
 		VRS::SO<SceneLoader>	m_SceneLoader;
 		VRS::SO<Menu>			mMenu;
-
-		
 	};
 }
 

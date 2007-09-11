@@ -35,6 +35,10 @@ namespace VRS {
 
 namespace BV3D {
 	class Game;
+	class Ball;
+	class Referee;
+	class Blobb;
+
 	class Arena : public VRS::SharedObj {
 	public:
 		/**
@@ -71,16 +75,6 @@ namespace BV3D {
 
 	public:	// Physics
 		/**
-		 * get the current gravity force value
-		 */
-		float getGravity() {return m_Gravity;}
-
-		/**
-		 * set the current gravity force value
-		 */
-		void  setGravity(float gravity) {m_Gravity = gravity;}
-
-		/**
 		 * perform physics simulation
 		 * \param timestep specifies the amount of time in millisecs to advance during simulation
 		 */
@@ -100,10 +94,7 @@ namespace BV3D {
 		int getFloorMaterialID() {return mFloorMaterialID;}
 		int getNetMaterialID() {return mNetMaterialID;}
 		int getInvisibleBarrierID() {return mInvisibleBarrierID;}
-		int getAITriggerID(){return mAITriggerID;}
-
-		void createAItrigger(BV3D::TEAM team = BV3D::TEAM2);
-		void destroyAiTrigger(BV3D::TEAM team);
+		int getAiTriggerID(){return mAiTriggerID;}
 
 	private:
 		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
@@ -114,14 +105,10 @@ namespace BV3D {
 		VRS::SO<VRS::SceneThing>		m_Net;
 		VRS::SO<BV3D::Game>				mGame;
 
-
 	private:	// Physics
-		float			m_Gravity;	// gravity of world
 		NewtonWorld*	m_World;	// physics world
 		NewtonBody*		m_Body;		// physical arena walls
 		NewtonBody*		m_Floor;		// physical arena floor
-		NewtonBody*		mPlayer1AiTriggerBody;	// ai helper-physics-body for player 1
-		NewtonBody*		mPlayer2AiTriggerBody;	// ai helper-physics-body for player 2
 
 		int mBallMaterialID;
 		int mBlobbMaterialID;
@@ -129,13 +116,23 @@ namespace BV3D {
 		int mFloorMaterialID;
 		int mNetMaterialID;
 		int mInvisibleBarrierID;
-		int mAITriggerID;
+		int mAiTriggerID;
 
 		static int blobbContactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
-		//static void contactEndCallback(const NewtonMaterial* material);
-		static int AICallback(const NewtonMaterial* material, const NewtonContact* contact);
 	};
 }
+
+struct CollisionData {
+	int material1;
+	int material2;
+	VRS::SO<BV3D::Game> game;
+	VRS::SO<BV3D::Arena> arena;
+	VRS::SO<BV3D::Ball> ball;
+	VRS::SO<BV3D::Referee> referee;
+	VRS::SO<BV3D::Blobb> currentBlobb;
+	NewtonWorld* world;
+	int delayStartFrame;
+};
 
 #endif	//BV3D_ARENA

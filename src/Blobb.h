@@ -13,7 +13,6 @@ namespace VRS {
 	class ShapeMaterialGL;
 	class InputEvent;
 	class Canvas;
-	//template <typename T> class Array;
 	class LookAt;
 }
 
@@ -26,7 +25,7 @@ namespace BV3D
 
 	class Blobb : public VRS::SharedObj {
 	public:
-		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled);
+		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt);
 		~Blobb();
 		void setPosition(VRS::Vector position);
 		void setLookAt(VRS::SO<VRS::LookAt> lookAt) {mLookAt = lookAt;}
@@ -40,8 +39,6 @@ namespace BV3D
 		bool isMoving();
 		void updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
-		void setAIcontrolled(bool b) {mIsAIcontrolled = b;}
-		bool isAIcontrolled() {return mIsAIcontrolled;}
 		void forceSingleAnimation();
 
 	protected:
@@ -50,9 +47,8 @@ namespace BV3D
 
 	public:
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
-		void maxJump();
+		void maxJump();					// let blobb do a jump with maximum height
 		
-
 	private:
 		VRS::SO<VRS::SceneThing>		mScene;				// blobb local scene
 		VRS::SO<VRS::SceneThing>		mBlobbScene;		// subscene holding actual blobb
@@ -62,7 +58,7 @@ namespace BV3D
 		VRS::SO<VRS::LookAt>			mLookAt;				// blobb movement orientation
 		double							mStepDistance;			// blobb step distance
 		bool							mJumpAllowed;			// indicates if blobb may jump
-		BV3D::TEAM					mTeam;
+		BV3D::TEAM						mTeam;
 		static const int				mNumShapes = 5;		//number of animation shapes
 		int								mCurrentShape;
 		VRS::SO<VRS::Array< VRS::SO<VRS::SceneThing>> >	mShapes;	//shapes for animation of blobb
@@ -71,8 +67,7 @@ namespace BV3D
 		bool							mForceAnimation;
 		int								mStep;
 		static const int				mMaxStep = 1;
-		bool							mIsAIcontrolled;
-		bool							mMaxJump;
+		bool							mMaxJump;			// indicates that blobb should do a maximum high jump
 
 	private:	// physics
 		VRS::SO<BV3D::Arena>			mArena;		// parent physics object

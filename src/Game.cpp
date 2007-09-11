@@ -39,13 +39,9 @@
 #include <gl/glut.h>
 #include <vrs/facestyle.h>
 
-
-//#include <fmod_errors.h>
-
 #include "MouseControls.h"
 #include "KeyboardControls.h"
 #include "Ball.h"
-//#include "Constants.h"
 #include "Arena.h"
 #include "Blobb.h"
 #include "ClassicReferee.h"
@@ -53,6 +49,7 @@
 #include "SceneLoader.h"
 #include "Menu.h"
 #include "Hud.h"
+#include "Ai.h"
 
 
 BV3D::Game::Game() {
@@ -98,15 +95,15 @@ BV3D::Game::Game() {
 	// init Blobbs and add them to the scene
 	m_BlobbArray = new Array<SO<Blobb> >();
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
-	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM1, m_lookAt, false);
-	blobb->setPosition(Vector(-2.0,0.0,0.0));
+	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM1, m_lookAt);
+	blobb->setPosition(Vector(-BV3D::arenaExtent[0],0.0,0.0));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM1));
 	m_BlobbArray->append(blobb);
 
-	blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM2, m_lookAt, true);
-	blobb->setPosition(Vector(2.0,0.0,0.0));
+	blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM2, m_lookAt);
+	blobb->setPosition(Vector(BV3D::arenaExtent[0],0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
@@ -115,6 +112,8 @@ BV3D::Game::Game() {
 
 	m_Ball = new BV3D::Ball(m_Arena);
 	mScene->append(m_Ball->getScene());
+
+	mAI = new AI(this);
 
 	mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
@@ -157,30 +156,29 @@ void BV3D::Game::applyMenuSettings() {
 	m_BlobbArray->getElement(TEAM1)->setColor(mMenu->getPlayer1Color());
 	m_BlobbArray->getElement(TEAM2)->setColor(mMenu->getPlayer2Color());
 
-	m_Arena->destroyAiTrigger(BV3D::TEAM1);	// destroy ai for player 1
-	VRS::SO<Controls> controls = 0;
+	VRS::SO<Controls> controls = NULL;
 	switch(mMenu->getPlayer1Controls()) {
 		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
 		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
 		case Menu::MOUSE:		controls = new MouseControls(); break;
-		case Menu::AI: controls = 0; m_Arena->createAItrigger(TEAM1); break;
-		default:				controls = 0; break;	// TODO: error handling
+		case Menu::AI:			controls = 0; mAI->enableAI(BV3D::TEAM1); break;
+		default:				controls = 0; break;
 	}
 	m_BlobbArray->getElement(TEAM1)->setControls(controls);
-	m_BlobbArray->getElement(TEAM1)->setAIcontrolled(mMenu->getPlayer1Controls()==Menu::AI);
+	if (controls != NULL && mAI->isAiControlled(BV3D::TEAM1))
+		mAI->disableAI(BV3D::TEAM1);
 
-	m_Arena->destroyAiTrigger(BV3D::TEAM2);	// destroy ai for player 2
-	controls = 0;
+	controls = NULL;
 	switch(mMenu->getPlayer2Controls()) {
 		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
 		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
 		case Menu::MOUSE:		controls = new MouseControls(); break;
-		case Menu::AI:			controls = 0; m_Arena->createAItrigger(TEAM2); break;
-		default:				controls = 0; break;	// TODO: error handling
+		case Menu::AI:			controls = 0; mAI->enableAI(BV3D::TEAM2); break;
+		default:				controls = 0; break;
 	}
 	m_BlobbArray->getElement(TEAM2)->setControls(controls);
-	m_BlobbArray->getElement(TEAM2)->setAIcontrolled(mMenu->getPlayer2Controls()==Menu::AI);
-	//getBlobb(TEAM2)->setAIcontrolled(mMenu->getPlayer2Controls()==Menu::AI);
+	if (controls != NULL && mAI->isAiControlled(BV3D::TEAM2))
+		mAI->disableAI(BV3D::TEAM2);
 
 	if (mScene->contains(mBackground))
 		mScene->remove(mBackground);
@@ -217,9 +215,7 @@ void BV3D::Game::applyMenuSettings() {
  * update() is called periodically on timer events to redisplay the whole scene
  */
 void BV3D::Game::update() {
-
 	VRSTime time = m_Canvas->clock()->time();
-	//m_iFramerate++;
 	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
 	if(double(time) - m_dLastUpdateTime >= 0.7/m_FPS) {
 		float timestep = (double)time - m_dLastUpdateTime;
@@ -237,7 +233,7 @@ void BV3D::Game::update() {
 		if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
 			m_Arena->updateWorld(timestep);
 
-
+		// used to delay a new serve for a few seconds when one player scores
 		if (m_DelayedActionStart != 0) {
 			if (double(time) - m_DelayedActionStart >= 3.0) {
 				newServe();
@@ -253,26 +249,10 @@ void BV3D::Game::update() {
 		m_BlobbArray->getElement(BV3D::TEAM1)->updateShape(m_Canvas);
 		m_BlobbArray->getElement(BV3D::TEAM2)->updateShape(m_Canvas);
 
-		/*	team = BV3D::TEAM1;
-			if (m_BlobbArray->getElement(team)->isMoving())
-			{
-				mBlobbScenesArray->getElement(team)->clear();
-				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
-			}
-			team = BV3D::TEAM2;
-			if (m_BlobbArray->getElement(team)->isMoving())
-			{
-				mBlobbScenesArray->getElement(team)->clear();
-				mBlobbScenesArray->getElement(team)->append(m_BlobbArray->getElement(team)->getNextScene());
-			}*/
-
 		//m_Canvas->redisplay();
-		//m_Canvas->postForRedisplay();
 		m_cbUpdate->nextRedraw(BehaviorNode::RedrawWindow);
 
 		m_fmodSystem->update();
-		//printf("update\n");
-		//m_cbUpdate->deactivate();
 	}
 }
 
@@ -337,35 +317,23 @@ void BV3D::Game::processInput() {
 }
 
 void BV3D::Game::scheduleNewServe() {
-	//m_DelayedActionStart = new VRSTime(VRSTime::now());
-	//printf("scheduleNewServe: %f\n", double(*m_DelayedActionStart));
 	m_ScheduleNewServe = true;
 }
 
 void BV3D::Game::newServe() {
 	BV3D::TEAM team = m_Referee->getServingTeam();
 
-	// Reset ball -> setForce into applyForceAndTorque-Callback?
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
 	NewtonWorldFreezeBody(m_Arena->getWorld(), m_Ball->getBody());
 	NewtonBodySetForce(m_Ball->getBody(), nullForce);
-	//NewtonWorldUnfreezeBody(m_Arena->getWorld(), m_Ball->getBody());
 	NewtonBodySetTorque(m_Ball->getBody(), nullForce);
-	//collData->ball->setLocked(true);
 	Vector pos(m_Arena->getTeamBounds(team).center());
 	pos[1] = 5;
 	m_Ball->resetPosition(pos);
 
 	m_Referee->setActive(true);
-	if (getBlobb(team)->isAIcontrolled())
-		aiServe(team);
-}
-
-void BV3D::Game::aiServe(BV3D::TEAM team) {
-	int teamModifier = team==BV3D::TEAM1 ? -1 : 1;
-	float random = ((rand() % 13) - 6.0) / 10; // from -0.6 to 0.6
-	getBlobb(team)->setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
-	getBlobb(team)->maxJump();
+	if (mAI->isAiControlled(team))
+		mAI->aiServe(team);
 }
 
 // called by menu
@@ -415,16 +383,6 @@ void BV3D::Game::toggleFullscreen() {
 		glutFullScreen();
 	}
 }
-
-//void ERRCHECK(FMOD_RESULT result)
-//{
-//    if (result != FMOD_OK)
-//    {
-//        printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
-//        //exit(-1);
-//    }
-//}
-
 
 void BV3D::Game::setupSound() {
 	FMOD::System_Create(&m_fmodSystem);

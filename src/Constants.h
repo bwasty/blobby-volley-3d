@@ -45,6 +45,8 @@ namespace BV3D
 
 		static const double shadowHeight = 0.01f;
 		static const double shadowMaxHeight = 20.0f;
+
+		static const float gravity = 20.81f;;
 };
 
 #endif	// BV3D_CONSTANTS

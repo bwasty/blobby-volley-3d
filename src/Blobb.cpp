@@ -57,7 +57,7 @@ dFloat colData[5][5] = {
  * ctor
  * \param arena specifies the arena in which the blobb is simulated
  */
-	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt, bool isAIcontrolled) {
+	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt) {
 	mArena = arena;
 	mTeam = team;
 	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
@@ -70,7 +70,6 @@ dFloat colData[5][5] = {
 	mDecreasing = false;
 	mIsMoving = false;
 	mForceAnimation = true;
-	mIsAIcontrolled = isAIcontrolled;
 	mMaxJump = false;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 
@@ -135,11 +134,11 @@ dFloat colData[5][5] = {
 	mBody = NewtonCreateBody(world, mCollision[0]);
 
 	// set up mass matrix
-	dFloat radius = 1.0;
+	dFloat radius = 1.0; // TODO?
 	dFloat inertia = 2*1*(radius * radius) / 5;
 	NewtonBodySetMassMatrix(mBody, 50 ,inertia,inertia,inertia);
 
-	// attach an up-vector joint prevent blobb from leaning and tipping over
+	// attach two up-vector joints to prevent blobb from leaning, tipping over and spinning around the y-axis
 	dFloat upVector[3] = {0.0,1.0,0.0};
 	dFloat xVector[3] = {1.0,0.0,0.0};
 	NewtonConstraintCreateUpVector(world,upVector,mBody);
@@ -149,7 +148,6 @@ dFloat colData[5][5] = {
 	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
 	NewtonBodySetMaterialGroupID(mBody, mArena->getBlobbMaterialID());
 	NewtonBodySetAutoFreeze (mBody, 0);
-	//NewtonBodySetContinuousCollisionMode(mBody, 1); // needed?
 	NewtonWorldUnfreezeBody(world, mBody);
 
 	// move body to blobb position
@@ -340,7 +338,7 @@ void BV3D::Blobb::update() {
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -mArena->getGravity()* 3.5f * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -BV3D::gravity* 3.5f * mass, 0.0f};
 		NewtonBodyAddForce(mBody, gravitation);
 	}
 
