@@ -1,3 +1,7 @@
+/*
+ * Class for loading and optimizing external 3D-models, currently supporting .obj and .3ds files
+ */
+
 #include "ModelOptimizer.h"
 
 #include <vrs/io/threedsreader.h>
@@ -19,99 +23,104 @@ BV3D::ModelOptimizer::~ModelOptimizer(void)
 }
 
 /*
- *
+ * loads a 3ds model with the given options and optimizes it
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
 {
+	VRS::SO<VRS::SceneThing> ball;
 	mStaticLighting = useStaticLighting;
-	bool useCollapse = false;
-	switch(readMode)
+	switch(readMode)		//setup 3dsReader according to readMode
 	{
-		case ReadMode::MATERIAL_AND_TEXTURES:
+		case MATERIAL_AND_TEXTURES:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::TRY_TEXTURES);
 			break;
-		case ReadMode::ONLY_MATERIAL:
+		case ONLY_MATERIAL:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
 			break;
-		case ReadMode::NO_MATERIAL_NO_TEXTURES:
+		case NO_MATERIAL_NO_TEXTURES:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
-			useCollapse = true;
 			break;
-		case ReadMode::ALL_AND_NO_OPTIMIZATIONS:
+		case ALL_AND_NO_OPTIMIZATIONS:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::FORCE_TEXTURES);
 			VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::NO_OPTIMIZATIONS);
 			return VRS::ThreeDSReader::readObject(fileName);
 			break;
 	}
-	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);// || VRS::ThreeDSReader::DISCARD_UNUSED_DATA);
-	return optimizeModel(VRS::ThreeDSReader::readObject(fileName), useCollapse);
-		
+	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
+	return optimizeModel(VRS::ThreeDSReader::readObject(fileName));
+	//ball = optimizeModel(VRS::ThreeDSReader::readObject(fileName));
+	//for(int i=0; i< ball->objects(); i++)
+	//{
+	//	//printf("    %s\n", ball->object(i)->classNameVRS().text());
+	//	if (ball->object(i)->isA(VRS::SceneThing::ClassNameVRS()))
+	//	{
+	//		VRS::SO<VRS::SceneThing> scene = VRS_Cast(VRS::SceneThing, ball->object(i));
+	//		for(int j=0; j< scene->objects(); j++)
+	//		{
+	//			if (scene->object(j)->isA(VRS::Shape::ClassNameVRS()))
+	//			{
+	//				printf("        %s\n", scene->object(j)->classNameVRS().text());
+	//				scene->replace(scene->object(j), new VRS::Cache(VRS_Cast(VRS::Shape, scene->object(j))));
+	//			}
+	//		}
+	//	}
+	//}
+	//return ball;
 }
 
+/*
+ * loads an obj model and optimizes it
+ */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::string &fileName)
 {
 	VRS::ID id = VRS::ID("something");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();
 	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(fileName);
 	VRS::SO<VRS::SceneThing> model = new VRS::SceneThing();
-	//model->append(new VRS::Cache(VRS_Cast(VRS::Shape, reader.read(file, id))));
 	VRS::SO<VRS::SceneThing> ball = VRS_Cast(VRS::SceneThing, reader.read(file, id));
-	//VRS::SO<VRS::Iterator<VRS::SO<VRS::SharedObj> > > it;
-	for(int i=0; i< ball->objects(); i++)
-	{
-		if (ball->object(i)->isA(VRS::Shape::ClassNameVRS()))
-		{
-			ball->replace(ball->object(i), new VRS::Cache(
-				VRS_Cast(VRS::Shape, ball->object(i))));
-		}
-		/*model->append(
-		(VRS::Shape*)ball->object(i);
-			it = ball->find(VRS::Shape::ClassNameVRS());*/
-		
-	}
-	model->append(ball);//reader.read(file, id));
-	return optimizeModel(model, false);
+	//cache shape for better performance
+	printf("Objects in ball model:\n");
+	ball = optimizeModel(ball);
+	//for(int i=0; i< ball->objects(); i++)
+	//{
+	//	//printf("    %s\n", ball->object(i)->classNameVRS().text());
+	//	if (ball->object(i)->isA(VRS::SceneThing::ClassNameVRS()))
+	//	{
+	//		VRS::SO<VRS::SceneThing> scene = VRS_Cast(VRS::SceneThing, ball->object(i));
+	//		for(int j=0; j< scene->objects(); j++)
+	//		{
+	//			if (scene->object(j)->isA(VRS::Shape::ClassNameVRS()))
+	//			{
+	//				printf("        %s\n", scene->object(j)->classNameVRS().text());
+	//				scene->replace(scene->object(j), new VRS::Cache(VRS_Cast(VRS::Shape, scene->object(j))));
+	//			}
+	//		}
+	//	}
+	//}
+	model->append(ball);
+	return model;
 }
 
-VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneThing> origModel, bool withCollapseScene)
+/*
+ * Optimizes the given Scenegraph and returns a new one.
+ */
+VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneThing> origModel)
 {
 	VRS::SceneGraphAnalyzer analyzer = VRS::SceneGraphAnalyzer();
 	VRS::PolygonSetTool tool = VRS::PolygonSetTool();
 	VRS::SO<VRS::SceneThing> newModel, model;
-	//VRS::SO<VRS::Iterator<VRS::SO<VRS::PolygonSet>>> setIt;
 	VRS::SO<VRS::PolygonSet> set;
-	//VRS::SO<VRS::ShapeMaterialGL> material;
-	//VRS::SceneGraphAnalyzer::Result result = analyzer.findObjects(VRS::ID("ShapeMaterialGL"), origModel);
-	//material = VRS_Cast(VRS::ShapeMaterialGL, result.objects->get(0));
-
 	newModel = analyzer.createOptimizedScene(origModel, true, mStaticLighting);
 	if(!newModel)
 		newModel = origModel;
 
 	mStaticLighting = false;
-	//if(withCollapseScene)
-	//{
-
-	//	set = tool.mergePolygonSets(analyzer.collapseScene(newModel));
-
-	//	tool.computeSmoothingNormals(set);
-
-	//	model = new VRS::SceneThing();
-	//	//model->append(material);
-
-	//	model->append(set);
-
-	//	return model;
-	//}
-//	else
-		return newModel;
-}
-
-VRS::SO<VRS::ShapeMaterialGL> BV3D::ModelOptimizer::getMaterial(VRS::SO<VRS::SceneThing> model)
-{
-	
+	//We wanted to use analyzer.collapseScene followed by tool.mergePolygonSets,
+	//but collapseScene removes all material-information from the graph.
+	//This would cause all loaded objects to appear grey, so unfortunately it is of no use to us.
+	return newModel;
 }

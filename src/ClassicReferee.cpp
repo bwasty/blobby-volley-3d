@@ -18,13 +18,11 @@ ClassicReferee::ClassicReferee(SO<Game> game) : Referee(game)
 	setWinningScore(15);
 	setMaximumContacts(3);
 	setMinimumDifference(2);
-	//game->newServe(true);
 }
 
 ClassicReferee::~ClassicReferee(void)
 {
 }
-
 
 /*
  *	Handles the case when the ball collides with a blobb from a team.
@@ -34,42 +32,35 @@ ClassicReferee::~ClassicReferee(void)
  */
 void ClassicReferee::ballOnBlobb(TEAM team)
 {
-	if (mActive) {
+	if (mActive) 
+	{
 		TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
 			mGame->playSoundWhistle();
+			resetContacts(team);
 
 			if (mServingTeam != team)
 			{
-
 				increaseScore(mServingTeam);
 
-				if (isGameOver())					//only opponent could have scored since last test
+				if (isGameOver())				//only opponent could have scored since last test
 				{
-					gameOver(mServingTeam);	//if game over then opponent must be winner
+					gameOver(mServingTeam);		//if game over then opponent must be winner
 					mActive = false;
 				}
 				else
 				{
-					mGame->scheduleNewServe();
-
-					resetContacts(team);
-
+					newServe(mServingTeam);
 					mActive = false;
 				}
 			}
 			else
 			{	
-				mServingTeam = opponent;
-				mGame->scheduleNewServe();
-
-				resetContacts(team);
-
+				newServe(opponent);
 				mActive = false;
 			}
-			resetContacts(team);
 		}
 	}
 }
@@ -83,35 +74,28 @@ void ClassicReferee::ballOnField(TEAM team)
 {
 	if (mActive) {
 		mGame->playSoundWhistle();
+		resetContacts(TEAM1);
+		resetContacts(TEAM2);
 
 		if (mServingTeam != team)
 		{
 			increaseScore(mServingTeam);
-			if (isGameOver())					//only servingTeam could have scored since last test
+			if (isGameOver())				//only servingTeam could have scored since last test
 			{
-				gameOver(mServingTeam);	//if game over then servingTeam must be winner
+				gameOver(mServingTeam);		//if game over then servingTeam must be winner
 				mActive = false;
 			}
 			else
 			{	
-				mGame->scheduleNewServe();
-
-				resetContacts(team);
-
+				newServe(mServingTeam);
 				mActive = false;
 			}
 		}
 		else
 		{
-			mServingTeam = getOpponent(team);
-			mGame->scheduleNewServe();
-
-			resetContacts(team);
-
+			newServe(getOpponent(team));
 			mActive = false;
 		}
-		resetContacts(TEAM1);
-		resetContacts(TEAM2);
 	}
 }
 
@@ -121,5 +105,4 @@ void ClassicReferee::ballOnField(TEAM team)
 void ClassicReferee::startNewGame()
 {
 	Referee::startNewGame();
-	//game->newServe(true);
 }

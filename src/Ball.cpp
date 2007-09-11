@@ -28,19 +28,8 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	// create ball local scene
 	mScene = new VRS::SceneThing();
 
-	// load ball model
-	//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
+		//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
 	double factor = BV3D::ballRadius / 1.7;
-	/*VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
-	mScene->append(new VRS::Scaling(factor, factor, factor));
-	mScene->append(mBallScene = VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "volleyball-colored.3ds"));*/	// TODO: exception handling
-
-	/*VRS::ID id = VRS::ID("ball");
-	VRS::WavefrontReader reader = VRS::WavefrontReader();*/
-	/*VRS::SO<VRS::ShapeMaterialGL>	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(1.0, 1.0, 1.0, 1.0), VRS::Color(0.5), 
-		115.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0));*/
-	/*VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");*/
-
 	mScene->append(mBallScene = optimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
 	mBallScene->prepend(new VRS::Scaling(factor, factor, factor));
 

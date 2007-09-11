@@ -37,6 +37,7 @@
 #include <vrs/color.h>
 #include <vrs/sg/selector.h>
 #include <gl/glut.h>
+#include <vrs/facestyle.h>
 
 
 //#include <fmod_errors.h>
@@ -60,8 +61,9 @@ BV3D::Game::Game() {
 	m_ScheduleNewServe = false;
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
 	m_FrameCount = 0;
-	isCameraDistant = false;
-
+	mIsCameraDistant = false;
+	mUseMovieStyleCamera = false;
+	mCurrentCameraPosition = CLASSIC_CAMERA;
 
 	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
@@ -69,7 +71,9 @@ BV3D::Game::Game() {
 
 	mScene = new SceneThing();	// create absolute root scene for bv3d
 
-	// add transparency support to scene
+	mScene->append(new VRS::FaceStyle(FaceStyle::Filled, FaceStyle::Culled));
+
+	// add transparency and shadow support to scene
 	m_TransparencyTechnique = new TransparencyTechniqueGL();
 	mScene->append(m_TransparencyTechnique);
 
@@ -279,43 +283,35 @@ void BV3D::Game::processInput() {
 				case Key::Escape:
 					switchToMenu();
 					return;
-				/*case Key::F1:
-					initBackgroundCubeMap();
-					break;*/
-				case Key::F2:	//view field from the side
-					m_Navigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
+				case Key::F2:	//change to standard camera position
+					switchCameraposition(BV3D::CLASSIC_CAMERA);
 					break;
-				case Key::F3:	//view field from above
-					m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
-					//printf("Key F2 pressed\n");
+				case Key::F3:	//view field from opposite the standard position
+					switchCameraposition(BV3D::REVERSE_CAMERA);
 					break;
-				case Key::F4:	//view field from the front(from baseline of one blobb's field)
-					m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+				case Key::F4:	//view field from baseline of Team1
+					switchCameraposition(BV3D::TEAM1_BASECAMERA);
 					break;
-				case Key::F5:	//view field from the side "lying on the ground"
-					m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+				case Key::F5:	//view field from baseline of Team2
+					switchCameraposition(BV3D::TEAM2_BASECAMERA);
 					break;
-				case Key::F6:	//view field from +y-axis
-					m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+				case Key::F8:
+					mIsCameraDistant = true;
+					switchCameraposition(mCurrentCameraPosition);
 					break;
-				case Key::F7:	//view field from -x-axis
-					m_Navigation->initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+				case Key::F9:
+					mUseMovieStyleCamera = true;
 					break;
-				case Key::F8:	//view field from center in -x direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(-1.0, 0.5, 0.0));
-					break;
-				case Key::F9:	//view field from center in -z direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.5, -1.0));
-					break;
-				case Key::F10:	//view field from center in x direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(1.0, 0.5, 0.0));
-					break;
-				case Key::F11:	//view field from center in z direction
-					m_Navigation->initPath(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.5, 1.0));
-					break;
-				//case Key::Insert:	//load surroundings
-				//	printf("Loading beach...\n");
-				//	mScene->append(m_SceneLoader->loadBeach());
+	//			case Key::F3:	//view field from above
+	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
+	//				//printf("Key F2 pressed\n");
+	//				break;
+	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
+	//				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				break;
+	//			case Key::F5:	//view field from the side "lying on the ground"
+	//				m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+	//				break;
 			}
 			//printf("Key %i pressed\n", ke->keyCode());
 		}
@@ -328,35 +324,6 @@ void BV3D::Game::processInput() {
 	/*MotionEvent* me = VRS_Cast(MotionEvent, ie);
 	if(me!=NULL)
 		glutWarpPointer(m_Canvas->getWidth()/2,m_Canvas->getHeight()/2);*/
-}
-
-void BV3D::Game::initBackgroundCubeMap()
-{
-	/*int selector = 4;
-	if (mBackground)
-		mScene->remove(mBackground);
-	switch (selector)
-	{
-		case 0:
-			mBackground = m_SceneLoader->loadDesertSkybox();
-			break;
-		case 1:
-			mBackground = m_SceneLoader->loadWaterscapeSkybox();
-			break;
-		case 2:
-			mBackground = m_SceneLoader->loadIslandsSkybox();
-			break;
-		case 3:
-			mBackground = m_SceneLoader->loadHotDesertSkybox();
-			break;
-		case 4:
-			mBackground = m_SceneLoader->loadBrightDaySkybox();
-			break;
-		case 5:
-			mBackground = m_SceneLoader->loadZolsky6Skybox();
-			break;
-	}
-	mScene->append(mBackground);*/
 }
 
 void BV3D::Game::scheduleNewServe() {
@@ -458,29 +425,31 @@ void BV3D::Game::playSoundWhistle() {
 	m_fmodSystem->playSound(FMOD_CHANNEL_FREE, soundWhistle, false, NULL);
 }
 
-void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position, bool distant, bool cinemaMode)
+void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
 {
 	double offset = 0.0;
-	if (distant)
+	if (mIsCameraDistant)
 		offset = 5.0;
-	if (cinemaMode)
+	if (mUseMovieStyleCamera)
 	{
+		VRS::Array<VRS::Vector>	positions = VRS::Array<VRS::Vector>(2);
+		VRS::Array<VRS::Vector>	directions = VRS::Array<VRS::Vector>(2);
 		//TODO: stop game and fly camera the long way to destination position
 	}
 	else
 	{
 		switch (position)
 		{
-			case BV3D::CLASSIC:
+			case BV3D::CLASSIC_CAMERA:
 				m_Navigation->initPath(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset), -BV3D::lookFrom + BV3D::lookTo);
 				break;
-			case BV3D::REVERSE:
+			case BV3D::REVERSE_CAMERA:
 				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -(BV3D::lookFrom[2] - offset) ), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
 				break;
-			case BV3D::TEAM1_BASE:
+			case BV3D::TEAM1_BASECAMERA:
 				m_Navigation->initPath(Vector(BV3D::lookFrom[2] - offset, BV3D::lookFrom[1], 0.0), Vector(-BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 				break;
-			case BV3D::TEAM2_BASE:
+			case BV3D::TEAM2_BASECAMERA:
 				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - offset), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 				break;
 		}

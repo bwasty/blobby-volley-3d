@@ -33,8 +33,8 @@ TieBreakReferee::~TieBreakReferee(void)
  */
 void TieBreakReferee::ballOnBlobb(TEAM team)
 {
-	if (mActive) {
-
+	if (mActive) 
+	{
 		TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
@@ -43,15 +43,14 @@ void TieBreakReferee::ballOnBlobb(TEAM team)
 
 			increaseScore(opponent);
 
-			if (isGameOver())					//only opponent could have scored since last test
+			if (isGameOver())			//only opponent could have scored since last test
 			{
-				gameOver(opponent);	//if game over then opponent must be winner
+				gameOver(opponent);		//if game over then opponent must be winner
 				mActive = false;
 			}
 			else
 			{	
-				mServingTeam = opponent;
-				mGame->scheduleNewServe();
+				newServe(opponent);
 				resetContacts(team);
 
 				mActive = false;
@@ -67,23 +66,20 @@ void TieBreakReferee::ballOnBlobb(TEAM team)
  */
 void TieBreakReferee::ballOnField(TEAM team)
 {
-	if (mActive) {
+	if (mActive) 
+	{
 		mGame->playSoundWhistle();
 
 		TEAM opponent = getOpponent(team);
-		increaseScore(opponent);	//opponent of 'isInLeftField' scores
-		if (isGameOver())					//only opponent could have scored since last test
+		increaseScore(opponent);		//opponent of 'team scores'
+		if (isGameOver())				//only opponent could have scored since last test
 		{
-			gameOver(opponent);	//if game over then opponent must be winner
+			gameOver(opponent);			//if game over then opponent must be winner
 			mActive = false;
 		}
 		else
-		{	//mGame->newServe(opponent);
-			mServingTeam = opponent;
-
-			// TODO: call after some time...
-			mGame->scheduleNewServe();
-
+		{	
+			newServe(opponent);
 			resetContacts(team);		//reset current contact counters
 			resetContacts(opponent);
 
@@ -98,5 +94,4 @@ void TieBreakReferee::ballOnField(TEAM team)
 void TieBreakReferee::startNewGame()
 {
 	Referee::startNewGame();
-	//game->newServe(TEAM1);
 }

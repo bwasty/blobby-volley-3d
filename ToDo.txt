@@ -10,6 +10,8 @@ Neue ToDo:
 - Szenen + Optimierung
 - Spiellogik aus Callbacks auslagern
 - Webseite
+- Helpseite erstellen (Tastenbelegung, Spielziel,...)
 
 Bugs:
-- angabenanzeige(!) ändert nicht, wenn kein punkt gemacht wurde
+V angabenanzeige(!) ändert nicht, wenn kein punkt gemacht wurde
+- spiel stürzt ab, wenn neue umgebung ausgewählt/gestartet wird und vorher punkte gemacht wurden

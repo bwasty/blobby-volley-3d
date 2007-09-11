@@ -1,6 +1,4 @@
-/**
- * ModelOptimizer is responsible for loading and preparing(optimizing) model files to 
- */
+
 #ifndef BV3D_MODELOPTIMIZER
 #define BV3D_MODELOPTIMIZER
 
@@ -32,8 +30,7 @@ namespace BV3D
 
 	protected:
 		bool	mStaticLighting;
-		VRS::SO<VRS::SceneThing> optimizeModel(VRS::SO<VRS::SceneThing> model, bool withSceneCollapse);
-		VRS::SO<VRS::ShapeMaterialGL> getMaterial(VRS::SO<VRS::SceneThing> model);
+		VRS::SO<VRS::SceneThing> optimizeModel(VRS::SO<VRS::SceneThing> model);
 	};
 }
 

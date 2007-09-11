@@ -65,16 +65,17 @@ namespace BV3D
 		int getFrameCount() {return m_FrameCount;}
 	protected:
 		void switchToMenu();
-		void initBackgroundCubeMap();
 		void setupSound();
 		void applyMenuSettings();
-		void switchCameraposition(CAMERAPOSITION position, bool distant = false, bool cinemaMode = true);
+		void switchCameraposition(CAMERAPOSITION position);
 
 	private:
 		double			m_DelayedActionStart;
 		bool			m_ScheduleNewServe;
 		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
-		bool			isCameraDistant;
+		bool			mIsCameraDistant;
+		bool			mUseMovieStyleCamera;
+		CAMERAPOSITION	mCurrentCameraPosition;
 		FMOD::System    *m_fmodSystem;
 		FMOD::Sound     *soundTouch, *soundWhistle;
 
