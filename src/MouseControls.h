@@ -22,7 +22,7 @@ namespace BV3D {
 		/*
 		 * ctor
 		 */
-		MouseControls() {m_JumpButton = VRS::InputEvent::MouseButton1;}
+		MouseControls(VRS::InputEvent::Button jumpButton = VRS::InputEvent::MouseButton1) {mJumpButton = jumpButton;}
 
 		/**
 		 * dtor
@@ -34,12 +34,12 @@ namespace BV3D {
 		/**
 		 * set mouse button for jump request (all other requests are implcitly bound to mouse movement)
 		 */
-		void setJumpBinding(VRS::InputEvent::Button button) {m_JumpButton = button;}
+		void setJumpBinding(VRS::InputEvent::Button button) {mJumpButton = button;}
 
 		virtual VRS::Vector getRequestedMovement();
 
 	protected:
-		VRS::InputEvent::Button		m_JumpButton;		// stores button for jumping
+		VRS::InputEvent::Button		mJumpButton;		// stores button for jumping
 		VRS::Vector					mRequestedMovement;	// vector holding move requests for the Blobb
 	};
 }

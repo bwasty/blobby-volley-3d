@@ -25,7 +25,7 @@ namespace BV3D
 		/**
 		 * listing of possible (abstract) input commands
 		 */
-		enum REQUEST {FORWARD=1, BACKWARD=2, RIGHT=4, LEFT=8, JUMP=16, MOVE_REQUESTS=15, ALL_REQUESTS=31};
+		enum REQUEST {FORWARD, BACKWARD, RIGHT, LEFT, JUMP};
 
 		/**
 		 * dtor

@@ -263,7 +263,8 @@ VRS::SO<VRS::SceneThing> BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
  * \param ie is an input event that was explicitely forwarded from the input callback in BV3D::Game
  */
 void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
-	mControls->processInput(ie);	// pass input events to blobb's controls
+	if(mControls)
+		mControls->processInput(ie);	// pass input events to blobb's controls
 }
 
 /**
@@ -271,6 +272,8 @@ void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
 * this resets the controls state for the next frame.
 */
 VRS::Vector BV3D::Blobb::getMovement() {
+	if(!mControls) return VRS::Vector();
+
 	// create orientation vector for movement to the specified mLookAt object
 	VRS::Vector orientation = mLookAt->getTo() - mLookAt->getFrom();	// get from-to vector
 	orientation[1] = 0;												// map vector onto xz-plane

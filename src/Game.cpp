@@ -174,20 +174,25 @@ void BV3D::Game::applyMenuSettings() {
 
 	VRS::SO<Controls> controls = 0;
 	switch(mMenu->getPlayer1Controls()) {
-		case Menu::KB_ARROWS: controls = new KeyboardControls(); break;
-		case Menu::KB_WASD: {
-			VRS::SO<KeyboardControls> kb = new KeyboardControls();
-			kb->setBinding(Controls::FORWARD,119);	//
-			kb->setBinding(Controls::BACKWARD,115);
-			kb->setBinding(Controls::LEFT,97);
-			kb->setBinding(Controls::RIGHT,100);
-			kb->setBinding(Controls::JUMP,113);
-			controls = kb;
-			break;}
-		case Menu::MOUSE: controls = new MouseControls(); break;
-		default: break;
+		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
+		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
+		case Menu::MOUSE:		controls = new MouseControls(); break;
+		case Menu::AI:			controls = 0; break;
+		default:				controls = 0; break;
 	}
 	m_BlobbArray->getElement(TEAM1)->setControls(controls);
+	// TODO: [un]install ai here!!!
+
+	controls = 0;
+	switch(mMenu->getPlayer2Controls()) {
+		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
+		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
+		case Menu::MOUSE:		controls = new MouseControls(); break;
+		case Menu::AI:			controls = 0; break;
+		default:				controls = 0; break;
+	}
+	m_BlobbArray->getElement(TEAM2)->setControls(controls);
+	// TODO: [un]install ai here!!!
 
 	if (mScene->contains(mBackground))
 		mScene->remove(mBackground);

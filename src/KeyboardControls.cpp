@@ -1,18 +1,17 @@
 
 #include "KeyboardControls.h"
-#include <vrs/sg/key.h>
 #include <vrs/sg/keyevent.h>
 
 
 /**
  * ctor
  */
-BV3D::KeyboardControls::KeyboardControls() : Controls() {
-	setBinding(FORWARD, VRS::Key::Up);
-	setBinding(BACKWARD, VRS::Key::Down);
-	setBinding(RIGHT ,VRS::Key::Right);
-	setBinding(LEFT ,VRS::Key::Left);
-	setBinding(JUMP, 32);	// Space
+BV3D::KeyboardControls::KeyboardControls(int keyForward, int keyBackward, int keyLeft, int keyRight, int keyJump) : Controls() {
+	setBinding(FORWARD, keyForward);
+	setBinding(BACKWARD, keyBackward);
+	setBinding(RIGHT, keyRight);
+	setBinding(LEFT, keyLeft);
+	setBinding(JUMP, keyJump);
 
 	for(int i=0;i<5;i++) mRequests[i] = false;	// reset requests
 }
@@ -25,9 +24,9 @@ void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
 	VRS::SO<VRS::KeyEvent> ke = VRS_Cast(VRS::KeyEvent, ie);
 
 	// process KeyEvents only
-	if(ke != NULL) { //printf("%d\n",ke->keyCode());
+	if(ke != NULL) {
 		for(int i=0;i<5;i++)
-			if(ke->keyCode()==m_Binding[i])
+			if(ke->keyCode()==mBinding[i])
 				mRequests[i] = ke->pressed();	// signal state of request
 	}
 }
@@ -39,11 +38,11 @@ void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
  */
 VRS::Vector BV3D::KeyboardControls::getRequestedMovement() {
 	VRS::Vector movement;
-	if(mRequests[0]) movement += VRS::Vector(0.0,0.0,1.0);
-	if(mRequests[1]) movement += VRS::Vector(0.0,0.0,-1.0);
-	if(mRequests[2]) movement += VRS::Vector(1.0,0.0,0.0);
-	if(mRequests[3]) movement += VRS::Vector(-1.0,0.0,0.0);
-	if(mRequests[4]) movement += VRS::Vector(0.0,1.0,0.0);
+	if(mRequests[FORWARD])	movement += VRS::Vector(0.0,0.0,1.0);
+	if(mRequests[BACKWARD])	movement += VRS::Vector(0.0,0.0,-1.0);
+	if(mRequests[LEFT])		movement += VRS::Vector(-1.0,0.0,0.0);
+	if(mRequests[RIGHT])	movement += VRS::Vector(1.0,0.0,0.0);
+	if(mRequests[JUMP])		movement += VRS::Vector(0.0,1.0,0.0);
 	return movement;
 }
 
@@ -52,12 +51,5 @@ VRS::Vector BV3D::KeyboardControls::getRequestedMovement() {
  * map VRS virtual key codes to move requests
  */
 void BV3D::KeyboardControls::setBinding(REQUEST req, int keyCode) {
-	switch(req) {
-		case FORWARD:	m_Binding[0] = keyCode; break;
-		case BACKWARD:	m_Binding[1] = keyCode; break;
-		case RIGHT:		m_Binding[2] = keyCode; break;
-		case LEFT:		m_Binding[3] = keyCode; break;
-		case JUMP:		m_Binding[4] = keyCode; break;
-		default: break;
-	}
+	mBinding[req] = keyCode;
 }

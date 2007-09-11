@@ -22,7 +22,7 @@ void BV3D::MouseControls::processInput(VRS::SO<VRS::InputEvent> ie) {
 	// check if button was pressed or released
 	VRS::SO<VRS::ButtonEvent> be = VRS_Cast(VRS::ButtonEvent, ie);
 	if(be!=NULL)
-		if(be->button()==m_JumpButton)
+		if(be->button()==mJumpButton)
 			// signal jump request if jump button was pressed
 			mRequestedMovement[1] = (be->pressed()==VRS::ButtonEvent::Pressed) ? 1.0 : 0.0;
 }

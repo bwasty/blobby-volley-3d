@@ -10,12 +10,18 @@
 #define BV3D_KEYBOARDCONTROLS
 
 #include "Controls.h"
+#include <vrs/sg/key.h>
 
 namespace BV3D {
 	class KeyboardControls : public Controls {
 
 	public:
-		KeyboardControls();
+		KeyboardControls(
+			int keyForward = VRS::Key::Up,
+			int keyBackward = VRS::Key::Down,
+			int keyLeft = VRS::Key::Left,
+			int keyRight = VRS::Key::Right,
+			int keyJump = 32);
 
 		/**
 		 * dtor
@@ -26,8 +32,8 @@ namespace BV3D {
 		void setBinding(REQUEST req, int keyCode);
 		virtual VRS::Vector getRequestedMovement();
 	protected:
-		int		m_Binding[5];	// key-to-request mapping
-		bool	mRequests[5];		// bit field representing issued requests
+		int		mBinding[5];	// key-to-request mapping
+		bool	mRequests[5];	// bit field representing issued requests
 	};
 }
 
