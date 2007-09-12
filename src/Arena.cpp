@@ -28,66 +28,66 @@
 BV3D::Arena::Arena(BV3D::Game* game) {
 	mGame = game;
 
-	m_Scene = new VRS::SceneThing();
+	mScene = new VRS::SceneThing();
 
-	m_Net = new VRS::SceneThing();
-	m_Scene->append(m_Net);
+	mNet = new VRS::SceneThing();
+	mScene->append(mNet);
 
-	m_WallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
+	mWallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
 
-	m_Material = new VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.3));
-	m_Scene->append(m_Material);
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.3));
+	mScene->append(mMaterial);
 
-	m_Scene->append(new VRS::FaceStyle(VRS::FaceStyle::Filled,VRS::FaceStyle::Culled));
+	mScene->append(new VRS::FaceStyle(VRS::FaceStyle::Filled,VRS::FaceStyle::Culled));
 
-	m_Walls = new VRS::PolygonSet(VRS::PolygonSet::QuadStrip,m_WallsVertices);
-	m_Scene->append(m_Walls);
+	mWalls = new VRS::PolygonSet(VRS::PolygonSet::QuadStrip,mWallsVertices);
+	mScene->append(mWalls);
 
 	// Physics setup
-	m_World = NewtonCreate(0,0);
+	mWorld = NewtonCreate(0,0);
 	createMaterials();
-	m_Floor = 0;
-	m_Body = 0;
+	mFloor = 0;
+	mBody = 0;
 
 	setExtent(BV3D::arenaExtent);
 }
 
 BV3D::Arena::~Arena() {
-	if(m_Body) {
-		NewtonDestroyBody(m_World, m_Body);
-		NewtonDestroyBody(m_World, m_Floor);
+	if(mBody) {
+		NewtonDestroyBody(mWorld, mBody);
+		NewtonDestroyBody(mWorld, mFloor);
 	}
-	NewtonDestroy(m_World);
+	NewtonDestroy(mWorld);
 }
 
 void BV3D::Arena::setExtent(VRS::Vector extent) {
 	VRS::Vector llf(-extent[0]/2, 0.0, -extent[2]/2);
 	VRS::Vector urb( extent[0]/2, extent[1], extent[2]/2);
 
-	m_Bounds = VRS::Bounds(llf,urb);
+	mBounds = VRS::Bounds(llf,urb);
 
 	// set up walls' vertices
-	m_WallsVertices->set(0, VRS::Vector(urb[0],llf[1],urb[2]));
-	m_WallsVertices->set(1, VRS::Vector(urb[0],urb[1],urb[2]));
-	m_WallsVertices->set(2, VRS::Vector(llf[0],llf[1],urb[2]));
-	m_WallsVertices->set(3, VRS::Vector(llf[0],urb[1],urb[2]));
+	mWallsVertices->set(0, VRS::Vector(urb[0],llf[1],urb[2]));
+	mWallsVertices->set(1, VRS::Vector(urb[0],urb[1],urb[2]));
+	mWallsVertices->set(2, VRS::Vector(llf[0],llf[1],urb[2]));
+	mWallsVertices->set(3, VRS::Vector(llf[0],urb[1],urb[2]));
 
-	m_WallsVertices->set(4, VRS::Vector(llf[0],llf[1],llf[2]));
-	m_WallsVertices->set(5, VRS::Vector(llf[0],urb[1],llf[2]));
+	mWallsVertices->set(4, VRS::Vector(llf[0],llf[1],llf[2]));
+	mWallsVertices->set(5, VRS::Vector(llf[0],urb[1],llf[2]));
 
-	m_WallsVertices->set(6, VRS::Vector(urb[0],llf[1],llf[2]));
-	m_WallsVertices->set(7, VRS::Vector(urb[0],urb[1],llf[2]));
+	mWallsVertices->set(6, VRS::Vector(urb[0],llf[1],llf[2]));
+	mWallsVertices->set(7, VRS::Vector(urb[0],urb[1],llf[2]));
 
-	m_WallsVertices->set(8, VRS::Vector(urb[0],llf[1],urb[2]));
-	m_WallsVertices->set(9, VRS::Vector(urb[0],urb[1],urb[2]));
+	mWallsVertices->set(8, VRS::Vector(urb[0],llf[1],urb[2]));
+	mWallsVertices->set(9, VRS::Vector(urb[0],urb[1],urb[2]));
 
 	// (re)create physical arena body
 	const dFloat wallDepth = 1.0f;
 
 	// destroy old physical arena body if it exists
-	if(m_Body) {
-		NewtonDestroyBody(m_World, m_Body);
-		NewtonDestroyBody(m_World, m_Floor);
+	if(mBody) {
+		NewtonDestroyBody(mWorld, mBody);
+		NewtonDestroyBody(mWorld, mFloor);
 	}
 
 	NewtonCollision* collision[5];
@@ -97,46 +97,46 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat) -(wallDepth / 2);
 	matrix[14] = 0.0;
-	//collision[0] = NewtonCreateBox(m_World, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
-	NewtonCollision* floorCollision = NewtonCreateBox(m_World, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
-	m_Floor = NewtonCreateBody(m_World, floorCollision);
-	NewtonBodySetMaterialGroupID(m_Floor, mFloorMaterialID);
-	//NewtonBodySetContinuousCollisionMode(m_Floor, 0);
-	NewtonReleaseCollision(m_World, floorCollision);
+	//collision[0] = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
+	NewtonCollision* floorCollision = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
+	mFloor = NewtonCreateBody(mWorld, floorCollision);
+	NewtonBodySetMaterialGroupID(mFloor, mFloorMaterialID);
+	//NewtonBodySetContinuousCollisionMode(mFloor, 0);
+	NewtonReleaseCollision(mWorld, floorCollision);
 
 	// create wall bounding the arena on the positive z axis
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat) (extent[1] / 2);
 	matrix[14] = (dFloat) (extent[2] + wallDepth) / 2;
-	collision[0] = NewtonCreateBox(m_World, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
+	collision[0] = NewtonCreateBox(mWorld, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
 
 	// create wall bounding the arena on the negative z axis
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat)  (extent[1] / 2);
 	matrix[14] = (dFloat) -(extent[2] + wallDepth) / 2;
-	collision[1] = NewtonCreateBox(m_World, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
+	collision[1] = NewtonCreateBox(mWorld, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
 
 	// create wall bounding the arena on the negative x axis
 	matrix[12] = (dFloat) -(extent[0] + wallDepth) / 2;
 	matrix[13] = (dFloat)  (extent[1] / 2);
 	matrix[14] = 0.0;
-	collision[2] = NewtonCreateBox(m_World, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
+	collision[2] = NewtonCreateBox(mWorld, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
 
 	// create wall bounding the arena on the positive x axis
 	matrix[12] = (dFloat) (extent[0] + wallDepth) / 2;
 	matrix[13] = (dFloat) (extent[1] / 2);
 	matrix[14] = 0.0;
-	collision[3] = NewtonCreateBox(m_World, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
+	collision[3] = NewtonCreateBox(mWorld, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
 
 	// combine walls and create physical arena body from compound collision
-	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(m_World, 4, collision);
-	m_Body = NewtonCreateBody(m_World, compoundCollision);
-	NewtonBodySetMaterialGroupID(m_Body, mWallMaterialID);
+	NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(mWorld, 4, collision);
+	mBody = NewtonCreateBody(mWorld, compoundCollision);
+	NewtonBodySetMaterialGroupID(mBody, mWallMaterialID);
 
 	// release all collision references
 	for(int i=0;i<4;i++)
-		NewtonReleaseCollision(m_World, collision[i]);
-	NewtonReleaseCollision(m_World, compoundCollision);
+		NewtonReleaseCollision(mWorld, collision[i]);
+	NewtonReleaseCollision(mWorld, compoundCollision);
 
 
 	// create net
@@ -146,7 +146,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 	double width3ds = 12.0;
 	double height3ds = 2.1;
-	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(m_Net);
+	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(mNet);
 	double netDepth = 0.03;
 	double poleOffset = 1.0;
 	Bounds netBoxBounds = Bounds(Vector(netDepth, BV3D::netHeight/2+0.1, BV3D::arenaExtent[2]/2+0.1), Vector(-netDepth, BV3D::netHeight-0.05, -(BV3D::arenaExtent[2]/2+0.1)));
@@ -157,13 +157,13 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	localNet->append(optimizer->get3dsModel(BV3D::threeDSPath + "net1.3ds"));
 
 	double poleRadius = 0.14;
-	m_Net->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
+	mNet->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
 	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), poleRadius);
 	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, poleRadius);
 	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
 	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
-	m_Net->append(pole1);
-	m_Net->append(pole2);
+	mNet->append(pole1);
+	mNet->append(pole2);
 	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::arenaExtent[2]/2+poleRadius+poleOffset))));
 	pole1->append(cone);
 	pole1->append(cylinder);
@@ -175,29 +175,29 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat)(BV3D::netHeight/2+0.1 + (netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1])/2);
 	matrix[14] = 0.0;
-	NewtonCollision* netCollision = NewtonCreateBox(m_World, (dFloat)(netBoxBounds.getLLF()[0] - netBoxBounds.getURB()[0]), 
+	NewtonCollision* netCollision = NewtonCreateBox(mWorld, (dFloat)(netBoxBounds.getLLF()[0] - netBoxBounds.getURB()[0]), 
 															(dFloat)(netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1]),
 															(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);
-	NewtonBody* netBody = NewtonCreateBody(m_World, netCollision);
-	NewtonReleaseCollision(m_World, netCollision);
+	NewtonBody* netBody = NewtonCreateBody(mWorld, netCollision);
+	NewtonReleaseCollision(mWorld, netCollision);
 	NewtonBodySetMaterialGroupID(netBody, mNetMaterialID);
 
 	// invisible Barrier (only physical, positioned under the net, lets ball through but stops blobbs)
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat)(BV3D::arenaExtent[1]/2);
 	matrix[14] = 0.0;
-	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(m_World, 0.06f, 
+	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(mWorld, 0.06f, 
 											(dFloat)BV3D::arenaExtent[1],
 											(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);	
-	NewtonBody* invisibleBarrierBody = NewtonCreateBody(m_World, invisibleBarrierCollision);
-	NewtonReleaseCollision(m_World, invisibleBarrierCollision);
+	NewtonBody* invisibleBarrierBody = NewtonCreateBody(mWorld, invisibleBarrierCollision);
+	NewtonReleaseCollision(mWorld, invisibleBarrierCollision);
 	NewtonBodySetMaterialGroupID(invisibleBarrierBody, mInvisibleBarrierID);
 }
 
 
 VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::TEAM team) {
-	VRS::Vector llf = m_Bounds.getLLF();
-	VRS::Vector urb = m_Bounds.getURB();
+	VRS::Vector llf = mBounds.getLLF();
+	VRS::Vector urb = mBounds.getURB();
 
 	if(team == BV3D::TEAM2)
 		return VRS::Bounds(VRS::Vector(0.0,0.0,llf[2]), urb);
@@ -206,23 +206,23 @@ VRS::Bounds BV3D::Arena::getTeamBounds(BV3D::TEAM team) {
 }
 
 void BV3D::Arena::updateWorld(float timestep) {
-	NewtonUpdate(m_World, (dFloat)timestep);
+	NewtonUpdate(mWorld, (dFloat)timestep);
 }
 
 void BV3D::Arena::createMaterials() {
 	// create all material IDs
-	mBallMaterialID = NewtonMaterialCreateGroupID(m_World);
-	mBlobbMaterialID = NewtonMaterialCreateGroupID(m_World);
-	mWallMaterialID = NewtonMaterialCreateGroupID(m_World);
-	mFloorMaterialID = NewtonMaterialCreateGroupID(m_World);
-	mNetMaterialID = NewtonMaterialCreateGroupID(m_World);
-	mInvisibleBarrierID = NewtonMaterialCreateGroupID(m_World); // invisible Wall beneath the net - lets ball through but not blobb
-	mAiTriggerID = NewtonMaterialCreateGroupID(m_World);
+	mBallMaterialID = NewtonMaterialCreateGroupID(mWorld);
+	mBlobbMaterialID = NewtonMaterialCreateGroupID(mWorld);
+	mWallMaterialID = NewtonMaterialCreateGroupID(mWorld);
+	mFloorMaterialID = NewtonMaterialCreateGroupID(mWorld);
+	mNetMaterialID = NewtonMaterialCreateGroupID(mWorld);
+	mInvisibleBarrierID = NewtonMaterialCreateGroupID(mWorld); // invisible Wall beneath the net - lets ball through but not blobb
+	mAiTriggerID = NewtonMaterialCreateGroupID(mWorld);
 }
 
 void BV3D::Arena::setupMaterials() {
 	// get the default material ID
-	int defaultID = NewtonMaterialGetDefaultGroupID (m_World);
+	int defaultID = NewtonMaterialGetDefaultGroupID (mWorld);
 
 	// set material interaction properties and callbacks if they should differ from the default value/behaviour
 	CollisionData* collData = new CollisionData();
@@ -230,56 +230,56 @@ void BV3D::Arena::setupMaterials() {
 	collData->arena = this;
 	collData->ball = mGame->getBall();
 	collData->referee = mGame->getReferee();
-	collData->world = m_World;
+	collData->world = mWorld;
 
 	// ball on blobb - high elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mBlobbMaterialID, 0.8f);
-	NewtonMaterialSetContinuousCollisionMode(m_World, mBallMaterialID, mBlobbMaterialID, 1);
+	NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mBlobbMaterialID, 0.8f);
+	NewtonMaterialSetContinuousCollisionMode(mWorld, mBallMaterialID, mBlobbMaterialID, 1);
 	CollisionData* collDataBallBlobb = new CollisionData(*collData);
 	collDataBallBlobb->material1 = mBallMaterialID;
 	collDataBallBlobb->material2 = mBlobbMaterialID;
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mBlobbMaterialID, collDataBallBlobb, blobbContactBeginCallback, contactProcessCallback, NULL);
+	NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mBlobbMaterialID, collDataBallBlobb, blobbContactBeginCallback, contactProcessCallback, NULL);
 
 	// ball on wall - high elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mWallMaterialID, 0.9f);
+	NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mWallMaterialID, 0.9f);
 
 	// ball on floor - low elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mFloorMaterialID, 0.2f);
+	NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mFloorMaterialID, 0.2f);
 	CollisionData* collDataBallFloor = new CollisionData(*collData);
 	collDataBallFloor->material1 = mBallMaterialID;
 	collDataBallFloor->material2 = mFloorMaterialID;
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mFloorMaterialID, collDataBallFloor, NULL, contactProcessCallback, NULL);
+	NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mFloorMaterialID, collDataBallFloor, NULL, contactProcessCallback, NULL);
 
 	// ball on net - middle elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBallMaterialID, mNetMaterialID, 0.75f);
+	NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mNetMaterialID, 0.75f);
 
 	// ball on invisibleBarrier - no collision
 	CollisionData* collDataBallBarrier = new CollisionData(*collData);
 	collDataBallBarrier->material1 = mBallMaterialID;
 	collDataBallBarrier->material2 = mInvisibleBarrierID;
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mInvisibleBarrierID, collDataBallBarrier, NULL, contactProcessCallback, NULL);
+	NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mInvisibleBarrierID, collDataBallBarrier, NULL, contactProcessCallback, NULL);
 
 	// blobb on invisibleBarrier - middle elasticity
-	NewtonMaterialSetDefaultElasticity (m_World, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
+	NewtonMaterialSetDefaultElasticity (mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
 	CollisionData* collDataBlobbBarrier = new CollisionData(*collData);
 	collDataBlobbBarrier->material1 = mBlobbMaterialID;
 	collDataBlobbBarrier->material2 = mInvisibleBarrierID;
-	NewtonMaterialSetCollisionCallback (m_World, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, blobbContactBeginCallback, contactProcessCallback, NULL);
+	NewtonMaterialSetCollisionCallback (mWorld, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, blobbContactBeginCallback, contactProcessCallback, NULL);
 
 	// set friction for  blobb on surrounding (no friction)
-	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mWallMaterialID, 0, 0);
-	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mFloorMaterialID, 0, 0);
-	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mNetMaterialID, 0, 0);
-	NewtonMaterialSetDefaultFriction(m_World, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
+	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mWallMaterialID, 0, 0);
+	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mFloorMaterialID, 0, 0);
+	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mNetMaterialID, 0, 0);
+	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
 
 	// continous collisions for ball on floor?
-	//NewtonMaterialSetContinuousCollisionMode(m_World, mBlobbMaterialID, mFloorMaterialID, 1);
+	//NewtonMaterialSetContinuousCollisionMode(mWorld, mBlobbMaterialID, mFloorMaterialID, 1);
 
 	//// Ball on AI Trigger:
-	NewtonMaterialSetCollisionCallback (m_World, mBallMaterialID, mAiTriggerID, collData, NULL, BV3D::AI::AiCallback, NULL);
+	NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mAiTriggerID, collData, NULL, BV3D::AI::AiCallback, NULL);
 
 	// AI trigger shouldn't collide with blobbs
-	NewtonMaterialSetDefaultCollidable(m_World, mBlobbMaterialID, mAiTriggerID, 0);
+	NewtonMaterialSetDefaultCollidable(mWorld, mBlobbMaterialID, mAiTriggerID, 0);
 }
 
 int BV3D::Arena::blobbContactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {

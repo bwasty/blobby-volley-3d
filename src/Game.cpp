@@ -29,8 +29,6 @@
 #include <vrs/distantlight.h>
 #include <vrs/sg/behaviorcallback.h>
 #include <vrs/opengl/transparencytechniquegl.h>
-#include <vrs/sg/interactionmode.h>
-#include <vrs/sg/interactionconcept.h>
 #include <vrs/lookat.h>
 #include <vrs/perspective.h>
 #include <vrs/opengl/texgengl.h>
@@ -53,108 +51,108 @@
 
 
 BV3D::Game::Game() {
-	m_dLastSecond = 0;
-	m_DelayedActionStart = 0;
-	m_ScheduleNewServe = false;
+	mDLastSecond = 0;
+	mDelayedActionStart = 0;
+	mScheduleNewServe = false;
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
-	m_FrameCount = 0;
+	mFrameCount = 0;
 	mIsCameraDistant = false;
 	mUseMovieStyleCamera = false;
 	mCurrentCameraPosition = CLASSIC_CAMERA;
-	m_Referee = 0;
+	mReferee = 0;
 
-	m_Canvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
+	mCanvas = new GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
 
-	m_SceneLoader = new SceneLoader(m_Canvas);
+	mSceneLoader = new SceneLoader(mCanvas);
 
 	mScene = new SceneThing();	// create absolute root scene for bv3d
 
 	mScene->append(new VRS::FaceStyle(FaceStyle::Filled, FaceStyle::Culled));
 
 	// add transparency and shadow support to scene
-	m_TransparencyTechnique = new TransparencyTechniqueGL();
-	mScene->append(m_TransparencyTechnique);
+	mTransparencyTechnique = new TransparencyTechniqueGL();
+	mScene->append(mTransparencyTechnique);
 
-	m_perspective = new Perspective(45, 1.0, 100.0);
-	m_lookAt = new LookAt(BV3D::lookFrom, BV3D::lookTo);
-	m_Camera = new Camera(m_perspective, m_lookAt);
-	mScene->append(m_Camera);
+	mPerspective = new Perspective(45, 1.0, 100.0);
+	mLookAt = new LookAt(BV3D::lookFrom, BV3D::lookTo);
+	mCamera = new Camera(mPerspective, mLookAt);
+	mScene->append(mCamera);
 
 	// do some global lighting
-	m_AmbientLight = new AmbientLight(Color(0.7));
-	mScene->append(m_AmbientLight);
+	mAmbientLight = new AmbientLight(Color(0.7));
+	mScene->append(mAmbientLight);
 
 	//// add PointLight for shadows and reflection
-	m_PointLight = new PointLight(Vector(-BV3D::arenaExtent[0]/2, BV3D::arenaExtent[1], BV3D::arenaExtent[2]), VRS::Color(0.3));
-	mScene->append(m_PointLight);
+	mPointLight = new PointLight(Vector(-BV3D::arenaExtent[0]/2, BV3D::arenaExtent[1], BV3D::arenaExtent[2]), VRS::Color(0.3));
+	mScene->append(mPointLight);
 
-	m_Arena = new BV3D::Arena(this);
-	m_Arena->setupMaterials();
-	mScene->append(m_Arena->getScene());
+	mArena = new BV3D::Arena(this);
+	mArena->setupMaterials();
+	mScene->append(mArena->getScene());
 
 	// init Blobbs and add them to the scene
-	m_BlobbArray = new Array<SO<Blobb> >();
+	mBlobbArray = new Array<SO<Blobb> >();
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
-	SO<Blobb> blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM1, m_lookAt);
+	SO<Blobb> blobb = new BV3D::Blobb(mArena, BV3D::TEAM1, mLookAt);
 	blobb->setPosition(Vector(-BV3D::arenaExtent[0],0.0,0.0));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM1));
-	m_BlobbArray->append(blobb);
+	mBlobbArray->append(blobb);
 
-	blobb = new BV3D::Blobb(m_Arena, BV3D::TEAM2, m_lookAt);
+	blobb = new BV3D::Blobb(mArena, BV3D::TEAM2, mLookAt);
 	blobb->setPosition(Vector(BV3D::arenaExtent[0],0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM2));
-	m_BlobbArray->append(blobb);
+	mBlobbArray->append(blobb);
 
-	m_Ball = new BV3D::Ball(m_Arena);
-	mScene->append(m_Ball->getScene());
+	mBall = new BV3D::Ball(mArena);
+	mScene->append(mBall->getScene());
 
 	mAI = new AI(this);
 
 	mHud = new HUD();
 	mScene->append(VRS_Cast(VRS::SceneThing, mHud->getScene()));
-	m_Canvas->append(mScene);
+	mCanvas->append(mScene);
 
 	mMenu = new Menu(this);
-	m_Canvas->append(mMenu->getScene());
-	m_Canvas->append(mMenu->getSelector());
+	mCanvas->append(mMenu->getScene());
+	mCanvas->append(mMenu->getSelector());
 
 	// Init sound
 	setupSound();
 
 	// init update callback
-	m_FPS = 30.0;	// assuming 30 fps are desired
-	m_cbUpdate = new BehaviorCallback();
-	m_cbUpdate->setTimeCallback(new MethodCallback<Game>(this,&Game::update));
-	//m_cbUpdate->setTimeRequirement(TimeRequirement::infinite);
-	//m_cbUpdate->activate();
-	m_Canvas->append(m_cbUpdate);
-	//m_Canvas->switchOn(m_cbUpdate);
-	//m_Canvas->engine()->addPreRenderCallback();
+	mFPS = 30.0;	// assuming 30 fps are desired
+	mCbUpdate = new BehaviorCallback();
+	mCbUpdate->setTimeCallback(new MethodCallback<Game>(this,&Game::update));
+	//mCbUpdate->setTimeRequirement(TimeRequirement::infinite);
+	//mCbUpdate->activate();
+	mCanvas->append(mCbUpdate);
+	//mCanvas->switchOn(mCbUpdate);
+	//mCanvas->engine()->addPreRenderCallback();
 
 	// init input callback
-	m_cbInput = new BehaviorCallback();
-	m_cbInput->setCanvasCallback(new MethodCallback<Game>(this,&Game::processInput));
-	m_Canvas->append(m_cbInput);
+	mCbInput = new BehaviorCallback();
+	mCbInput->setCanvasCallback(new MethodCallback<Game>(this,&Game::processInput));
+	mCanvas->append(mCbInput);
 
 	// init JumpNavigation
-	m_Navigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), m_lookAt, 3.0);
-	m_Canvas->append(m_Navigation);//m_InteractionConcept);
+	mNavigation = new JumpNavigation(Vector(0.0, 1.0, 0.0), mLookAt, 3.0);
+	mCanvas->append(mNavigation);//m_InteractionConcept);
 
 	switchToMenu(false);	// start showing menu
 }
 
 BV3D::Game::~Game() {
-	delete[] m_BlobbArray;
+	delete[] mBlobbArray;
 }
 
 void BV3D::Game::applyMenuSettings() {
-	m_BlobbArray->getElement(TEAM1)->setColor(mMenu->getPlayer1Color());
-	m_BlobbArray->getElement(TEAM2)->setColor(mMenu->getPlayer2Color());
+	mBlobbArray->getElement(TEAM1)->setColor(mMenu->getPlayer1Color());
+	mBlobbArray->getElement(TEAM2)->setColor(mMenu->getPlayer2Color());
 
 	VRS::SO<Controls> controls = NULL;
 	switch(mMenu->getPlayer1Controls()) {
@@ -164,7 +162,7 @@ void BV3D::Game::applyMenuSettings() {
 		case Menu::AI:			controls = 0; mAI->enableAI(BV3D::TEAM1); break;
 		default:				controls = 0; break;
 	}
-	m_BlobbArray->getElement(TEAM1)->setControls(controls);
+	mBlobbArray->getElement(TEAM1)->setControls(controls);
 	if (controls != NULL && mAI->isAiControlled(BV3D::TEAM1))
 		mAI->disableAI(BV3D::TEAM1);
 
@@ -176,18 +174,18 @@ void BV3D::Game::applyMenuSettings() {
 		case Menu::AI:			controls = 0; mAI->enableAI(BV3D::TEAM2); break;
 		default:				controls = 0; break;
 	}
-	m_BlobbArray->getElement(TEAM2)->setControls(controls);
+	mBlobbArray->getElement(TEAM2)->setControls(controls);
 	if (controls != NULL && mAI->isAiControlled(BV3D::TEAM2))
 		mAI->disableAI(BV3D::TEAM2);
 
 	if (mScene->contains(mBackground))
 		mScene->remove(mBackground);
 	if(mMenu->getPlace()==Menu::BEACH)
-		mBackground = m_SceneLoader->loadBeach();
+		mBackground = mSceneLoader->loadBeach();
 	else if(mMenu->getPlace()==Menu::HEAVEN)
-		mBackground = m_SceneLoader->loadHeaven();
+		mBackground = mSceneLoader->loadHeaven();
 	else
-		mBackground = m_SceneLoader->loadArena();
+		mBackground = mSceneLoader->loadArena();
 
 	mScene->append(mBackground);
 
@@ -198,61 +196,61 @@ void BV3D::Game::applyMenuSettings() {
 		newReferee = new BV3D::TieBreakReferee(this);
 
 	// copy values of current referee to the new referee
-	if(m_Referee) {
-		newReferee->setCurrentScore(BV3D::TEAM1, m_Referee->getCurrentScore(BV3D::TEAM1));
-		newReferee->setCurrentScore(BV3D::TEAM2, m_Referee->getCurrentScore(BV3D::TEAM2));
-		newReferee->setCurrentContacts(BV3D::TEAM1, m_Referee->getCurrentContacts(BV3D::TEAM1));
-		newReferee->setCurrentContacts(BV3D::TEAM2, m_Referee->getCurrentContacts(BV3D::TEAM2));
-		newReferee->setServingTeam(m_Referee->getServingTeam());
+	if(mReferee) {
+		newReferee->setCurrentScore(BV3D::TEAM1, mReferee->getCurrentScore(BV3D::TEAM1));
+		newReferee->setCurrentScore(BV3D::TEAM2, mReferee->getCurrentScore(BV3D::TEAM2));
+		newReferee->setCurrentContacts(BV3D::TEAM1, mReferee->getCurrentContacts(BV3D::TEAM1));
+		newReferee->setCurrentContacts(BV3D::TEAM2, mReferee->getCurrentContacts(BV3D::TEAM2));
+		newReferee->setServingTeam(mReferee->getServingTeam());
 	}
-	m_Referee = newReferee;
-	m_Referee->setHUD(mHud);
+	mReferee = newReferee;
+	mReferee->setHUD(mHud);
 
-	m_Arena->setupMaterials();
+	mArena->setupMaterials();
 }
 
 /**
  * update() is called periodically on timer events to redisplay the whole scene
  */
 void BV3D::Game::update() {
-	VRSTime time = m_Canvas->clock()->time();
-	// test if current frame's time is over (0.8/m_FPS seems to be a good approximation)
-	if(double(time) - m_dLastUpdateTime >= 0.7/m_FPS) {
-		float timestep = (double)time - m_dLastUpdateTime;
-		m_dLastUpdateTime = double(time);
+	VRSTime time = mCanvas->clock()->time();
+	// test if current frame's time is over (0.8/mFPS seems to be a good approximation)
+	if(double(time) - mDLastUpdateTime >= 0.7/mFPS) {
+		float timestep = (double)time - mDLastUpdateTime;
+		mDLastUpdateTime = double(time);
 
 		// count frames per second
-		m_iFramerate++;
-		m_FrameCount++;
-		if(m_dLastUpdateTime - m_dLastSecond >= 1.0) {
-			printf("framerate: %d\n",m_iFramerate);
-			m_dLastSecond = m_dLastUpdateTime;
-			m_iFramerate = 0;
+		mIFramerate++;
+		mFrameCount++;
+		if(mDLastUpdateTime - mDLastSecond >= 1.0) {
+			printf("framerate: %d\n",mIFramerate);
+			mDLastSecond = mDLastUpdateTime;
+			mIFramerate = 0;
 		}
 
-		if(m_Canvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
-			m_Arena->updateWorld(timestep);
+		if(mCanvas->isSwitchedOn(mScene))	// simulate world only if root scene is visible
+			mArena->updateWorld(timestep);
 
 		// used to delay a new serve for a few seconds when one player scores
-		if (m_DelayedActionStart != 0) {
-			if (double(time) - m_DelayedActionStart >= 3.0) {
+		if (mDelayedActionStart != 0) {
+			if (double(time) - mDelayedActionStart >= 3.0) {
 				newServe();
-				m_DelayedActionStart = 0;
+				mDelayedActionStart = 0;
 			}
 		}
-		if (m_ScheduleNewServe) {
-			m_DelayedActionStart = double(time);
-			m_ScheduleNewServe = false;
+		if (mScheduleNewServe) {
+			mDelayedActionStart = double(time);
+			mScheduleNewServe = false;
 		}
 
 		//animate blobbs if they're moving
-		m_BlobbArray->getElement(BV3D::TEAM1)->updateShape(m_Canvas);
-		m_BlobbArray->getElement(BV3D::TEAM2)->updateShape(m_Canvas);
+		mBlobbArray->getElement(BV3D::TEAM1)->updateShape(mCanvas);
+		mBlobbArray->getElement(BV3D::TEAM2)->updateShape(mCanvas);
 
-		//m_Canvas->redisplay();
-		m_cbUpdate->nextRedraw(BehaviorNode::RedrawWindow);
+		//mCanvas->redisplay();
+		mCbUpdate->nextRedraw(BehaviorNode::RedrawWindow);
 
-		m_fmodSystem->update();
+		mFmodSystem->update();
 	}
 }
 
@@ -260,7 +258,7 @@ void BV3D::Game::update() {
  * evaluates incoming InputEvents from canvas, processes and dispatches them
  */
 void BV3D::Game::processInput() {
-	InputEvent* ie = VRS_Cast(InputEvent, m_cbInput->currentCanvasEvent());
+	InputEvent* ie = VRS_Cast(InputEvent, mCbInput->currentCanvasEvent());
 	if(ie==NULL)
 		return;
 
@@ -271,7 +269,7 @@ void BV3D::Game::processInput() {
 			switch (ke->keyCode())
 			{
 				case Key::Escape:
-					switchToMenu(!m_Referee->isGameOver());
+					switchToMenu(!mReferee->isGameOver());
 					return;
 				case Key::F2:	//change to standard camera position
 					switchCameraposition(BV3D::CLASSIC_CAMERA);
@@ -293,45 +291,45 @@ void BV3D::Game::processInput() {
 					mUseMovieStyleCamera = !mUseMovieStyleCamera;
 					break;
 	//			case Key::F3:	//view field from above
-	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
 	//				//printf("Key F2 pressed\n");
 	//				break;
 	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
-	//				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 	//				break;
 	//			case Key::F5:	//view field from the side "lying on the ground"
-	//				m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
 	//				break;
 			}
 			//printf("Key %i pressed\n", ke->keyCode());
 		}
 
 	// pass input to blobbs
-	m_BlobbArray->getElement(0)->processInput(ie);
-	m_BlobbArray->getElement(1)->processInput(ie);
+	mBlobbArray->getElement(0)->processInput(ie);
+	mBlobbArray->getElement(1)->processInput(ie);
 
 	// warping the pointer freezes the simulation
 	/*MotionEvent* me = VRS_Cast(MotionEvent, ie);
 	if(me!=NULL)
-		glutWarpPointer(m_Canvas->getWidth()/2,m_Canvas->getHeight()/2);*/
+		glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);*/
 }
 
 void BV3D::Game::scheduleNewServe() {
-	m_ScheduleNewServe = true;
+	mScheduleNewServe = true;
 }
 
 void BV3D::Game::newServe() {
-	BV3D::TEAM team = m_Referee->getServingTeam();
+	BV3D::TEAM team = mReferee->getServingTeam();
 
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-	NewtonWorldFreezeBody(m_Arena->getWorld(), m_Ball->getBody());
-	NewtonBodySetForce(m_Ball->getBody(), nullForce);
-	NewtonBodySetTorque(m_Ball->getBody(), nullForce);
-	Vector pos(m_Arena->getTeamBounds(team).center());
+	NewtonWorldFreezeBody(mArena->getWorld(), mBall->getBody());
+	NewtonBodySetForce(mBall->getBody(), nullForce);
+	NewtonBodySetTorque(mBall->getBody(), nullForce);
+	Vector pos(mArena->getTeamBounds(team).center());
 	pos[1] = 5;
-	m_Ball->resetPosition(pos);
+	mBall->resetPosition(pos);
 
-	m_Referee->setActive(true);
+	mReferee->setActive(true);
 	if (mAI->isAiControlled(team))
 		mAI->aiServe(team);
 }
@@ -339,34 +337,34 @@ void BV3D::Game::newServe() {
 // called by menu
 void BV3D::Game::switchToGame(bool restart) {
 	// deactivate menu
-	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOff(mMenu->getScene());
-	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOff(mMenu->getSelector());
+	if(mCanvas->contains(mMenu->getScene())) mCanvas->switchOff(mMenu->getScene());
+	if(mCanvas->contains(mMenu->getSelector())) mCanvas->switchOff(mMenu->getSelector());
 
 	// adjust settings
 	applyMenuSettings();
 	if(restart) {
-		m_Referee->startNewGame();
+		mReferee->startNewGame();
 		getBlobb(BV3D::TEAM1)->setPosition(VRS::Vector(-BV3D::arenaExtent[0]/4, 0.0f, 0.0f));
 		getBlobb(BV3D::TEAM2)->setPosition(VRS::Vector( BV3D::arenaExtent[0]/4, 0.0f, 0.0f));
 		newServe();
 	}
 
 	// activate game
-	if(m_Canvas->contains(mScene)) m_Canvas->switchOn(mScene);
-	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOn(m_cbInput);
-	m_Canvas->setCursor(VRS::Cursor::Blank);
+	if(mCanvas->contains(mScene)) mCanvas->switchOn(mScene);
+	if(mCanvas->contains(mCbInput)) mCanvas->switchOn(mCbInput);
+	mCanvas->setCursor(VRS::Cursor::Blank);
 }
 
 void BV3D::Game::switchToMenu(bool allowResume) {
 	// deactivate game
-	if(m_Canvas->contains(mScene)) m_Canvas->switchOff(mScene);
-	if(m_Canvas->contains(m_cbInput)) m_Canvas->switchOff(m_cbInput);
+	if(mCanvas->contains(mScene)) mCanvas->switchOff(mScene);
+	if(mCanvas->contains(mCbInput)) mCanvas->switchOff(mCbInput);
 
 	// activate menu (allow resume game if game is not yet over)
 	mMenu->showMainMenu(allowResume);
-	if(m_Canvas->contains(mMenu->getScene())) m_Canvas->switchOn(mMenu->getScene());
-	if(m_Canvas->contains(mMenu->getSelector())) m_Canvas->switchOn(mMenu->getSelector());
-	m_Canvas->setCursor(VRS::Cursor::Arrow);
+	if(mCanvas->contains(mMenu->getScene())) mCanvas->switchOn(mMenu->getScene());
+	if(mCanvas->contains(mMenu->getSelector())) mCanvas->switchOn(mMenu->getSelector());
+	mCanvas->setCursor(VRS::Cursor::Arrow);
 }
 
 void BV3D::Game::toggleFullscreen() {
@@ -385,19 +383,19 @@ void BV3D::Game::toggleFullscreen() {
 }
 
 void BV3D::Game::setupSound() {
-	FMOD::System_Create(&m_fmodSystem);
-	m_fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
-	m_fmodSystem->createSound("../Sounds/bums.wav", FMOD_DEFAULT, 0, &soundTouch);
-	m_fmodSystem->createSound("../Sounds/pfiff.wav", FMOD_DEFAULT, 0, &soundWhistle);
+	FMOD::System_Create(&mFmodSystem);
+	mFmodSystem->init(32, FMOD_INIT_NORMAL, 0);
+	mFmodSystem->createSound("../Sounds/bums.wav", FMOD_DEFAULT, 0, &soundTouch);
+	mFmodSystem->createSound("../Sounds/pfiff.wav", FMOD_DEFAULT, 0, &soundWhistle);
 	soundWhistle->setDefaults(44100, 0.5, 1.0, 128);
 }
 
 void BV3D::Game::playSoundTouch() {
-	m_fmodSystem->playSound(FMOD_CHANNEL_FREE, soundTouch, false, NULL);
+	mFmodSystem->playSound(FMOD_CHANNEL_FREE, soundTouch, false, NULL);
 }
 
 void BV3D::Game::playSoundWhistle() {
-	m_fmodSystem->playSound(FMOD_CHANNEL_FREE, soundWhistle, false, NULL);
+	mFmodSystem->playSound(FMOD_CHANNEL_FREE, soundWhistle, false, NULL);
 }
 
 void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
@@ -424,11 +422,11 @@ void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
 			positions.append(getPositionVector(mCurrentCameraPosition));
 			directions.append(getDirectionVector(mCurrentCameraPosition));
 		}while(mCurrentCameraPosition != position);
-		//m_Navigation->initMultiStepPath(&positions, &directions);
+		//mNavigation->initMultiStepPath(&positions, &directions);
 	}
 	else
 	{
-		m_Navigation->initPath(getPositionVector(position), getDirectionVector(position));
+		mNavigation->initPath(getPositionVector(position), getDirectionVector(position));
 		mCurrentCameraPosition = position;
 	}
 }
@@ -471,21 +469,21 @@ VRS::Vector BV3D::Game::getDirectionVector(CAMERAPOSITION position)
 	}
 }
 	//case Key::F2:	//view field from the side
-	//				m_Navigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
+	//				mNavigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
 	//				break;
 	//			case Key::F3:	//view field from above
-	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
 	//				//printf("Key F2 pressed\n");
 	//				break;
 	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
-	//				m_Navigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 	//				break;
 	//			case Key::F5:	//view field from the side "lying on the ground"
-	//				m_Navigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
 	//				break;
 	//			case Key::F6:	//view field from +y-axis
-	//				m_Navigation->initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
 	//				break;
 	//			case Key::F7:	//view field from -x-axis
-	//				m_Navigation->initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
 	//				break;

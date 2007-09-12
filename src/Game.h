@@ -48,10 +48,10 @@ namespace BV3D
 		~Game();
 		void update();			// render new frame
 		void processInput();	// process and dispatch input
-		VRS::SO<Ball> getBall() {return m_Ball;}
-		VRS::SO<Referee> getReferee() {return m_Referee;}
-		VRS::SO<Blobb> getBlobb(BV3D::TEAM team) {return m_BlobbArray->getElement(team==BV3D::TEAM1 ? 0 : 1);}
-		VRS::SO<Arena> getArena() {return m_Arena;}
+		VRS::SO<Ball> getBall() {return mBall;}
+		VRS::SO<Referee> getReferee() {return mReferee;}
+		VRS::SO<Blobb> getBlobb(BV3D::TEAM team) {return mBlobbArray->getElement(team==BV3D::TEAM1 ? 0 : 1);}
+		VRS::SO<Arena> getArena() {return mArena;}
 		void scheduleNewServe();
 		void newServe();
 		void aiServe(BV3D::TEAM team);
@@ -62,7 +62,7 @@ namespace BV3D
 		void switchToGame(bool bRestart);
 		void toggleFullscreen();
 
-		int getFrameCount() {return m_FrameCount;}
+		int getFrameCount() {return mFrameCount;}
 	protected:
 		void switchToMenu(bool allowResume);
 		void setupSound();
@@ -72,46 +72,44 @@ namespace BV3D
 		VRS::Vector getDirectionVector(CAMERAPOSITION position);
 
 	private:
-		double			m_DelayedActionStart;
-		bool			m_ScheduleNewServe;
+		double			mDelayedActionStart;
+		bool			mScheduleNewServe;
 		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
 		bool			mIsCameraDistant;
 		bool			mUseMovieStyleCamera;
 		CAMERAPOSITION	mCurrentCameraPosition;
-		FMOD::System    *m_fmodSystem;
+		FMOD::System    *mFmodSystem;
 		FMOD::Sound     *soundTouch, *soundWhistle;
 
 		VRS::SO<HUD>			mHud;
 
-		VRS::SO<VRS::GlutCanvas>			m_Canvas;		// main canvas
+		VRS::SO<VRS::GlutCanvas>			mCanvas;		// main canvas
 		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
 		VRS::SO<VRS::Array<VRS::SO<VRS::SceneThing> > >	mBlobbScenesArray;	// list of BlobbScenes
-		VRS::SO<VRS::TransparencyTechniqueGL>	m_TransparencyTechnique;	// to enable transparency
-		VRS::SO<VRS::Perspective>			m_perspective;
-		VRS::SO<VRS::LookAt>				m_lookAt;
-		VRS::SO<VRS::Camera>				m_Camera;			// scene camera
-		VRS::SO<VRS::AmbientLight>			m_AmbientLight;
-		VRS::SO<VRS::PointLight>			m_PointLight;
-		VRS::SO<VRS::BehaviorCallback>		m_cbInput;		// callback to receive input from canvas
-		VRS::SO<VRS::BehaviorCallback>		m_cbUpdate;		// callback to receive timer events for frame stepping
-		VRS::SO<VRS::InteractionMode>		m_InteractionMode;	//needed for navigation technique
-		VRS::SO<VRS::InteractionConcept>	m_InteractionConcept;	//needed for navigation technique
-		VRS::SO<VRS::JumpNavigation>		m_Navigation;	// select and fly between different camera settings
+		VRS::SO<VRS::TransparencyTechniqueGL>	mTransparencyTechnique;	// to enable transparency
+		VRS::SO<VRS::Perspective>			mPerspective;
+		VRS::SO<VRS::LookAt>				mLookAt;
+		VRS::SO<VRS::Camera>				mCamera;			// scene camera
+		VRS::SO<VRS::AmbientLight>			mAmbientLight;
+		VRS::SO<VRS::PointLight>			mPointLight;
+		VRS::SO<VRS::BehaviorCallback>		mCbInput;		// callback to receive input from canvas
+		VRS::SO<VRS::BehaviorCallback>		mCbUpdate;		// callback to receive timer events for frame stepping
+		VRS::SO<VRS::JumpNavigation>		mNavigation;	// select and fly between different camera settings
 		VRS::SO<VRS::SceneThing>			mBackground;		//SceneNode for background
 
 		VRS::SO<AI>							mAI;
 
-		int			m_iFramerate;		// frame counter to allow frame rate checking
-		int			m_FrameCount;		// total frame count
-		double		m_dLastSecond;		// auxiliary variable for frame rate checking
-		double		m_dLastUpdateTime;	// auxiliary variable for frame stepping
-		double		m_FPS;				// desired frame rate
+		int			mIFramerate;		// frame counter to allow frame rate checking
+		int			mFrameCount;		// total frame count
+		double		mDLastSecond;		// auxiliary variable for frame rate checking
+		double		mDLastUpdateTime;	// auxiliary variable for frame stepping
+		double		mFPS;				// desired frame rate
 		
-		VRS::SO<Arena>			m_Arena;	// Arena object
-		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	m_BlobbArray;	// list of Blobbs
-		VRS::SO<Ball>			m_Ball;
-		VRS::SO<Referee>		m_Referee;
-		VRS::SO<SceneLoader>	m_SceneLoader;
+		VRS::SO<Arena>			mArena;	// Arena object
+		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	mBlobbArray;	// list of Blobbs
+		VRS::SO<Ball>			mBall;
+		VRS::SO<Referee>		mReferee;
+		VRS::SO<SceneLoader>	mSceneLoader;
 		VRS::SO<Menu>			mMenu;
 	};
 }

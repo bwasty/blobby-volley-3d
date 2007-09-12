@@ -14,4 +14,5 @@ Neue ToDo:
 
 Bugs:
 V angabenanzeige(!) ändert nicht, wenn kein punkt gemacht wurde
-- spiel stürzt ab, wenn neue umgebung ausgewählt/gestartet wird und vorher punkte gemacht wurden
+- spiel stürzt ab, wenn neue umgebung ausgewählt+gestartet wird und vorher punkte gemacht wurden
+- stürzt auch ab, wenn neue Umgebung gewählt und auf resume gedrückt wird

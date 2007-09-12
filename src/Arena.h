@@ -61,7 +61,7 @@ namespace BV3D {
 		/**
 		 * get the bounds of the whole arena
 		 */
-		VRS::Bounds getBounds() {return m_Bounds;}
+		VRS::Bounds getBounds() {return mBounds;}
 
 		/**
 		 * get the valid bounds for one of the blobbs
@@ -71,7 +71,7 @@ namespace BV3D {
 		/**
 		 * get the local arena scene
 		 */
-		VRS::SO<VRS::SceneThing> getScene() {return m_Scene;}
+		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 
 	public:	// Physics
 		/**
@@ -83,7 +83,7 @@ namespace BV3D {
 		/**
 		 * return pointer to the Physics world
 		 */
-		NewtonWorld* getWorld() {return m_World;}
+		NewtonWorld* getWorld() {return mWorld;}
 
 		void createMaterials();
 		void setupMaterials();
@@ -97,18 +97,18 @@ namespace BV3D {
 		int getAiTriggerID(){return mAiTriggerID;}
 
 	private:
-		VRS::SO<VRS::SceneThing>		m_Scene;		// local arena scene (walls)
-		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	m_WallsVertices;	// vertices for walls
-		VRS::SO<VRS::ShapeMaterialGL>	m_Material;		// wall material
-		VRS::SO<VRS::PolygonSet>		m_Walls;		// walls shape
-		VRS::Bounds						m_Bounds;		// bounds of the Arena box
-		VRS::SO<VRS::SceneThing>		m_Net;
+		VRS::SO<VRS::SceneThing>		mScene;		// local arena scene (walls)
+		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	mWallsVertices;	// vertices for walls
+		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;		// wall material
+		VRS::SO<VRS::PolygonSet>		mWalls;		// walls shape
+		VRS::Bounds						mBounds;		// bounds of the Arena box
+		VRS::SO<VRS::SceneThing>		mNet;
 		VRS::SO<BV3D::Game>				mGame;
 
 	private:	// Physics
-		NewtonWorld*	m_World;	// physics world
-		NewtonBody*		m_Body;		// physical arena walls
-		NewtonBody*		m_Floor;		// physical arena floor
+		NewtonWorld*	mWorld;	// physics world
+		NewtonBody*		mBody;		// physical arena walls
+		NewtonBody*		mFloor;		// physical arena floor
 
 		int mBallMaterialID;
 		int mBlobbMaterialID;
