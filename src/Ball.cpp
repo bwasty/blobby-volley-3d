@@ -46,8 +46,8 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	NewtonBodySetMaterialGroupID(mBody, mArena->getBallMaterialID());
 	NewtonReleaseCollision(world, collision);
 
-	// set up mass matrix
-	dFloat inertia = 2*0.5f/*mass*/*(dFloat)(mRadius * mRadius) / 5; 
+	// set up mass matrix - inertia taken from Marble Frenzy because we didn't know a realistic value
+	dFloat inertia = 2*4/*mass*/*(dFloat)(mRadius * mRadius) / 5; 
 	NewtonBodySetMassMatrix(mBody, 4 /*mass*/,inertia,inertia,inertia);
 
 	NewtonBodySetUserData(mBody, this);

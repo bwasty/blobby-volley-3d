@@ -119,7 +119,7 @@
 	// create newton body with first compound collision object
 	mBody = NewtonCreateBody(world, mCollision[0]);
 
-	// set up mass matrix
+	// set up mass matrix - inertia taken from Marble Frenzy because we didn't know a realistic value
 	dFloat radius = 1.0;
 	dFloat inertia = 2*1*(radius * radius) / 5;
 	NewtonBodySetMassMatrix(mBody, 50,inertia,inertia,inertia);
