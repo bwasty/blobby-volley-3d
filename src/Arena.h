@@ -73,7 +73,7 @@ namespace BV3D {
 		 */
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 
-	public:	// Physics
+		// Physics
 		/**
 		 * perform physics simulation
 		 * \param timestep specifies the amount of time in millisecs to advance during simulation
@@ -105,7 +105,7 @@ namespace BV3D {
 		VRS::SO<VRS::SceneThing>		mNet;
 		VRS::SO<BV3D::Game>				mGame;
 
-	private:	// Physics
+		// Physics
 		NewtonWorld*	mWorld;	// physics world
 		NewtonBody*		mBody;		// physical arena walls
 		NewtonBody*		mFloor;		// physical arena floor
@@ -134,7 +134,5 @@ namespace BV3D {
 	int delayStartFrame;
 	};
 }
-
-
 
 #endif	//BV3D_ARENA

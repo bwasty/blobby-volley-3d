@@ -47,18 +47,17 @@ namespace BV3D
 
 		NewtonBody* getBody() {return mBody;}
 
-	protected:
-		/**
-		 * update ball physics and visuals
-		 */
-		void update();
-
-	public:
 		/**
 		 * callback which notifies that a NewtonBody in the NewtonWorld has changed
 		 * \param body is the changed NewtonBody
 		 */
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
+
+	protected:
+		/**
+		 * update ball physics and visuals
+		 */
+		void update();
 
 	private:
 		double						mRadius;	// ball radius
@@ -66,7 +65,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	mBallScene;	// subscene holding the actual ball
 		VRS::SO<VRS::SceneThing>	mShadowScene;	// subscene holding fake shadow
 
-	private: // physics
+		// physics
 		VRS::SO<BV3D::Arena>	mArena;	// parent physics object
 		NewtonBody*				mBody;		// physical body in simulated world
 		bool					mIsLocked;	// locks the ball at its current position until collision

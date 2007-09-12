@@ -1,5 +1,3 @@
-/// Ball.cpp
-
 #include "Ball.h"
 #include "Arena.h"
 #include "ModelOptimizer.h"
@@ -28,7 +26,7 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	// create ball local scene
 	mScene = new VRS::SceneThing();
 
-		//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
+	//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
 	double factor = BV3D::BALL_RADIUS / 1.7;
 	mScene->append(mBallScene = optimizer->getWavefrontModel(BV3D::MODELS_PATH + "volleyball-colored.obj"));
 	mBallScene->prepend(new VRS::Scaling(factor, factor, factor));

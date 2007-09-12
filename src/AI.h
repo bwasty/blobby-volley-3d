@@ -22,14 +22,12 @@ namespace BV3D
 		void disableAI(BV3D::TEAM team);
 		void aiServe(BV3D::TEAM team);
 		static int AiCallback(const NewtonMaterial* material, const NewtonContact* contact);
-		//static int AICallback(const NewtonMaterial* material, const NewtonContact* contact);
 
 		VRS::SO<BV3D::Game> getGame() {return mGame;}
 
 	private:
 		VRS::SO<BV3D::Game> mGame;
 		NewtonBody*		mAiTriggerBody[2];
-
 	};
 }
 

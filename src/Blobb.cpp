@@ -1,5 +1,3 @@
-
-
 #include "Blobb.h"
 #include "Arena.h"
 #include "KeyboardControls.h"
@@ -214,10 +212,13 @@ BV3D::TEAM	BV3D::Blobb::getTeam() {
 	return mTeam;
 }
 
-inline bool BV3D::Blobb::isMoving() {//not needed anymore?
+inline bool BV3D::Blobb::isMoving() {//TODO: not needed anymore?
 	return mIsMoving;
 }
 
+/**
+ * responsible for the animation of the blobb, does one animation step each call
+ */
 void BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
 {
 	//printf("%i\n", mCurrentShape);
@@ -303,7 +304,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 }
 
 /**
-* updates physical and visual blobb
+* updates physical and visual blobb (called every frame)
 */
 void BV3D::Blobb::update() {
 	dFloat Ixx, Iyy, Izz, mass;

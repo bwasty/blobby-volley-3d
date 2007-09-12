@@ -1,7 +1,5 @@
-
 #include "Arena.h"
 #include <time.h>
-//#include <vrs/so.h>
 #include <vrs/opengl/shapematerialgl.h>
 #include <vrs/container/fixedsizeiterator.h>
 #include <vrs/polygonset.h>
@@ -12,7 +10,6 @@
 #include <vrs/translation.h>
 #include <vrs/box.h>
 #include <vrs/io/threedsreader.h>
-//#include <vrs/container/array.h>
 
 #include <Newton.h>
 #include "Ball.h"
@@ -264,7 +261,7 @@ void BV3D::Arena::setupMaterials() {
 	CollisionData* collDataBlobbBarrier = new CollisionData(*collData);
 	collDataBlobbBarrier->material1 = mBlobbMaterialID;
 	collDataBlobbBarrier->material2 = mInvisibleBarrierID;
-	NewtonMaterialSetCollisionCallback (mWorld, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, blobbContactBeginCallback, contactProcessCallback, NULL);
+	NewtonMaterialSetCollisionCallback (mWorld, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, NULL, contactProcessCallback, NULL);
 
 	// set friction for  blobb on surrounding (no friction)
 	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mWallMaterialID, 0, 0);
@@ -272,16 +269,16 @@ void BV3D::Arena::setupMaterials() {
 	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mNetMaterialID, 0, 0);
 	NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
 
-	// continous collisions for ball on floor?
-	//NewtonMaterialSetContinuousCollisionMode(mWorld, mBlobbMaterialID, mFloorMaterialID, 1);
-
-	//// Ball on AI Trigger:
+	// Ball on AI Trigger:
 	NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mAiTriggerID, collData, NULL, BV3D::AI::AiCallback, NULL);
 
 	// AI trigger shouldn't collide with blobbs
 	NewtonMaterialSetDefaultCollidable(mWorld, mBlobbMaterialID, mAiTriggerID, 0);
 }
 
+/*
+ * collision callback - called when bounding boxes of a blobb and the ball intersect
+ */
 int BV3D::Arena::blobbContactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {
 	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
 
@@ -294,6 +291,9 @@ int BV3D::Arena::blobbContactBeginCallback(const NewtonMaterial* material, const
 	return 1;
 }
 
+/*
+ * collision callback - called for every collision which is interesting for game logic
+ */
 int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact) {
 	CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
 	BV3D::TEAM team;
@@ -340,6 +340,5 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 		}
 		return 0;
 	}
-	
 	return 1;
 }

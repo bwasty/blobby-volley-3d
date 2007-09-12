@@ -197,7 +197,7 @@ void BV3D::Game::applyMenuSettings() {
 }
 
 /**
- * update() is called periodically on timer events to redisplay the whole scene
+ * called periodically on timer events to update the physics world and redisplay the whole scene - main callback
  */
 void BV3D::Game::update() {
 	VRSTime time = mCanvas->clock()->time();
@@ -278,18 +278,7 @@ void BV3D::Game::processInput() {
 				case Key::F9:
 					mUseMovieStyleCamera = !mUseMovieStyleCamera;
 					break;
-	//			case Key::F3:	//view field from above
-	//				mNavigation->initPath(Vector(0.0, BV3D::LOOK_FROM[1] + 10.0, -0.1), Vector(0.0, -BV3D::LOOK_FROM[1], 0.1) + BV3D::LOOK_TO);
-	//				//printf("Key F2 pressed\n");
-	//				break;
-	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
-	//				mNavigation->initPath(Vector(-(BV3D::LOOK_FROM[2] - 2.0), BV3D::LOOK_FROM[1], 0.0), Vector(BV3D::LOOK_FROM[2] - 10.0, -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
-	//				break;
-	//			case Key::F5:	//view field from the side "lying on the ground"
-	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::LOOK_FROM[2]), Vector(0.0, 3.0, -BV3D::LOOK_FROM[2]));
-	//				break;
 			}
-			//printf("Key %i pressed\n", ke->keyCode());
 		}
 
 	VRS::SO<VRS::MotionEvent> me = VRS_Cast(MotionEvent, ie);
@@ -318,6 +307,9 @@ void BV3D::Game::processInput() {
 	}
 }
 
+/**
+ * causes a new serve in about 3 seconds (called by Referee)
+ */
 void BV3D::Game::scheduleNewServe() {
 	mScheduleNewServe = true;
 }
@@ -338,7 +330,9 @@ void BV3D::Game::newServe() {
 		mAI->aiServe(team);
 }
 
-// called by menu
+/**
+ * called by menu
+ */
 void BV3D::Game::switchToGame(bool restart) {
 	// deactivate menu
 	if(mCanvas->contains(mMenu->getScene())) mCanvas->switchOff(mMenu->getScene());
@@ -473,22 +467,3 @@ VRS::Vector BV3D::Game::getDirectionVector(CAMERAPOSITION position)
 				return (-BV3D::LOOK_FROM + BV3D::LOOK_TO);
 	}
 }
-	//case Key::F2:	//view field from the side
-	//				mNavigation->initPath(BV3D::LOOK_FROM, -BV3D::LOOK_FROM + BV3D::LOOK_TO);
-	//				break;
-	//			case Key::F3:	//view field from above
-	//				mNavigation->initPath(Vector(0.0, BV3D::LOOK_FROM[1] + 10.0, -0.1), Vector(0.0, -BV3D::LOOK_FROM[1], 0.1) + BV3D::LOOK_TO);
-	//				//printf("Key F2 pressed\n");
-	//				break;
-	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
-	//				mNavigation->initPath(Vector(-(BV3D::LOOK_FROM[2] - 2.0), BV3D::LOOK_FROM[1], 0.0), Vector(BV3D::LOOK_FROM[2] - 10.0, -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
-	//				break;
-	//			case Key::F5:	//view field from the side "lying on the ground"
-	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::LOOK_FROM[2]), Vector(0.0, 3.0, -BV3D::LOOK_FROM[2]));
-	//				break;
-	//			case Key::F6:	//view field from +y-axis
-	//				mNavigation->initPath(Vector(0.0, BV3D::LOOK_FROM[1], -BV3D::LOOK_FROM[2]), Vector(0.0, -BV3D::LOOK_FROM[1], BV3D::LOOK_FROM[2]) + BV3D::LOOK_TO);
-	//				break;
-	//			case Key::F7:	//view field from -x-axis
-	//				mNavigation->initPath(Vector(BV3D::LOOK_FROM[2] - 5.0, BV3D::LOOK_FROM[1], 0.0), Vector(-(BV3D::LOOK_FROM[2] - 5.0), -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
-	//				break;

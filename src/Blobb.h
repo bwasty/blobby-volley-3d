@@ -1,5 +1,3 @@
-
-
 #ifndef BV3D_BLOBB
 #define BV3D_BLOBB
 
@@ -25,7 +23,6 @@ namespace BV3D
 	class Arena;
 	class Controls;
 
-
 	/*!	\brief Represents the players in BlobbyVolley3D
 
 		it is responsible for:
@@ -50,14 +47,12 @@ namespace BV3D
 		void updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
 		void forceSingleAnimation();
+		static void applyForceAndTorqueCallback(const NewtonBody* body);
+		void maxJump();					// let blobb do a jump with maximum height
 
 	protected:
 		VRS::Vector getMovement();
 		void update();
-
-	public:
-		static void applyForceAndTorqueCallback(const NewtonBody* body);
-		void maxJump();					// let blobb do a jump with maximum height
 		
 	private:
 		VRS::SO<VRS::SceneThing>		mScene;				// blobb local scene
@@ -78,11 +73,10 @@ namespace BV3D
 		static const int				mMaxStep = 1;
 		bool							mMaxJump;			// indicates that blobb should do a maximum high jump
 
-	private:	// physics
+		// physics
 		VRS::SO<BV3D::Arena>			mArena;		// parent physics object
 		NewtonBody*						mBody;		// physical body in simulated world
 		NewtonCollision**				mCollision;	// pointer to newton (compound) collision objects
-
 	};
 }
 
