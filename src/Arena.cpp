@@ -35,7 +35,7 @@ BV3D::Arena::Arena(BV3D::Game* game) {
 
 	mWallsVertices = new VRS::FixedSizeIterator<VRS::Vector>(10);
 
-	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.3));
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.2));
 	mScene->append(mMaterial);
 
 	mScene->append(new VRS::FaceStyle(VRS::FaceStyle::Filled,VRS::FaceStyle::Culled));
@@ -157,7 +157,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	localNet->append(optimizer->get3dsModel(BV3D::threeDSPath + "net1.3ds"));
 
 	double poleRadius = 0.14;
-	mNet->append(new VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
+	mNet->append(new VRS::ShapeMaterialGL(VRS::Color(0.6,0.6,0.6,1.0)));
 	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), poleRadius);
 	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, poleRadius);
 	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();

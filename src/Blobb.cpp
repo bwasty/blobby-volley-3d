@@ -1,12 +1,4 @@
-/**
- * The Blobb class represents the players in BlobbyVolley3D
- * it is responsible for:
- * - creating(loading) and managing: the 3D shape of the Blobb
- * - forwarding InputEvents to its Controls
- * - managing the Controls orientation and movement distance
- * - moving the Blobb inside its assigned bounds
- * - updating the position based on input and physics
- */
+
 
 #include "Blobb.h"
 #include "Arena.h"
@@ -47,15 +39,10 @@
 // data per blobb:
 //	lower vertical offset/radius, lower horizontal radius
 //	upper vertical offset, upper horizontal radius, upper vertical radius
-dFloat colData[5][5] = {
-	{1.0f+0.1f, 1.0f, 1.5f, 0.9f, 1.1f},
-	{0.9f+0.1f, 1.01f, 1.35f, 0.9f, 1.1f},
-	{0.8f+0.1f, 1.05f, 1.2f, 0.9f, 1.1f},
-	{0.65f+0.1f, 1.1f, 1.1f, 0.9f, 1.0f},
-	{0.5f+0.1f, 1.2f, 1.0f, 0.9f, 0.9f} };
-/**
- * ctor
- * \param arena specifies the arena in which the blobb is simulated
+
+/*!
+ \ctor
+ \param arena specifies the arena in which the blobb is simulated
  */
 	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt) {
 	mArena = arena;
@@ -109,19 +96,19 @@ dFloat colData[5][5] = {
 	// create one compound collision for each blobb?.3ds
 	for(int shape=0; shape<5; shape++) {
 		// create lower collision sphere
-		matrix[13] = colData[shape][0]-0.1f;		// set vertical offset of lower sphere
+		matrix[13] = blobbShapeData[shape][0]-0.1f;		// set vertical offset of lower sphere
 		colSphere[0] = NewtonCreateSphere(world,
-			colData[shape][1],	// use lower horizontal radius
-			colData[shape][0],	// use lower vertical radius
-			colData[shape][1],	// use lower horizontal radius
+			blobbShapeData[shape][1],	// use lower horizontal radius
+			blobbShapeData[shape][0],	// use lower vertical radius
+			blobbShapeData[shape][1],	// use lower horizontal radius
 			matrix);
 
 		// create upper collision sphere
-		matrix[13] = colData[shape][2];	// set vertical offset of upper sphere
+		matrix[13] = blobbShapeData[shape][2];	// set vertical offset of upper sphere
 		colSphere[1] = NewtonCreateSphere(world,
-			colData[shape][3],	// use upper horizontal radius
-			colData[shape][4],	// use upper vertical radius
-			colData[shape][3],	// use upper horizontal radius
+			blobbShapeData[shape][3],	// use upper horizontal radius
+			blobbShapeData[shape][4],	// use upper vertical radius
+			blobbShapeData[shape][3],	// use upper horizontal radius
 			matrix);
 
 		mCollision[shape] = NewtonCreateCompoundCollision(world, 2, colSphere);
@@ -133,7 +120,7 @@ dFloat colData[5][5] = {
 	mBody = NewtonCreateBody(world, mCollision[0]);
 
 	// set up mass matrix
-	dFloat radius = 1.0; // TODO?
+	dFloat radius = 1.0;
 	dFloat inertia = 2*1*(radius * radius) / 5;
 	NewtonBodySetMassMatrix(mBody, 50,inertia,inertia,inertia);
 
@@ -153,8 +140,8 @@ dFloat colData[5][5] = {
 	setPosition(VRS::Vector(0.0,0.0,0.0));
 }
 
-/**
- * dtor
+/*!
+ \dtor
  */
 BV3D::Blobb::~Blobb() {
 	if(mCollision) {
@@ -166,14 +153,14 @@ BV3D::Blobb::~Blobb() {
 		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
-/**
- * move blobb to specified position
+/*!
+ move blobb to specified position
  */
 void BV3D::Blobb::setPosition(VRS::Vector position) {
 	// relocate visual blobb
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
 	mBlobbScene->setLocalMatrix(vrsMatrix);
-	double scaling = (shadowMaxHeight - position[1]) * colData[mCurrentShape][1] / shadowMaxHeight;
+	double scaling = (shadowMaxHeight - position[1]) * blobbShapeData[mCurrentShape][1] / shadowMaxHeight;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
 		scaling, 0.0f, 0.0f, position[0],
 		0.0f, scaling, 0.0f, shadowHeight,
@@ -368,7 +355,7 @@ void BV3D::Blobb::update() {
 	}
 
 	mBlobbScene->setLocalMatrix(vrsMatrix);
-	double scaling = (shadowMaxHeight - newtonMatrix[13]) * colData[mCurrentShape][1] / shadowMaxHeight;
+	double scaling = (shadowMaxHeight - newtonMatrix[13]) * blobbShapeData[mCurrentShape][1] / shadowMaxHeight;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
 		scaling, 0.0f, 0.0f, newtonMatrix[12],
 		0.0f, scaling, 0.0f, shadowHeight,
@@ -392,7 +379,7 @@ void BV3D::Blobb::update() {
 */
 void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
 	// TODO: use c++/vrs cast
-	BV3D::Blobb* blobb = (BV3D::Blobb*)NewtonBodyGetUserData(body);
+	VRS::SO<BV3D::Blobb> blobb = static_cast<BV3D::Blobb*>(NewtonBodyGetUserData(body));
 	if (blobb)
 		blobb->update();
 }

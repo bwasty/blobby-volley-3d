@@ -1,13 +1,3 @@
-/**
- * The Referee class is an abstract class for implementation of volleyball rules.
- * It defines an interface for the usage of referee subclasses.
- * It also already implements some getters/setters and elementary mehtods for score keeping and such.
- * Referee-Classes are responsible for:
- *	- score keeping
- *  - identification of faults 
- *	- taking actions if faults occur(starting a new rally(results in new serve), ending the game,...)
- *
- */
 #include "Constants.h"
 #include "Referee.h"
 #include "Hud.h"
@@ -19,7 +9,6 @@ Referee::Referee(SO<Game> game)
 {
 	mGame = game;
 	mScore[0] = mScore[1] = mContacts[0] = mContacts[1] = 0; //set start values
-	//std::cout << mContacts[1] << std::endl;
 	mWinningScore = mMaxContacts = mMinDifference = 1;		//set dummy values
 	mServingTeam = BV3D::TEAM1;
 	mActive = true;
@@ -31,7 +20,7 @@ SO<Game> Referee::getGame()
 	return mGame;
 }
 
-/*
+/**
  *	Returns current score for individual teams
  */
 int Referee::getCurrentScore(TEAM team)
@@ -39,7 +28,7 @@ int Referee::getCurrentScore(TEAM team)
 	return mScore[getTeamIndex(team)];
 }
 
-/*
+/**
  *	Returns current number of consecutive contacts with the ball for individual teams
  */
 int Referee::getCurrentContacts(TEAM team)
@@ -47,7 +36,7 @@ int Referee::getCurrentContacts(TEAM team)
 	return mContacts[getTeamIndex(team)];
 }
 
-/*
+/**
  *	Returns the score needed to win the game
  */
 int Referee::getWinningScore()
@@ -55,7 +44,7 @@ int Referee::getWinningScore()
 	return mWinningScore;
 }
 
-/*
+/**
  *	Returns the maximum number of consecutive contatcts one team might have without causing a fault
  */
 int Referee::getMaximumContacts()
@@ -63,7 +52,7 @@ int Referee::getMaximumContacts()
 	return mMaxContacts;
 }
 
-/*
+/**
  *	Returns the minumum difference between teams needed to win the game
  */
 int Referee::getMinimumDifference()
@@ -71,7 +60,7 @@ int Referee::getMinimumDifference()
 	return mMinDifference;
 }
 
-/*
+/**
  *	Sets the score needed to win the game
  *	Must not be less than 1
  */
@@ -86,7 +75,7 @@ BV3D_ERROR Referee::setWinningScore(int winningScore)
 		return INVALID_PARAMETER;
 }
 
-/*
+/**
  *	Sets the maximum number of consecutive contatcts one team might have without causing a fault
  *  Must not be less than 1
  */
@@ -101,7 +90,7 @@ BV3D_ERROR Referee::setMaximumContacts(int maxContacts)
 		return INVALID_PARAMETER;
 }
 
-/*
+/**
  *	Sets the minimum difference between teams needed to win the game
  *	Must not be less than 1
  */
@@ -116,7 +105,7 @@ BV3D_ERROR Referee::setMinimumDifference(int minDifference)
 		return INVALID_PARAMETER;
 }
 
-/*
+/**
  * Resets all counters to 0 for a new game to start
  */
 void Referee::startNewGame()
@@ -127,7 +116,7 @@ void Referee::startNewGame()
 		mHud->setScore(0,0,TEAM1);
 }
 
-/*
+/**
  * Increases score of 'team' by 1
  */
 int Referee::increaseScore(TEAM team)
@@ -138,7 +127,7 @@ int Referee::increaseScore(TEAM team)
 	return mScore[getTeamIndex(team)];
 }
 
-/*
+/**
  * Increases contacts-counter of 'team' by 1
  */
 int Referee::increaseContacts(TEAM team)
@@ -146,7 +135,7 @@ int Referee::increaseContacts(TEAM team)
 	return ++mContacts[getTeamIndex(team)];
 }
 
-/*
+/**
  * Resets contacts-counter of 'team' to 0
  */
 void Referee::resetContacts(TEAM team)
@@ -154,7 +143,7 @@ void Referee::resetContacts(TEAM team)
 	mContacts[getTeamIndex(team)] = 0;
 }
 
-/*
+/**
  * Returns whether one team has won the game
  */
 bool Referee::isGameOver()
@@ -173,7 +162,7 @@ bool Referee::isGameOver()
 	return ( ((mScore[a] - mScore[b]) >= getMinimumDifference()) && (mScore[a] >= getWinningScore()) );
 }
 
-/*
+/**
  * Returns an index corresponding to a teams constant
  */
 int Referee::getTeamIndex(TEAM team)
@@ -189,7 +178,7 @@ int Referee::getTeamIndex(TEAM team)
 	}
 }
 
-/*
+/**
  * Returns the constant for opponent of 'team'
  */
 TEAM Referee::getOpponent(TEAM team)

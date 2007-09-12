@@ -42,6 +42,19 @@ namespace BV3D
 	class HUD;
 	class AI;
 
+	/**
+	* \brief The Game class represents an instance of the BlobbyVolley3D game.
+
+	* It is responsible for:
+	* - creating and managing:
+	*   - the obvious game objects: the Arena, the Blobbs, the Ball and the Net
+	*   - the canvas(window) to which the scene is rendered
+	*   - the root scene node
+	*   - the scene camera
+	* - hooking in/out the sub-scenes of the game objects
+	* - processing and dispatching of input events from the canvas
+	* - periodically issue rendering
+	*/
 	class Game : public VRS::SharedObj {
 	public:
 		Game();

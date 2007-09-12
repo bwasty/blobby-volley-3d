@@ -1,0 +1,9 @@
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Arena.cpp,line285-Warning: documented function `int BV3D::Arena::blobbContactBeginCallback' was not declared or defined.
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Arena.cpp,line297-Warning: documented function `int BV3D::Arena::contactProcessCallback' was not declared or defined.
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Arena.cpp,line25-Warning: Found unknown command `\ctor'
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Arena.h,line49-Warning: Found unknown command `\dtor'
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Blobb.cpp,line43-Warning: Found unknown command `\ctor'
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Blobb.cpp,line43-Warning: The following parameters of BV3D::Blobb::Blobb(VRS::SO< BV3D::Arena > arena, BV3D::TEAM team, VRS::SO< VRS::LookAt > lookAt) are not documented:
+  parameter team
+  parameter lookAt
+inC:/Dokumente und Einstellungen/Philipp/Eigene Dateien/Projekte/Blobby Volley 3D/trunk/src/Blobb.cpp,line144-Warning: Found unknown command `\dtor'

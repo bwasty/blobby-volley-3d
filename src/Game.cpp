@@ -1,16 +1,3 @@
-/**
- * The Game class represents an instance of the BlobbyVolley3D game.
- * It is responsible for:
- * - creating and managing:
- *   - the obvious game objects: the Arena, the Blobbs, the Ball and the Net
- *   - the canvas(window) to which the scene is rendered
- *   - the root scene node
- *   - the scene camera
- * - hooking in/out the sub-scenes of the game objects
- * - processing and dispatching of input events from the canvas
- * - periodically issue rendering
- */
-
 #include "Game.h"
 
 #include <Newton.h>
@@ -73,7 +60,7 @@ BV3D::Game::Game() {
 	mTransparencyTechnique = new TransparencyTechniqueGL();
 	mScene->append(mTransparencyTechnique);
 
-	mPerspective = new Perspective(45, 1.0, 100.0);
+	mPerspective = new Perspective(45, 1.0, 500.0);
 	mLookAt = new LookAt(BV3D::lookFrom, BV3D::lookTo);
 	mCamera = new Camera(mPerspective, mLookAt);
 	mScene->append(mCamera);
@@ -402,27 +389,28 @@ void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
 {
 	if (mUseMovieStyleCamera)
 	{
-		//TODO: stop game and fly camera the long way to destination position
-		VRS::Array<VRS::Vector>	positions = VRS::Array<VRS::Vector>();
-		VRS::Array<VRS::Vector>	directions = VRS::Array<VRS::Vector>();
-		positions.clear();
-		directions.clear();
-		bool moveLeft = false;
+		//TODO: pause game
+		VRS::SO<VRS::Array<VRS::Vector> > positions = new VRS::Array<VRS::Vector>();
+		VRS::SO<VRS::Array<VRS::Vector>	> directions = new VRS::Array<VRS::Vector>();
+		positions->clear();
+		directions->clear();
+		bool moveLeft = true;
 		if ( ((mCurrentCameraPosition == CLASSIC_CAMERA) && (position == TEAM1_BASECAMERA)) ||
 			 ((mCurrentCameraPosition == TEAM1_BASECAMERA) && (position == REVERSE_CAMERA)) ||
 			 ((mCurrentCameraPosition == REVERSE_CAMERA) && (position == TEAM2_BASECAMERA)) ||
 			 ((mCurrentCameraPosition == TEAM2_BASECAMERA) && (position == CLASSIC_CAMERA)) )
-			moveLeft = true;
+			moveLeft = false;
 		do
 		{
 			if (moveLeft)
 				mCurrentCameraPosition = (CAMERAPOSITION) ((mCurrentCameraPosition + 1) % MAX_CAMERAS);
 			else
 				mCurrentCameraPosition = (CAMERAPOSITION) ((mCurrentCameraPosition + ((int)MAX_CAMERAS - 1)) % MAX_CAMERAS);
-			positions.append(getPositionVector(mCurrentCameraPosition));
-			directions.append(getDirectionVector(mCurrentCameraPosition));
+			positions->append(getPositionVector(mCurrentCameraPosition));
+			directions->append(getDirectionVector(mCurrentCameraPosition));
 		}while(mCurrentCameraPosition != position);
-		//mNavigation->initMultiStepPath(&positions, &directions);
+
+		mNavigation->initMultiStepPath(positions, directions);
 	}
 	else
 	{

@@ -1,3 +1,5 @@
+
+
 #ifndef BV3D_BLOBB
 #define BV3D_BLOBB
 
@@ -23,6 +25,15 @@ namespace BV3D
 	class Arena;
 	class Controls;
 
+
+	/*!	\brief Represents the players in BlobbyVolley3D
+
+		it is responsible for:
+		- creating(loading) and managing: the 3D shape of the Blobb
+		- forwarding InputEvents to its Controls
+		- managing the Controls orientation and movement distance
+		- moving the Blobb inside its assigned bounds
+		- updating the position based on input and physics. */
 	class Blobb : public VRS::SharedObj {
 	public:
 		Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt);

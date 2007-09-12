@@ -1,18 +1,3 @@
-/**
- * The Arena class represents the box in which the Blobbs play Ball.
- * It is responsible for:
- * - setting up valid bounds for the Arena
- * - passing valid bounds for Blobbs and the Ball
- * - creating the 3D shape - a topless box with transparent walls
- *
- * the Arena floor is centered at the origin
- * the Net runs along the z-axis
- * the individual fields run along the positive/negative x-axis
- * the walls are transparent to see the play and still give some hint about Ball collision
- * the box is assumed to be topless, still the walls have a certain
- *  height that should prevent the ball from bouncing out
- */
-
 #ifndef BV3D_ARENA
 #define BV3D_ARENA
 
@@ -39,15 +24,30 @@ namespace BV3D {
 	class Referee;
 	class Blobb;
 
+	/**
+		\brief The Arena class represents the box in which the Blobbs play Ball.
+
+		It is responsible for:
+		- setting up valid bounds for the Arena
+		- passing valid bounds for Blobbs and the Ball
+		- creating the 3D shape - a topless box with transparent walls
+
+		the Arena floor is centered at the origin
+		the Net runs along the z-axis
+		the individual fields run along the positive/negative x-axis
+		the walls are transparent to see the play and still give some hint about Ball collision
+		the box is assumed to be topless, still the walls have a certain
+		height that should prevent the ball from bouncing out
+	*/
 	class Arena : public VRS::SharedObj {
 	public:
 		/**
-		 * ctor
+		 \ctor
 		 */
 		Arena(BV3D::Game* game);
 
 		/**
-		 * dtor
+		 \dtor
 		 */
 		~Arena();
 

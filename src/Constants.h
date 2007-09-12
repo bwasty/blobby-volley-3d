@@ -51,6 +51,12 @@ namespace BV3D
 		static const double shadowMaxHeight = 20.0;
 
 		static const double gravity = 21.00;;
+		static const float blobbShapeData[5][5] = {
+			{1.0f+0.1f, 1.0f, 1.5f, 0.9f, 1.1f},
+			{0.9f+0.1f, 1.01f, 1.35f, 0.9f, 1.1f},
+			{0.8f+0.1f, 1.05f, 1.2f, 0.9f, 1.1f},
+			{0.65f+0.1f, 1.1f, 1.1f, 0.9f, 1.0f},
+			{0.5f+0.1f, 1.2f, 1.0f, 0.9f, 0.9f} };
 };
 
 #endif	// BV3D_CONSTANTS

@@ -16,6 +16,15 @@ namespace BV3D
 	class Game;
 	class HUD;
 
+	/*! \brief The Referee class is an abstract class for implementation of volleyball rules.
+
+		It defines an interface for the usage of referee subclasses.
+		It also already implements some getters/setters and elementary mehtods for score keeping and such.
+		Referee-Classes are responsible for:
+ 			- score keeping
+			- identification of faults 
+ 			- taking actions if faults occur(starting a new rally(results in new serve), ending the game,...)
+	*/
 	class Referee
 	{
 	public:

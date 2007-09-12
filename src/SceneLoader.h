@@ -1,6 +1,3 @@
-/**
- * SceneLoader is responsible for loading and setting up different surroundings
- */
 #ifndef SCENELOADER
 #define SCENELOADER
 
@@ -22,6 +19,12 @@ namespace BV3D
 {
 	class ModelOptimizer;
 
+	/**
+		\brief SceneLoader is responsible for loading the surroundings of different scenes.
+
+		This includes the ground, objects in the vicinity of the field and some background.
+		Several methods are given for loading different predefined skyboxes and whole sceneries.
+	*/	
 	class SceneLoader :	public VRS::SharedObj
 	{
 	public:
@@ -38,6 +41,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	getHotDesertSkybox();
 		VRS::SO<VRS::SceneThing>	getBrightDaySkybox();
 		VRS::SO<VRS::SceneThing>	getZolsky6Skybox();
+		VRS::SO<VRS::SceneThing>	getZolsky8Skybox();
 		VRS::SO<VRS::SceneThing>	getZolsky9Skybox();
 
 	protected:

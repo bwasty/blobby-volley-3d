@@ -1,9 +1,3 @@
-/*
- * SceneLoader is responsible for loading the surroundings of different scenes.
- * This includes the ground, objects in the vicinity of the field and some background.
- * Several methods are given for loading different predefined skyboxes and whole sceneries.
- */
-
 #include "SceneLoader.h"
 #include "Constants.h"
 
@@ -39,7 +33,7 @@ BV3D::SceneLoader::~SceneLoader(void)
 {
 }
 
-/*
+/**
  * Returns a scene graph, which includes white lines(base- and sidelines) that fit the extent of the gamefield.
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getFieldLines()
@@ -59,7 +53,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getFieldLines()
 	return lines;
 }
 
-/*
+/**
  * Returns a scene graph, which includes a complete scenerie of a beach.
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
@@ -72,7 +66,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 
 	//background
 	VRS::SO<VRS::SceneThing> background = new VRS::SceneThing(beachScene);
-	background->append(getBrightDaySkybox());
+	background->append(getZolsky8Skybox());//getBrightDaySkybox());
 
 	//ground plane with sand bumpmap
 	VRS::SO<VRS::SceneThing> groundPlane = new VRS::SceneThing(beachScene);
@@ -81,8 +75,10 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	VRS::SO<VRS::Bumpmap> bumpmap = new VRS::Bumpmap(img1, light, 4.0); 
 	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, -bumpmapOffset)));
     groundPlane->append(bumpmap);
-	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.5, 0.4, 0.1), VRS::Color(0.0), 128.0));
-	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 100.0));
+	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.13, 0.29, 0.39), VRS::Color(0.0), 128.0));
+	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, -0.5, 0.0), VRS::Vector(0.0, 1.0, 0.0), 300.0));
+	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.6, 0.5, 0.2), VRS::Color(0.0), 128.0));
+	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 50.0));
 	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, bumpmapOffset)));
 	groundPlane->append(getFieldLines());
 
@@ -159,7 +155,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	return beachScene;
 }
 
-/*
+/**
  * Returns a scene graph, including the scenerie of a kind of playground with a fenced-in field.
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
@@ -170,7 +166,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	double scalFenceSideline = (arenaExtent[0]/2)/210.0;
 	double scalFenceHeight = (2 * arenaExtent[2])/210.0;
 	double scalSwing = 0.03;
-	double scalStands = 0.01;
+	double scalStands = 0.015;
 	VRS::Matrix vrsMatrix;
 
 	//background
@@ -184,7 +180,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	VRS::SO<VRS::Bumpmap> bumpmap = new VRS::Bumpmap(img1, light, 1.0);  
 	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, -bumpmapOffset)));
     groundPlane->append(bumpmap);
-	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.1, 0.1, 0.1), VRS::Color(0.0), 128.0));
+	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.2, 0.2, 0.2), VRS::Color(0.0), 128.0));
 	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 100.0));
 	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, bumpmapOffset)));
 	groundPlane->append(getFieldLines());
@@ -246,36 +242,38 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	VRS::SO<VRS::SceneThing> standsModel = new VRS::SceneThing();
 	vrsMatrix = VRS::Matrix::scaling(VRS::Vector(scalStands, scalStands, scalStands));
 	standsModel->setLocalMatrix(vrsMatrix);
-	standsModel->append(mOptimizer->get3dsModel(BV3D::threeDSPath + "metal_stands_mrealms.3ds"));
+	standsModel->append(new VRS::ShapeMaterialGL(VRS::Color(0.9, 0.9, 0.9)));
+	standsModel->append(mOptimizer->get3dsModel(BV3D::threeDSPath + "metal_stands_mrealms.3ds", true, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 	VRS::SO<VRS::CullingSceneThing> standsScene = new VRS::CullingSceneThing(standsModel->boundingBox(mCanvas->engine()));
 	standsScene->append(standsModel);
 
 	VRS::SO<VRS::SceneThing> stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]/4, 2.5, 2*extent[2]));
-	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
-	stands->setLocalMatrix(vrsMatrix);
-	stands->append(standsScene);
-
-	stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/4, 2.5, 2*extent[2]));
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(0, 2.5, 2*extent[2]));
 	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
 	stands->setLocalMatrix(vrsMatrix);
 	stands->append(standsScene);
 	
+	/*stands = new VRS::SceneThing(arenaScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(0, 2.5, -2*extent[2]));
+	stands->setLocalMatrix(vrsMatrix);
+	stands->append(standsScene);*/
+
 	stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]/4, 2.5, -2*extent[2]));
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-5*extent[0]/4, 2.5, 0));
+	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 90.0);
 	stands->setLocalMatrix(vrsMatrix);
 	stands->append(standsScene);
 
 	stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-extent[0]/4, 2.5, -2*extent[2]));
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(5*extent[0]/4, 2.5, 0));
+	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), -90.0);
 	stands->setLocalMatrix(vrsMatrix);
 	stands->append(standsScene);
 
 	return arenaScene;
 }
 
-/*
+/**
  * Returns a minimalistic scenerie of a closed carpet of clouds for the blobbs to play on.
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHeaven()
@@ -303,7 +301,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHeaven()
 	return heavenScene;
 }
 
-/*
+/**
  *	Low-Res(256x256) Skybox of Water with a few hills.
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getWaterscapeSkybox()
@@ -322,7 +320,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getWaterscapeSkybox()
 	return scene;
 }
 
-/*
+/**
  *	768x768 skybox of nice water, rising sund and hills
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getIslandsSkybox()
@@ -341,7 +339,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getIslandsSkybox()
 	return scene;
 }
 
-/*
+/**
  *	Low-Res(256x256) skybox of desert with sun
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getHotDesertSkybox()
@@ -360,7 +358,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getHotDesertSkybox()
 	return scene;
 }
 
-/*
+/**
  *	512x512 skybox of prairie with blue sky and clouds
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getBrightDaySkybox()
@@ -379,7 +377,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getBrightDaySkybox()
 	return scene;
 }
 
-/*
+/**
  *	512x512 skybox of white desert
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getZolsky6Skybox()
@@ -398,7 +396,26 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getZolsky6Skybox()
 	return scene;
 }
 
-/*
+/**
+ *	512x512 skybox of setting sun on water
+ */
+VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getZolsky8Skybox()
+{
+	VRS::SO<VRS::Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<VRS::SO<VRS::Image> >(6);
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "zolsky8/zolsky08_rt.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "zolsky8/zolsky08_lf.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "zolsky8/zolsky08_up.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "zolsky8/zolsky08_dn.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "zolsky8/zolsky08_fr.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(VRS::Image, BV3D::cubemapsPath + "zolsky8/zolsky08_bk.jpg");
+	VRS::SO<VRS::ImageCubeMapTextureGL> cubemap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
+	VRS::SO<VRS::BackgroundGL> background = new VRS::BackgroundGL(cubemap);
+	VRS::SO<VRS::SceneThing> scene = new VRS::SceneThing();
+	scene->append(background);
+	return scene;
+}
+
+/**
  *	512x512 skybox of city
  */
 VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getZolsky9Skybox()
