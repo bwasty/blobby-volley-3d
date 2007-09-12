@@ -26,10 +26,10 @@ void BV3D::AI::enableAI(BV3D::TEAM team) {
 		int teamModifier = (team == BV3D::TEAM1) ? -1 : 1;
 		dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
 
-		matrix[12] = (dFloat)BV3D::arenaExtent.get(0)/4 * teamModifier;
-		matrix[13] = (dFloat)BV3D::blobbHeight+0.3f;
+		matrix[12] = (dFloat)BV3D::ARENA_EXTENT.get(0)/4 * teamModifier;
+		matrix[13] = (dFloat)BV3D::BLOBB_HEIGHT+0.3f;
 		matrix[14] = 0.0;
-		NewtonCollision* AiTriggerCollision = NewtonCreateBox(mGame->getArena()->getWorld(), (dFloat)(BV3D::arenaExtent.get(0)/2 - 0.2f), 0, (dFloat)BV3D::arenaExtent.get(2), matrix);
+		NewtonCollision* AiTriggerCollision = NewtonCreateBox(mGame->getArena()->getWorld(), (dFloat)(BV3D::ARENA_EXTENT.get(0)/2 - 0.2f), 0, (dFloat)BV3D::ARENA_EXTENT.get(2), matrix);
 		mAiTriggerBody[team==BV3D::TEAM1 ? 0 : 1] = NewtonCreateBody(mGame->getArena()->getWorld(), AiTriggerCollision);
 		NewtonBodySetMaterialGroupID(mAiTriggerBody[team==BV3D::TEAM1 ? 0 : 1], mGame->getArena()->getAiTriggerID());
 		NewtonReleaseCollision(mGame->getArena()->getWorld(), AiTriggerCollision);
@@ -44,7 +44,7 @@ void BV3D::AI::disableAI(BV3D::TEAM team) {
 void BV3D::AI::aiServe(BV3D::TEAM team) {
 	int teamModifier = team==BV3D::TEAM1 ? -1 : 1;
 	float random = ((rand() % 13) - 6.0f) / 10.0f; // from -0.6 to 0.6
-	mGame->getBlobb(team)->setPosition(VRS::Vector(teamModifier*(BV3D::arenaExtent[0]/4+1.3+random/6), 0.0,random));
+	mGame->getBlobb(team)->setPosition(VRS::Vector(teamModifier*(BV3D::ARENA_EXTENT[0]/4+1.3+random/6), 0.0,random));
 	mGame->getBlobb(team)->maxJump();
 }
 

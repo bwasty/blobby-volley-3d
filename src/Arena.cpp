@@ -49,7 +49,7 @@ BV3D::Arena::Arena(BV3D::Game* game) {
 	mFloor = 0;
 	mBody = 0;
 
-	setExtent(BV3D::arenaExtent);
+	setExtent(BV3D::ARENA_EXTENT);
 }
 
 BV3D::Arena::~Arena() {
@@ -149,31 +149,31 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(mNet);
 	double netDepth = 0.03;
 	double poleOffset = 1.0;
-	Bounds netBoxBounds = Bounds(Vector(netDepth, BV3D::netHeight/2+0.1, BV3D::arenaExtent[2]/2+0.1), Vector(-netDepth, BV3D::netHeight-0.05, -(BV3D::arenaExtent[2]/2+0.1)));
-	VRS::Matrix netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(BV3D::arenaExtent[2]/2 + poleOffset)), -90.0);
-	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::netHeight - height3ds, -(BV3D::arenaExtent[2]/2 + poleOffset)));
-	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((arenaExtent[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+	Bounds netBoxBounds = Bounds(Vector(netDepth, BV3D::NET_HEIGHT/2+0.1, BV3D::ARENA_EXTENT[2]/2+0.1), Vector(-netDepth, BV3D::NET_HEIGHT-0.05, -(BV3D::ARENA_EXTENT[2]/2+0.1)));
+	VRS::Matrix netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)), -90.0);
+	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::NET_HEIGHT - height3ds, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)));
+	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	localNet->setLocalMatrix(netMatrix);
-	localNet->append(optimizer->get3dsModel(BV3D::threeDSPath + "net1.3ds"));
+	localNet->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "net1.3ds"));
 
 	double poleRadius = 0.14;
 	mNet->append(new VRS::ShapeMaterialGL(VRS::Color(0.6,0.6,0.6,1.0)));
-	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::netHeight, 0), Vector(0,0,0), poleRadius);
-	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::netHeight+0.1,0), Vector(0, BV3D::netHeight, 0), 0.0, poleRadius);
+	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::NET_HEIGHT, 0), Vector(0,0,0), poleRadius);
+	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::NET_HEIGHT+0.1,0), Vector(0, BV3D::NET_HEIGHT, 0), 0.0, poleRadius);
 	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
 	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
 	mNet->append(pole1);
 	mNet->append(pole2);
-	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::arenaExtent[2]/2+poleRadius+poleOffset))));
+	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::ARENA_EXTENT[2]/2+poleRadius+poleOffset))));
 	pole1->append(cone);
 	pole1->append(cylinder);
-	pole2->append(new VRS::Translation(Vector(0,0,BV3D::arenaExtent[2]/2+poleRadius+poleOffset)));
+	pole2->append(new VRS::Translation(Vector(0,0,BV3D::ARENA_EXTENT[2]/2+poleRadius+poleOffset)));
 	pole2->append(cone);
 	pole2->append(cylinder);
 
 	//physical part of net
 	matrix[12] = 0.0;
-	matrix[13] = (dFloat)(BV3D::netHeight/2+0.1 + (netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1])/2);
+	matrix[13] = (dFloat)(BV3D::NET_HEIGHT/2+0.1 + (netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1])/2);
 	matrix[14] = 0.0;
 	NewtonCollision* netCollision = NewtonCreateBox(mWorld, (dFloat)(netBoxBounds.getLLF()[0] - netBoxBounds.getURB()[0]), 
 															(dFloat)(netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1]),
@@ -184,10 +184,10 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 
 	// invisible Barrier (only physical, positioned under the net, lets ball through but stops blobbs)
 	matrix[12] = 0.0;
-	matrix[13] = (dFloat)(BV3D::arenaExtent[1]/2);
+	matrix[13] = (dFloat)(BV3D::ARENA_EXTENT[1]/2);
 	matrix[14] = 0.0;
 	NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(mWorld, 0.06f, 
-											(dFloat)BV3D::arenaExtent[1],
+											(dFloat)BV3D::ARENA_EXTENT[1],
 											(dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);	
 	NewtonBody* invisibleBarrierBody = NewtonCreateBody(mWorld, invisibleBarrierCollision);
 	NewtonReleaseCollision(mWorld, invisibleBarrierCollision);
@@ -331,7 +331,7 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getInvisibleBarrierID()) {
 		// tell referee if ball passes under the net
 		Vector pos = collData->ball->getPosition();
-		if (pos[1] < BV3D::netHeight/2) {
+		if (pos[1] < BV3D::NET_HEIGHT/2) {
 			if (pos[0] < 0)
 				team = BV3D::TEAM1;
 			else

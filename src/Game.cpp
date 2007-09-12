@@ -60,8 +60,8 @@ BV3D::Game::Game() {
 	mTransparencyTechnique = new TransparencyTechniqueGL();
 	mScene->append(mTransparencyTechnique);
 
-	mPerspective = new Perspective(45, 1.0, 500.0);
-	mLookAt = new LookAt(BV3D::lookFrom, BV3D::lookTo);
+	mPerspective = new Perspective(45, 1.0, 400.0);
+	mLookAt = new LookAt(BV3D::LOOK_FROM, BV3D::LOOK_TO);
 	mCamera = new Camera(mPerspective, mLookAt);
 	mScene->append(mCamera);
 
@@ -70,7 +70,7 @@ BV3D::Game::Game() {
 	mScene->append(mAmbientLight);
 
 	//// add PointLight for shadows and reflection
-	mPointLight = new PointLight(Vector(-BV3D::arenaExtent[0]/2, BV3D::arenaExtent[1], BV3D::arenaExtent[2]), VRS::Color(0.3));
+	mPointLight = new PointLight(Vector(-BV3D::ARENA_EXTENT[0]/2, BV3D::ARENA_EXTENT[1], BV3D::ARENA_EXTENT[2]), VRS::Color(0.3));
 	mScene->append(mPointLight);
 
 	mArena = new BV3D::Arena(this);
@@ -81,14 +81,14 @@ BV3D::Game::Game() {
 	mBlobbArray = new Array<SO<Blobb> >();
 	mBlobbScenesArray = new Array<SO<SceneThing>>();
 	SO<Blobb> blobb = new BV3D::Blobb(mArena, BV3D::TEAM1, mLookAt);
-	blobb->setPosition(Vector(-BV3D::arenaExtent[0],0.0,0.0));
+	blobb->setPosition(Vector(-BV3D::ARENA_EXTENT[0],0.0,0.0));
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
 	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM1));
 	mBlobbArray->append(blobb);
 
 	blobb = new BV3D::Blobb(mArena, BV3D::TEAM2, mLookAt);
-	blobb->setPosition(Vector(BV3D::arenaExtent[0],0.0,0.0));
+	blobb->setPosition(Vector(BV3D::ARENA_EXTENT[0],0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
 	mBlobbScenesArray->append(new SceneThing());
 	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
@@ -245,6 +245,7 @@ void BV3D::Game::update() {
  * evaluates incoming InputEvents from canvas, processes and dispatches them
  */
 void BV3D::Game::processInput() {
+	static bool warpingMousePointer = false;
 	InputEvent* ie = VRS_Cast(InputEvent, mCbInput->currentCanvasEvent());
 	if(ie==NULL)
 		return;
@@ -278,27 +279,40 @@ void BV3D::Game::processInput() {
 					mUseMovieStyleCamera = !mUseMovieStyleCamera;
 					break;
 	//			case Key::F3:	//view field from above
-	//				mNavigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(0.0, BV3D::LOOK_FROM[1] + 10.0, -0.1), Vector(0.0, -BV3D::LOOK_FROM[1], 0.1) + BV3D::LOOK_TO);
 	//				//printf("Key F2 pressed\n");
 	//				break;
 	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
-	//				mNavigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(-(BV3D::LOOK_FROM[2] - 2.0), BV3D::LOOK_FROM[1], 0.0), Vector(BV3D::LOOK_FROM[2] - 10.0, -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
 	//				break;
 	//			case Key::F5:	//view field from the side "lying on the ground"
-	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::LOOK_FROM[2]), Vector(0.0, 3.0, -BV3D::LOOK_FROM[2]));
 	//				break;
 			}
 			//printf("Key %i pressed\n", ke->keyCode());
 		}
 
-	// pass input to blobbs
-	mBlobbArray->getElement(0)->processInput(ie);
-	mBlobbArray->getElement(1)->processInput(ie);
+	VRS::SO<VRS::MotionEvent> me = VRS_Cast(MotionEvent, ie);
+	if(me==NULL || !warpingMousePointer) {
+		// pass input to blobbs unless mouse pointer was warped back to center
+		mBlobbArray->getElement(0)->processInput(ie);
+		mBlobbArray->getElement(1)->processInput(ie);
+	}
 
 	// warping the pointer freezes the simulation
-	/*MotionEvent* me = VRS_Cast(MotionEvent, ie);
-	if(me!=NULL)
-		glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);*/
+	if(me!=NULL) {
+		if(warpingMousePointer)
+			// mouse pointer warping is done after 1 mouse event
+			warpingMousePointer = false;
+		else if(me->x() > mCanvas->getWidth() * 0.75f)
+			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
+		else if(me->x() < mCanvas->getWidth() * 0.15f)
+			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
+		else if(me->y() > mCanvas->getHeight() * 0.75f)
+			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
+		else if(me->y() < mCanvas->getHeight() * 0.15f)
+			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
+	}
 }
 
 void BV3D::Game::scheduleNewServe() {
@@ -331,8 +345,8 @@ void BV3D::Game::switchToGame(bool restart) {
 	applyMenuSettings();
 	if(restart) {
 		mReferee->startNewGame();
-		getBlobb(BV3D::TEAM1)->setPosition(VRS::Vector(-BV3D::arenaExtent[0]/4, 0.0f, 0.0f));
-		getBlobb(BV3D::TEAM2)->setPosition(VRS::Vector( BV3D::arenaExtent[0]/4, 0.0f, 0.0f));
+		getBlobb(BV3D::TEAM1)->setPosition(VRS::Vector(-BV3D::ARENA_EXTENT[0]/4, 0.0f, 0.0f));
+		getBlobb(BV3D::TEAM2)->setPosition(VRS::Vector( BV3D::ARENA_EXTENT[0]/4, 0.0f, 0.0f));
 		newServe();
 	}
 
@@ -427,15 +441,15 @@ VRS::Vector BV3D::Game::getPositionVector(CAMERAPOSITION position)
 	switch (position)
 		{
 			case BV3D::CLASSIC_CAMERA:
-				return(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset));
+				return(BV3D::LOOK_FROM + VRS::Vector(0.0, 0.0, -offset));
 			case BV3D::REVERSE_CAMERA:
-				return(Vector(0.0, BV3D::lookFrom[1], -(BV3D::lookFrom[2] - offset) ));
+				return(Vector(0.0, BV3D::LOOK_FROM[1], -(BV3D::LOOK_FROM[2] - offset) ));
 			case BV3D::TEAM1_BASECAMERA:
-				return(Vector(BV3D::lookFrom[2] - offset, BV3D::lookFrom[1], 0.0));
+				return(Vector(BV3D::LOOK_FROM[2] - offset, BV3D::LOOK_FROM[1], 0.0));
 			case BV3D::TEAM2_BASECAMERA:
-				return(Vector(-(BV3D::lookFrom[2] - offset), BV3D::lookFrom[1], 0.0));
+				return(Vector(-(BV3D::LOOK_FROM[2] - offset), BV3D::LOOK_FROM[1], 0.0));
 			default:
-				return(BV3D::lookFrom + VRS::Vector(0.0, 0.0, -offset));
+				return(BV3D::LOOK_FROM + VRS::Vector(0.0, 0.0, -offset));
 	}
 }
 
@@ -445,33 +459,33 @@ VRS::Vector BV3D::Game::getDirectionVector(CAMERAPOSITION position)
 	switch (position)
 		{
 			case BV3D::CLASSIC_CAMERA:
-				return (-BV3D::lookFrom + BV3D::lookTo);
+				return (-BV3D::LOOK_FROM + BV3D::LOOK_TO);
 			case BV3D::REVERSE_CAMERA:
-				return (VRS::Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+				return (VRS::Vector(0.0, -BV3D::LOOK_FROM[1], BV3D::LOOK_FROM[2]) + BV3D::LOOK_TO);
 			case BV3D::TEAM1_BASECAMERA:
-				return (VRS::Vector(-BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+				return (VRS::Vector(-BV3D::LOOK_FROM[2], -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
 			case BV3D::TEAM2_BASECAMERA:
-				return (Vector(BV3D::lookFrom[2], -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+				return (Vector(BV3D::LOOK_FROM[2], -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
 			default:
-				return (-BV3D::lookFrom + BV3D::lookTo);
+				return (-BV3D::LOOK_FROM + BV3D::LOOK_TO);
 	}
 }
 	//case Key::F2:	//view field from the side
-	//				mNavigation->initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);
+	//				mNavigation->initPath(BV3D::LOOK_FROM, -BV3D::LOOK_FROM + BV3D::LOOK_TO);
 	//				break;
 	//			case Key::F3:	//view field from above
-	//				mNavigation->initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(0.0, BV3D::LOOK_FROM[1] + 10.0, -0.1), Vector(0.0, -BV3D::LOOK_FROM[1], 0.1) + BV3D::LOOK_TO);
 	//				//printf("Key F2 pressed\n");
 	//				break;
 	//			case Key::F4:	//view field from the front(from baseline of one blobb's field)
-	//				mNavigation->initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(-(BV3D::LOOK_FROM[2] - 2.0), BV3D::LOOK_FROM[1], 0.0), Vector(BV3D::LOOK_FROM[2] - 10.0, -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
 	//				break;
 	//			case Key::F5:	//view field from the side "lying on the ground"
-	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));
+	//				mNavigation->initPath(Vector(0.0, 0.0, BV3D::LOOK_FROM[2]), Vector(0.0, 3.0, -BV3D::LOOK_FROM[2]));
 	//				break;
 	//			case Key::F6:	//view field from +y-axis
-	//				mNavigation->initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(0.0, BV3D::LOOK_FROM[1], -BV3D::LOOK_FROM[2]), Vector(0.0, -BV3D::LOOK_FROM[1], BV3D::LOOK_FROM[2]) + BV3D::LOOK_TO);
 	//				break;
 	//			case Key::F7:	//view field from -x-axis
-	//				mNavigation->initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);
+	//				mNavigation->initPath(Vector(BV3D::LOOK_FROM[2] - 5.0, BV3D::LOOK_FROM[1], 0.0), Vector(-(BV3D::LOOK_FROM[2] - 5.0), -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
 	//				break;

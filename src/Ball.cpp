@@ -20,7 +20,7 @@
 
 BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	mArena = arena;
-	mRadius = BV3D::ballRadius;
+	mRadius = BV3D::BALL_RADIUS;
 	mBody = 0;
 	mIsLocked = true;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
@@ -29,13 +29,13 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	mScene = new VRS::SceneThing();
 
 		//radius of 3ds-ball: 1.7 -> need to scale by 'factor'
-	double factor = BV3D::ballRadius / 1.7;
-	mScene->append(mBallScene = optimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
+	double factor = BV3D::BALL_RADIUS / 1.7;
+	mScene->append(mBallScene = optimizer->getWavefrontModel(BV3D::MODELS_PATH + "volleyball-colored.obj"));
 	mBallScene->prepend(new VRS::Scaling(factor, factor, factor));
 
 	mScene->append(mShadowScene = new VRS::SceneThing());
 	mShadowScene->append(new VRS::ShapeMaterialGL(VRS::Color(0.0f,0.0f,0.0f,0.3f)));
-	mShadowScene->append(new VRS::Cache(new VRS::Disc(shadowHeight,mRadius)));
+	mShadowScene->append(new VRS::Cache(new VRS::Disc(SHADOW_HEIGHT,mRadius)));
 
 	// physics setup
 	NewtonWorld* world = mArena->getWorld();
@@ -70,10 +70,10 @@ void BV3D::Ball::resetPosition(VRS::Vector& position) {
 	// translate visual ball to specified position
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
 	mBallScene->setLocalMatrix(vrsMatrix);
-	double scaling = (shadowMaxHeight - position[1]) / shadowMaxHeight;
+	double scaling = (SHADOW_MAX_HEIGHT - position[1]) / SHADOW_MAX_HEIGHT;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
 		scaling, 0.0f, 0.0f, position[0],
-		0.0f, scaling, 0.0f, shadowHeight,
+		0.0f, scaling, 0.0f, SHADOW_HEIGHT,
 		0.0f, 0.0f, scaling, position[2],
 		0.0f, 0.0f, 0.0f, 1.0f)
 	);
@@ -110,7 +110,7 @@ void BV3D::Ball::update() {
 
 		// apply gravitational force
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -BV3D::gravity * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -BV3D::GRAVITY * mass, 0.0f};
 		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
 		NewtonBodySetForce(mBody, nullForce);
 		NewtonBodyAddForce(mBody, gravitation);
@@ -120,8 +120,8 @@ void BV3D::Ball::update() {
 		NewtonBodyGetVelocity(mBody, vel);
 		VRS::Vector v(vel[0], vel[1], vel[2]);
 		double length = v.abs();
-		if (length > BV3D::maxBallVelocity) {
-			v = v.normalized() * BV3D::maxBallVelocity;
+		if (length > BV3D::MAX_BALL_VELOCITY) {
+			v = v.normalized() * BV3D::MAX_BALL_VELOCITY;
 			vel[0] = (dFloat)v[0];
 			vel[1] = (dFloat)v[1];
 			vel[2] = (dFloat)v[2];
@@ -139,10 +139,10 @@ void BV3D::Ball::update() {
 
 		// apply matrix to visual ball
 		mBallScene->setLocalMatrix(vrsMatrix);
-		double scaling = (shadowMaxHeight - newtonMatrix[13]) / shadowMaxHeight;
+		double scaling = (SHADOW_MAX_HEIGHT - newtonMatrix[13]) / SHADOW_MAX_HEIGHT;
 		mShadowScene->setLocalMatrix(VRS::Matrix(
 			scaling, 0.0f, 0.0f, newtonMatrix[12],
-			0.0f, scaling, 0.0f, shadowHeight,
+			0.0f, scaling, 0.0f, SHADOW_HEIGHT,
 			0.0f, 0.0f, scaling, newtonMatrix[14],
 			0.0f, 0.0f, 0.0f, 1.0f)
 		);

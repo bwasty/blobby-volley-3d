@@ -63,17 +63,17 @@
 	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
 	mShapes->clear();
 
-	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb2.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb3.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb4.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::threeDSPath + "blobb5.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb2.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb3.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb4.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb5.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 
 	mScene = new VRS::SceneThing();
 	mBlobbScene = new VRS::SceneThing();
 	mShadowScene = new VRS::SceneThing();
 
-	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::blobbAlpha), VRS::Color(1.0),
+	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::BLOBB_ALPHA), VRS::Color(1.0),
 		90.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mBlobbScene->append(mMaterial);
 
@@ -82,7 +82,7 @@
 
 	mScene->append(mShadowScene = new VRS::SceneThing());
 	mShadowScene->append(new VRS::ShapeMaterialGL(VRS::Color(0.0f,0.0f,0.0f,0.3f)));
-	mShadowScene->append(new VRS::Cache(new VRS::Disc(shadowHeight,1.0f)));
+	mShadowScene->append(new VRS::Cache(new VRS::Disc(SHADOW_HEIGHT,1.0f)));
 
 	mScene->append(mBlobbScene);
 	mScene->append(mShadowScene);
@@ -96,19 +96,19 @@
 	// create one compound collision for each blobb?.3ds
 	for(int shape=0; shape<5; shape++) {
 		// create lower collision sphere
-		matrix[13] = blobbShapeData[shape][0]-0.1f;		// set vertical offset of lower sphere
+		matrix[13] = BLOBB_SHAPE_DATA[shape][0]-0.1f;		// set vertical offset of lower sphere
 		colSphere[0] = NewtonCreateSphere(world,
-			blobbShapeData[shape][1],	// use lower horizontal radius
-			blobbShapeData[shape][0],	// use lower vertical radius
-			blobbShapeData[shape][1],	// use lower horizontal radius
+			BLOBB_SHAPE_DATA[shape][1],	// use lower horizontal radius
+			BLOBB_SHAPE_DATA[shape][0],	// use lower vertical radius
+			BLOBB_SHAPE_DATA[shape][1],	// use lower horizontal radius
 			matrix);
 
 		// create upper collision sphere
-		matrix[13] = blobbShapeData[shape][2];	// set vertical offset of upper sphere
+		matrix[13] = BLOBB_SHAPE_DATA[shape][2];	// set vertical offset of upper sphere
 		colSphere[1] = NewtonCreateSphere(world,
-			blobbShapeData[shape][3],	// use upper horizontal radius
-			blobbShapeData[shape][4],	// use upper vertical radius
-			blobbShapeData[shape][3],	// use upper horizontal radius
+			BLOBB_SHAPE_DATA[shape][3],	// use upper horizontal radius
+			BLOBB_SHAPE_DATA[shape][4],	// use upper vertical radius
+			BLOBB_SHAPE_DATA[shape][3],	// use upper horizontal radius
 			matrix);
 
 		mCollision[shape] = NewtonCreateCompoundCollision(world, 2, colSphere);
@@ -160,10 +160,10 @@ void BV3D::Blobb::setPosition(VRS::Vector position) {
 	// relocate visual blobb
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
 	mBlobbScene->setLocalMatrix(vrsMatrix);
-	double scaling = (shadowMaxHeight - position[1]) * blobbShapeData[mCurrentShape][1] / shadowMaxHeight;
+	double scaling = (SHADOW_MAX_HEIGHT - position[1]) * BLOBB_SHAPE_DATA[mCurrentShape][1] / SHADOW_MAX_HEIGHT;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
 		scaling, 0.0f, 0.0f, position[0],
-		0.0f, scaling, 0.0f, shadowHeight,
+		0.0f, scaling, 0.0f, SHADOW_HEIGHT,
 		0.0f, 0.0f, scaling, position[2],
 		0.0f, 0.0f, 0.0f, 1.0f)
 	);
@@ -276,7 +276,7 @@ void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
 VRS::Vector BV3D::Blobb::getMovement() {
 	if(!mControls) {
 		if(mMaxJump)
-			return VRS::Vector(0.0,BV3D::blobbJumpSpeed,0.0);
+			return VRS::Vector(0.0,BV3D::BLOBB_JUMP_SPEED,0.0);
 		else
 			return VRS::Vector();
 	}
@@ -284,7 +284,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	// create orientation vector for movement to the specified mLookAt object
 	VRS::Vector orientation = mLookAt->getTo() - mLookAt->getFrom();	// get from-to vector
 	orientation[1] = 0;												// map vector onto xz-plane
-	orientation = orientation.normalized() * BV3D::blobbMovementStepDistance;			// normalize vector and resize to step distance
+	orientation = orientation.normalized() * BV3D::BLOBB_MOVEMENT_STEP_DISTANCE;			// normalize vector and resize to step distance
 
 	VRS::Vector requestedMovement = mControls->getRequestedMovement();
 
@@ -294,7 +294,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 
 	if(requestedMovement[1]) {
 		if(mJumpAllowed)
-			movement += VRS::Vector(0.0,BV3D::blobbJumpSpeed,0.0);	// blobb may jump only if it is allowed
+			movement += VRS::Vector(0.0,BV3D::BLOBB_JUMP_SPEED,0.0);	// blobb may jump only if it is allowed
 	}
 	//else
 	//	mJumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
@@ -324,7 +324,7 @@ void BV3D::Blobb::update() {
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -BV3D::gravity * BV3D::blobbGravityMultiplier * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -BV3D::GRAVITY * BV3D::BLOBB_GRAVITY_MULTIPLIER * mass, 0.0f};
 		NewtonBodyAddForce(mBody, gravitation);
 	}
 
@@ -343,7 +343,7 @@ void BV3D::Blobb::update() {
 		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14],
 		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
-	if(newtonMatrix[13]>BV3D::blobbMaxJumpHeight) {	// prevent blobb from jumping too high
+	if(newtonMatrix[13]>BV3D::BLOBB_MAX_JUMP_HEIGHT) {	// prevent blobb from jumping too high
 		mJumpAllowed = false;
 		mMaxJump = false;
 	}
@@ -355,16 +355,16 @@ void BV3D::Blobb::update() {
 	}
 
 	mBlobbScene->setLocalMatrix(vrsMatrix);
-	double scaling = (shadowMaxHeight - newtonMatrix[13]) * blobbShapeData[mCurrentShape][1] / shadowMaxHeight;
+	double scaling = (SHADOW_MAX_HEIGHT - newtonMatrix[13]) * BLOBB_SHAPE_DATA[mCurrentShape][1] / SHADOW_MAX_HEIGHT;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
 		scaling, 0.0f, 0.0f, newtonMatrix[12],
-		0.0f, scaling, 0.0f, shadowHeight,
+		0.0f, scaling, 0.0f, SHADOW_HEIGHT,
 		0.0f, 0.0f, scaling, newtonMatrix[14],
 		0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
 	// Reset ball if it leaves its field half
-	if (!mArena->getTeamBounds(mTeam).containsPoint(VRS::Vector(vrsMatrix.element(0,3), vrsMatrix.element(1,3)+BV3D::blobbHeight/2, vrsMatrix.element(2,3)))) {
+	if (!mArena->getTeamBounds(mTeam).containsPoint(VRS::Vector(vrsMatrix.element(0,3), vrsMatrix.element(1,3)+BV3D::BLOBB_HEIGHT/2, vrsMatrix.element(2,3)))) {
 		VRS::Vector newPos(mArena->getTeamBounds(mTeam).center());
 		newPos[1] = 0.0;
 		setPosition(newPos);

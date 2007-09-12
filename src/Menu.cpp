@@ -66,17 +66,17 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mBallScene = new VRS::SceneThing(mScene);
 	/*VRS::ID id = VRS::ID("ball");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();
-	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");*/
+	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(BV3D::MODELS_PATH + "volleyball-colored.obj");*/
 	mBallScene->append(new VRS::Shadowed(mLight));
 	mBallScene->append(new VRS::Rotation(VRS::Vector(1.0,0.0,0.0),VRS::Vector(),90));
 	//mBallScene->append(reader.read(file, id));
-	mBallScene->append(mOptimizer->getWavefrontModel(BV3D::threeDSPath + "volleyball-colored.obj"));
+	mBallScene->append(mOptimizer->getWavefrontModel(BV3D::MODELS_PATH + "volleyball-colored.obj"));
 
 	mCurrentMenuScene = new VRS::SceneThing(mScene);
 
 	//VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-	//mBlobb = VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds");	// TODO: exception handling
-	mBlobb = mOptimizer->get3dsModel(BV3D::threeDSPath + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
+	//mBlobb = VRS::ThreeDSReader::readObject(BV3D::MODELS_PATH + "blobb1.3ds");	// TODO: exception handling
+	mBlobb = mOptimizer->get3dsModel(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
 	mBlobbMaterial = new VRS::ShapeMaterialGL(VRS::Color(VRS::Color::blue), VRS::Color(0.5), 
 		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mBlobb->prepend(mBlobbMaterial);
@@ -179,7 +179,7 @@ void BV3D::Menu::showMenu(MENUSCREEN screen) {
 			addText(buffer,"P1Controls");
 			addText("Back", "Options");
 			VRS::Color color(colors()[mP1Color]);
-			color = VRS::Color(color[0],color[1],color[2],BV3D::blobbAlpha);
+			color = VRS::Color(color[0],color[1],color[2],BV3D::BLOBB_ALPHA);
 			mBlobbMaterial->setPerVertexColor(color);
 			mCurrentMenuScene->append(mBlobb);	// append blobb after all text
 			break;}
@@ -189,7 +189,7 @@ void BV3D::Menu::showMenu(MENUSCREEN screen) {
 			addText(buffer,"P2Controls");
 			addText("Back", "Options");
 			VRS::Color color(colors()[mP2Color]);
-			color = VRS::Color(color[0],color[1],color[2],BV3D::blobbAlpha);
+			color = VRS::Color(color[0],color[1],color[2],BV3D::BLOBB_ALPHA);
 			mBlobbMaterial->setPerVertexColor(color);
 			mCurrentMenuScene->append(mBlobb);	// append blobb after all text
 			break;}
@@ -258,10 +258,10 @@ void BV3D::Menu::addText(const char* label, const char* command) {
 
 VRS::Color BV3D::Menu::getPlayer1Color() {
 	VRS::Color color = colors()[mP1Color];
-	return VRS::Color(color[0],color[1],color[2],BV3D::blobbAlpha);
+	return VRS::Color(color[0],color[1],color[2],BV3D::BLOBB_ALPHA);
 }
 
 VRS::Color BV3D::Menu::getPlayer2Color() {
 	VRS::Color color = colors()[mP2Color];
-	return VRS::Color(color[0],color[1],color[2],BV3D::blobbAlpha);
+	return VRS::Color(color[0],color[1],color[2],BV3D::BLOBB_ALPHA);
 }
