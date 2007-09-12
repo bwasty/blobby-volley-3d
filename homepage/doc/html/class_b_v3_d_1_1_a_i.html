@@ -43,7 +43,10 @@
 </div>
 <div class="nav">
 <a class="el" href="namespace_b_v3_d.html">BV3D</a>::<a class="el" href="class_b_v3_d_1_1_a_i.html">AI</a></div>
-<h1>BV3D::AI Class Reference</h1><!-- doxytag: class="BV3D::AI" --><code>#include &lt;<a class="el" href="_a_i_8h-source.html">AI.h</a>&gt;</code>
+<h1>BV3D::AI Class Reference</h1><!-- doxytag: class="BV3D::AI" -->Encapsulates almost all code related to the "AI".  
+<a href="#_details">More...</a>
+<p>
+<code>#include &lt;<a class="el" href="_a_i_8h-source.html">AI.h</a>&gt;</code>
 <p>
 
 <p>
@@ -67,8 +70,10 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-
-<p>Definition at line <a class="el" href="_a_i_8h-source.html#l00016">16</a> of file <a class="el" href="_a_i_8h-source.html">AI.h</a>.</p>
+Encapsulates almost all code related to the "AI". 
+<p>
+Only the registration of the callback and the update of the material user data are left in <a class="el" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">Arena::setupMaterials()</a> 
+<p>Definition at line <a class="el" href="_a_i_8h-source.html#l00021">21</a> of file <a class="el" href="_a_i_8h-source.html">AI.h</a>.</p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="027b73775825a7f41a5eb436d611eb19"></a><!-- doxytag: member="BV3D::AI::AI" ref="027b73775825a7f41a5eb436d611eb19" args="(BV3D::Game *game)" -->
 <div class="memitem">
@@ -88,7 +93,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00011">11</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00010">10</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -110,10 +115,10 @@
 <div class="memdoc">
 
 <p>
+switch <a class="el" href="class_b_v3_d_1_1_a_i.html" title="Encapsulates almost all code related to the &quot;AI&quot;.">AI</a> on for given team by creating <a class="el" href="class_b_v3_d_1_1_a_i.html" title="Encapsulates almost all code related to the &quot;AI&quot;.">AI</a> trigger plane (a physical plane the ball collides with, but not the blobbs) 
+<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00019">19</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
 
-<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00024">24</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
-
-<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::arenaExtent</a>, <a class="el" href="_constants_8h-source.html#l00038">BV3D::blobbHeight</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::ARENA_EXTENT</a>, <a class="el" href="_constants_8h-source.html#l00038">BV3D::BLOBB_HEIGHT</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
 
 </div>
 </div><p>
@@ -135,7 +140,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="_a_i_8h-source.html#l00021">21</a> of file <a class="el" href="_a_i_8h-source.html">AI.h</a>.</p>
+<p>Definition at line <a class="el" href="_a_i_8h-source.html#l00026">26</a> of file <a class="el" href="_a_i_8h-source.html">AI.h</a>.</p>
 
 <p>References <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
 
@@ -159,7 +164,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00039">39</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00034">34</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
 
 <p>References <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
 
@@ -182,10 +187,10 @@
 <div class="memdoc">
 
 <p>
+lets the blobb specified by team do a serve 
+<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00042">42</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
 
-<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00044">44</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
-
-<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::arenaExtent</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::ARENA_EXTENT</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
 
 </div>
 </div><p>
@@ -216,11 +221,11 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00124">124</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_a_i_8cpp-source.html#l00049">49</a> of file <a class="el" href="_a_i_8cpp-source.html">AI.cpp</a>.</p>
 
-<p>References <a class="el" href="_arena_8h-source.html#l00130">CollisionData::arena</a>, <a class="el" href="_arena_8h-source.html#l00131">CollisionData::ball</a>, <a class="el" href="_arena_8h-source.html#l00129">CollisionData::game</a>, <a class="el" href="_arena_8h-source.html#l00132">CollisionData::referee</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>, and <a class="el" href="_arena_8h-source.html#l00134">CollisionData::world</a>.</p>
+<p>References <a class="el" href="_arena_8h-source.html#l00129">BV3D::CollisionData::arena</a>, <a class="el" href="_arena_8h-source.html#l00130">BV3D::CollisionData::ball</a>, <a class="el" href="_arena_8h-source.html#l00128">BV3D::CollisionData::game</a>, <a class="el" href="_arena_8h-source.html#l00131">BV3D::CollisionData::referee</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>, and <a class="el" href="_arena_8h-source.html#l00133">BV3D::CollisionData::world</a>.</p>
 
-<p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00223">BV3D::Arena::setupMaterials()</a>.</p>
+<p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00220">BV3D::Arena::setupMaterials()</a>.</p>
 
 </div>
 </div><p>
@@ -241,7 +246,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="_a_i_8h-source.html#l00027">27</a> of file <a class="el" href="_a_i_8h-source.html">AI.h</a>.</p>
+<p>Definition at line <a class="el" href="_a_i_8h-source.html#l00031">31</a> of file <a class="el" href="_a_i_8h-source.html">AI.h</a>.</p>
 
 </div>
 </div><p>
@@ -249,7 +254,7 @@
 <li><a class="el" href="_a_i_8h-source.html">AI.h</a><li><a class="el" href="_a_i_8cpp-source.html">AI.cpp</a></ul>
 <!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:58 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:09 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

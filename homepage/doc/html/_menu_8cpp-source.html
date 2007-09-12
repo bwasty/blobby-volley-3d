@@ -76,13 +76,13 @@
 <a name="l00047"></a>00047 
 <a name="l00048"></a>00048         <span class="comment">// init settings</span>
 <a name="l00049"></a>00049         mCurrentScreen = MAIN;
-<a name="l00050"></a>00050         mPlace = <a class="code" href="class_b_v3_d_1_1_menu.html#7c38fdbf13986d79b65a9dce4373ac99c72e4992bdc8c12420ca8ac15b2c17c2">BEACH</a>;
+<a name="l00050"></a>00050         mPlace = <a class="code" href="class_b_v3_d_1_1_menu.html#7c38fdbf13986d79b65a9dce4373ac99c01319d669cba5953edf85c9c18a2bf3">ARENA</a>;
 <a name="l00051"></a>00051         mRules = <a class="code" href="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf5cd091e3da0d89b3f6de1513745349cf">TIE_BREAK</a>;
 <a name="l00052"></a>00052         mFullscreen = OFF;
 <a name="l00053"></a>00053         mP1Color = <a class="code" href="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb68674cf511d4e82fc973f88133d585bc2bb">RED</a>;
 <a name="l00054"></a>00054         mP2Color = <a class="code" href="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb68621169e2303aad67986a58e3d20334147">GREEN</a>;
 <a name="l00055"></a>00055         mP1Controls = <a class="code" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e663deb4e1d8a21dbd3b4feccba7144b36">KB_ARROWS</a>;
-<a name="l00056"></a>00056         mP2Controls = <a class="code" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6d64d1e896fad4f7d6114c01c52e57ac6">MOUSE</a>;
+<a name="l00056"></a>00056         mP2Controls = <a class="code" href="class_b_v3_d_1_1_a_i.html" title="Encapsulates almost all code related to the &amp;quot;AI&amp;quot;.">AI</a>;
 <a name="l00057"></a>00057 
 <a name="l00058"></a>00058         mScene = <span class="keyword">new</span> VRS::SceneThing();
 <a name="l00059"></a>00059         mScene-&gt;append(<span class="keyword">new</span> VRS::Camera(VRS::Vector(0.0,0.0,-5.0), VRS::Vector(), 30, 0.1, 100));
@@ -95,17 +95,17 @@
 <a name="l00066"></a>00066         mBallScene = <span class="keyword">new</span> VRS::SceneThing(mScene);
 <a name="l00067"></a>00067         <span class="comment">/*VRS::ID id = VRS::ID("ball");</span>
 <a name="l00068"></a>00068 <span class="comment">        VRS::WavefrontReader reader = VRS::WavefrontReader();</span>
-<a name="l00069"></a>00069 <span class="comment">        VRS::SO&lt;VRS::FileDataResource&gt; file = new VRS::FileDataResource(BV3D::threeDSPath + "volleyball-colored.obj");*/</span>
+<a name="l00069"></a>00069 <span class="comment">        VRS::SO&lt;VRS::FileDataResource&gt; file = new VRS::FileDataResource(BV3D::MODELS_PATH + "volleyball-colored.obj");*/</span>
 <a name="l00070"></a>00070         mBallScene-&gt;append(<span class="keyword">new</span> VRS::Shadowed(mLight));
 <a name="l00071"></a>00071         mBallScene-&gt;append(<span class="keyword">new</span> VRS::Rotation(VRS::Vector(1.0,0.0,0.0),VRS::Vector(),90));
 <a name="l00072"></a>00072         <span class="comment">//mBallScene-&gt;append(reader.read(file, id));</span>
-<a name="l00073"></a>00073         mBallScene-&gt;append(mOptimizer-&gt;getWavefrontModel(<a class="code" href="namespace_b_v3_d.html#2da5329962140e15269fe691a1851414">BV3D::threeDSPath</a> + <span class="stringliteral">"volleyball-colored.obj"</span>));
+<a name="l00073"></a>00073         mBallScene-&gt;append(mOptimizer-&gt;getWavefrontModel(<a class="code" href="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38">BV3D::MODELS_PATH</a> + <span class="stringliteral">"volleyball-colored.obj"</span>));
 <a name="l00074"></a>00074 
 <a name="l00075"></a>00075         mCurrentMenuScene = <span class="keyword">new</span> VRS::SceneThing(mScene);
 <a name="l00076"></a>00076 
 <a name="l00077"></a>00077         <span class="comment">//VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);</span>
-<a name="l00078"></a>00078         <span class="comment">//mBlobb = VRS::ThreeDSReader::readObject(BV3D::threeDSPath + "blobb1.3ds");    // TODO: exception handling</span>
-<a name="l00079"></a>00079         mBlobb = mOptimizer-&gt;get3dsModel(<a class="code" href="namespace_b_v3_d.html#2da5329962140e15269fe691a1851414">BV3D::threeDSPath</a> + <span class="stringliteral">"blobb1.3ds"</span>, <span class="keyword">false</span>, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">ModelOptimizer::NO_MATERIAL_NO_TEXTURES</a>);
+<a name="l00078"></a>00078         <span class="comment">//mBlobb = VRS::ThreeDSReader::readObject(BV3D::MODELS_PATH + "blobb1.3ds");    // TODO: exception handling</span>
+<a name="l00079"></a>00079         mBlobb = mOptimizer-&gt;get3dsModel(<a class="code" href="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38">BV3D::MODELS_PATH</a> + <span class="stringliteral">"blobb1.3ds"</span>, <span class="keyword">false</span>, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">ModelOptimizer::NO_MATERIAL_NO_TEXTURES</a>);
 <a name="l00080"></a>00080         mBlobbMaterial = <span class="keyword">new</span> VRS::ShapeMaterialGL(VRS::Color(VRS::Color::blue), VRS::Color(0.5), 
 <a name="l00081"></a>00081                 4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), <span class="keyword">true</span>);
 <a name="l00082"></a>00082         mBlobb-&gt;prepend(mBlobbMaterial);
@@ -208,7 +208,7 @@
 <a name="l00179"></a>00179                         <a class="code" href="class_b_v3_d_1_1_menu.html#16d2fc38f9a87c84d87ccc829603cbac">addText</a>(buffer,<span class="stringliteral">"P1Controls"</span>);
 <a name="l00180"></a>00180                         <a class="code" href="class_b_v3_d_1_1_menu.html#16d2fc38f9a87c84d87ccc829603cbac">addText</a>(<span class="stringliteral">"Back"</span>, <span class="stringliteral">"Options"</span>);
 <a name="l00181"></a>00181                         VRS::Color color(<a class="code" href="class_b_v3_d_1_1_menu.html#b88c78a5365ccb4043a73af012afc14f">colors</a>()[mP1Color]);
-<a name="l00182"></a>00182                         color = VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#ac701eae01f5d42a2421fa3e43ce73d0">BV3D::blobbAlpha</a>);
+<a name="l00182"></a>00182                         color = VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#d4a70bc6ae92092b43fd714f9d691695">BV3D::BLOBB_ALPHA</a>);
 <a name="l00183"></a>00183                         mBlobbMaterial-&gt;setPerVertexColor(color);
 <a name="l00184"></a>00184                         mCurrentMenuScene-&gt;append(mBlobb);      <span class="comment">// append blobb after all text</span>
 <a name="l00185"></a>00185                         <span class="keywordflow">break</span>;}
@@ -218,7 +218,7 @@
 <a name="l00189"></a>00189                         <a class="code" href="class_b_v3_d_1_1_menu.html#16d2fc38f9a87c84d87ccc829603cbac">addText</a>(buffer,<span class="stringliteral">"P2Controls"</span>);
 <a name="l00190"></a>00190                         <a class="code" href="class_b_v3_d_1_1_menu.html#16d2fc38f9a87c84d87ccc829603cbac">addText</a>(<span class="stringliteral">"Back"</span>, <span class="stringliteral">"Options"</span>);
 <a name="l00191"></a>00191                         VRS::Color color(<a class="code" href="class_b_v3_d_1_1_menu.html#b88c78a5365ccb4043a73af012afc14f">colors</a>()[mP2Color]);
-<a name="l00192"></a>00192                         color = VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#ac701eae01f5d42a2421fa3e43ce73d0">BV3D::blobbAlpha</a>);
+<a name="l00192"></a>00192                         color = VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#d4a70bc6ae92092b43fd714f9d691695">BV3D::BLOBB_ALPHA</a>);
 <a name="l00193"></a>00193                         mBlobbMaterial-&gt;setPerVertexColor(color);
 <a name="l00194"></a>00194                         mCurrentMenuScene-&gt;append(mBlobb);      <span class="comment">// append blobb after all text</span>
 <a name="l00195"></a>00195                         <span class="keywordflow">break</span>;}
@@ -287,16 +287,16 @@
 <a name="l00258"></a>00258 
 <a name="l00259"></a><a class="code" href="class_b_v3_d_1_1_menu.html#eaa6938d6facf70cc93ab6509f5a4da8">00259</a> VRS::Color <a class="code" href="class_b_v3_d_1_1_menu.html#eaa6938d6facf70cc93ab6509f5a4da8">BV3D::Menu::getPlayer1Color</a>() {
 <a name="l00260"></a>00260         VRS::Color color = <a class="code" href="class_b_v3_d_1_1_menu.html#b88c78a5365ccb4043a73af012afc14f">colors</a>()[mP1Color];
-<a name="l00261"></a>00261         <span class="keywordflow">return</span> VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#ac701eae01f5d42a2421fa3e43ce73d0">BV3D::blobbAlpha</a>);
+<a name="l00261"></a>00261         <span class="keywordflow">return</span> VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#d4a70bc6ae92092b43fd714f9d691695">BV3D::BLOBB_ALPHA</a>);
 <a name="l00262"></a>00262 }
 <a name="l00263"></a>00263 
 <a name="l00264"></a><a class="code" href="class_b_v3_d_1_1_menu.html#59fbdef527b6677b4c22803149d58869">00264</a> VRS::Color <a class="code" href="class_b_v3_d_1_1_menu.html#59fbdef527b6677b4c22803149d58869">BV3D::Menu::getPlayer2Color</a>() {
 <a name="l00265"></a>00265         VRS::Color color = <a class="code" href="class_b_v3_d_1_1_menu.html#b88c78a5365ccb4043a73af012afc14f">colors</a>()[mP2Color];
-<a name="l00266"></a>00266         <span class="keywordflow">return</span> VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#ac701eae01f5d42a2421fa3e43ce73d0">BV3D::blobbAlpha</a>);
+<a name="l00266"></a>00266         <span class="keywordflow">return</span> VRS::Color(color[0],color[1],color[2],<a class="code" href="namespace_b_v3_d.html#d4a70bc6ae92092b43fd714f9d691695">BV3D::BLOBB_ALPHA</a>);
 <a name="l00267"></a>00267 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:56 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

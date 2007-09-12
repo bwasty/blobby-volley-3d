@@ -33,350 +33,350 @@
     <li class="current"><a href="files.html"><span>Files</span></a></li>
   </ul>
 </div>
-<h1>Arena.cpp</h1><a href="_arena_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
-<a name="l00002"></a>00002 <span class="preprocessor">#include "<a class="code" href="_arena_8h.html">Arena.h</a>"</span>
-<a name="l00003"></a>00003 <span class="preprocessor">#include &lt;time.h&gt;</span>
-<a name="l00004"></a>00004 <span class="comment">//#include &lt;vrs/so.h&gt;</span>
-<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;vrs/opengl/shapematerialgl.h&gt;</span>
-<a name="l00006"></a>00006 <span class="preprocessor">#include &lt;vrs/container/fixedsizeiterator.h&gt;</span>
-<a name="l00007"></a>00007 <span class="preprocessor">#include &lt;vrs/polygonset.h&gt;</span>
-<a name="l00008"></a>00008 <span class="preprocessor">#include &lt;vrs/sg/scenething.h&gt;</span>
-<a name="l00009"></a>00009 <span class="preprocessor">#include &lt;vrs/facestyle.h&gt;</span>
-<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;vrs/cylinder.h&gt;</span>
-<a name="l00011"></a>00011 <span class="preprocessor">#include &lt;vrs/cone.h&gt;</span>
-<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;vrs/translation.h&gt;</span>
-<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;vrs/box.h&gt;</span>
-<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;vrs/io/threedsreader.h&gt;</span>
-<a name="l00015"></a>00015 <span class="comment">//#include &lt;vrs/container/array.h&gt;</span>
-<a name="l00016"></a>00016 
-<a name="l00017"></a>00017 <span class="preprocessor">#include &lt;Newton.h&gt;</span>
-<a name="l00018"></a>00018 <span class="preprocessor">#include "<a class="code" href="_ball_8h.html">Ball.h</a>"</span>
-<a name="l00019"></a>00019 <span class="preprocessor">#include "<a class="code" href="_referee_8h.html">Referee.h</a>"</span>
-<a name="l00020"></a>00020 <span class="preprocessor">#include "<a class="code" href="_game_8h.html">Game.h</a>"</span>
-<a name="l00021"></a>00021 <span class="preprocessor">#include "<a class="code" href="_blobb_8h.html">Blobb.h</a>"</span>
-<a name="l00022"></a>00022 <span class="preprocessor">#include "<a class="code" href="_model_optimizer_8h.html">ModelOptimizer.h</a>"</span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="code" href="_a_i_8h.html">AI.h</a>"</span>
-<a name="l00024"></a>00024 
-<a name="l00028"></a><a class="code" href="class_b_v3_d_1_1_arena.html#0893ebd9566eed8f68cab4b8b4fbcf75">00028</a> <a class="code" href="class_b_v3_d_1_1_arena.html#0893ebd9566eed8f68cab4b8b4fbcf75">BV3D::Arena::Arena</a>(<a class="code" href="class_b_v3_d_1_1_game.html" title="The Game class represents an instance of the BlobbyVolley3D game.">BV3D::Game</a>* game) {
-<a name="l00029"></a>00029         mGame = game;
-<a name="l00030"></a>00030 
-<a name="l00031"></a>00031         mScene = <span class="keyword">new</span> VRS::SceneThing();
+<h1>Arena.cpp</h1><a href="_arena_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include "<a class="code" href="_arena_8h.html">Arena.h</a>"</span>
+<a name="l00002"></a>00002 <span class="preprocessor">#include &lt;time.h&gt;</span>
+<a name="l00003"></a>00003 <span class="preprocessor">#include &lt;vrs/opengl/shapematerialgl.h&gt;</span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;vrs/container/fixedsizeiterator.h&gt;</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;vrs/polygonset.h&gt;</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &lt;vrs/sg/scenething.h&gt;</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &lt;vrs/facestyle.h&gt;</span>
+<a name="l00008"></a>00008 <span class="preprocessor">#include &lt;vrs/cylinder.h&gt;</span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &lt;vrs/cone.h&gt;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;vrs/translation.h&gt;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &lt;vrs/box.h&gt;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;vrs/io/threedsreader.h&gt;</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;Newton.h&gt;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include "<a class="code" href="_ball_8h.html">Ball.h</a>"</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include "<a class="code" href="_referee_8h.html">Referee.h</a>"</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include "<a class="code" href="_game_8h.html">Game.h</a>"</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include "<a class="code" href="_blobb_8h.html">Blobb.h</a>"</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include "<a class="code" href="_model_optimizer_8h.html">ModelOptimizer.h</a>"</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include "<a class="code" href="_a_i_8h.html">AI.h</a>"</span>
+<a name="l00021"></a>00021 
+<a name="l00025"></a><a class="code" href="class_b_v3_d_1_1_arena.html#0893ebd9566eed8f68cab4b8b4fbcf75">00025</a> <a class="code" href="class_b_v3_d_1_1_arena.html#0893ebd9566eed8f68cab4b8b4fbcf75">BV3D::Arena::Arena</a>(<a class="code" href="class_b_v3_d_1_1_game.html" title="The Game class represents an instance of the BlobbyVolley3D game.">BV3D::Game</a>* game) {
+<a name="l00026"></a>00026         mGame = game;
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028         mScene = <span class="keyword">new</span> VRS::SceneThing();
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030         mNet = <span class="keyword">new</span> VRS::SceneThing();
+<a name="l00031"></a>00031         mScene-&gt;append(mNet);
 <a name="l00032"></a>00032 
-<a name="l00033"></a>00033         mNet = <span class="keyword">new</span> VRS::SceneThing();
-<a name="l00034"></a>00034         mScene-&gt;append(mNet);
-<a name="l00035"></a>00035 
-<a name="l00036"></a>00036         mWallsVertices = <span class="keyword">new</span> VRS::FixedSizeIterator&lt;VRS::Vector&gt;(10);
+<a name="l00033"></a>00033         mWallsVertices = <span class="keyword">new</span> VRS::FixedSizeIterator&lt;VRS::Vector&gt;(10);
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035         mMaterial = <span class="keyword">new</span> VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.2));
+<a name="l00036"></a>00036         mScene-&gt;append(mMaterial);
 <a name="l00037"></a>00037 
-<a name="l00038"></a>00038         mMaterial = <span class="keyword">new</span> VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.2));
-<a name="l00039"></a>00039         mScene-&gt;append(mMaterial);
-<a name="l00040"></a>00040 
-<a name="l00041"></a>00041         mScene-&gt;append(<span class="keyword">new</span> VRS::FaceStyle(VRS::FaceStyle::Filled,VRS::FaceStyle::Culled));
+<a name="l00038"></a>00038         mScene-&gt;append(<span class="keyword">new</span> VRS::FaceStyle(VRS::FaceStyle::Filled,VRS::FaceStyle::Culled));
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040         mWalls = <span class="keyword">new</span> VRS::PolygonSet(VRS::PolygonSet::QuadStrip,mWallsVertices);
+<a name="l00041"></a>00041         mScene-&gt;append(mWalls);
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043         mWalls = <span class="keyword">new</span> VRS::PolygonSet(VRS::PolygonSet::QuadStrip,mWallsVertices);
-<a name="l00044"></a>00044         mScene-&gt;append(mWalls);
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046         <span class="comment">// Physics setup</span>
-<a name="l00047"></a>00047         mWorld = NewtonCreate(0,0);
-<a name="l00048"></a>00048         <a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">createMaterials</a>();
-<a name="l00049"></a>00049         mFloor = 0;
-<a name="l00050"></a>00050         mBody = 0;
+<a name="l00043"></a>00043         <span class="comment">// Physics setup</span>
+<a name="l00044"></a>00044         mWorld = NewtonCreate(0,0);
+<a name="l00045"></a>00045         <a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">createMaterials</a>();
+<a name="l00046"></a>00046         mFloor = 0;
+<a name="l00047"></a>00047         mBody = 0;
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049         <a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">setExtent</a>(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>);
+<a name="l00050"></a>00050 }
 <a name="l00051"></a>00051 
-<a name="l00052"></a>00052         <a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">setExtent</a>(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>);
-<a name="l00053"></a>00053 }
-<a name="l00054"></a>00054 
-<a name="l00055"></a><a class="code" href="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625">00055</a> <a class="code" href="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625">BV3D::Arena::~Arena</a>() {
-<a name="l00056"></a>00056         <span class="keywordflow">if</span>(mBody) {
-<a name="l00057"></a>00057                 NewtonDestroyBody(mWorld, mBody);
-<a name="l00058"></a>00058                 NewtonDestroyBody(mWorld, mFloor);
-<a name="l00059"></a>00059         }
-<a name="l00060"></a>00060         NewtonDestroy(mWorld);
-<a name="l00061"></a>00061 }
-<a name="l00062"></a>00062 
-<a name="l00063"></a><a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">00063</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">BV3D::Arena::setExtent</a>(VRS::Vector extent) {
-<a name="l00064"></a>00064         VRS::Vector llf(-extent[0]/2, 0.0, -extent[2]/2);
-<a name="l00065"></a>00065         VRS::Vector urb( extent[0]/2, extent[1], extent[2]/2);
-<a name="l00066"></a>00066 
-<a name="l00067"></a>00067         mBounds = VRS::Bounds(llf,urb);
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069         <span class="comment">// set up walls' vertices</span>
-<a name="l00070"></a>00070         mWallsVertices-&gt;set(0, VRS::Vector(urb[0],llf[1],urb[2]));
-<a name="l00071"></a>00071         mWallsVertices-&gt;set(1, VRS::Vector(urb[0],urb[1],urb[2]));
-<a name="l00072"></a>00072         mWallsVertices-&gt;set(2, VRS::Vector(llf[0],llf[1],urb[2]));
-<a name="l00073"></a>00073         mWallsVertices-&gt;set(3, VRS::Vector(llf[0],urb[1],urb[2]));
+<a name="l00052"></a><a class="code" href="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625">00052</a> <a class="code" href="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625">BV3D::Arena::~Arena</a>() {
+<a name="l00053"></a>00053         <span class="keywordflow">if</span>(mBody) {
+<a name="l00054"></a>00054                 NewtonDestroyBody(mWorld, mBody);
+<a name="l00055"></a>00055                 NewtonDestroyBody(mWorld, mFloor);
+<a name="l00056"></a>00056         }
+<a name="l00057"></a>00057         NewtonDestroy(mWorld);
+<a name="l00058"></a>00058 }
+<a name="l00059"></a>00059 
+<a name="l00060"></a><a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">00060</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">BV3D::Arena::setExtent</a>(VRS::Vector extent) {
+<a name="l00061"></a>00061         VRS::Vector llf(-extent[0]/2, 0.0, -extent[2]/2);
+<a name="l00062"></a>00062         VRS::Vector urb( extent[0]/2, extent[1], extent[2]/2);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064         mBounds = VRS::Bounds(llf,urb);
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066         <span class="comment">// set up walls' vertices</span>
+<a name="l00067"></a>00067         mWallsVertices-&gt;set(0, VRS::Vector(urb[0],llf[1],urb[2]));
+<a name="l00068"></a>00068         mWallsVertices-&gt;set(1, VRS::Vector(urb[0],urb[1],urb[2]));
+<a name="l00069"></a>00069         mWallsVertices-&gt;set(2, VRS::Vector(llf[0],llf[1],urb[2]));
+<a name="l00070"></a>00070         mWallsVertices-&gt;set(3, VRS::Vector(llf[0],urb[1],urb[2]));
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072         mWallsVertices-&gt;set(4, VRS::Vector(llf[0],llf[1],llf[2]));
+<a name="l00073"></a>00073         mWallsVertices-&gt;set(5, VRS::Vector(llf[0],urb[1],llf[2]));
 <a name="l00074"></a>00074 
-<a name="l00075"></a>00075         mWallsVertices-&gt;set(4, VRS::Vector(llf[0],llf[1],llf[2]));
-<a name="l00076"></a>00076         mWallsVertices-&gt;set(5, VRS::Vector(llf[0],urb[1],llf[2]));
+<a name="l00075"></a>00075         mWallsVertices-&gt;set(6, VRS::Vector(urb[0],llf[1],llf[2]));
+<a name="l00076"></a>00076         mWallsVertices-&gt;set(7, VRS::Vector(urb[0],urb[1],llf[2]));
 <a name="l00077"></a>00077 
-<a name="l00078"></a>00078         mWallsVertices-&gt;set(6, VRS::Vector(urb[0],llf[1],llf[2]));
-<a name="l00079"></a>00079         mWallsVertices-&gt;set(7, VRS::Vector(urb[0],urb[1],llf[2]));
+<a name="l00078"></a>00078         mWallsVertices-&gt;set(8, VRS::Vector(urb[0],llf[1],urb[2]));
+<a name="l00079"></a>00079         mWallsVertices-&gt;set(9, VRS::Vector(urb[0],urb[1],urb[2]));
 <a name="l00080"></a>00080 
-<a name="l00081"></a>00081         mWallsVertices-&gt;set(8, VRS::Vector(urb[0],llf[1],urb[2]));
-<a name="l00082"></a>00082         mWallsVertices-&gt;set(9, VRS::Vector(urb[0],urb[1],urb[2]));
+<a name="l00081"></a>00081         <span class="comment">// (re)create physical arena body</span>
+<a name="l00082"></a>00082         <span class="keyword">const</span> dFloat wallDepth = 1.0f;
 <a name="l00083"></a>00083 
-<a name="l00084"></a>00084         <span class="comment">// (re)create physical arena body</span>
-<a name="l00085"></a>00085         <span class="keyword">const</span> dFloat wallDepth = 1.0f;
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087         <span class="comment">// destroy old physical arena body if it exists</span>
-<a name="l00088"></a>00088         <span class="keywordflow">if</span>(mBody) {
-<a name="l00089"></a>00089                 NewtonDestroyBody(mWorld, mBody);
-<a name="l00090"></a>00090                 NewtonDestroyBody(mWorld, mFloor);
-<a name="l00091"></a>00091         }
+<a name="l00084"></a>00084         <span class="comment">// destroy old physical arena body if it exists</span>
+<a name="l00085"></a>00085         <span class="keywordflow">if</span>(mBody) {
+<a name="l00086"></a>00086                 NewtonDestroyBody(mWorld, mBody);
+<a name="l00087"></a>00087                 NewtonDestroyBody(mWorld, mFloor);
+<a name="l00088"></a>00088         }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090         NewtonCollision* collision[5];
+<a name="l00091"></a>00091         dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
 <a name="l00092"></a>00092 
-<a name="l00093"></a>00093         NewtonCollision* collision[5];
-<a name="l00094"></a>00094         dFloat matrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0};
-<a name="l00095"></a>00095 
-<a name="l00096"></a>00096         <span class="comment">// create floor</span>
-<a name="l00097"></a>00097         matrix[12] = 0.0;
-<a name="l00098"></a>00098         matrix[13] = (dFloat) -(wallDepth / 2);
-<a name="l00099"></a>00099         matrix[14] = 0.0;
-<a name="l00100"></a>00100         <span class="comment">//collision[0] = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);</span>
-<a name="l00101"></a>00101         NewtonCollision* floorCollision = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
-<a name="l00102"></a>00102         mFloor = NewtonCreateBody(mWorld, floorCollision);
-<a name="l00103"></a>00103         NewtonBodySetMaterialGroupID(mFloor, mFloorMaterialID);
-<a name="l00104"></a>00104         <span class="comment">//NewtonBodySetContinuousCollisionMode(mFloor, 0);</span>
-<a name="l00105"></a>00105         NewtonReleaseCollision(mWorld, floorCollision);
-<a name="l00106"></a>00106 
-<a name="l00107"></a>00107         <span class="comment">// create wall bounding the arena on the positive z axis</span>
-<a name="l00108"></a>00108         matrix[12] = 0.0;
-<a name="l00109"></a>00109         matrix[13] = (dFloat) (extent[1] / 2);
-<a name="l00110"></a>00110         matrix[14] = (dFloat) (extent[2] + wallDepth) / 2;
-<a name="l00111"></a>00111         collision[0] = NewtonCreateBox(mWorld, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
-<a name="l00112"></a>00112 
-<a name="l00113"></a>00113         <span class="comment">// create wall bounding the arena on the negative z axis</span>
-<a name="l00114"></a>00114         matrix[12] = 0.0;
-<a name="l00115"></a>00115         matrix[13] = (dFloat)  (extent[1] / 2);
-<a name="l00116"></a>00116         matrix[14] = (dFloat) -(extent[2] + wallDepth) / 2;
-<a name="l00117"></a>00117         collision[1] = NewtonCreateBox(mWorld, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
-<a name="l00118"></a>00118 
-<a name="l00119"></a>00119         <span class="comment">// create wall bounding the arena on the negative x axis</span>
-<a name="l00120"></a>00120         matrix[12] = (dFloat) -(extent[0] + wallDepth) / 2;
-<a name="l00121"></a>00121         matrix[13] = (dFloat)  (extent[1] / 2);
-<a name="l00122"></a>00122         matrix[14] = 0.0;
-<a name="l00123"></a>00123         collision[2] = NewtonCreateBox(mWorld, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125         <span class="comment">// create wall bounding the arena on the positive x axis</span>
-<a name="l00126"></a>00126         matrix[12] = (dFloat) (extent[0] + wallDepth) / 2;
-<a name="l00127"></a>00127         matrix[13] = (dFloat) (extent[1] / 2);
-<a name="l00128"></a>00128         matrix[14] = 0.0;
-<a name="l00129"></a>00129         collision[3] = NewtonCreateBox(mWorld, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
-<a name="l00130"></a>00130 
-<a name="l00131"></a>00131         <span class="comment">// combine walls and create physical arena body from compound collision</span>
-<a name="l00132"></a>00132         NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(mWorld, 4, collision);
-<a name="l00133"></a>00133         mBody = NewtonCreateBody(mWorld, compoundCollision);
-<a name="l00134"></a>00134         NewtonBodySetMaterialGroupID(mBody, mWallMaterialID);
-<a name="l00135"></a>00135 
-<a name="l00136"></a>00136         <span class="comment">// release all collision references</span>
-<a name="l00137"></a>00137         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;4;i++)
-<a name="l00138"></a>00138                 NewtonReleaseCollision(mWorld, collision[i]);
-<a name="l00139"></a>00139         NewtonReleaseCollision(mWorld, compoundCollision);
-<a name="l00140"></a>00140 
-<a name="l00141"></a>00141 
-<a name="l00142"></a>00142         <span class="comment">// create net</span>
-<a name="l00143"></a>00143         <span class="comment">/* net1.3ds</span>
-<a name="l00144"></a>00144 <span class="comment">                width: 12.0             height: 2.1             depth: 0.14</span>
-<a name="l00145"></a>00145 <span class="comment">        */</span>
-<a name="l00146"></a>00146         VRS::SO&lt;ModelOptimizer&gt; optimizer = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html">ModelOptimizer</a>();
-<a name="l00147"></a>00147         <span class="keywordtype">double</span> width3ds = 12.0;
-<a name="l00148"></a>00148         <span class="keywordtype">double</span> height3ds = 2.1;
-<a name="l00149"></a>00149         VRS::SO&lt;VRS::SceneThing&gt; localNet = <span class="keyword">new</span> VRS::SceneThing(mNet);
-<a name="l00150"></a>00150         <span class="keywordtype">double</span> netDepth = 0.03;
-<a name="l00151"></a>00151         <span class="keywordtype">double</span> poleOffset = 1.0;
-<a name="l00152"></a>00152         Bounds netBoxBounds = Bounds(Vector(netDepth, <a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>/2+0.1, <a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]/2+0.1), Vector(-netDepth, <a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>-0.05, -(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]/2+0.1)));
-<a name="l00153"></a>00153         <a class="code" href="namespace_v_r_s.html#3f4320f2f313cf5950437c4664af58b8">VRS::Matrix</a> netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]/2 + poleOffset)), -90.0);
-<a name="l00154"></a>00154         netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, <a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a> - height3ds, -(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]/2 + poleOffset)));
-<a name="l00155"></a>00155         netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">arenaExtent</a>[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
-<a name="l00156"></a>00156         localNet-&gt;setLocalMatrix(netMatrix);
-<a name="l00157"></a>00157         localNet-&gt;append(optimizer-&gt;get3dsModel(<a class="code" href="namespace_b_v3_d.html#2da5329962140e15269fe691a1851414">BV3D::threeDSPath</a> + <span class="stringliteral">"net1.3ds"</span>));
-<a name="l00158"></a>00158 
-<a name="l00159"></a>00159         <span class="keywordtype">double</span> poleRadius = 0.14;
-<a name="l00160"></a>00160         mNet-&gt;append(<span class="keyword">new</span> VRS::ShapeMaterialGL(VRS::Color(0.3,0.3,0.3,1.0)));
-<a name="l00161"></a>00161         VRS::SO&lt;VRS::Cylinder&gt; cylinder = <span class="keyword">new</span> VRS::Cylinder(Vector(0, <a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>, 0), Vector(0,0,0), poleRadius);
-<a name="l00162"></a>00162         VRS::SO&lt;VRS::Cone&gt; cone = <span class="keyword">new</span> VRS::Cone(Vector(0,<a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>+0.1,0), Vector(0, <a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>, 0), 0.0, poleRadius);
-<a name="l00163"></a>00163         VRS::SO&lt;VRS::SceneThing&gt; pole1 = <span class="keyword">new</span> VRS::SceneThing();
-<a name="l00164"></a>00164         VRS::SO&lt;VRS::SceneThing&gt; pole2 = <span class="keyword">new</span> VRS::SceneThing();
-<a name="l00165"></a>00165         mNet-&gt;append(pole1);
-<a name="l00166"></a>00166         mNet-&gt;append(pole2);
-<a name="l00167"></a>00167         pole1-&gt;append(<span class="keyword">new</span> VRS::Translation(Vector(0,0,-(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]/2+poleRadius+poleOffset))));
-<a name="l00168"></a>00168         pole1-&gt;append(cone);
-<a name="l00169"></a>00169         pole1-&gt;append(cylinder);
-<a name="l00170"></a>00170         pole2-&gt;append(<span class="keyword">new</span> VRS::Translation(Vector(0,0,<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]/2+poleRadius+poleOffset)));
-<a name="l00171"></a>00171         pole2-&gt;append(cone);
-<a name="l00172"></a>00172         pole2-&gt;append(cylinder);
-<a name="l00173"></a>00173 
-<a name="l00174"></a>00174         <span class="comment">//physical part of net</span>
-<a name="l00175"></a>00175         matrix[12] = 0.0;
-<a name="l00176"></a>00176         matrix[13] = (dFloat)(<a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>/2+0.1 + (netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1])/2);
-<a name="l00177"></a>00177         matrix[14] = 0.0;
-<a name="l00178"></a>00178         NewtonCollision* netCollision = NewtonCreateBox(mWorld, (dFloat)(netBoxBounds.getLLF()[0] - netBoxBounds.getURB()[0]), 
-<a name="l00179"></a>00179                                                                                                                         (dFloat)(netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1]),
-<a name="l00180"></a>00180                                                                                                                         (dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);
-<a name="l00181"></a>00181         NewtonBody* netBody = NewtonCreateBody(mWorld, netCollision);
-<a name="l00182"></a>00182         NewtonReleaseCollision(mWorld, netCollision);
-<a name="l00183"></a>00183         NewtonBodySetMaterialGroupID(netBody, mNetMaterialID);
-<a name="l00184"></a>00184 
-<a name="l00185"></a>00185         <span class="comment">// invisible Barrier (only physical, positioned under the net, lets ball through but stops blobbs)</span>
-<a name="l00186"></a>00186         matrix[12] = 0.0;
-<a name="l00187"></a>00187         matrix[13] = (dFloat)(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[1]/2);
-<a name="l00188"></a>00188         matrix[14] = 0.0;
-<a name="l00189"></a>00189         NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(mWorld, 0.06f, 
-<a name="l00190"></a>00190                                                                                         (dFloat)<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[1],
-<a name="l00191"></a>00191                                                                                         (dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix); 
-<a name="l00192"></a>00192         NewtonBody* invisibleBarrierBody = NewtonCreateBody(mWorld, invisibleBarrierCollision);
-<a name="l00193"></a>00193         NewtonReleaseCollision(mWorld, invisibleBarrierCollision);
-<a name="l00194"></a>00194         NewtonBodySetMaterialGroupID(invisibleBarrierBody, mInvisibleBarrierID);
-<a name="l00195"></a>00195 }
-<a name="l00196"></a>00196 
-<a name="l00197"></a>00197 
-<a name="l00198"></a><a class="code" href="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294">00198</a> VRS::Bounds <a class="code" href="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294">BV3D::Arena::getTeamBounds</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team) {
-<a name="l00199"></a>00199         VRS::Vector llf = mBounds.getLLF();
-<a name="l00200"></a>00200         VRS::Vector urb = mBounds.getURB();
-<a name="l00201"></a>00201 
-<a name="l00202"></a>00202         <span class="keywordflow">if</span>(team == <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>)
-<a name="l00203"></a>00203                 <span class="keywordflow">return</span> VRS::Bounds(VRS::Vector(0.0,0.0,llf[2]), urb);
-<a name="l00204"></a>00204         <span class="keywordflow">else</span>
-<a name="l00205"></a>00205                 <span class="keywordflow">return</span> VRS::Bounds(llf, VRS::Vector(0.0,urb[1],urb[2]));
-<a name="l00206"></a>00206 }
-<a name="l00207"></a>00207 
-<a name="l00208"></a><a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">00208</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">BV3D::Arena::updateWorld</a>(<span class="keywordtype">float</span> timestep) {
-<a name="l00209"></a>00209         NewtonUpdate(mWorld, (dFloat)timestep);
-<a name="l00210"></a>00210 }
-<a name="l00211"></a>00211 
-<a name="l00212"></a><a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">00212</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">BV3D::Arena::createMaterials</a>() {
-<a name="l00213"></a>00213         <span class="comment">// create all material IDs</span>
-<a name="l00214"></a>00214         mBallMaterialID = NewtonMaterialCreateGroupID(mWorld);
-<a name="l00215"></a>00215         mBlobbMaterialID = NewtonMaterialCreateGroupID(mWorld);
-<a name="l00216"></a>00216         mWallMaterialID = NewtonMaterialCreateGroupID(mWorld);
-<a name="l00217"></a>00217         mFloorMaterialID = NewtonMaterialCreateGroupID(mWorld);
-<a name="l00218"></a>00218         mNetMaterialID = NewtonMaterialCreateGroupID(mWorld);
-<a name="l00219"></a>00219         mInvisibleBarrierID = NewtonMaterialCreateGroupID(mWorld); <span class="comment">// invisible Wall beneath the net - lets ball through but not blobb</span>
-<a name="l00220"></a>00220         mAiTriggerID = NewtonMaterialCreateGroupID(mWorld);
-<a name="l00221"></a>00221 }
-<a name="l00222"></a>00222 
-<a name="l00223"></a><a class="code" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">00223</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">BV3D::Arena::setupMaterials</a>() {
-<a name="l00224"></a>00224         <span class="comment">// get the default material ID</span>
-<a name="l00225"></a>00225         <span class="keywordtype">int</span> defaultID = NewtonMaterialGetDefaultGroupID (mWorld);
-<a name="l00226"></a>00226 
-<a name="l00227"></a>00227         <span class="comment">// set material interaction properties and callbacks if they should differ from the default value/behaviour</span>
-<a name="l00228"></a>00228         <a class="code" href="struct_collision_data.html">CollisionData</a>* collData = <span class="keyword">new</span> <a class="code" href="struct_collision_data.html">CollisionData</a>();
-<a name="l00229"></a>00229         collData-&gt;<a class="code" href="struct_collision_data.html#ea158daedfc997ea448a701ffdd32256">game</a> = mGame;
-<a name="l00230"></a>00230         collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a> = <span class="keyword">this</span>;
-<a name="l00231"></a>00231         collData-&gt;<a class="code" href="struct_collision_data.html#2d5e6593eaef7f140dcfd847062dc5f4">ball</a> = mGame-&gt;getBall();
-<a name="l00232"></a>00232         collData-&gt;<a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a> = mGame-&gt;getReferee();
-<a name="l00233"></a>00233         collData-&gt;<a class="code" href="struct_collision_data.html#99dc1482491300831f9ac80689f461dd">world</a> = mWorld;
-<a name="l00234"></a>00234 
-<a name="l00235"></a>00235         <span class="comment">// ball on blobb - high elasticity</span>
-<a name="l00236"></a>00236         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mBlobbMaterialID, 0.8f);
-<a name="l00237"></a>00237         NewtonMaterialSetContinuousCollisionMode(mWorld, mBallMaterialID, mBlobbMaterialID, 1);
-<a name="l00238"></a>00238         <a class="code" href="struct_collision_data.html">CollisionData</a>* collDataBallBlobb = <span class="keyword">new</span> <a class="code" href="struct_collision_data.html">CollisionData</a>(*collData);
-<a name="l00239"></a>00239         collDataBallBlobb-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> = mBallMaterialID;
-<a name="l00240"></a>00240         collDataBallBlobb-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> = mBlobbMaterialID;
-<a name="l00241"></a>00241         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mBlobbMaterialID, collDataBallBlobb, blobbContactBeginCallback, contactProcessCallback, NULL);
+<a name="l00093"></a>00093         <span class="comment">// create floor</span>
+<a name="l00094"></a>00094         matrix[12] = 0.0;
+<a name="l00095"></a>00095         matrix[13] = (dFloat) -(wallDepth / 2);
+<a name="l00096"></a>00096         matrix[14] = 0.0;
+<a name="l00097"></a>00097         <span class="comment">//collision[0] = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);</span>
+<a name="l00098"></a>00098         NewtonCollision* floorCollision = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
+<a name="l00099"></a>00099         mFloor = NewtonCreateBody(mWorld, floorCollision);
+<a name="l00100"></a>00100         NewtonBodySetMaterialGroupID(mFloor, mFloorMaterialID);
+<a name="l00101"></a>00101         <span class="comment">//NewtonBodySetContinuousCollisionMode(mFloor, 0);</span>
+<a name="l00102"></a>00102         NewtonReleaseCollision(mWorld, floorCollision);
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104         <span class="comment">// create wall bounding the arena on the positive z axis</span>
+<a name="l00105"></a>00105         matrix[12] = 0.0;
+<a name="l00106"></a>00106         matrix[13] = (dFloat) (extent[1] / 2);
+<a name="l00107"></a>00107         matrix[14] = (dFloat) (extent[2] + wallDepth) / 2;
+<a name="l00108"></a>00108         collision[0] = NewtonCreateBox(mWorld, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110         <span class="comment">// create wall bounding the arena on the negative z axis</span>
+<a name="l00111"></a>00111         matrix[12] = 0.0;
+<a name="l00112"></a>00112         matrix[13] = (dFloat)  (extent[1] / 2);
+<a name="l00113"></a>00113         matrix[14] = (dFloat) -(extent[2] + wallDepth) / 2;
+<a name="l00114"></a>00114         collision[1] = NewtonCreateBox(mWorld, (dFloat)extent[0], (dFloat)extent[1], wallDepth, matrix);
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116         <span class="comment">// create wall bounding the arena on the negative x axis</span>
+<a name="l00117"></a>00117         matrix[12] = (dFloat) -(extent[0] + wallDepth) / 2;
+<a name="l00118"></a>00118         matrix[13] = (dFloat)  (extent[1] / 2);
+<a name="l00119"></a>00119         matrix[14] = 0.0;
+<a name="l00120"></a>00120         collision[2] = NewtonCreateBox(mWorld, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122         <span class="comment">// create wall bounding the arena on the positive x axis</span>
+<a name="l00123"></a>00123         matrix[12] = (dFloat) (extent[0] + wallDepth) / 2;
+<a name="l00124"></a>00124         matrix[13] = (dFloat) (extent[1] / 2);
+<a name="l00125"></a>00125         matrix[14] = 0.0;
+<a name="l00126"></a>00126         collision[3] = NewtonCreateBox(mWorld, wallDepth, (dFloat)extent[1], (dFloat)extent[2], matrix);
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128         <span class="comment">// combine walls and create physical arena body from compound collision</span>
+<a name="l00129"></a>00129         NewtonCollision* compoundCollision = NewtonCreateCompoundCollision(mWorld, 4, collision);
+<a name="l00130"></a>00130         mBody = NewtonCreateBody(mWorld, compoundCollision);
+<a name="l00131"></a>00131         NewtonBodySetMaterialGroupID(mBody, mWallMaterialID);
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133         <span class="comment">// release all collision references</span>
+<a name="l00134"></a>00134         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;4;i++)
+<a name="l00135"></a>00135                 NewtonReleaseCollision(mWorld, collision[i]);
+<a name="l00136"></a>00136         NewtonReleaseCollision(mWorld, compoundCollision);
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139         <span class="comment">// create net</span>
+<a name="l00140"></a>00140         <span class="comment">/* net1.3ds</span>
+<a name="l00141"></a>00141 <span class="comment">                width: 12.0             height: 2.1             depth: 0.14</span>
+<a name="l00142"></a>00142 <span class="comment">        */</span>
+<a name="l00143"></a>00143         VRS::SO&lt;ModelOptimizer&gt; optimizer = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html">ModelOptimizer</a>();
+<a name="l00144"></a>00144         <span class="keywordtype">double</span> width3ds = 12.0;
+<a name="l00145"></a>00145         <span class="keywordtype">double</span> height3ds = 2.1;
+<a name="l00146"></a>00146         VRS::SO&lt;VRS::SceneThing&gt; localNet = <span class="keyword">new</span> VRS::SceneThing(mNet);
+<a name="l00147"></a>00147         <span class="keywordtype">double</span> netDepth = 0.03;
+<a name="l00148"></a>00148         <span class="keywordtype">double</span> poleOffset = 1.0;
+<a name="l00149"></a>00149         Bounds netBoxBounds = Bounds(Vector(netDepth, <a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>/2+0.1, <a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]/2+0.1), Vector(-netDepth, <a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>-0.05, -(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]/2+0.1)));
+<a name="l00150"></a>00150         <a class="code" href="namespace_v_r_s.html#3f4320f2f313cf5950437c4664af58b8">VRS::Matrix</a> netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]/2 + poleOffset)), -90.0);
+<a name="l00151"></a>00151         netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, <a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a> - height3ds, -(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]/2 + poleOffset)));
+<a name="l00152"></a>00152         netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">ARENA_EXTENT</a>[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+<a name="l00153"></a>00153         localNet-&gt;setLocalMatrix(netMatrix);
+<a name="l00154"></a>00154         localNet-&gt;append(optimizer-&gt;get3dsModel(<a class="code" href="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38">BV3D::MODELS_PATH</a> + <span class="stringliteral">"net1.3ds"</span>));
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156         <span class="keywordtype">double</span> poleRadius = 0.14;
+<a name="l00157"></a>00157         mNet-&gt;append(<span class="keyword">new</span> VRS::ShapeMaterialGL(VRS::Color(0.6,0.6,0.6,1.0)));
+<a name="l00158"></a>00158         VRS::SO&lt;VRS::Cylinder&gt; cylinder = <span class="keyword">new</span> VRS::Cylinder(Vector(0, <a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>, 0), Vector(0,0,0), poleRadius);
+<a name="l00159"></a>00159         VRS::SO&lt;VRS::Cone&gt; cone = <span class="keyword">new</span> VRS::Cone(Vector(0,<a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>+0.1,0), Vector(0, <a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>, 0), 0.0, poleRadius);
+<a name="l00160"></a>00160         VRS::SO&lt;VRS::SceneThing&gt; pole1 = <span class="keyword">new</span> VRS::SceneThing();
+<a name="l00161"></a>00161         VRS::SO&lt;VRS::SceneThing&gt; pole2 = <span class="keyword">new</span> VRS::SceneThing();
+<a name="l00162"></a>00162         mNet-&gt;append(pole1);
+<a name="l00163"></a>00163         mNet-&gt;append(pole2);
+<a name="l00164"></a>00164         pole1-&gt;append(<span class="keyword">new</span> VRS::Translation(Vector(0,0,-(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]/2+poleRadius+poleOffset))));
+<a name="l00165"></a>00165         pole1-&gt;append(cone);
+<a name="l00166"></a>00166         pole1-&gt;append(cylinder);
+<a name="l00167"></a>00167         pole2-&gt;append(<span class="keyword">new</span> VRS::Translation(Vector(0,0,<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]/2+poleRadius+poleOffset)));
+<a name="l00168"></a>00168         pole2-&gt;append(cone);
+<a name="l00169"></a>00169         pole2-&gt;append(cylinder);
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171         <span class="comment">//physical part of net</span>
+<a name="l00172"></a>00172         matrix[12] = 0.0;
+<a name="l00173"></a>00173         matrix[13] = (dFloat)(<a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>/2+0.1 + (netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1])/2);
+<a name="l00174"></a>00174         matrix[14] = 0.0;
+<a name="l00175"></a>00175         NewtonCollision* netCollision = NewtonCreateBox(mWorld, (dFloat)(netBoxBounds.getLLF()[0] - netBoxBounds.getURB()[0]), 
+<a name="l00176"></a>00176                                                                                                                         (dFloat)(netBoxBounds.getURB()[1] - netBoxBounds.getLLF()[1]),
+<a name="l00177"></a>00177                                                                                                                         (dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix);
+<a name="l00178"></a>00178         NewtonBody* netBody = NewtonCreateBody(mWorld, netCollision);
+<a name="l00179"></a>00179         NewtonReleaseCollision(mWorld, netCollision);
+<a name="l00180"></a>00180         NewtonBodySetMaterialGroupID(netBody, mNetMaterialID);
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182         <span class="comment">// invisible Barrier (only physical, positioned under the net, lets ball through but stops blobbs)</span>
+<a name="l00183"></a>00183         matrix[12] = 0.0;
+<a name="l00184"></a>00184         matrix[13] = (dFloat)(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[1]/2);
+<a name="l00185"></a>00185         matrix[14] = 0.0;
+<a name="l00186"></a>00186         NewtonCollision* invisibleBarrierCollision = NewtonCreateBox(mWorld, 0.06f, 
+<a name="l00187"></a>00187                                                                                         (dFloat)<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[1],
+<a name="l00188"></a>00188                                                                                         (dFloat)(netBoxBounds.getLLF()[2] - netBoxBounds.getURB()[2]), matrix); 
+<a name="l00189"></a>00189         NewtonBody* invisibleBarrierBody = NewtonCreateBody(mWorld, invisibleBarrierCollision);
+<a name="l00190"></a>00190         NewtonReleaseCollision(mWorld, invisibleBarrierCollision);
+<a name="l00191"></a>00191         NewtonBodySetMaterialGroupID(invisibleBarrierBody, mInvisibleBarrierID);
+<a name="l00192"></a>00192 }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 
+<a name="l00195"></a><a class="code" href="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294">00195</a> VRS::Bounds <a class="code" href="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294">BV3D::Arena::getTeamBounds</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team) {
+<a name="l00196"></a>00196         VRS::Vector llf = mBounds.getLLF();
+<a name="l00197"></a>00197         VRS::Vector urb = mBounds.getURB();
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199         <span class="keywordflow">if</span>(team == <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>)
+<a name="l00200"></a>00200                 <span class="keywordflow">return</span> VRS::Bounds(VRS::Vector(0.0,0.0,llf[2]), urb);
+<a name="l00201"></a>00201         <span class="keywordflow">else</span>
+<a name="l00202"></a>00202                 <span class="keywordflow">return</span> VRS::Bounds(llf, VRS::Vector(0.0,urb[1],urb[2]));
+<a name="l00203"></a>00203 }
+<a name="l00204"></a>00204 
+<a name="l00205"></a><a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">00205</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">BV3D::Arena::updateWorld</a>(<span class="keywordtype">float</span> timestep) {
+<a name="l00206"></a>00206         NewtonUpdate(mWorld, (dFloat)timestep);
+<a name="l00207"></a>00207 }
+<a name="l00208"></a>00208 
+<a name="l00209"></a><a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">00209</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">BV3D::Arena::createMaterials</a>() {
+<a name="l00210"></a>00210         <span class="comment">// create all material IDs</span>
+<a name="l00211"></a>00211         mBallMaterialID = NewtonMaterialCreateGroupID(mWorld);
+<a name="l00212"></a>00212         mBlobbMaterialID = NewtonMaterialCreateGroupID(mWorld);
+<a name="l00213"></a>00213         mWallMaterialID = NewtonMaterialCreateGroupID(mWorld);
+<a name="l00214"></a>00214         mFloorMaterialID = NewtonMaterialCreateGroupID(mWorld);
+<a name="l00215"></a>00215         mNetMaterialID = NewtonMaterialCreateGroupID(mWorld);
+<a name="l00216"></a>00216         mInvisibleBarrierID = NewtonMaterialCreateGroupID(mWorld); <span class="comment">// invisible Wall beneath the net - lets ball through but not blobb</span>
+<a name="l00217"></a>00217         mAiTriggerID = NewtonMaterialCreateGroupID(mWorld);
+<a name="l00218"></a>00218 }
+<a name="l00219"></a>00219 
+<a name="l00220"></a><a class="code" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">00220</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">BV3D::Arena::setupMaterials</a>() {
+<a name="l00221"></a>00221         <span class="comment">// get the default material ID</span>
+<a name="l00222"></a>00222         <span class="keywordtype">int</span> defaultID = NewtonMaterialGetDefaultGroupID (mWorld);
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224         <span class="comment">// set material interaction properties and callbacks if they should differ from the default value/behaviour</span>
+<a name="l00225"></a>00225         <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>* collData = <span class="keyword">new</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>();
+<a name="l00226"></a>00226         collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#db06d3c286fd237b7873ef87dd38233f">game</a> = mGame;
+<a name="l00227"></a>00227         collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#990b84774faec54e4fbdd17fed214d64">arena</a> = <span class="keyword">this</span>;
+<a name="l00228"></a>00228         collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#eb0d7b573c05e868d520fca33a4008f4">ball</a> = mGame-&gt;getBall();
+<a name="l00229"></a>00229         collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#b135cfcc3a0a8a6500003662d0417c8a">referee</a> = mGame-&gt;getReferee();
+<a name="l00230"></a>00230         collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#7837367420d51a0480f1af07815a4a19">world</a> = mWorld;
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232         <span class="comment">// ball on blobb - high elasticity</span>
+<a name="l00233"></a>00233         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mBlobbMaterialID, 0.8f);
+<a name="l00234"></a>00234         NewtonMaterialSetContinuousCollisionMode(mWorld, mBallMaterialID, mBlobbMaterialID, 1);
+<a name="l00235"></a>00235         <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>* collDataBallBlobb = <span class="keyword">new</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>(*collData);
+<a name="l00236"></a>00236         collDataBallBlobb-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">material1</a> = mBallMaterialID;
+<a name="l00237"></a>00237         collDataBallBlobb-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">material2</a> = mBlobbMaterialID;
+<a name="l00238"></a>00238         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mBlobbMaterialID, collDataBallBlobb, blobbContactBeginCallback, contactProcessCallback, NULL);
+<a name="l00239"></a>00239 
+<a name="l00240"></a>00240         <span class="comment">// ball on wall - high elasticity</span>
+<a name="l00241"></a>00241         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mWallMaterialID, 0.9f);
 <a name="l00242"></a>00242 
-<a name="l00243"></a>00243         <span class="comment">// ball on wall - high elasticity</span>
-<a name="l00244"></a>00244         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mWallMaterialID, 0.9f);
-<a name="l00245"></a>00245 
-<a name="l00246"></a>00246         <span class="comment">// ball on floor - low elasticity</span>
-<a name="l00247"></a>00247         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mFloorMaterialID, 0.2f);
-<a name="l00248"></a>00248         <a class="code" href="struct_collision_data.html">CollisionData</a>* collDataBallFloor = <span class="keyword">new</span> <a class="code" href="struct_collision_data.html">CollisionData</a>(*collData);
-<a name="l00249"></a>00249         collDataBallFloor-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> = mBallMaterialID;
-<a name="l00250"></a>00250         collDataBallFloor-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> = mFloorMaterialID;
-<a name="l00251"></a>00251         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mFloorMaterialID, collDataBallFloor, NULL, contactProcessCallback, NULL);
+<a name="l00243"></a>00243         <span class="comment">// ball on floor - low elasticity</span>
+<a name="l00244"></a>00244         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mFloorMaterialID, 0.2f);
+<a name="l00245"></a>00245         <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>* collDataBallFloor = <span class="keyword">new</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>(*collData);
+<a name="l00246"></a>00246         collDataBallFloor-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">material1</a> = mBallMaterialID;
+<a name="l00247"></a>00247         collDataBallFloor-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">material2</a> = mFloorMaterialID;
+<a name="l00248"></a>00248         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mFloorMaterialID, collDataBallFloor, NULL, contactProcessCallback, NULL);
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250         <span class="comment">// ball on net - middle elasticity</span>
+<a name="l00251"></a>00251         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mNetMaterialID, 0.75f);
 <a name="l00252"></a>00252 
-<a name="l00253"></a>00253         <span class="comment">// ball on net - middle elasticity</span>
-<a name="l00254"></a>00254         NewtonMaterialSetDefaultElasticity (mWorld, mBallMaterialID, mNetMaterialID, 0.75f);
-<a name="l00255"></a>00255 
-<a name="l00256"></a>00256         <span class="comment">// ball on invisibleBarrier - no collision</span>
-<a name="l00257"></a>00257         <a class="code" href="struct_collision_data.html">CollisionData</a>* collDataBallBarrier = <span class="keyword">new</span> <a class="code" href="struct_collision_data.html">CollisionData</a>(*collData);
-<a name="l00258"></a>00258         collDataBallBarrier-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> = mBallMaterialID;
-<a name="l00259"></a>00259         collDataBallBarrier-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> = mInvisibleBarrierID;
-<a name="l00260"></a>00260         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mInvisibleBarrierID, collDataBallBarrier, NULL, contactProcessCallback, NULL);
-<a name="l00261"></a>00261 
-<a name="l00262"></a>00262         <span class="comment">// blobb on invisibleBarrier - middle elasticity</span>
-<a name="l00263"></a>00263         NewtonMaterialSetDefaultElasticity (mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
-<a name="l00264"></a>00264         <a class="code" href="struct_collision_data.html">CollisionData</a>* collDataBlobbBarrier = <span class="keyword">new</span> <a class="code" href="struct_collision_data.html">CollisionData</a>(*collData);
-<a name="l00265"></a>00265         collDataBlobbBarrier-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> = mBlobbMaterialID;
-<a name="l00266"></a>00266         collDataBlobbBarrier-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> = mInvisibleBarrierID;
-<a name="l00267"></a>00267         NewtonMaterialSetCollisionCallback (mWorld, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, blobbContactBeginCallback, contactProcessCallback, NULL);
-<a name="l00268"></a>00268 
-<a name="l00269"></a>00269         <span class="comment">// set friction for  blobb on surrounding (no friction)</span>
-<a name="l00270"></a>00270         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mWallMaterialID, 0, 0);
-<a name="l00271"></a>00271         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mFloorMaterialID, 0, 0);
-<a name="l00272"></a>00272         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mNetMaterialID, 0, 0);
-<a name="l00273"></a>00273         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
+<a name="l00253"></a>00253         <span class="comment">// ball on invisibleBarrier - no collision</span>
+<a name="l00254"></a>00254         <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>* collDataBallBarrier = <span class="keyword">new</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>(*collData);
+<a name="l00255"></a>00255         collDataBallBarrier-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">material1</a> = mBallMaterialID;
+<a name="l00256"></a>00256         collDataBallBarrier-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">material2</a> = mInvisibleBarrierID;
+<a name="l00257"></a>00257         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mInvisibleBarrierID, collDataBallBarrier, NULL, contactProcessCallback, NULL);
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259         <span class="comment">// blobb on invisibleBarrier - middle elasticity</span>
+<a name="l00260"></a>00260         NewtonMaterialSetDefaultElasticity (mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0.5f);
+<a name="l00261"></a>00261         <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>* collDataBlobbBarrier = <span class="keyword">new</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>(*collData);
+<a name="l00262"></a>00262         collDataBlobbBarrier-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">material1</a> = mBlobbMaterialID;
+<a name="l00263"></a>00263         collDataBlobbBarrier-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">material2</a> = mInvisibleBarrierID;
+<a name="l00264"></a>00264         NewtonMaterialSetCollisionCallback (mWorld, mBlobbMaterialID, mInvisibleBarrierID, collDataBlobbBarrier, NULL, contactProcessCallback, NULL);
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266         <span class="comment">// set friction for  blobb on surrounding (no friction)</span>
+<a name="l00267"></a>00267         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mWallMaterialID, 0, 0);
+<a name="l00268"></a>00268         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mFloorMaterialID, 0, 0);
+<a name="l00269"></a>00269         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mNetMaterialID, 0, 0);
+<a name="l00270"></a>00270         NewtonMaterialSetDefaultFriction(mWorld, mBlobbMaterialID, mInvisibleBarrierID, 0, 0);
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272         <span class="comment">// Ball on AI Trigger:</span>
+<a name="l00273"></a>00273         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mAiTriggerID, collData, NULL, <a class="code" href="class_b_v3_d_1_1_a_i.html#81cb910c1aed8693ee7c76918ae6a0c9">BV3D::AI::AiCallback</a>, NULL);
 <a name="l00274"></a>00274 
-<a name="l00275"></a>00275         <span class="comment">// continous collisions for ball on floor?</span>
-<a name="l00276"></a>00276         <span class="comment">//NewtonMaterialSetContinuousCollisionMode(mWorld, mBlobbMaterialID, mFloorMaterialID, 1);</span>
-<a name="l00277"></a>00277 
-<a name="l00279"></a>00279         NewtonMaterialSetCollisionCallback (mWorld, mBallMaterialID, mAiTriggerID, collData, NULL, <a class="code" href="class_b_v3_d_1_1_a_i.html#81cb910c1aed8693ee7c76918ae6a0c9">BV3D::AI::AiCallback</a>, NULL);
-<a name="l00280"></a>00280 
-<a name="l00281"></a>00281         <span class="comment">// AI trigger shouldn't collide with blobbs</span>
-<a name="l00282"></a>00282         NewtonMaterialSetDefaultCollidable(mWorld, mBlobbMaterialID, mAiTriggerID, 0);
-<a name="l00283"></a>00283 }
+<a name="l00275"></a>00275         <span class="comment">// AI trigger shouldn't collide with blobbs</span>
+<a name="l00276"></a>00276         NewtonMaterialSetDefaultCollidable(mWorld, mBlobbMaterialID, mAiTriggerID, 0);
+<a name="l00277"></a>00277 }
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279 <span class="comment">/*</span>
+<a name="l00280"></a>00280 <span class="comment"> * collision callback - called when bounding boxes of a blobb and the ball intersect</span>
+<a name="l00281"></a>00281 <span class="comment"> */</span>
+<a name="l00282"></a>00282 <span class="keywordtype">int</span> BV3D::Arena::blobbContactBeginCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonBody* body0, <span class="keyword">const</span> NewtonBody* body1) {
+<a name="l00283"></a>00283         <a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>* collData = (<a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a>*)NewtonMaterialGetMaterialPairUserData(material);
 <a name="l00284"></a>00284 
-<a name="l00285"></a>00285 <span class="keywordtype">int</span> BV3D::Arena::blobbContactBeginCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonBody* body0, <span class="keyword">const</span> NewtonBody* body1) {
-<a name="l00286"></a>00286         <a class="code" href="struct_collision_data.html">CollisionData</a>* collData = (<a class="code" href="struct_collision_data.html">CollisionData</a>*)NewtonMaterialGetMaterialPairUserData(material);
-<a name="l00287"></a>00287 
-<a name="l00288"></a>00288         VRS::SharedObj* so = (VRS::SharedObj*)NewtonBodyGetUserData(body0);
-<a name="l00289"></a>00289         <span class="keywordflow">if</span> (so-&gt;classNameVRS() == BV3D::Blobb::ClassNameVRS())
-<a name="l00290"></a>00290                 collData-&gt;<a class="code" href="struct_collision_data.html#3ed5227e4fbb359e91024c6cf9e5bb27">currentBlobb</a> = (<a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">BV3D::Blobb</a>*)so;
-<a name="l00291"></a>00291         <span class="keywordflow">else</span>
-<a name="l00292"></a>00292                 collData-&gt;<a class="code" href="struct_collision_data.html#3ed5227e4fbb359e91024c6cf9e5bb27">currentBlobb</a> = (<a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">BV3D::Blobb</a>*)NewtonBodyGetUserData(body1);
+<a name="l00285"></a>00285         VRS::SharedObj* so = (VRS::SharedObj*)NewtonBodyGetUserData(body0);
+<a name="l00286"></a>00286         <span class="keywordflow">if</span> (so-&gt;classNameVRS() == BV3D::Blobb::ClassNameVRS())
+<a name="l00287"></a>00287                 collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#8be4d4b35f25871e8c01c89c39c9a64d">currentBlobb</a> = (<a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">BV3D::Blobb</a>*)so;
+<a name="l00288"></a>00288         <span class="keywordflow">else</span>
+<a name="l00289"></a>00289                 collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#8be4d4b35f25871e8c01c89c39c9a64d">currentBlobb</a> = (<a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">BV3D::Blobb</a>*)NewtonBodyGetUserData(body1);
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291         <span class="keywordflow">return</span> 1;
+<a name="l00292"></a>00292 }
 <a name="l00293"></a>00293 
-<a name="l00294"></a>00294         <span class="keywordflow">return</span> 1;
-<a name="l00295"></a>00295 }
-<a name="l00296"></a>00296 
+<a name="l00294"></a>00294 <span class="comment">/*</span>
+<a name="l00295"></a>00295 <span class="comment"> * collision callback - called for every collision which is interesting for game logic</span>
+<a name="l00296"></a>00296 <span class="comment"> */</span>
 <a name="l00297"></a>00297 <span class="keywordtype">int</span> BV3D::Arena::contactProcessCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonContact* contact) {
-<a name="l00298"></a>00298         <a class="code" href="struct_collision_data.html">CollisionData</a>* collData = (<a class="code" href="struct_collision_data.html">CollisionData</a>*)NewtonMaterialGetMaterialPairUserData(material);
+<a name="l00298"></a>00298         CollisionData* collData = (CollisionData*)NewtonMaterialGetMaterialPairUserData(material);
 <a name="l00299"></a>00299         <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team;
 <a name="l00300"></a>00300 
-<a name="l00301"></a>00301         <span class="keywordflow">if</span> (collData-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> == collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getBallMaterialID() &amp;&amp; collData-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> == collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getBlobbMaterialID()) {
-<a name="l00302"></a>00302                 NewtonWorldUnfreezeBody(collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getWorld(), collData-&gt;<a class="code" href="struct_collision_data.html#2d5e6593eaef7f140dcfd847062dc5f4">ball</a>-&gt;getBody());
-<a name="l00303"></a>00303                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team = collData-&gt;<a class="code" href="struct_collision_data.html#3ed5227e4fbb359e91024c6cf9e5bb27">currentBlobb</a>-&gt;getTeam();
+<a name="l00301"></a>00301         <span class="keywordflow">if</span> (collData-&gt;material1 == collData-&gt;arena-&gt;getBallMaterialID() &amp;&amp; collData-&gt;material2 == collData-&gt;arena-&gt;getBlobbMaterialID()) {
+<a name="l00302"></a>00302                 NewtonWorldUnfreezeBody(collData-&gt;arena-&gt;getWorld(), collData-&gt;ball-&gt;getBody());
+<a name="l00303"></a>00303                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team = collData-&gt;<a class="code" href="struct_b_v3_d_1_1_collision_data.html#8be4d4b35f25871e8c01c89c39c9a64d">currentBlobb</a>-&gt;getTeam();
 <a name="l00304"></a>00304 
 <a name="l00305"></a>00305                 <span class="comment">// wait some frames after blobb touches ball before new touch gets counted</span>
-<a name="l00306"></a>00306                 <span class="keywordflow">if</span> (collData-&gt;<a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a>-&gt;getCurrentContacts(team) &gt; 0 &amp;&amp; (collData-&gt;<a class="code" href="struct_collision_data.html#ea158daedfc997ea448a701ffdd32256">game</a>-&gt;getFrameCount() - collData-&gt;<a class="code" href="struct_collision_data.html#48ae6433615959380be6ebb686571f3c">delayStartFrame</a> &lt; 20)) {
-<a name="l00307"></a>00307                         collData-&gt;<a class="code" href="struct_collision_data.html#48ae6433615959380be6ebb686571f3c">delayStartFrame</a> = 0;
+<a name="l00306"></a>00306                 <span class="keywordflow">if</span> (collData-&gt;referee-&gt;getCurrentContacts(team) &gt; 0 &amp;&amp; (collData-&gt;game-&gt;getFrameCount() - collData-&gt;delayStartFrame &lt; 20)) {
+<a name="l00307"></a>00307                         collData-&gt;delayStartFrame = 0;
 <a name="l00308"></a>00308                 }
 <a name="l00309"></a>00309                 <span class="keywordflow">else</span> {
 <a name="l00310"></a>00310                         <span class="keywordflow">if</span> (team == <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>)
-<a name="l00311"></a>00311                                 collData-&gt;<a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a>-&gt;ballOnBlobb(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>);
+<a name="l00311"></a>00311                                 collData-&gt;referee-&gt;ballOnBlobb(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>);
 <a name="l00312"></a>00312                         <span class="keywordflow">else</span> {
-<a name="l00313"></a>00313                                 collData-&gt;<a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a>-&gt;ballOnBlobb(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>);
+<a name="l00313"></a>00313                                 collData-&gt;referee-&gt;ballOnBlobb(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>);
 <a name="l00314"></a>00314                         }
-<a name="l00315"></a>00315                         collData-&gt;<a class="code" href="struct_collision_data.html#48ae6433615959380be6ebb686571f3c">delayStartFrame</a>=collData-&gt;<a class="code" href="struct_collision_data.html#ea158daedfc997ea448a701ffdd32256">game</a>-&gt;getFrameCount();
-<a name="l00316"></a>00316                         collData-&gt;<a class="code" href="struct_collision_data.html#ea158daedfc997ea448a701ffdd32256">game</a>-&gt;playSoundTouch();
+<a name="l00315"></a>00315                         collData-&gt;delayStartFrame=collData-&gt;game-&gt;getFrameCount();
+<a name="l00316"></a>00316                         collData-&gt;game-&gt;playSoundTouch();
 <a name="l00317"></a>00317                 }
 <a name="l00318"></a>00318         }
-<a name="l00319"></a>00319         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (collData-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> == collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getBallMaterialID() &amp;&amp; collData-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> == collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getFloorMaterialID()) {
-<a name="l00320"></a>00320                 <span class="keywordflow">if</span> (collData-&gt;<a class="code" href="struct_collision_data.html#2d5e6593eaef7f140dcfd847062dc5f4">ball</a>-&gt;getPosition()[0] &lt; 0) {
+<a name="l00319"></a>00319         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (collData-&gt;material1 == collData-&gt;arena-&gt;getBallMaterialID() &amp;&amp; collData-&gt;material2 == collData-&gt;arena-&gt;getFloorMaterialID()) {
+<a name="l00320"></a>00320                 <span class="keywordflow">if</span> (collData-&gt;ball-&gt;getPosition()[0] &lt; 0) {
 <a name="l00321"></a>00321                         team = <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>;
 <a name="l00322"></a>00322                 }
 <a name="l00323"></a>00323                 <span class="keywordflow">else</span> {
 <a name="l00324"></a>00324                         team = <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>;
 <a name="l00325"></a>00325                 }
-<a name="l00326"></a>00326                 collData-&gt;<a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a>-&gt;ballOnField(team);
+<a name="l00326"></a>00326                 collData-&gt;referee-&gt;ballOnField(team);
 <a name="l00327"></a>00327 
 <a name="l00328"></a>00328                 <span class="comment">// for AI</span>
-<a name="l00329"></a>00329                 NewtonMaterialSetDefaultCollidable(collData-&gt;<a class="code" href="struct_collision_data.html#99dc1482491300831f9ac80689f461dd">world</a>, collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getBallMaterialID(), collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getAiTriggerID(), 1);
+<a name="l00329"></a>00329                 NewtonMaterialSetDefaultCollidable(collData-&gt;world, collData-&gt;arena-&gt;getBallMaterialID(), collData-&gt;arena-&gt;getAiTriggerID(), 1);
 <a name="l00330"></a>00330         }
-<a name="l00331"></a>00331         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (collData-&gt;<a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a> == collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getBallMaterialID() &amp;&amp; collData-&gt;<a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a> == collData-&gt;<a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>-&gt;getInvisibleBarrierID()) {
+<a name="l00331"></a>00331         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (collData-&gt;material1 == collData-&gt;arena-&gt;getBallMaterialID() &amp;&amp; collData-&gt;material2 == collData-&gt;arena-&gt;getInvisibleBarrierID()) {
 <a name="l00332"></a>00332                 <span class="comment">// tell referee if ball passes under the net</span>
-<a name="l00333"></a>00333                 Vector pos = collData-&gt;<a class="code" href="struct_collision_data.html#2d5e6593eaef7f140dcfd847062dc5f4">ball</a>-&gt;getPosition();
-<a name="l00334"></a>00334                 <span class="keywordflow">if</span> (pos[1] &lt; <a class="code" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a>/2) {
+<a name="l00333"></a>00333                 Vector pos = collData-&gt;ball-&gt;getPosition();
+<a name="l00334"></a>00334                 <span class="keywordflow">if</span> (pos[1] &lt; <a class="code" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a>/2) {
 <a name="l00335"></a>00335                         <span class="keywordflow">if</span> (pos[0] &lt; 0)
 <a name="l00336"></a>00336                                 team = <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>;
 <a name="l00337"></a>00337                         <span class="keywordflow">else</span>
 <a name="l00338"></a>00338                                 team = <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>;
-<a name="l00339"></a>00339                         collData-&gt;<a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a>-&gt;ballOnField(team);
+<a name="l00339"></a>00339                         collData-&gt;referee-&gt;ballOnField(team);
 <a name="l00340"></a>00340                 }
 <a name="l00341"></a>00341                 <span class="keywordflow">return</span> 0;
 <a name="l00342"></a>00342         }
-<a name="l00343"></a>00343         
-<a name="l00344"></a>00344         <span class="keywordflow">return</span> 1;
-<a name="l00345"></a>00345 }
+<a name="l00343"></a>00343         <span class="keywordflow">return</span> 1;
+<a name="l00344"></a>00344 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:55 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

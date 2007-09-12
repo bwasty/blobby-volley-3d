@@ -385,10 +385,16 @@ void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
 		blobb->update();
 }
 
+/**
+ * lets the blobb do a jump with maximum height
+ */
 void BV3D::Blobb::maxJump() {
 	mMaxJump = true;
 }
 
+/**
+ * force the blobb to do one animation
+ */
 void BV3D::Blobb::forceSingleAnimation()
 {
 	mForceAnimation = true;

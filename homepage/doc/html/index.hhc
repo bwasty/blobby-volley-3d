@@ -11,7 +11,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Ball"><param name="Local" value="class_b_v3_d_1_1_ball.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Blobb"><param name="Local" value="class_b_v3_d_1_1_blobb.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::ClassicReferee"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html"><param name="ImageNumber" value="11"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="CollisionData"><param name="Local" value="struct_collision_data.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::CollisionData"><param name="Local" value="struct_b_v3_d_1_1_collision_data.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Controls"><param name="Local" value="class_b_v3_d_1_1_controls.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Game"><param name="Local" value="class_b_v3_d_1_1_game.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::HUD"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -29,7 +29,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Arena"><param name="Local" value="class_b_v3_d_1_1_arena.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Ball"><param name="Local" value="class_b_v3_d_1_1_ball.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Blobb"><param name="Local" value="class_b_v3_d_1_1_blobb.html"><param name="ImageNumber" value="11"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="CollisionData"><param name="Local" value="struct_collision_data.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::CollisionData"><param name="Local" value="struct_b_v3_d_1_1_collision_data.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::Controls"><param name="Local" value="class_b_v3_d_1_1_controls.html"><param name="ImageNumber" value="1"></OBJECT>
     <UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="BV3D::KeyboardControls"><param name="Local" value="class_b_v3_d_1_1_keyboard_controls.html"><param name="ImageNumber" value="11"></OBJECT>

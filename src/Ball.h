@@ -68,7 +68,6 @@ namespace BV3D
 		// physics
 		VRS::SO<BV3D::Arena>	mArena;	// parent physics object
 		NewtonBody*				mBody;		// physical body in simulated world
-		bool					mIsLocked;	// locks the ball at its current position until collision
 	};
 }
 

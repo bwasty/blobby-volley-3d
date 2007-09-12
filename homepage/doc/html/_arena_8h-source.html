@@ -73,7 +73,7 @@
 <a name="l00070"></a>00070 
 <a name="l00074"></a><a class="code" href="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e">00074</a>                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e">getScene</a>() {<span class="keywordflow">return</span> mScene;}
 <a name="l00075"></a>00075 
-<a name="l00076"></a>00076         <span class="keyword">public</span>: <span class="comment">// Physics</span>
+<a name="l00076"></a>00076                 <span class="comment">// Physics</span>
 <a name="l00081"></a>00081 <span class="comment"></span>                <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">updateWorld</a>(<span class="keywordtype">float</span> timestep);
 <a name="l00082"></a>00082 
 <a name="l00086"></a><a class="code" href="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139">00086</a>                 NewtonWorld* <a class="code" href="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139">getWorld</a>() {<span class="keywordflow">return</span> mWorld;}
@@ -98,7 +98,7 @@
 <a name="l00105"></a>00105                 VRS::SO&lt;VRS::SceneThing&gt;                mNet;
 <a name="l00106"></a>00106                 VRS::SO&lt;BV3D::Game&gt;                             mGame;
 <a name="l00107"></a>00107 
-<a name="l00108"></a>00108         <span class="keyword">private</span>:        <span class="comment">// Physics</span>
+<a name="l00108"></a>00108                 <span class="comment">// Physics</span>
 <a name="l00109"></a>00109                 NewtonWorld*    mWorld; <span class="comment">// physics world</span>
 <a name="l00110"></a>00110                 NewtonBody*             mBody;          <span class="comment">// physical arena walls</span>
 <a name="l00111"></a>00111                 NewtonBody*             mFloor;         <span class="comment">// physical arena floor</span>
@@ -114,24 +114,24 @@
 <a name="l00121"></a>00121                 <span class="keyword">static</span> <span class="keywordtype">int</span> blobbContactBeginCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonBody* body0, <span class="keyword">const</span> NewtonBody* body1);
 <a name="l00122"></a>00122                 <span class="keyword">static</span> <span class="keywordtype">int</span> contactProcessCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonContact* contact);
 <a name="l00123"></a>00123         };
-<a name="l00124"></a>00124 }
-<a name="l00125"></a>00125 
-<a name="l00126"></a><a class="code" href="struct_collision_data.html">00126</a> <span class="keyword">struct </span><a class="code" href="struct_collision_data.html">CollisionData</a> {
-<a name="l00127"></a><a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">00127</a>         <span class="keywordtype">int</span> <a class="code" href="struct_collision_data.html#82c669afce7ec1c1a88b9a3e4ad5e751">material1</a>;
-<a name="l00128"></a><a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">00128</a>         <span class="keywordtype">int</span> <a class="code" href="struct_collision_data.html#b22492db83ba06eae5d8d25d231442a8">material2</a>;
-<a name="l00129"></a><a class="code" href="struct_collision_data.html#ea158daedfc997ea448a701ffdd32256">00129</a>         VRS::SO&lt;BV3D::Game&gt; <a class="code" href="struct_collision_data.html#ea158daedfc997ea448a701ffdd32256">game</a>;
-<a name="l00130"></a><a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">00130</a>         VRS::SO&lt;BV3D::Arena&gt; <a class="code" href="struct_collision_data.html#6f045d25db1bf27da97164c87bf590b2">arena</a>;
-<a name="l00131"></a><a class="code" href="struct_collision_data.html#2d5e6593eaef7f140dcfd847062dc5f4">00131</a>         VRS::SO&lt;BV3D::Ball&gt; <a class="code" href="struct_collision_data.html#2d5e6593eaef7f140dcfd847062dc5f4">ball</a>;
-<a name="l00132"></a><a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">00132</a>         VRS::SO&lt;BV3D::Referee&gt; <a class="code" href="struct_collision_data.html#e74685059edf63c9dfd34039e1f8d72b">referee</a>;
-<a name="l00133"></a><a class="code" href="struct_collision_data.html#3ed5227e4fbb359e91024c6cf9e5bb27">00133</a>         VRS::SO&lt;BV3D::Blobb&gt; <a class="code" href="struct_collision_data.html#3ed5227e4fbb359e91024c6cf9e5bb27">currentBlobb</a>;
-<a name="l00134"></a><a class="code" href="struct_collision_data.html#99dc1482491300831f9ac80689f461dd">00134</a>         NewtonWorld* <a class="code" href="struct_collision_data.html#99dc1482491300831f9ac80689f461dd">world</a>;
-<a name="l00135"></a><a class="code" href="struct_collision_data.html#48ae6433615959380be6ebb686571f3c">00135</a>         <span class="keywordtype">int</span> <a class="code" href="struct_collision_data.html#48ae6433615959380be6ebb686571f3c">delayStartFrame</a>;
-<a name="l00136"></a>00136 };
+<a name="l00124"></a>00124 
+<a name="l00125"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html">00125</a>         <span class="keyword">struct </span><a class="code" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a> {
+<a name="l00126"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">00126</a>         <span class="keywordtype">int</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">material1</a>;
+<a name="l00127"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">00127</a>         <span class="keywordtype">int</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">material2</a>;
+<a name="l00128"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#db06d3c286fd237b7873ef87dd38233f">00128</a>         VRS::SO&lt;BV3D::Game&gt; <a class="code" href="struct_b_v3_d_1_1_collision_data.html#db06d3c286fd237b7873ef87dd38233f">game</a>;
+<a name="l00129"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#990b84774faec54e4fbdd17fed214d64">00129</a>         VRS::SO&lt;BV3D::Arena&gt; <a class="code" href="struct_b_v3_d_1_1_collision_data.html#990b84774faec54e4fbdd17fed214d64">arena</a>;
+<a name="l00130"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#eb0d7b573c05e868d520fca33a4008f4">00130</a>         VRS::SO&lt;BV3D::Ball&gt; <a class="code" href="struct_b_v3_d_1_1_collision_data.html#eb0d7b573c05e868d520fca33a4008f4">ball</a>;
+<a name="l00131"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#b135cfcc3a0a8a6500003662d0417c8a">00131</a>         VRS::SO&lt;BV3D::Referee&gt; <a class="code" href="struct_b_v3_d_1_1_collision_data.html#b135cfcc3a0a8a6500003662d0417c8a">referee</a>;
+<a name="l00132"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#8be4d4b35f25871e8c01c89c39c9a64d">00132</a>         VRS::SO&lt;BV3D::Blobb&gt; <a class="code" href="struct_b_v3_d_1_1_collision_data.html#8be4d4b35f25871e8c01c89c39c9a64d">currentBlobb</a>;
+<a name="l00133"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#7837367420d51a0480f1af07815a4a19">00133</a>         NewtonWorld* <a class="code" href="struct_b_v3_d_1_1_collision_data.html#7837367420d51a0480f1af07815a4a19">world</a>;
+<a name="l00134"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#de8de9e930ebb4585c359c54e220e384">00134</a>         <span class="keywordtype">int</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html#de8de9e930ebb4585c359c54e220e384">delayStartFrame</a>;
+<a name="l00135"></a>00135         };
+<a name="l00136"></a>00136 }
 <a name="l00137"></a>00137 
 <a name="l00138"></a>00138 <span class="preprocessor">#endif  //BV3D_ARENA</span>
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:55 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

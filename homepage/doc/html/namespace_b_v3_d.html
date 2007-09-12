@@ -46,9 +46,12 @@
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_a_i.html">AI</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Encapsulates almost all code related to the "AI".  <a href="class_b_v3_d_1_1_a_i.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_arena.html">Arena</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> class represents the box in which the Blobbs play <a class="el" href="class_b_v3_d_1_1_ball.html">Ball</a>.  <a href="class_b_v3_d_1_1_arena.html#_details">More...</a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_ball.html">Ball</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_blobb.html">Blobb</a></td></tr>
@@ -104,35 +107,43 @@
  }</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const VRS::Vector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">arenaExtent</a> = VRS::Vector(16.0,20.0,6.0)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const VRS::Vector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">ARENA_EXTENT</a> = VRS::Vector(16.0,20.0,7.0)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">netHeight</a> = 4.2</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">NET_HEIGHT</a> = 4.2</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#1e2a3538a7b2e2325097a46333cf7b05">linesWidth</a> = 0.2</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#2676dfad2230c938fb6ea2ebe64321a3">LINES_WIDTH</a> = 0.2</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#144430bf415692c36b835598e012f420">ballRadius</a> = 0.9</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#7b17ea53379681c57ddf474e20c7bc5e">BALL_RADIUS</a> = 0.9</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#067f905982b79e75d785fe2dfebb874b">blobbHeight</a> = 2.6</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#c60c764bae3aefdea373b29d0c94283c">BLOBB_HEIGHT</a> = 2.6</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#ac701eae01f5d42a2421fa3e43ce73d0">blobbAlpha</a> = 0.7</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#d4a70bc6ae92092b43fd714f9d691695">BLOBB_ALPHA</a> = 0.7</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#2da5329962140e15269fe691a1851414">threeDSPath</a> = &quot;../Modelle/3ds/&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#6774e153671c42d4ce9007ad0b617efc">BLOBB_JUMP_SPEED</a> = 14.0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#8c945c7073efab912c05ec8bfb152cd2">cubemapsPath</a> = &quot;../Modelle/cubemaps/&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#b89eaffc5ebce34e9b9b67ac3ed80f9b">BLOBB_MAX_JUMP_HEIGHT</a> = 2.0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const VRS::Vector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">lookTo</a> = VRS::Vector(0.0, 4.0, 0.0)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#bd4130cf6d07fe4556798ae7d9402323">BLOBB_MOVEMENT_STEP_DISTANCE</a> = 12.0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const VRS::Vector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">lookFrom</a> = VRS::Vector(0.0, 9.0, -16.0)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#e6505e48792e2464ad94984ab293e9a4">BLOBB_GRAVITY_MULTIPLIER</a> = 3.5</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#25633351f89073bcf61435d94eb2391e">maxBallVelocity</a> = 20.0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38">MODELS_PATH</a> = &quot;../Modelle/3ds/&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#18ec2f18c726b52a134a30725917764e">shadowHeight</a> = 0.01f</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#c3598e810ac1ed482ab5bf0be2356be3">GRAFICS_PATH</a> = &quot;../Modelle/cubemaps/&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#006fb01c8a77f797668cbeb0304cf90a">shadowMaxHeight</a> = 20.0f</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const VRS::Vector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">LOOK_TO</a> = VRS::Vector(0.0, 4.0, 0.0)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#f3ced6bba34055c2bd629e6cf998c350">gravity</a> = 20.81f</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const VRS::Vector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">LOOK_FROM</a> = VRS::Vector(0.0, 9.0, -16.0)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#d832d5d685c5e3217ccd7f6efaab0216">blobbShapeData</a> [5][5]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">MAX_BALL_VELOCITY</a> = 20.0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7">SHADOW_HEIGHT</a> = 0.01</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">SHADOW_MAX_HEIGHT</a> = 20.0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#c87e9ad71c925515e61541745e38d0ae">GRAVITY</a> = 21.00</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#59d912a9ff49cec1e135caba38788f59">BLOBB_SHAPE_DATA</a> [5][5]</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -253,12 +264,12 @@ since mouse movement is an event, all events in a single frame are stored until 
 </div>
 </div><p>
 <hr><h2>Variable Documentation</h2>
-<a class="anchor" name="3cc2ba739cf8ea37575e6bdcea49c911"></a><!-- doxytag: member="BV3D::arenaExtent" ref="3cc2ba739cf8ea37575e6bdcea49c911" args="" -->
+<a class="anchor" name="cda2a604cae7afbcdfb0af6ce9e2b0bd"></a><!-- doxytag: member="BV3D::ARENA_EXTENT" ref="cda2a604cae7afbcdfb0af6ce9e2b0bd" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const VRS::Vector <a class="el" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a> = VRS::Vector(16.0,20.0,6.0)<code> [static]</code>          </td>
+          <td class="memname">const VRS::Vector <a class="el" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a> = VRS::Vector(16.0,20.0,7.0)<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -268,16 +279,16 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00034">34</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00044">BV3D::AI::aiServe()</a>, <a class="el" href="_arena_8cpp-source.html#l00028">BV3D::Arena::Arena()</a>, <a class="el" href="_a_i_8cpp-source.html#l00024">BV3D::AI::enableAI()</a>, <a class="el" href="_game_8cpp-source.html#l00040">BV3D::Game::Game()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00039">BV3D::SceneLoader::getFieldLines()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00161">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00059">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00277">BV3D::SceneLoader::loadHeaven()</a>, <a class="el" href="_arena_8cpp-source.html#l00063">BV3D::Arena::setExtent()</a>, and <a class="el" href="_game_8cpp-source.html#l00325">BV3D::Game::switchToGame()</a>.</p>
+<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00042">BV3D::AI::aiServe()</a>, <a class="el" href="_arena_8cpp-source.html#l00025">BV3D::Arena::Arena()</a>, <a class="el" href="_a_i_8cpp-source.html#l00019">BV3D::AI::enableAI()</a>, <a class="el" href="_game_8cpp-source.html#l00040">BV3D::Game::Game()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00043">BV3D::SceneLoader::getFieldLines()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00165">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00063">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00295">BV3D::SceneLoader::loadHeaven()</a>, <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>, and <a class="el" href="_game_8cpp-source.html#l00336">BV3D::Game::switchToGame()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="144430bf415692c36b835598e012f420"></a><!-- doxytag: member="BV3D::ballRadius" ref="144430bf415692c36b835598e012f420" args="" -->
+<a class="anchor" name="7b17ea53379681c57ddf474e20c7bc5e"></a><!-- doxytag: member="BV3D::BALL_RADIUS" ref="7b17ea53379681c57ddf474e20c7bc5e" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#144430bf415692c36b835598e012f420">BV3D::ballRadius</a> = 0.9<code> [static]</code>          </td>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#7b17ea53379681c57ddf474e20c7bc5e">BV3D::BALL_RADIUS</a> = 0.9<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -287,16 +298,16 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00037">37</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00021">BV3D::Ball::Ball()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00019">BV3D::Ball::Ball()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="ac701eae01f5d42a2421fa3e43ce73d0"></a><!-- doxytag: member="BV3D::blobbAlpha" ref="ac701eae01f5d42a2421fa3e43ce73d0" args="" -->
+<a class="anchor" name="d4a70bc6ae92092b43fd714f9d691695"></a><!-- doxytag: member="BV3D::BLOBB_ALPHA" ref="d4a70bc6ae92092b43fd714f9d691695" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#ac701eae01f5d42a2421fa3e43ce73d0">BV3D::blobbAlpha</a> = 0.7<code> [static]</code>          </td>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#d4a70bc6ae92092b43fd714f9d691695">BV3D::BLOBB_ALPHA</a> = 0.7<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -306,16 +317,35 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00039">39</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00047">BV3D::Blobb::Blobb()</a>, <a class="el" href="_menu_8cpp-source.html#l00259">BV3D::Menu::getPlayer1Color()</a>, <a class="el" href="_menu_8cpp-source.html#l00264">BV3D::Menu::getPlayer2Color()</a>, and <a class="el" href="_menu_8cpp-source.html#l00143">BV3D::Menu::showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00045">BV3D::Blobb::Blobb()</a>, <a class="el" href="_menu_8cpp-source.html#l00259">BV3D::Menu::getPlayer1Color()</a>, <a class="el" href="_menu_8cpp-source.html#l00264">BV3D::Menu::getPlayer2Color()</a>, and <a class="el" href="_menu_8cpp-source.html#l00143">BV3D::Menu::showMenu()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="067f905982b79e75d785fe2dfebb874b"></a><!-- doxytag: member="BV3D::blobbHeight" ref="067f905982b79e75d785fe2dfebb874b" args="" -->
+<a class="anchor" name="e6505e48792e2464ad94984ab293e9a4"></a><!-- doxytag: member="BV3D::BLOBB_GRAVITY_MULTIPLIER" ref="e6505e48792e2464ad94984ab293e9a4" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#067f905982b79e75d785fe2dfebb874b">BV3D::blobbHeight</a> = 2.6<code> [static]</code>          </td>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#e6505e48792e2464ad94984ab293e9a4">BV3D::BLOBB_GRAVITY_MULTIPLIER</a> = 3.5<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00043">43</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="c60c764bae3aefdea373b29d0c94283c"></a><!-- doxytag: member="BV3D::BLOBB_HEIGHT" ref="c60c764bae3aefdea373b29d0c94283c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#c60c764bae3aefdea373b29d0c94283c">BV3D::BLOBB_HEIGHT</a> = 2.6<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -325,16 +355,73 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00038">38</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00024">BV3D::AI::enableAI()</a>.</p>
+<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00019">BV3D::AI::enableAI()</a>, and <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="d832d5d685c5e3217ccd7f6efaab0216"></a><!-- doxytag: member="BV3D::blobbShapeData" ref="d832d5d685c5e3217ccd7f6efaab0216" args="[5][5]" -->
+<a class="anchor" name="6774e153671c42d4ce9007ad0b617efc"></a><!-- doxytag: member="BV3D::BLOBB_JUMP_SPEED" ref="6774e153671c42d4ce9007ad0b617efc" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const float <a class="el" href="namespace_b_v3_d.html#d832d5d685c5e3217ccd7f6efaab0216">BV3D::blobbShapeData</a>[5][5]<code> [static]</code>          </td>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#6774e153671c42d4ce9007ad0b617efc">BV3D::BLOBB_JUMP_SPEED</a> = 14.0<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00040">40</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00277">BV3D::Blobb::getMovement()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="b89eaffc5ebce34e9b9b67ac3ed80f9b"></a><!-- doxytag: member="BV3D::BLOBB_MAX_JUMP_HEIGHT" ref="b89eaffc5ebce34e9b9b67ac3ed80f9b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#b89eaffc5ebce34e9b9b67ac3ed80f9b">BV3D::BLOBB_MAX_JUMP_HEIGHT</a> = 2.0<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00041">41</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="bd4130cf6d07fe4556798ae7d9402323"></a><!-- doxytag: member="BV3D::BLOBB_MOVEMENT_STEP_DISTANCE" ref="bd4130cf6d07fe4556798ae7d9402323" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#bd4130cf6d07fe4556798ae7d9402323">BV3D::BLOBB_MOVEMENT_STEP_DISTANCE</a> = 12.0<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00042">42</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00277">BV3D::Blobb::getMovement()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="59d912a9ff49cec1e135caba38788f59"></a><!-- doxytag: member="BV3D::BLOBB_SHAPE_DATA" ref="59d912a9ff49cec1e135caba38788f59" args="[5][5]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float <a class="el" href="namespace_b_v3_d.html#59d912a9ff49cec1e135caba38788f59">BV3D::BLOBB_SHAPE_DATA</a>[5][5]<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -348,18 +435,18 @@ since mouse movement is an event, all events in a single frame are stored until 
                         {0.65f+0.1f, 1.1f, 1.1f, 0.9f, 1.0f},
                         {0.5f+0.1f, 1.2f, 1.0f, 0.9f, 0.9f} }
 </pre></div>
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00050">50</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00054">54</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00047">BV3D::Blobb::Blobb()</a>, <a class="el" href="_blobb_8cpp-source.html#l00160">BV3D::Blobb::setPosition()</a>, and <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>.</p>
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00045">BV3D::Blobb::Blobb()</a>, <a class="el" href="_blobb_8cpp-source.html#l00157">BV3D::Blobb::setPosition()</a>, and <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="8c945c7073efab912c05ec8bfb152cd2"></a><!-- doxytag: member="BV3D::cubemapsPath" ref="8c945c7073efab912c05ec8bfb152cd2" args="" -->
+<a class="anchor" name="c3598e810ac1ed482ab5bf0be2356be3"></a><!-- doxytag: member="BV3D::GRAFICS_PATH" ref="c3598e810ac1ed482ab5bf0be2356be3" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string <a class="el" href="namespace_b_v3_d.html#8c945c7073efab912c05ec8bfb152cd2">BV3D::cubemapsPath</a> = &quot;../Modelle/cubemaps/&quot;<code> [static]</code>          </td>
+          <td class="memname">const std::string <a class="el" href="namespace_b_v3_d.html#c3598e810ac1ed482ab5bf0be2356be3">BV3D::GRAFICS_PATH</a> = &quot;../Modelle/cubemaps/&quot;<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -367,18 +454,18 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00041">41</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00045">45</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00362">BV3D::SceneLoader::getBrightDaySkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00343">BV3D::SceneLoader::getHotDesertSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00324">BV3D::SceneLoader::getIslandsSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00305">BV3D::SceneLoader::getWaterscapeSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00381">BV3D::SceneLoader::getZolsky6Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00400">BV3D::SceneLoader::getZolsky9Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00161">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00059">BV3D::SceneLoader::loadBeach()</a>, and <a class="el" href="_scene_loader_8cpp-source.html#l00277">BV3D::SceneLoader::loadHeaven()</a>.</p>
+<p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00380">BV3D::SceneLoader::getBrightDaySkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00361">BV3D::SceneLoader::getHotDesertSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00342">BV3D::SceneLoader::getIslandsSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00323">BV3D::SceneLoader::getWaterscapeSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00399">BV3D::SceneLoader::getZolsky6Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00418">BV3D::SceneLoader::getZolsky8Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00437">BV3D::SceneLoader::getZolsky9Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00165">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00063">BV3D::SceneLoader::loadBeach()</a>, and <a class="el" href="_scene_loader_8cpp-source.html#l00295">BV3D::SceneLoader::loadHeaven()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="f3ced6bba34055c2bd629e6cf998c350"></a><!-- doxytag: member="BV3D::gravity" ref="f3ced6bba34055c2bd629e6cf998c350" args="" -->
+<a class="anchor" name="c87e9ad71c925515e61541745e38d0ae"></a><!-- doxytag: member="BV3D::GRAVITY" ref="c87e9ad71c925515e61541745e38d0ae" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const float <a class="el" href="namespace_b_v3_d.html#f3ced6bba34055c2bd629e6cf998c350">BV3D::gravity</a> = 20.81f<code> [static]</code>          </td>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#c87e9ad71c925515e61541745e38d0ae">BV3D::GRAVITY</a> = 21.00<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -386,18 +473,18 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00049">49</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00053">53</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00102">BV3D::Ball::update()</a>.</p>
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00104">BV3D::Ball::update()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="1e2a3538a7b2e2325097a46333cf7b05"></a><!-- doxytag: member="BV3D::linesWidth" ref="1e2a3538a7b2e2325097a46333cf7b05" args="" -->
+<a class="anchor" name="2676dfad2230c938fb6ea2ebe64321a3"></a><!-- doxytag: member="BV3D::LINES_WIDTH" ref="2676dfad2230c938fb6ea2ebe64321a3" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#1e2a3538a7b2e2325097a46333cf7b05">BV3D::linesWidth</a> = 0.2<code> [static]</code>          </td>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#2676dfad2230c938fb6ea2ebe64321a3">BV3D::LINES_WIDTH</a> = 0.2<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -407,111 +494,16 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00036">36</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00039">BV3D::SceneLoader::getFieldLines()</a>.</p>
+<p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00043">BV3D::SceneLoader::getFieldLines()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="68a286623c0823635c0ff402df8704d6"></a><!-- doxytag: member="BV3D::lookFrom" ref="68a286623c0823635c0ff402df8704d6" args="" -->
+<a class="anchor" name="301c0cb3358252a24a5fe8b4c35b12a7"></a><!-- doxytag: member="BV3D::LOOK_FROM" ref="301c0cb3358252a24a5fe8b4c35b12a7" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const VRS::Vector <a class="el" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a> = VRS::Vector(0.0, 9.0, -16.0)<code> [static]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00043">43</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
-
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">BV3D::Game::Game()</a>, <a class="el" href="_game_8cpp-source.html#l00443">BV3D::Game::getDirectionVector()</a>, and <a class="el" href="_game_8cpp-source.html#l00422">BV3D::Game::getPositionVector()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="acab2224d327896dbf9adfa54ae4c0c3"></a><!-- doxytag: member="BV3D::lookTo" ref="acab2224d327896dbf9adfa54ae4c0c3" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const VRS::Vector <a class="el" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a> = VRS::Vector(0.0, 4.0, 0.0)<code> [static]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00042">42</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
-
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">BV3D::Game::Game()</a>, and <a class="el" href="_game_8cpp-source.html#l00443">BV3D::Game::getDirectionVector()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="25633351f89073bcf61435d94eb2391e"></a><!-- doxytag: member="BV3D::maxBallVelocity" ref="25633351f89073bcf61435d94eb2391e" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float <a class="el" href="namespace_b_v3_d.html#25633351f89073bcf61435d94eb2391e">BV3D::maxBallVelocity</a> = 20.0<code> [static]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00044">44</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
-
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00102">BV3D::Ball::update()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="b87df6dc05b27291d258d3483fd6563a"></a><!-- doxytag: member="BV3D::netHeight" ref="b87df6dc05b27291d258d3483fd6563a" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#b87df6dc05b27291d258d3483fd6563a">BV3D::netHeight</a> = 4.2<code> [static]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00035">35</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
-
-<p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00063">BV3D::Arena::setExtent()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="18ec2f18c726b52a134a30725917764e"></a><!-- doxytag: member="BV3D::shadowHeight" ref="18ec2f18c726b52a134a30725917764e" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#18ec2f18c726b52a134a30725917764e">BV3D::shadowHeight</a> = 0.01f<code> [static]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00046">46</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
-
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00021">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00047">BV3D::Blobb::Blobb()</a>, <a class="el" href="_ball_8cpp-source.html#l00069">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00160">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00102">BV3D::Ball::update()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="006fb01c8a77f797668cbeb0304cf90a"></a><!-- doxytag: member="BV3D::shadowMaxHeight" ref="006fb01c8a77f797668cbeb0304cf90a" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#006fb01c8a77f797668cbeb0304cf90a">BV3D::shadowMaxHeight</a> = 20.0f<code> [static]</code>          </td>
+          <td class="memname">const VRS::Vector <a class="el" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a> = VRS::Vector(0.0, 9.0, -16.0)<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -521,16 +513,16 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00047">47</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00069">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00160">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00102">BV3D::Ball::update()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">BV3D::Game::Game()</a>, <a class="el" href="_game_8cpp-source.html#l00454">BV3D::Game::getDirectionVector()</a>, and <a class="el" href="_game_8cpp-source.html#l00433">BV3D::Game::getPositionVector()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="2da5329962140e15269fe691a1851414"></a><!-- doxytag: member="BV3D::threeDSPath" ref="2da5329962140e15269fe691a1851414" args="" -->
+<a class="anchor" name="f2e46d314fee28044def82d7903d2faf"></a><!-- doxytag: member="BV3D::LOOK_TO" ref="f2e46d314fee28044def82d7903d2faf" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string <a class="el" href="namespace_b_v3_d.html#2da5329962140e15269fe691a1851414">BV3D::threeDSPath</a> = &quot;../Modelle/3ds/&quot;<code> [static]</code>          </td>
+          <td class="memname">const VRS::Vector <a class="el" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a> = VRS::Vector(0.0, 4.0, 0.0)<code> [static]</code>          </td>
         </tr>
       </table>
 </div>
@@ -538,15 +530,110 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00040">40</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00046">46</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00021">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00047">BV3D::Blobb::Blobb()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00161">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00059">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_menu_8cpp-source.html#l00040">BV3D::Menu::Menu()</a>, and <a class="el" href="_arena_8cpp-source.html#l00063">BV3D::Arena::setExtent()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">BV3D::Game::Game()</a>, and <a class="el" href="_game_8cpp-source.html#l00454">BV3D::Game::getDirectionVector()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="75b7eaf506c0ae2959d21ca8a5e6a759"></a><!-- doxytag: member="BV3D::MAX_BALL_VELOCITY" ref="75b7eaf506c0ae2959d21ca8a5e6a759" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float <a class="el" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">BV3D::MAX_BALL_VELOCITY</a> = 20.0<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00048">48</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00104">BV3D::Ball::update()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="aa63a0b4330b14afbba940ae1d4b8f38"></a><!-- doxytag: member="BV3D::MODELS_PATH" ref="aa63a0b4330b14afbba940ae1d4b8f38" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string <a class="el" href="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38">BV3D::MODELS_PATH</a> = &quot;../Modelle/3ds/&quot;<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00044">44</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00019">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00045">BV3D::Blobb::Blobb()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00165">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00063">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_menu_8cpp-source.html#l00040">BV3D::Menu::Menu()</a>, and <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="52c621207a72a8e1d376161b06fc07f5"></a><!-- doxytag: member="BV3D::NET_HEIGHT" ref="52c621207a72a8e1d376161b06fc07f5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5">BV3D::NET_HEIGHT</a> = 4.2<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00035">35</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="3607012ec0f5a84dd7463f79a298e3a7"></a><!-- doxytag: member="BV3D::SHADOW_HEIGHT" ref="3607012ec0f5a84dd7463f79a298e3a7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7">BV3D::SHADOW_HEIGHT</a> = 0.01<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00050">50</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00019">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00045">BV3D::Blobb::Blobb()</a>, <a class="el" href="_ball_8cpp-source.html#l00066">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00157">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00104">BV3D::Ball::update()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="f7b5eeaf6fdd0df6dcd6937392822aa0"></a><!-- doxytag: member="BV3D::SHADOW_MAX_HEIGHT" ref="f7b5eeaf6fdd0df6dcd6937392822aa0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double <a class="el" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">BV3D::SHADOW_MAX_HEIGHT</a> = 20.0<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00051">51</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00066">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00157">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00309">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00104">BV3D::Ball::update()</a>.</p>
 
 </div>
 </div><p>
 <!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:58 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:09 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

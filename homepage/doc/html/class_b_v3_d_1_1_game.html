@@ -128,7 +128,7 @@ It is responsible for:<ul>
 
 <p>Definition at line <a class="el" href="_game_8cpp-source.html#l00040">40</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::arenaExtent</a>, <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00043">BV3D::lookFrom</a>, <a class="el" href="_constants_8h-source.html#l00042">BV3D::lookTo</a>, <a class="el" href="_game_8cpp-source.html#l00247">processInput()</a>, <a class="el" href="_game_8cpp-source.html#l00372">setupSound()</a>, <a class="el" href="_game_8cpp-source.html#l00345">switchToMenu()</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>, and <a class="el" href="_game_8cpp-source.html#l00202">update()</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::ARENA_EXTENT</a>, <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00047">BV3D::LOOK_FROM</a>, <a class="el" href="_constants_8h-source.html#l00046">BV3D::LOOK_TO</a>, <a class="el" href="_game_8cpp-source.html#l00247">processInput()</a>, <a class="el" href="_game_8cpp-source.html#l00383">setupSound()</a>, <a class="el" href="_game_8cpp-source.html#l00356">switchToMenu()</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>, and <a class="el" href="_game_8cpp-source.html#l00202">update()</a>.</p>
 
 </div>
 </div><p>
@@ -170,10 +170,10 @@ It is responsible for:<ul>
 <div class="memdoc">
 
 <p>
-<a class="el" href="class_b_v3_d_1_1_game.html#71630f49c67693a4930a5110fd6137ba">update()</a> is called periodically on timer events to redisplay the whole scene 
+called periodically on timer events to update the physics world and redisplay the whole scene - main callback 
 <p>Definition at line <a class="el" href="_game_8cpp-source.html#l00202">202</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>References <a class="el" href="_game_8cpp-source.html#l00308">newServe()</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>.</p>
+<p>References <a class="el" href="_game_8cpp-source.html#l00317">newServe()</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>.</p>
 
 <p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">Game()</a>.</p>
 
@@ -198,7 +198,7 @@ It is responsible for:<ul>
 evaluates incoming InputEvents from canvas, processes and dispatches them 
 <p>Definition at line <a class="el" href="_game_8cpp-source.html#l00247">247</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_game_8cpp-source.html#l00388">switchCameraposition()</a>, <a class="el" href="_game_8cpp-source.html#l00345">switchToMenu()</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_game_8cpp-source.html#l00399">switchCameraposition()</a>, <a class="el" href="_game_8cpp-source.html#l00356">switchToMenu()</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
 
 <p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">Game()</a>.</p>
 
@@ -268,7 +268,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>References <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00325">switchToGame()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00336">switchToGame()</a>.</p>
 
 </div>
 </div><p>
@@ -309,8 +309,8 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 <div class="memdoc">
 
 <p>
-
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00304">304</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+causes a new serve in about 3 seconds (called by <a class="el" href="class_b_v3_d_1_1_referee.html" title="The Referee class is an abstract class for implementation of volleyball rules.">Referee</a>) 
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00313">313</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -331,9 +331,9 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00308">308</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00317">317</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00325">switchToGame()</a>, and <a class="el" href="_game_8cpp-source.html#l00202">update()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00336">switchToGame()</a>, and <a class="el" href="_game_8cpp-source.html#l00202">update()</a>.</p>
 
 </div>
 </div><p>
@@ -374,7 +374,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00380">380</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00391">391</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -395,7 +395,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00384">384</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00395">395</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -407,7 +407,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
           <td class="memname">void BV3D::Game::switchToGame           </td>
           <td>(</td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>bRestart</em>          </td>
+          <td class="paramname"> <em>restart</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
         </tr>
@@ -416,10 +416,10 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 <div class="memdoc">
 
 <p>
+called by menu 
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00336">336</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00325">325</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
-
-<p>References <a class="el" href="_game_8cpp-source.html#l00140">applyMenuSettings()</a>, <a class="el" href="_constants_8h-source.html#l00034">BV3D::arenaExtent</a>, <a class="el" href="_game_8h-source.html#l00066">getBlobb()</a>, <a class="el" href="_game_8cpp-source.html#l00308">newServe()</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>.</p>
+<p>References <a class="el" href="_game_8cpp-source.html#l00140">applyMenuSettings()</a>, <a class="el" href="_constants_8h-source.html#l00034">BV3D::ARENA_EXTENT</a>, <a class="el" href="_game_8h-source.html#l00066">getBlobb()</a>, <a class="el" href="_game_8cpp-source.html#l00317">newServe()</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>.</p>
 
 </div>
 </div><p>
@@ -440,7 +440,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00357">357</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00368">368</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -483,7 +483,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00345">345</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00356">356</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">Game()</a>, and <a class="el" href="_game_8cpp-source.html#l00247">processInput()</a>.</p>
 
@@ -506,7 +506,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00372">372</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00383">383</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="_game_8cpp-source.html#l00040">Game()</a>.</p>
 
@@ -533,7 +533,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>References <a class="el" href="_menu_8h-source.html#l00028">BV3D::Menu::AI</a>, <a class="el" href="_menu_8h-source.html#l00025">BV3D::Menu::BEACH</a>, <a class="el" href="_menu_8h-source.html#l00026">BV3D::Menu::CLASSIC</a>, <a class="el" href="_menu_8h-source.html#l00025">BV3D::Menu::HEAVEN</a>, <a class="el" href="_menu_8h-source.html#l00028">BV3D::Menu::KB_ARROWS</a>, <a class="el" href="_menu_8h-source.html#l00028">BV3D::Menu::KB_WASDQ</a>, <a class="el" href="_menu_8h-source.html#l00028">BV3D::Menu::MOUSE</a>, <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM1</a>, and <a class="el" href="_constants_8h-source.html#l00010">BV3D::TEAM2</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00325">switchToGame()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00336">switchToGame()</a>.</p>
 
 </div>
 </div><p>
@@ -555,9 +555,9 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00388">388</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00399">399</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_game_8cpp-source.html#l00443">getDirectionVector()</a>, <a class="el" href="_game_8cpp-source.html#l00422">getPositionVector()</a>, <a class="el" href="_constants_8h-source.html#l00031">BV3D::MAX_CAMERAS</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_game_8cpp-source.html#l00454">getDirectionVector()</a>, <a class="el" href="_game_8cpp-source.html#l00433">getPositionVector()</a>, <a class="el" href="_constants_8h-source.html#l00031">BV3D::MAX_CAMERAS</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
 
 <p>Referenced by <a class="el" href="_game_8cpp-source.html#l00247">processInput()</a>.</p>
 
@@ -581,11 +581,11 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00422">422</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00433">433</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00043">BV3D::lookFrom</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00047">BV3D::LOOK_FROM</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00388">switchCameraposition()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00399">switchCameraposition()</a>.</p>
 
 </div>
 </div><p>
@@ -607,11 +607,11 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 
 <p>
 
-<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00443">443</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_game_8cpp-source.html#l00454">454</a> of file <a class="el" href="_game_8cpp-source.html">Game.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00043">BV3D::lookFrom</a>, <a class="el" href="_constants_8h-source.html#l00042">BV3D::lookTo</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00027">BV3D::CLASSIC_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00047">BV3D::LOOK_FROM</a>, <a class="el" href="_constants_8h-source.html#l00046">BV3D::LOOK_TO</a>, <a class="el" href="_constants_8h-source.html#l00029">BV3D::REVERSE_CAMERA</a>, <a class="el" href="_constants_8h-source.html#l00028">BV3D::TEAM1_BASECAMERA</a>, and <a class="el" href="_constants_8h-source.html#l00030">BV3D::TEAM2_BASECAMERA</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00388">switchCameraposition()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00399">switchCameraposition()</a>.</p>
 
 </div>
 </div><p>
@@ -619,7 +619,7 @@ evaluates incoming InputEvents from canvas, processes and dispatches them
 <li><a class="el" href="_game_8h-source.html">Game.h</a><li><a class="el" href="_game_8cpp-source.html">Game.cpp</a></ul>
 <!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:58 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:09 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

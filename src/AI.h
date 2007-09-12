@@ -13,6 +13,11 @@ namespace BV3D
 	class Arena;
 	class Game;
 
+	/*!
+		\brief Encapsulates almost all code related to the "AI".
+
+		Only the registration of the callback and the update of the material user data are left in Arena::setupMaterials()
+	*/
 	class AI : public VRS::SharedObj
 	{
 	public:
@@ -27,7 +32,7 @@ namespace BV3D
 
 	private:
 		VRS::SO<BV3D::Game> mGame;
-		NewtonBody*		mAiTriggerBody[2];
+		NewtonBody*		mAiTriggerBody[2]; // the plane that represents the AI trigger
 	};
 }
 

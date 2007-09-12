@@ -105,14 +105,14 @@ functions_func.html
 functions_vars.html
 functions_enum.html
 functions_eval.html
-struct_collision_data.html
-struct_collision_data-members.html
 namespaces.html
 namespace_b_v3_d.html
 class_b_v3_d_1_1_a_i.html
 class_b_v3_d_1_1_a_i-members.html
 class_b_v3_d_1_1_arena.html
 class_b_v3_d_1_1_arena-members.html
+struct_b_v3_d_1_1_collision_data.html
+struct_b_v3_d_1_1_collision_data-members.html
 class_b_v3_d_1_1_ball.html
 class_b_v3_d_1_1_ball-members.html
 class_b_v3_d_1_1_blobb.html

@@ -95,8 +95,8 @@
 <a name="l00060"></a>00060         mTransparencyTechnique = <span class="keyword">new</span> TransparencyTechniqueGL();
 <a name="l00061"></a>00061         mScene-&gt;append(mTransparencyTechnique);
 <a name="l00062"></a>00062 
-<a name="l00063"></a>00063         mPerspective = <span class="keyword">new</span> Perspective(45, 1.0, 100.0);
-<a name="l00064"></a>00064         mLookAt = <span class="keyword">new</span> LookAt(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>, <a class="code" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a>);
+<a name="l00063"></a>00063         mPerspective = <span class="keyword">new</span> Perspective(45, 1.0, 400.0);
+<a name="l00064"></a>00064         mLookAt = <span class="keyword">new</span> LookAt(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>, <a class="code" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a>);
 <a name="l00065"></a>00065         mCamera = <span class="keyword">new</span> Camera(mPerspective, mLookAt);
 <a name="l00066"></a>00066         mScene-&gt;append(mCamera);
 <a name="l00067"></a>00067 
@@ -104,7 +104,7 @@
 <a name="l00069"></a>00069         mAmbientLight = <span class="keyword">new</span> AmbientLight(Color(0.7));
 <a name="l00070"></a>00070         mScene-&gt;append(mAmbientLight);
 <a name="l00071"></a>00071 
-<a name="l00073"></a>00073         mPointLight = <span class="keyword">new</span> PointLight(Vector(-<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[0]/2, <a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[1], <a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[2]), VRS::Color(0.3));
+<a name="l00073"></a>00073         mPointLight = <span class="keyword">new</span> PointLight(Vector(-<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[0]/2, <a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[1], <a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[2]), VRS::Color(0.3));
 <a name="l00074"></a>00074         mScene-&gt;append(mPointLight);
 <a name="l00075"></a>00075 
 <a name="l00076"></a>00076         mArena = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">BV3D::Arena</a>(<span class="keyword">this</span>);
@@ -115,14 +115,14 @@
 <a name="l00081"></a>00081         mBlobbArray = <span class="keyword">new</span> Array&lt;SO&lt;Blobb&gt; &gt;();
 <a name="l00082"></a>00082         mBlobbScenesArray = <span class="keyword">new</span> Array&lt;SO&lt;SceneThing&gt;&gt;();
 <a name="l00083"></a>00083         SO&lt;Blobb&gt; blobb = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">BV3D::Blobb</a>(mArena, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>, mLookAt);
-<a name="l00084"></a>00084         blobb-&gt;setPosition(Vector(-<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[0],0.0,0.0));
+<a name="l00084"></a>00084         blobb-&gt;setPosition(Vector(-<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[0],0.0,0.0));
 <a name="l00085"></a>00085         mBlobbScenesArray-&gt;append(<span class="keyword">new</span> SceneThing());
 <a name="l00086"></a>00086         mBlobbScenesArray-&gt;getElement(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>)-&gt;append(blobb-&gt;getScene());
 <a name="l00087"></a>00087         mScene-&gt;append(mBlobbScenesArray-&gt;getElement(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>));
 <a name="l00088"></a>00088         mBlobbArray-&gt;append(blobb);
 <a name="l00089"></a>00089 
 <a name="l00090"></a>00090         blobb = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">BV3D::Blobb</a>(mArena, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>, mLookAt);
-<a name="l00091"></a>00091         blobb-&gt;setPosition(Vector(<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[0],0.0,0.0));
+<a name="l00091"></a>00091         blobb-&gt;setPosition(Vector(<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[0],0.0,0.0));
 <a name="l00092"></a>00092         blobb-&gt;setControls(<span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_mouse_controls.html">BV3D::MouseControls</a>());
 <a name="l00093"></a>00093         mBlobbScenesArray-&gt;append(<span class="keyword">new</span> SceneThing());
 <a name="l00094"></a>00094         mBlobbScenesArray-&gt;getElement(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>)-&gt;append(blobb-&gt;getScene());
@@ -132,7 +132,7 @@
 <a name="l00098"></a>00098         mBall = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_ball.html">BV3D::Ball</a>(mArena);
 <a name="l00099"></a>00099         mScene-&gt;append(mBall-&gt;getScene());
 <a name="l00100"></a>00100 
-<a name="l00101"></a>00101         mAI = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_a_i.html">AI</a>(<span class="keyword">this</span>);
+<a name="l00101"></a>00101         mAI = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_a_i.html" title="Encapsulates almost all code related to the &amp;quot;AI&amp;quot;.">AI</a>(<span class="keyword">this</span>);
 <a name="l00102"></a>00102 
 <a name="l00103"></a>00103         mHud = <span class="keyword">new</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html">HUD</a>();
 <a name="l00104"></a>00104         mScene-&gt;append(VRS_Cast(VRS::SceneThing, mHud-&gt;getScene()));
@@ -273,239 +273,225 @@
 <a name="l00242"></a>00242 }
 <a name="l00243"></a>00243 
 <a name="l00247"></a><a class="code" href="class_b_v3_d_1_1_game.html#ab64390af37cb1f087796c3001056d0c">00247</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#ab64390af37cb1f087796c3001056d0c">BV3D::Game::processInput</a>() {
-<a name="l00248"></a>00248         InputEvent* ie = VRS_Cast(InputEvent, mCbInput-&gt;currentCanvasEvent());
-<a name="l00249"></a>00249         <span class="keywordflow">if</span>(ie==NULL)
-<a name="l00250"></a>00250                 <span class="keywordflow">return</span>;
-<a name="l00251"></a>00251 
-<a name="l00252"></a>00252         <span class="comment">// process general controls (pausing, camera positioning,...)</span>
-<a name="l00253"></a>00253         KeyEvent* ke = VRS_Cast(VRS::KeyEvent, ie);
-<a name="l00254"></a>00254         <span class="keywordflow">if</span>(ke != NULL)
-<a name="l00255"></a>00255                 <span class="keywordflow">if</span>(ke-&gt;pressed()) {
-<a name="l00256"></a>00256                         <span class="keywordflow">switch</span> (ke-&gt;keyCode())
-<a name="l00257"></a>00257                         {
-<a name="l00258"></a>00258                                 <span class="keywordflow">case</span> Key::Escape:
-<a name="l00259"></a>00259                                         <a class="code" href="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018">switchToMenu</a>(!mReferee-&gt;isGameOver());
-<a name="l00260"></a>00260                                         <span class="keywordflow">return</span>;
-<a name="l00261"></a>00261                                 <span class="keywordflow">case</span> Key::F2:   <span class="comment">//change to standard camera position</span>
-<a name="l00262"></a>00262                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">BV3D::CLASSIC_CAMERA</a>);
-<a name="l00263"></a>00263                                         <span class="keywordflow">break</span>;
-<a name="l00264"></a>00264                                 <span class="keywordflow">case</span> Key::F3:   <span class="comment">//view field from opposite the standard position</span>
-<a name="l00265"></a>00265                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">BV3D::REVERSE_CAMERA</a>);
-<a name="l00266"></a>00266                                         <span class="keywordflow">break</span>;
-<a name="l00267"></a>00267                                 <span class="keywordflow">case</span> Key::F4:   <span class="comment">//view field from baseline of Team1</span>
-<a name="l00268"></a>00268                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">BV3D::TEAM1_BASECAMERA</a>);
-<a name="l00269"></a>00269                                         <span class="keywordflow">break</span>;
-<a name="l00270"></a>00270                                 <span class="keywordflow">case</span> Key::F5:   <span class="comment">//view field from baseline of Team2</span>
-<a name="l00271"></a>00271                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">BV3D::TEAM2_BASECAMERA</a>);
-<a name="l00272"></a>00272                                         <span class="keywordflow">break</span>;
-<a name="l00273"></a>00273                                 <span class="keywordflow">case</span> Key::F8:
-<a name="l00274"></a>00274                                         mIsCameraDistant = !mIsCameraDistant;
-<a name="l00275"></a>00275                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(mCurrentCameraPosition);
-<a name="l00276"></a>00276                                         <span class="keywordflow">break</span>;
-<a name="l00277"></a>00277                                 <span class="keywordflow">case</span> Key::F9:
-<a name="l00278"></a>00278                                         mUseMovieStyleCamera = !mUseMovieStyleCamera;
-<a name="l00279"></a>00279                                         <span class="keywordflow">break</span>;
-<a name="l00280"></a>00280         <span class="comment">//                      case Key::F3:   //view field from above</span>
-<a name="l00281"></a>00281         <span class="comment">//                              mNavigation-&gt;initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);</span>
-<a name="l00282"></a>00282         <span class="comment">//                              //printf("Key F2 pressed\n");</span>
-<a name="l00283"></a>00283         <span class="comment">//                              break;</span>
-<a name="l00284"></a>00284         <span class="comment">//                      case Key::F4:   //view field from the front(from baseline of one blobb's field)</span>
-<a name="l00285"></a>00285         <span class="comment">//                              mNavigation-&gt;initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);</span>
-<a name="l00286"></a>00286         <span class="comment">//                              break;</span>
-<a name="l00287"></a>00287         <span class="comment">//                      case Key::F5:   //view field from the side "lying on the ground"</span>
-<a name="l00288"></a>00288         <span class="comment">//                              mNavigation-&gt;initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));</span>
-<a name="l00289"></a>00289         <span class="comment">//                              break;</span>
-<a name="l00290"></a>00290                         }
-<a name="l00291"></a>00291                         <span class="comment">//printf("Key %i pressed\n", ke-&gt;keyCode());</span>
-<a name="l00292"></a>00292                 }
-<a name="l00293"></a>00293 
-<a name="l00294"></a>00294         <span class="comment">// pass input to blobbs</span>
-<a name="l00295"></a>00295         mBlobbArray-&gt;getElement(0)-&gt;processInput(ie);
-<a name="l00296"></a>00296         mBlobbArray-&gt;getElement(1)-&gt;processInput(ie);
-<a name="l00297"></a>00297 
-<a name="l00298"></a>00298         <span class="comment">// warping the pointer freezes the simulation</span>
-<a name="l00299"></a>00299         <span class="comment">/*MotionEvent* me = VRS_Cast(MotionEvent, ie);</span>
-<a name="l00300"></a>00300 <span class="comment">        if(me!=NULL)</span>
-<a name="l00301"></a>00301 <span class="comment">                glutWarpPointer(mCanvas-&gt;getWidth()/2,mCanvas-&gt;getHeight()/2);*/</span>
-<a name="l00302"></a>00302 }
-<a name="l00303"></a>00303 
-<a name="l00304"></a><a class="code" href="class_b_v3_d_1_1_game.html#4967ec60926e121b15625bbf2757cd11">00304</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#4967ec60926e121b15625bbf2757cd11">BV3D::Game::scheduleNewServe</a>() {
-<a name="l00305"></a>00305         mScheduleNewServe = <span class="keyword">true</span>;
-<a name="l00306"></a>00306 }
-<a name="l00307"></a>00307 
-<a name="l00308"></a><a class="code" href="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca">00308</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca">BV3D::Game::newServe</a>() {
-<a name="l00309"></a>00309         <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team = mReferee-&gt;getServingTeam();
-<a name="l00310"></a>00310 
-<a name="l00311"></a>00311         dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-<a name="l00312"></a>00312         NewtonWorldFreezeBody(mArena-&gt;getWorld(), mBall-&gt;getBody());
-<a name="l00313"></a>00313         NewtonBodySetForce(mBall-&gt;getBody(), nullForce);
-<a name="l00314"></a>00314         NewtonBodySetTorque(mBall-&gt;getBody(), nullForce);
-<a name="l00315"></a>00315         Vector pos(mArena-&gt;getTeamBounds(team).center());
-<a name="l00316"></a>00316         pos[1] = 5;
-<a name="l00317"></a>00317         mBall-&gt;resetPosition(pos);
-<a name="l00318"></a>00318 
-<a name="l00319"></a>00319         mReferee-&gt;setActive(<span class="keyword">true</span>);
-<a name="l00320"></a>00320         <span class="keywordflow">if</span> (mAI-&gt;isAiControlled(team))
-<a name="l00321"></a>00321                 mAI-&gt;aiServe(team);
-<a name="l00322"></a>00322 }
-<a name="l00323"></a>00323 
-<a name="l00324"></a>00324 <span class="comment">// called by menu</span>
-<a name="l00325"></a><a class="code" href="class_b_v3_d_1_1_game.html#34d2a5efbade1d5df6043ffa66ec9656">00325</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#34d2a5efbade1d5df6043ffa66ec9656">BV3D::Game::switchToGame</a>(<span class="keywordtype">bool</span> restart) {
-<a name="l00326"></a>00326         <span class="comment">// deactivate menu</span>
-<a name="l00327"></a>00327         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getScene())) mCanvas-&gt;switchOff(mMenu-&gt;getScene());
-<a name="l00328"></a>00328         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getSelector())) mCanvas-&gt;switchOff(mMenu-&gt;getSelector());
-<a name="l00329"></a>00329 
-<a name="l00330"></a>00330         <span class="comment">// adjust settings</span>
-<a name="l00331"></a>00331         <a class="code" href="class_b_v3_d_1_1_game.html#05f4e6cae8d38141a73a12050271d4f4">applyMenuSettings</a>();
-<a name="l00332"></a>00332         <span class="keywordflow">if</span>(restart) {
-<a name="l00333"></a>00333                 mReferee-&gt;startNewGame();
-<a name="l00334"></a>00334                 <a class="code" href="class_b_v3_d_1_1_game.html#8b16c0b73ff2c019aa63de6bc0474ba4">getBlobb</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>)-&gt;setPosition(VRS::Vector(-<a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[0]/4, 0.0f, 0.0f));
-<a name="l00335"></a>00335                 <a class="code" href="class_b_v3_d_1_1_game.html#8b16c0b73ff2c019aa63de6bc0474ba4">getBlobb</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>)-&gt;setPosition(VRS::Vector( <a class="code" href="namespace_b_v3_d.html#3cc2ba739cf8ea37575e6bdcea49c911">BV3D::arenaExtent</a>[0]/4, 0.0f, 0.0f));
-<a name="l00336"></a>00336                 <a class="code" href="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca">newServe</a>();
-<a name="l00337"></a>00337         }
-<a name="l00338"></a>00338 
-<a name="l00339"></a>00339         <span class="comment">// activate game</span>
-<a name="l00340"></a>00340         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mScene)) mCanvas-&gt;switchOn(mScene);
-<a name="l00341"></a>00341         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mCbInput)) mCanvas-&gt;switchOn(mCbInput);
-<a name="l00342"></a>00342         mCanvas-&gt;setCursor(VRS::Cursor::Blank);
-<a name="l00343"></a>00343 }
-<a name="l00344"></a>00344 
-<a name="l00345"></a><a class="code" href="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018">00345</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018">BV3D::Game::switchToMenu</a>(<span class="keywordtype">bool</span> allowResume) {
-<a name="l00346"></a>00346         <span class="comment">// deactivate game</span>
-<a name="l00347"></a>00347         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mScene)) mCanvas-&gt;switchOff(mScene);
-<a name="l00348"></a>00348         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mCbInput)) mCanvas-&gt;switchOff(mCbInput);
+<a name="l00248"></a>00248         <span class="keyword">static</span> <span class="keywordtype">bool</span> warpingMousePointer = <span class="keyword">false</span>;        <span class="comment">// indicates whether mouse pointer was warped (see below)</span>
+<a name="l00249"></a>00249         InputEvent* ie = VRS_Cast(InputEvent, mCbInput-&gt;currentCanvasEvent());
+<a name="l00250"></a>00250         <span class="keywordflow">if</span>(ie==NULL)
+<a name="l00251"></a>00251                 <span class="keywordflow">return</span>;
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253         <span class="comment">// process general controls (pausing, camera positioning,...)</span>
+<a name="l00254"></a>00254         KeyEvent* ke = VRS_Cast(VRS::KeyEvent, ie);
+<a name="l00255"></a>00255         <span class="keywordflow">if</span>(ke != NULL)
+<a name="l00256"></a>00256                 <span class="keywordflow">if</span>(ke-&gt;pressed()) {
+<a name="l00257"></a>00257                         <span class="keywordflow">switch</span> (ke-&gt;keyCode())
+<a name="l00258"></a>00258                         {
+<a name="l00259"></a>00259                                 <span class="keywordflow">case</span> Key::Escape:
+<a name="l00260"></a>00260                                         <a class="code" href="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018">switchToMenu</a>(!mReferee-&gt;isGameOver());
+<a name="l00261"></a>00261                                         <span class="keywordflow">return</span>;
+<a name="l00262"></a>00262                                 <span class="keywordflow">case</span> Key::F2:   <span class="comment">//change to standard camera position</span>
+<a name="l00263"></a>00263                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">BV3D::CLASSIC_CAMERA</a>);
+<a name="l00264"></a>00264                                         <span class="keywordflow">break</span>;
+<a name="l00265"></a>00265                                 <span class="keywordflow">case</span> Key::F3:   <span class="comment">//view field from opposite the standard position</span>
+<a name="l00266"></a>00266                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">BV3D::REVERSE_CAMERA</a>);
+<a name="l00267"></a>00267                                         <span class="keywordflow">break</span>;
+<a name="l00268"></a>00268                                 <span class="keywordflow">case</span> Key::F4:   <span class="comment">//view field from baseline of Team1</span>
+<a name="l00269"></a>00269                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">BV3D::TEAM1_BASECAMERA</a>);
+<a name="l00270"></a>00270                                         <span class="keywordflow">break</span>;
+<a name="l00271"></a>00271                                 <span class="keywordflow">case</span> Key::F5:   <span class="comment">//view field from baseline of Team2</span>
+<a name="l00272"></a>00272                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">BV3D::TEAM2_BASECAMERA</a>);
+<a name="l00273"></a>00273                                         <span class="keywordflow">break</span>;
+<a name="l00274"></a>00274                                 <span class="keywordflow">case</span> Key::F8:
+<a name="l00275"></a>00275                                         mIsCameraDistant = !mIsCameraDistant;
+<a name="l00276"></a>00276                                         <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">switchCameraposition</a>(mCurrentCameraPosition);
+<a name="l00277"></a>00277                                         <span class="keywordflow">break</span>;
+<a name="l00278"></a>00278                                 <span class="keywordflow">case</span> Key::F9:
+<a name="l00279"></a>00279                                         mUseMovieStyleCamera = !mUseMovieStyleCamera;
+<a name="l00280"></a>00280                                         <span class="keywordflow">break</span>;
+<a name="l00281"></a>00281                         }
+<a name="l00282"></a>00282                 }
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284         VRS::SO&lt;VRS::MotionEvent&gt; me = VRS_Cast(MotionEvent, ie);
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286         <span class="comment">// mouse pointer warping is finished after motion event with center coordinates is processed</span>
+<a name="l00287"></a>00287         <span class="comment">// that is, if...</span>
+<a name="l00288"></a>00288         <span class="keywordflow">if</span> (me!=NULL &amp;&amp;                                 <span class="comment">// ...the current event is a MotionEvent that is not NULL...</span>
+<a name="l00289"></a>00289                 warpingMousePointer &amp;&amp;                                          <span class="comment">// ...warping was issued...</span>
+<a name="l00290"></a>00290                 (me-&gt;x() == mCanvas-&gt;getWidth() / 2) &amp;&amp;         <span class="comment">// ...the event position is the horizontal...</span>
+<a name="l00291"></a>00291                 (me-&gt;y() == mCanvas-&gt;getHeight() / 2))          <span class="comment">// ...and vertical center of the canvas</span>
+<a name="l00292"></a>00292         {
+<a name="l00293"></a>00293                 warpingMousePointer = <span class="keyword">false</span>;
+<a name="l00294"></a>00294         } <span class="keywordflow">else</span> {        <span class="comment">// otherwise, the event should be processed regularly by the blobbs</span>
+<a name="l00295"></a>00295                 mBlobbArray-&gt;getElement(0)-&gt;processInput(ie);
+<a name="l00296"></a>00296                 mBlobbArray-&gt;getElement(1)-&gt;processInput(ie);
+<a name="l00297"></a>00297         }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299         <span class="comment">// warp pointer back to canvas center if pointer leaves some rectangle inside the canvas</span>
+<a name="l00300"></a>00300         <span class="keywordflow">if</span>(me!=NULL &amp;&amp;
+<a name="l00301"></a>00301                 ((me-&gt;x() &gt; mCanvas-&gt;getWidth() * 0.75f) ||
+<a name="l00302"></a>00302                 (me-&gt;x() &lt; mCanvas-&gt;getWidth() * 0.25f) ||
+<a name="l00303"></a>00303                 (me-&gt;y() &gt; mCanvas-&gt;getHeight() * 0.75f) ||
+<a name="l00304"></a>00304                 (me-&gt;y() &lt; mCanvas-&gt;getWidth() * 0.25f))) {
+<a name="l00305"></a>00305                         glutWarpPointer(mCanvas-&gt;getWidth() / 2, mCanvas-&gt;getHeight() / 2);
+<a name="l00306"></a>00306                         warpingMousePointer = <span class="keyword">true</span>;
+<a name="l00307"></a>00307         }
+<a name="l00308"></a>00308 }
+<a name="l00309"></a>00309 
+<a name="l00313"></a><a class="code" href="class_b_v3_d_1_1_game.html#4967ec60926e121b15625bbf2757cd11">00313</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#4967ec60926e121b15625bbf2757cd11">BV3D::Game::scheduleNewServe</a>() {
+<a name="l00314"></a>00314         mScheduleNewServe = <span class="keyword">true</span>;
+<a name="l00315"></a>00315 }
+<a name="l00316"></a>00316 
+<a name="l00317"></a><a class="code" href="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca">00317</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca">BV3D::Game::newServe</a>() {
+<a name="l00318"></a>00318         <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team = mReferee-&gt;getServingTeam();
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320         dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+<a name="l00321"></a>00321         NewtonWorldFreezeBody(mArena-&gt;getWorld(), mBall-&gt;getBody());
+<a name="l00322"></a>00322         NewtonBodySetForce(mBall-&gt;getBody(), nullForce);
+<a name="l00323"></a>00323         NewtonBodySetTorque(mBall-&gt;getBody(), nullForce);
+<a name="l00324"></a>00324         Vector pos(mArena-&gt;getTeamBounds(team).center());
+<a name="l00325"></a>00325         pos[1] = 5;
+<a name="l00326"></a>00326         mBall-&gt;resetPosition(pos);
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328         mReferee-&gt;setActive(<span class="keyword">true</span>);
+<a name="l00329"></a>00329         <span class="keywordflow">if</span> (mAI-&gt;isAiControlled(team))
+<a name="l00330"></a>00330                 mAI-&gt;aiServe(team);
+<a name="l00331"></a>00331 }
+<a name="l00332"></a>00332 
+<a name="l00336"></a><a class="code" href="class_b_v3_d_1_1_game.html#34d2a5efbade1d5df6043ffa66ec9656">00336</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#34d2a5efbade1d5df6043ffa66ec9656">BV3D::Game::switchToGame</a>(<span class="keywordtype">bool</span> restart) {
+<a name="l00337"></a>00337         <span class="comment">// deactivate menu</span>
+<a name="l00338"></a>00338         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getScene())) mCanvas-&gt;switchOff(mMenu-&gt;getScene());
+<a name="l00339"></a>00339         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getSelector())) mCanvas-&gt;switchOff(mMenu-&gt;getSelector());
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341         <span class="comment">// adjust settings</span>
+<a name="l00342"></a>00342         <a class="code" href="class_b_v3_d_1_1_game.html#05f4e6cae8d38141a73a12050271d4f4">applyMenuSettings</a>();
+<a name="l00343"></a>00343         <span class="keywordflow">if</span>(restart) {
+<a name="l00344"></a>00344                 mReferee-&gt;startNewGame();
+<a name="l00345"></a>00345                 <a class="code" href="class_b_v3_d_1_1_game.html#8b16c0b73ff2c019aa63de6bc0474ba4">getBlobb</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">BV3D::TEAM1</a>)-&gt;setPosition(VRS::Vector(-<a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[0]/4, 0.0f, 0.0f));
+<a name="l00346"></a>00346                 <a class="code" href="class_b_v3_d_1_1_game.html#8b16c0b73ff2c019aa63de6bc0474ba4">getBlobb</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">BV3D::TEAM2</a>)-&gt;setPosition(VRS::Vector( <a class="code" href="namespace_b_v3_d.html#cda2a604cae7afbcdfb0af6ce9e2b0bd">BV3D::ARENA_EXTENT</a>[0]/4, 0.0f, 0.0f));
+<a name="l00347"></a>00347                 <a class="code" href="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca">newServe</a>();
+<a name="l00348"></a>00348         }
 <a name="l00349"></a>00349 
-<a name="l00350"></a>00350         <span class="comment">// activate menu (allow resume game if game is not yet over)</span>
-<a name="l00351"></a>00351         mMenu-&gt;showMainMenu(allowResume);
-<a name="l00352"></a>00352         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getScene())) mCanvas-&gt;switchOn(mMenu-&gt;getScene());
-<a name="l00353"></a>00353         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getSelector())) mCanvas-&gt;switchOn(mMenu-&gt;getSelector());
-<a name="l00354"></a>00354         mCanvas-&gt;setCursor(VRS::Cursor::Arrow);
-<a name="l00355"></a>00355 }
-<a name="l00356"></a>00356 
-<a name="l00357"></a><a class="code" href="class_b_v3_d_1_1_game.html#e2af63b94116f3a8f16ffbbc4c99e88c">00357</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#e2af63b94116f3a8f16ffbbc4c99e88c">BV3D::Game::toggleFullscreen</a>() {
-<a name="l00358"></a>00358         <span class="keywordflow">if</span>(mPrevWidth) {        <span class="comment">// reset to windowed mode</span>
-<a name="l00359"></a>00359                 glutPositionWindow(mPrevPosX, mPrevPosY);
-<a name="l00360"></a>00360                 glutReshapeWindow(mPrevWidth, mPrevHeight);
-<a name="l00361"></a>00361                 mPrevPosX = 0; mPrevPosY = 0;
-<a name="l00362"></a>00362                 mPrevWidth = 0; mPrevHeight = 0;
-<a name="l00363"></a>00363         } <span class="keywordflow">else</span> {        <span class="comment">// switch to fullscreen mode</span>
-<a name="l00364"></a>00364                 mPrevPosX = glutGet(GLUT_WINDOW_X);
-<a name="l00365"></a>00365                 mPrevPosY = glutGet(GLUT_WINDOW_Y);
-<a name="l00366"></a>00366                 mPrevWidth = glutGet(GLUT_WINDOW_WIDTH);
-<a name="l00367"></a>00367                 mPrevHeight = glutGet(GLUT_WINDOW_HEIGHT);
-<a name="l00368"></a>00368                 glutFullScreen();
-<a name="l00369"></a>00369         }
-<a name="l00370"></a>00370 }
-<a name="l00371"></a>00371 
-<a name="l00372"></a><a class="code" href="class_b_v3_d_1_1_game.html#85eb8928cf4fc5f7dc8d4a6583f0e05c">00372</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#85eb8928cf4fc5f7dc8d4a6583f0e05c">BV3D::Game::setupSound</a>() {
-<a name="l00373"></a>00373         FMOD::System_Create(&amp;mFmodSystem);
-<a name="l00374"></a>00374         mFmodSystem-&gt;init(32, FMOD_INIT_NORMAL, 0);
-<a name="l00375"></a>00375         mFmodSystem-&gt;createSound(<span class="stringliteral">"../Sounds/bums.wav"</span>, FMOD_DEFAULT, 0, &amp;soundTouch);
-<a name="l00376"></a>00376         mFmodSystem-&gt;createSound(<span class="stringliteral">"../Sounds/pfiff.wav"</span>, FMOD_DEFAULT, 0, &amp;soundWhistle);
-<a name="l00377"></a>00377         soundWhistle-&gt;setDefaults(44100, 0.5, 1.0, 128);
-<a name="l00378"></a>00378 }
-<a name="l00379"></a>00379 
-<a name="l00380"></a><a class="code" href="class_b_v3_d_1_1_game.html#f89b2a5a9e41cf3c7d0385df951a5225">00380</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#f89b2a5a9e41cf3c7d0385df951a5225">BV3D::Game::playSoundTouch</a>() {
-<a name="l00381"></a>00381         mFmodSystem-&gt;playSound(FMOD_CHANNEL_FREE, soundTouch, <span class="keyword">false</span>, NULL);
-<a name="l00382"></a>00382 }
-<a name="l00383"></a>00383 
-<a name="l00384"></a><a class="code" href="class_b_v3_d_1_1_game.html#20638eb663fdb6c30b36b5eded7b0d59">00384</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#20638eb663fdb6c30b36b5eded7b0d59">BV3D::Game::playSoundWhistle</a>() {
-<a name="l00385"></a>00385         mFmodSystem-&gt;playSound(FMOD_CHANNEL_FREE, soundWhistle, <span class="keyword">false</span>, NULL);
-<a name="l00386"></a>00386 }
-<a name="l00387"></a>00387 
-<a name="l00388"></a><a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">00388</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">BV3D::Game::switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">BV3D::CAMERAPOSITION</a> position)
-<a name="l00389"></a>00389 {
-<a name="l00390"></a>00390         <span class="keywordflow">if</span> (mUseMovieStyleCamera)
-<a name="l00391"></a>00391         {
-<a name="l00392"></a>00392                 <span class="comment">//TODO: pause game</span>
-<a name="l00393"></a>00393                 VRS::SO&lt;VRS::Array&lt;VRS::Vector&gt; &gt; positions = <span class="keyword">new</span> VRS::Array&lt;VRS::Vector&gt;();
-<a name="l00394"></a>00394                 VRS::SO&lt;VRS::Array&lt;VRS::Vector&gt; &gt; directions = <span class="keyword">new</span> VRS::Array&lt;VRS::Vector&gt;();
-<a name="l00395"></a>00395                 positions-&gt;clear();
-<a name="l00396"></a>00396                 directions-&gt;clear();
-<a name="l00397"></a>00397                 <span class="keywordtype">bool</span> moveLeft = <span class="keyword">true</span>;
-<a name="l00398"></a>00398                 <span class="keywordflow">if</span> ( ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">CLASSIC_CAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">TEAM1_BASECAMERA</a>)) ||
-<a name="l00399"></a>00399                          ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">TEAM1_BASECAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">REVERSE_CAMERA</a>)) ||
-<a name="l00400"></a>00400                          ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">REVERSE_CAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">TEAM2_BASECAMERA</a>)) ||
-<a name="l00401"></a>00401                          ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">TEAM2_BASECAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">CLASSIC_CAMERA</a>)) )
-<a name="l00402"></a>00402                         moveLeft = <span class="keyword">false</span>;
-<a name="l00403"></a>00403                 <span class="keywordflow">do</span>
-<a name="l00404"></a>00404                 {
-<a name="l00405"></a>00405                         <span class="keywordflow">if</span> (moveLeft)
-<a name="l00406"></a>00406                                 mCurrentCameraPosition = (<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a>) ((mCurrentCameraPosition + 1) % <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279">MAX_CAMERAS</a>);
-<a name="l00407"></a>00407                         <span class="keywordflow">else</span>
-<a name="l00408"></a>00408                                 mCurrentCameraPosition = (<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a>) ((mCurrentCameraPosition + ((<span class="keywordtype">int</span>)<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279">MAX_CAMERAS</a> - 1)) % <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279">MAX_CAMERAS</a>);
-<a name="l00409"></a>00409                         positions-&gt;append(<a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">getPositionVector</a>(mCurrentCameraPosition));
-<a name="l00410"></a>00410                         directions-&gt;append(<a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">getDirectionVector</a>(mCurrentCameraPosition));
-<a name="l00411"></a>00411                 }<span class="keywordflow">while</span>(mCurrentCameraPosition != position);
-<a name="l00412"></a>00412 
-<a name="l00413"></a>00413                 mNavigation-&gt;initMultiStepPath(positions, directions);
-<a name="l00414"></a>00414         }
-<a name="l00415"></a>00415         <span class="keywordflow">else</span>
-<a name="l00416"></a>00416         {
-<a name="l00417"></a>00417                 mNavigation-&gt;initPath(<a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">getPositionVector</a>(position), <a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">getDirectionVector</a>(position));
-<a name="l00418"></a>00418                 mCurrentCameraPosition = position;
-<a name="l00419"></a>00419         }
-<a name="l00420"></a>00420 }
-<a name="l00421"></a>00421 
-<a name="l00422"></a><a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">00422</a> VRS::Vector <a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">BV3D::Game::getPositionVector</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a> position)
-<a name="l00423"></a>00423 {
-<a name="l00424"></a>00424         <span class="keywordtype">double</span> offset = 0.0;
-<a name="l00425"></a>00425         <span class="keywordflow">if</span> (mIsCameraDistant)
-<a name="l00426"></a>00426                 offset = 5.0;
-<a name="l00427"></a>00427         <span class="keywordflow">switch</span> (position)
-<a name="l00428"></a>00428                 {
-<a name="l00429"></a>00429                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">BV3D::CLASSIC_CAMERA</a>:
-<a name="l00430"></a>00430                                 <span class="keywordflow">return</span>(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a> + VRS::Vector(0.0, 0.0, -offset));
-<a name="l00431"></a>00431                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">BV3D::REVERSE_CAMERA</a>:
-<a name="l00432"></a>00432                                 <span class="keywordflow">return</span>(Vector(0.0, <a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[1], -(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[2] - offset) ));
-<a name="l00433"></a>00433                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">BV3D::TEAM1_BASECAMERA</a>:
-<a name="l00434"></a>00434                                 <span class="keywordflow">return</span>(Vector(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[2] - offset, <a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[1], 0.0));
-<a name="l00435"></a>00435                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">BV3D::TEAM2_BASECAMERA</a>:
-<a name="l00436"></a>00436                                 <span class="keywordflow">return</span>(Vector(-(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[2] - offset), <a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[1], 0.0));
-<a name="l00437"></a>00437                         <span class="keywordflow">default</span>:
-<a name="l00438"></a>00438                                 <span class="keywordflow">return</span>(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a> + VRS::Vector(0.0, 0.0, -offset));
-<a name="l00439"></a>00439         }
-<a name="l00440"></a>00440 }
-<a name="l00441"></a>00441 
-<a name="l00442"></a>00442 
-<a name="l00443"></a><a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">00443</a> VRS::Vector <a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">BV3D::Game::getDirectionVector</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a> position)
-<a name="l00444"></a>00444 {
-<a name="l00445"></a>00445         <span class="keywordflow">switch</span> (position)
-<a name="l00446"></a>00446                 {
-<a name="l00447"></a>00447                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">BV3D::CLASSIC_CAMERA</a>:
-<a name="l00448"></a>00448                                 <span class="keywordflow">return</span> (-<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a> + <a class="code" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a>);
-<a name="l00449"></a>00449                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">BV3D::REVERSE_CAMERA</a>:
-<a name="l00450"></a>00450                                 <span class="keywordflow">return</span> (VRS::Vector(0.0, -<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[1], <a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[2]) + <a class="code" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a>);
-<a name="l00451"></a>00451                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">BV3D::TEAM1_BASECAMERA</a>:
-<a name="l00452"></a>00452                                 <span class="keywordflow">return</span> (VRS::Vector(-<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[2], -<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[1], 0.0) + <a class="code" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a>);
-<a name="l00453"></a>00453                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">BV3D::TEAM2_BASECAMERA</a>:
-<a name="l00454"></a>00454                                 <span class="keywordflow">return</span> (Vector(<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[2], -<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a>[1], 0.0) + <a class="code" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a>);
-<a name="l00455"></a>00455                         <span class="keywordflow">default</span>:
-<a name="l00456"></a>00456                                 <span class="keywordflow">return</span> (-<a class="code" href="namespace_b_v3_d.html#68a286623c0823635c0ff402df8704d6">BV3D::lookFrom</a> + <a class="code" href="namespace_b_v3_d.html#acab2224d327896dbf9adfa54ae4c0c3">BV3D::lookTo</a>);
-<a name="l00457"></a>00457         }
-<a name="l00458"></a>00458 }
-<a name="l00459"></a>00459         <span class="comment">//case Key::F2: //view field from the side</span>
-<a name="l00460"></a>00460         <span class="comment">//                              mNavigation-&gt;initPath(BV3D::lookFrom, -BV3D::lookFrom + BV3D::lookTo);</span>
-<a name="l00461"></a>00461         <span class="comment">//                              break;</span>
-<a name="l00462"></a>00462         <span class="comment">//                      case Key::F3:   //view field from above</span>
-<a name="l00463"></a>00463         <span class="comment">//                              mNavigation-&gt;initPath(Vector(0.0, BV3D::lookFrom[1] + 10.0, -0.1), Vector(0.0, -BV3D::lookFrom[1], 0.1) + BV3D::lookTo);</span>
-<a name="l00464"></a>00464         <span class="comment">//                              //printf("Key F2 pressed\n");</span>
-<a name="l00465"></a>00465         <span class="comment">//                              break;</span>
-<a name="l00466"></a>00466         <span class="comment">//                      case Key::F4:   //view field from the front(from baseline of one blobb's field)</span>
-<a name="l00467"></a>00467         <span class="comment">//                              mNavigation-&gt;initPath(Vector(-(BV3D::lookFrom[2] - 2.0), BV3D::lookFrom[1], 0.0), Vector(BV3D::lookFrom[2] - 10.0, -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);</span>
-<a name="l00468"></a>00468         <span class="comment">//                              break;</span>
-<a name="l00469"></a>00469         <span class="comment">//                      case Key::F5:   //view field from the side "lying on the ground"</span>
-<a name="l00470"></a>00470         <span class="comment">//                              mNavigation-&gt;initPath(Vector(0.0, 0.0, BV3D::lookFrom[2]), Vector(0.0, 3.0, -BV3D::lookFrom[2]));</span>
-<a name="l00471"></a>00471         <span class="comment">//                              break;</span>
-<a name="l00472"></a>00472         <span class="comment">//                      case Key::F6:   //view field from +y-axis</span>
-<a name="l00473"></a>00473         <span class="comment">//                              mNavigation-&gt;initPath(Vector(0.0, BV3D::lookFrom[1], -BV3D::lookFrom[2]), Vector(0.0, -BV3D::lookFrom[1], BV3D::lookFrom[2]) + BV3D::lookTo);</span>
-<a name="l00474"></a>00474         <span class="comment">//                              break;</span>
-<a name="l00475"></a>00475         <span class="comment">//                      case Key::F7:   //view field from -x-axis</span>
-<a name="l00476"></a>00476         <span class="comment">//                              mNavigation-&gt;initPath(Vector(BV3D::lookFrom[2] - 5.0, BV3D::lookFrom[1], 0.0), Vector(-(BV3D::lookFrom[2] - 5.0), -BV3D::lookFrom[1], 0.0) + BV3D::lookTo);</span>
-<a name="l00477"></a>00477         <span class="comment">//                              break;</span>
+<a name="l00350"></a>00350         <span class="comment">// activate game</span>
+<a name="l00351"></a>00351         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mScene)) mCanvas-&gt;switchOn(mScene);
+<a name="l00352"></a>00352         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mCbInput)) mCanvas-&gt;switchOn(mCbInput);
+<a name="l00353"></a>00353         mCanvas-&gt;setCursor(VRS::Cursor::Blank);
+<a name="l00354"></a>00354 }
+<a name="l00355"></a>00355 
+<a name="l00356"></a><a class="code" href="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018">00356</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018">BV3D::Game::switchToMenu</a>(<span class="keywordtype">bool</span> allowResume) {
+<a name="l00357"></a>00357         <span class="comment">// deactivate game</span>
+<a name="l00358"></a>00358         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mScene)) mCanvas-&gt;switchOff(mScene);
+<a name="l00359"></a>00359         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mCbInput)) mCanvas-&gt;switchOff(mCbInput);
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361         <span class="comment">// activate menu (allow resume game if game is not yet over)</span>
+<a name="l00362"></a>00362         mMenu-&gt;showMainMenu(allowResume);
+<a name="l00363"></a>00363         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getScene())) mCanvas-&gt;switchOn(mMenu-&gt;getScene());
+<a name="l00364"></a>00364         <span class="keywordflow">if</span>(mCanvas-&gt;contains(mMenu-&gt;getSelector())) mCanvas-&gt;switchOn(mMenu-&gt;getSelector());
+<a name="l00365"></a>00365         mCanvas-&gt;setCursor(VRS::Cursor::Arrow);
+<a name="l00366"></a>00366 }
+<a name="l00367"></a>00367 
+<a name="l00368"></a><a class="code" href="class_b_v3_d_1_1_game.html#e2af63b94116f3a8f16ffbbc4c99e88c">00368</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#e2af63b94116f3a8f16ffbbc4c99e88c">BV3D::Game::toggleFullscreen</a>() {
+<a name="l00369"></a>00369         <span class="keywordflow">if</span>(mPrevWidth) {        <span class="comment">// reset to windowed mode</span>
+<a name="l00370"></a>00370                 glutPositionWindow(mPrevPosX, mPrevPosY);
+<a name="l00371"></a>00371                 glutReshapeWindow(mPrevWidth, mPrevHeight);
+<a name="l00372"></a>00372                 mPrevPosX = 0; mPrevPosY = 0;
+<a name="l00373"></a>00373                 mPrevWidth = 0; mPrevHeight = 0;
+<a name="l00374"></a>00374         } <span class="keywordflow">else</span> {        <span class="comment">// switch to fullscreen mode</span>
+<a name="l00375"></a>00375                 mPrevPosX = glutGet(GLUT_WINDOW_X);
+<a name="l00376"></a>00376                 mPrevPosY = glutGet(GLUT_WINDOW_Y);
+<a name="l00377"></a>00377                 mPrevWidth = glutGet(GLUT_WINDOW_WIDTH);
+<a name="l00378"></a>00378                 mPrevHeight = glutGet(GLUT_WINDOW_HEIGHT);
+<a name="l00379"></a>00379                 glutFullScreen();
+<a name="l00380"></a>00380         }
+<a name="l00381"></a>00381 }
+<a name="l00382"></a>00382 
+<a name="l00383"></a><a class="code" href="class_b_v3_d_1_1_game.html#85eb8928cf4fc5f7dc8d4a6583f0e05c">00383</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#85eb8928cf4fc5f7dc8d4a6583f0e05c">BV3D::Game::setupSound</a>() {
+<a name="l00384"></a>00384         FMOD::System_Create(&amp;mFmodSystem);
+<a name="l00385"></a>00385         mFmodSystem-&gt;init(32, FMOD_INIT_NORMAL, 0);
+<a name="l00386"></a>00386         mFmodSystem-&gt;createSound(<span class="stringliteral">"../Sounds/bums.wav"</span>, FMOD_DEFAULT, 0, &amp;soundTouch);
+<a name="l00387"></a>00387         mFmodSystem-&gt;createSound(<span class="stringliteral">"../Sounds/pfiff.wav"</span>, FMOD_DEFAULT, 0, &amp;soundWhistle);
+<a name="l00388"></a>00388         soundWhistle-&gt;setDefaults(44100, 0.5, 1.0, 128);
+<a name="l00389"></a>00389 }
+<a name="l00390"></a>00390 
+<a name="l00391"></a><a class="code" href="class_b_v3_d_1_1_game.html#f89b2a5a9e41cf3c7d0385df951a5225">00391</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#f89b2a5a9e41cf3c7d0385df951a5225">BV3D::Game::playSoundTouch</a>() {
+<a name="l00392"></a>00392         mFmodSystem-&gt;playSound(FMOD_CHANNEL_FREE, soundTouch, <span class="keyword">false</span>, NULL);
+<a name="l00393"></a>00393 }
+<a name="l00394"></a>00394 
+<a name="l00395"></a><a class="code" href="class_b_v3_d_1_1_game.html#20638eb663fdb6c30b36b5eded7b0d59">00395</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#20638eb663fdb6c30b36b5eded7b0d59">BV3D::Game::playSoundWhistle</a>() {
+<a name="l00396"></a>00396         mFmodSystem-&gt;playSound(FMOD_CHANNEL_FREE, soundWhistle, <span class="keyword">false</span>, NULL);
+<a name="l00397"></a>00397 }
+<a name="l00398"></a>00398 
+<a name="l00399"></a><a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">00399</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1">BV3D::Game::switchCameraposition</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">BV3D::CAMERAPOSITION</a> position)
+<a name="l00400"></a>00400 {
+<a name="l00401"></a>00401         <span class="keywordflow">if</span> (mUseMovieStyleCamera)
+<a name="l00402"></a>00402         {
+<a name="l00403"></a>00403                 <span class="comment">//TODO: pause game</span>
+<a name="l00404"></a>00404                 VRS::SO&lt;VRS::Array&lt;VRS::Vector&gt; &gt; positions = <span class="keyword">new</span> VRS::Array&lt;VRS::Vector&gt;();
+<a name="l00405"></a>00405                 VRS::SO&lt;VRS::Array&lt;VRS::Vector&gt; &gt; directions = <span class="keyword">new</span> VRS::Array&lt;VRS::Vector&gt;();
+<a name="l00406"></a>00406                 positions-&gt;clear();
+<a name="l00407"></a>00407                 directions-&gt;clear();
+<a name="l00408"></a>00408                 <span class="keywordtype">bool</span> moveLeft = <span class="keyword">true</span>;
+<a name="l00409"></a>00409                 <span class="keywordflow">if</span> ( ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">CLASSIC_CAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">TEAM1_BASECAMERA</a>)) ||
+<a name="l00410"></a>00410                          ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">TEAM1_BASECAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">REVERSE_CAMERA</a>)) ||
+<a name="l00411"></a>00411                          ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">REVERSE_CAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">TEAM2_BASECAMERA</a>)) ||
+<a name="l00412"></a>00412                          ((mCurrentCameraPosition == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">TEAM2_BASECAMERA</a>) &amp;&amp; (position == <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">CLASSIC_CAMERA</a>)) )
+<a name="l00413"></a>00413                         moveLeft = <span class="keyword">false</span>;
+<a name="l00414"></a>00414                 <span class="keywordflow">do</span>
+<a name="l00415"></a>00415                 {
+<a name="l00416"></a>00416                         <span class="keywordflow">if</span> (moveLeft)
+<a name="l00417"></a>00417                                 mCurrentCameraPosition = (<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a>) ((mCurrentCameraPosition + 1) % <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279">MAX_CAMERAS</a>);
+<a name="l00418"></a>00418                         <span class="keywordflow">else</span>
+<a name="l00419"></a>00419                                 mCurrentCameraPosition = (<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a>) ((mCurrentCameraPosition + ((<span class="keywordtype">int</span>)<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279">MAX_CAMERAS</a> - 1)) % <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279">MAX_CAMERAS</a>);
+<a name="l00420"></a>00420                         positions-&gt;append(<a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">getPositionVector</a>(mCurrentCameraPosition));
+<a name="l00421"></a>00421                         directions-&gt;append(<a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">getDirectionVector</a>(mCurrentCameraPosition));
+<a name="l00422"></a>00422                 }<span class="keywordflow">while</span>(mCurrentCameraPosition != position);
+<a name="l00423"></a>00423 
+<a name="l00424"></a>00424                 mNavigation-&gt;initMultiStepPath(positions, directions);
+<a name="l00425"></a>00425         }
+<a name="l00426"></a>00426         <span class="keywordflow">else</span>
+<a name="l00427"></a>00427         {
+<a name="l00428"></a>00428                 mNavigation-&gt;initPath(<a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">getPositionVector</a>(position), <a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">getDirectionVector</a>(position));
+<a name="l00429"></a>00429                 mCurrentCameraPosition = position;
+<a name="l00430"></a>00430         }
+<a name="l00431"></a>00431 }
+<a name="l00432"></a>00432 
+<a name="l00433"></a><a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">00433</a> VRS::Vector <a class="code" href="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0">BV3D::Game::getPositionVector</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a> position)
+<a name="l00434"></a>00434 {
+<a name="l00435"></a>00435         <span class="keywordtype">double</span> offset = 0.0;
+<a name="l00436"></a>00436         <span class="keywordflow">if</span> (mIsCameraDistant)
+<a name="l00437"></a>00437                 offset = 5.0;
+<a name="l00438"></a>00438         <span class="keywordflow">switch</span> (position)
+<a name="l00439"></a>00439                 {
+<a name="l00440"></a>00440                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">BV3D::CLASSIC_CAMERA</a>:
+<a name="l00441"></a>00441                                 <span class="keywordflow">return</span>(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a> + VRS::Vector(0.0, 0.0, -offset));
+<a name="l00442"></a>00442                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">BV3D::REVERSE_CAMERA</a>:
+<a name="l00443"></a>00443                                 <span class="keywordflow">return</span>(Vector(0.0, <a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[1], -(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[2] - offset) ));
+<a name="l00444"></a>00444                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">BV3D::TEAM1_BASECAMERA</a>:
+<a name="l00445"></a>00445                                 <span class="keywordflow">return</span>(Vector(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[2] - offset, <a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[1], 0.0));
+<a name="l00446"></a>00446                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">BV3D::TEAM2_BASECAMERA</a>:
+<a name="l00447"></a>00447                                 <span class="keywordflow">return</span>(Vector(-(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[2] - offset), <a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[1], 0.0));
+<a name="l00448"></a>00448                         <span class="keywordflow">default</span>:
+<a name="l00449"></a>00449                                 <span class="keywordflow">return</span>(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a> + VRS::Vector(0.0, 0.0, -offset));
+<a name="l00450"></a>00450         }
+<a name="l00451"></a>00451 }
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453 
+<a name="l00454"></a><a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">00454</a> VRS::Vector <a class="code" href="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0">BV3D::Game::getDirectionVector</a>(<a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a> position)
+<a name="l00455"></a>00455 {
+<a name="l00456"></a>00456         <span class="keywordflow">switch</span> (position)
+<a name="l00457"></a>00457                 {
+<a name="l00458"></a>00458                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8">BV3D::CLASSIC_CAMERA</a>:
+<a name="l00459"></a>00459                                 <span class="keywordflow">return</span> (-<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a> + <a class="code" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a>);
+<a name="l00460"></a>00460                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466">BV3D::REVERSE_CAMERA</a>:
+<a name="l00461"></a>00461                                 <span class="keywordflow">return</span> (VRS::Vector(0.0, -<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[1], <a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[2]) + <a class="code" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a>);
+<a name="l00462"></a>00462                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5">BV3D::TEAM1_BASECAMERA</a>:
+<a name="l00463"></a>00463                                 <span class="keywordflow">return</span> (VRS::Vector(-<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[2], -<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[1], 0.0) + <a class="code" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a>);
+<a name="l00464"></a>00464                         <span class="keywordflow">case</span> <a class="code" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1">BV3D::TEAM2_BASECAMERA</a>:
+<a name="l00465"></a>00465                                 <span class="keywordflow">return</span> (Vector(<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[2], -<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a>[1], 0.0) + <a class="code" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a>);
+<a name="l00466"></a>00466                         <span class="keywordflow">default</span>:
+<a name="l00467"></a>00467                                 <span class="keywordflow">return</span> (-<a class="code" href="namespace_b_v3_d.html#301c0cb3358252a24a5fe8b4c35b12a7">BV3D::LOOK_FROM</a> + <a class="code" href="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf">BV3D::LOOK_TO</a>);
+<a name="l00468"></a>00468         }
+<a name="l00469"></a>00469 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:55 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

@@ -13,7 +13,7 @@ BV3D::AI::AI(BV3D::Game* game) {
 	mAiTriggerBody[0] = mAiTriggerBody[1] = NULL;
 }
 
-/*
+/**
  * switch AI on for given team by creating AI trigger plane (a physical plane the ball collides with, but not the blobbs)
  */
 void BV3D::AI::enableAI(BV3D::TEAM team) {
@@ -36,7 +36,7 @@ void BV3D::AI::disableAI(BV3D::TEAM team) {
 	mAiTriggerBody[team==BV3D::TEAM1 ? 0 : 1] = NULL;
 }
 
-/*
+/**
  * lets the blobb specified by team do a serve
  */
 void BV3D::AI::aiServe(BV3D::TEAM team) {

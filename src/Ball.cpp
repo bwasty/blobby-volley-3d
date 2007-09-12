@@ -20,7 +20,6 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	mArena = arena;
 	mRadius = BV3D::BALL_RADIUS;
 	mBody = 0;
-	mIsLocked = true;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 
 	// create ball local scene
@@ -82,13 +81,15 @@ void BV3D::Ball::resetPosition(VRS::Vector& position) {
 	NewtonBodySetMatrix(mBody, newtonMatrix);
 	dFloat nullVelocity[3] = {0.0,0.0,0.0};
 	NewtonBodySetVelocity(mBody, nullVelocity);
-	mIsLocked = true;	// lock the ball at the newly set position
 }
 
 VRS::Vector BV3D::Ball::getPosition() {
 	return mBallScene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
 }
 
+/**
+ * physics callback. Calls update()
+ */
 void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
 	// TODO: use c++/vrs cast
 	BV3D::Ball* ball = (BV3D::Ball*)NewtonBodyGetUserData(body);
@@ -97,52 +98,51 @@ void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
 		ball->update();
 }
 
+/**
+ * applies gravitational force to ball, reduces ball speed if too fast and updates shadows
+ */
 void BV3D::Ball::update() {
 	dFloat Ixx, Iyy, Izz, mass;
 
-	// apply no forces until ball is unlocked by collision (external force)
 	dFloat force[3];
 	NewtonBodyGetForce(mBody, force);
-	if(!mIsLocked || (force[0] != 0) || (force[1] != 0) || (force[2] != 0)) {
-		mIsLocked = false;
 
-		// apply gravitational force
-		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -BV3D::GRAVITY * mass, 0.0f};
-		dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-		NewtonBodySetForce(mBody, nullForce);
-		NewtonBodyAddForce(mBody, gravitation);
+	// apply gravitational force
+	NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
+	dFloat gravitation[3] = {0.0f, -BV3D::GRAVITY * mass, 0.0f};
+	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+	NewtonBodySetForce(mBody, nullForce);
+	NewtonBodyAddForce(mBody, gravitation);
 
-		// check for max speed and reduce if necessary
-		dFloat vel[3];
-		NewtonBodyGetVelocity(mBody, vel);
-		VRS::Vector v(vel[0], vel[1], vel[2]);
-		double length = v.abs();
-		if (length > BV3D::MAX_BALL_VELOCITY) {
-			v = v.normalized() * BV3D::MAX_BALL_VELOCITY;
-			vel[0] = (dFloat)v[0];
-			vel[1] = (dFloat)v[1];
-			vel[2] = (dFloat)v[2];
-			NewtonBodySetVelocity(mBody, vel);
-		}
-
-		// set up matrix for visual ball
-		dFloat newtonMatrix[16];
-		NewtonBodyGetMatrix(mBody, newtonMatrix);
-		VRS::Matrix vrsMatrix (
-			newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
-			newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
-			newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
-			newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
-
-		// apply matrix to visual ball
-		mBallScene->setLocalMatrix(vrsMatrix);
-		double scaling = (SHADOW_MAX_HEIGHT - newtonMatrix[13]) / SHADOW_MAX_HEIGHT;
-		mShadowScene->setLocalMatrix(VRS::Matrix(
-			scaling, 0.0f, 0.0f, newtonMatrix[12],
-			0.0f, scaling, 0.0f, SHADOW_HEIGHT,
-			0.0f, 0.0f, scaling, newtonMatrix[14],
-			0.0f, 0.0f, 0.0f, 1.0f)
-		);
+	// check for max speed and reduce if necessary
+	dFloat vel[3];
+	NewtonBodyGetVelocity(mBody, vel);
+	VRS::Vector v(vel[0], vel[1], vel[2]);
+	double length = v.abs();
+	if (length > BV3D::MAX_BALL_VELOCITY) {
+		v = v.normalized() * BV3D::MAX_BALL_VELOCITY;
+		vel[0] = (dFloat)v[0];
+		vel[1] = (dFloat)v[1];
+		vel[2] = (dFloat)v[2];
+		NewtonBodySetVelocity(mBody, vel);
 	}
+
+	// set up matrix for visual ball
+	dFloat newtonMatrix[16];
+	NewtonBodyGetMatrix(mBody, newtonMatrix);
+	VRS::Matrix vrsMatrix (
+		newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
+		newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
+		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
+		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
+
+	// apply matrix to visual ball
+	mBallScene->setLocalMatrix(vrsMatrix);
+	double scaling = (SHADOW_MAX_HEIGHT - newtonMatrix[13]) / SHADOW_MAX_HEIGHT;
+	mShadowScene->setLocalMatrix(VRS::Matrix(
+		scaling, 0.0f, 0.0f, newtonMatrix[12],
+		0.0f, scaling, 0.0f, SHADOW_HEIGHT,
+		0.0f, 0.0f, scaling, newtonMatrix[14],
+		0.0f, 0.0f, 0.0f, 1.0f)
+	);
 }

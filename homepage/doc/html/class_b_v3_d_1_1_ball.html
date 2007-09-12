@@ -52,7 +52,6 @@
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_ball.html#7bc05acfb052875915024ac2eb27cd42">Ball</a> (VRS::SO&lt; <a class="el" href="class_b_v3_d_1_1_arena.html">BV3D::Arena</a> &gt; arena)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="_ball_8cpp.html">Ball.cpp</a>.  <a href="#7bc05acfb052875915024ac2eb27cd42"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_ball.html#a8367561399be9ac7c60aca0856c4f18">~Ball</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::SO<br>
@@ -92,17 +91,15 @@
 <div class="memdoc">
 
 <p>
-<a class="el" href="_ball_8cpp.html">Ball.cpp</a>. 
-<p>
 ctor <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>arena</em>&nbsp;</td><td>specifies the arena in which the ball is simulated </td></tr>
   </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00021">21</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00019">19</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
 
-<p>References <a class="el" href="_ball_8cpp-source.html#l00094">applyForceAndTorqueCallback()</a>, <a class="el" href="_constants_8h-source.html#l00037">BV3D::ballRadius</a>, <a class="el" href="_ball_8cpp-source.html#l00069">resetPosition()</a>, <a class="el" href="_constants_8h-source.html#l00046">BV3D::shadowHeight</a>, and <a class="el" href="_constants_8h-source.html#l00040">BV3D::threeDSPath</a>.</p>
+<p>References <a class="el" href="_ball_8cpp-source.html#l00093">applyForceAndTorqueCallback()</a>, <a class="el" href="_constants_8h-source.html#l00037">BV3D::BALL_RADIUS</a>, <a class="el" href="_constants_8h-source.html#l00044">BV3D::MODELS_PATH</a>, <a class="el" href="_ball_8cpp-source.html#l00066">resetPosition()</a>, and <a class="el" href="_constants_8h-source.html#l00050">BV3D::SHADOW_HEIGHT</a>.</p>
 
 </div>
 </div><p>
@@ -123,7 +120,7 @@ ctor <dl compact><dt><b>Parameters:</b></dt><dd>
 
 <p>
 dtor 
-<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00064">64</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00061">61</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -172,11 +169,11 @@ position ball <dl compact><dt><b>Parameters:</b></dt><dd>
   </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00069">69</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00066">66</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00046">BV3D::shadowHeight</a>, and <a class="el" href="_constants_8h-source.html#l00047">BV3D::shadowMaxHeight</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00050">BV3D::SHADOW_HEIGHT</a>, and <a class="el" href="_constants_8h-source.html#l00051">BV3D::SHADOW_MAX_HEIGHT</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00021">Ball()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00019">Ball()</a>.</p>
 
 </div>
 </div><p>
@@ -197,7 +194,7 @@ position ball <dl compact><dt><b>Parameters:</b></dt><dd>
 
 <p>
 
-<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00090">90</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00086">86</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -222,31 +219,6 @@ position ball <dl compact><dt><b>Parameters:</b></dt><dd>
 
 </div>
 </div><p>
-<a class="anchor" name="2f5f5e6f1531e62ada9fbfb7ee1bb8d8"></a><!-- doxytag: member="BV3D::Ball::update" ref="2f5f5e6f1531e62ada9fbfb7ee1bb8d8" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BV3D::Ball::update           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-update ball physics and visuals 
-<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00102">102</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
-
-<p>References <a class="el" href="_constants_8h-source.html#l00049">BV3D::gravity</a>, <a class="el" href="_constants_8h-source.html#l00044">BV3D::maxBallVelocity</a>, <a class="el" href="_constants_8h-source.html#l00046">BV3D::shadowHeight</a>, and <a class="el" href="_constants_8h-source.html#l00047">BV3D::shadowMaxHeight</a>.</p>
-
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00094">applyForceAndTorqueCallback()</a>.</p>
-
-</div>
-</div><p>
 <a class="anchor" name="a47dbb4bbfc3b12d800af6cbfaae5cc6"></a><!-- doxytag: member="BV3D::Ball::applyForceAndTorqueCallback" ref="a47dbb4bbfc3b12d800af6cbfaae5cc6" args="(const NewtonBody *body)" -->
 <div class="memitem">
 <div class="memproto">
@@ -266,15 +238,41 @@ update ball physics and visuals
 <p>
 callback which notifies that a NewtonBody in the NewtonWorld has changed <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>body</em>&nbsp;</td><td>is the changed NewtonBody </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>body</em>&nbsp;</td><td>is the changed NewtonBody</td></tr>
   </table>
 </dl>
+physics callback. Calls <a class="el" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">update()</a> 
+<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00093">93</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
 
-<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00094">94</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
+<p>References <a class="el" href="_ball_8cpp-source.html#l00104">update()</a>.</p>
 
-<p>References <a class="el" href="_ball_8cpp-source.html#l00102">update()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00019">Ball()</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00021">Ball()</a>.</p>
+</div>
+</div><p>
+<a class="anchor" name="2f5f5e6f1531e62ada9fbfb7ee1bb8d8"></a><!-- doxytag: member="BV3D::Ball::update" ref="2f5f5e6f1531e62ada9fbfb7ee1bb8d8" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BV3D::Ball::update           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+update ball physics and visuals<p>
+applies gravitational force to ball, reduces ball speed if too fast and updates shadows 
+<p>Definition at line <a class="el" href="_ball_8cpp-source.html#l00104">104</a> of file <a class="el" href="_ball_8cpp-source.html">Ball.cpp</a>.</p>
+
+<p>References <a class="el" href="_constants_8h-source.html#l00053">BV3D::GRAVITY</a>, <a class="el" href="_constants_8h-source.html#l00048">BV3D::MAX_BALL_VELOCITY</a>, <a class="el" href="_constants_8h-source.html#l00050">BV3D::SHADOW_HEIGHT</a>, and <a class="el" href="_constants_8h-source.html#l00051">BV3D::SHADOW_MAX_HEIGHT</a>.</p>
+
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00093">applyForceAndTorqueCallback()</a>.</p>
 
 </div>
 </div><p>
@@ -282,7 +280,7 @@ callback which notifies that a NewtonBody in the NewtonWorld has changed <dl com
 <li><a class="el" href="_ball_8h-source.html">Ball.h</a><li><a class="el" href="_ball_8cpp-source.html">Ball.cpp</a></ul>
 <!-- bottom line -->
 <address><small>
-  Generated on Wed Sep 12 15:04:58 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 00:43:09 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>
