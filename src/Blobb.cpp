@@ -367,6 +367,7 @@ void BV3D::Blobb::update() {
 		//	forceSingleAnimation();
 		mJumpAllowed = true;
 	}
+
 	mBlobbScene->setLocalMatrix(vrsMatrix);
 	double scaling = (shadowMaxHeight - newtonMatrix[13]) * colData[mCurrentShape][1] / shadowMaxHeight;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
@@ -375,6 +376,15 @@ void BV3D::Blobb::update() {
 		0.0f, 0.0f, scaling, newtonMatrix[14],
 		0.0f, 0.0f, 0.0f, 1.0f)
 	);
+
+	// Reset ball if it leaves its field half
+	if (!mArena->getTeamBounds(mTeam).containsPoint(VRS::Vector(vrsMatrix.element(0,3), vrsMatrix.element(1,3)+BV3D::blobbHeight/2, vrsMatrix.element(2,3)))) {
+		VRS::Vector newPos(mArena->getTeamBounds(mTeam).center());
+		newPos[1] = 0.0;
+		setPosition(newPos);
+	}
+
+		
 }
 
 /**

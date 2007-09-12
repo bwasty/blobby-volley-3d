@@ -53,7 +53,7 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mP1Color = RED;
 	mP2Color = GREEN;
 	mP1Controls = KB_ARROWS;
-	mP2Controls = MOUSE;
+	mP2Controls = AI;
 
 	mScene = new VRS::SceneThing();
 	mScene->append(new VRS::Camera(VRS::Vector(0.0,0.0,-5.0), VRS::Vector(), 30, 0.1, 100));
