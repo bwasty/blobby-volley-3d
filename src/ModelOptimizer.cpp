@@ -1,7 +1,3 @@
-/*
- * Class for loading and optimizing external 3D-models, currently supporting .obj and .3ds files
- */
-
 #include "ModelOptimizer.h"
 
 #include <vrs/io/threedsreader.h>
@@ -22,7 +18,7 @@ BV3D::ModelOptimizer::~ModelOptimizer(void)
 {
 }
 
-/*
+/**
  * loads a 3ds model with the given options and optimizes it
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
@@ -52,27 +48,9 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 	}
 	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
 	return optimizeModel(VRS::ThreeDSReader::readObject(fileName));
-	//ball = optimizeModel(VRS::ThreeDSReader::readObject(fileName));
-	//for(int i=0; i< ball->objects(); i++)
-	//{
-	//	//printf("    %s\n", ball->object(i)->classNameVRS().text());
-	//	if (ball->object(i)->isA(VRS::SceneThing::ClassNameVRS()))
-	//	{
-	//		VRS::SO<VRS::SceneThing> scene = VRS_Cast(VRS::SceneThing, ball->object(i));
-	//		for(int j=0; j< scene->objects(); j++)
-	//		{
-	//			if (scene->object(j)->isA(VRS::Shape::ClassNameVRS()))
-	//			{
-	//				printf("        %s\n", scene->object(j)->classNameVRS().text());
-	//				scene->replace(scene->object(j), new VRS::Cache(VRS_Cast(VRS::Shape, scene->object(j))));
-	//			}
-	//		}
-	//	}
-	//}
-	//return ball;
 }
 
-/*
+/**
  * loads an obj model and optimizes it
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::string &fileName)
@@ -105,7 +83,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::stri
 	return model;
 }
 
-/*
+/**
  * Optimizes the given Scenegraph and returns a new one.
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneThing> origModel)

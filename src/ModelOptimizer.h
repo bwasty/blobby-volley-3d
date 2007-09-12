@@ -12,6 +12,9 @@ namespace VRS{
 
 namespace BV3D
 {
+	/*
+	* \brief Class for loading and optimizing external 3D-models, currently supporting .obj and .3ds files
+	*/
 	class ModelOptimizer : public VRS::SharedObj
 	{
 	public:

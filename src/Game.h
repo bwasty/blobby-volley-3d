@@ -118,10 +118,10 @@ namespace BV3D
 		double		mDLastUpdateTime;	// auxiliary variable for frame stepping
 		double		mFPS;				// desired frame rate
 		
+		VRS::SO<Referee>		mReferee;
 		VRS::SO<Arena>			mArena;	// Arena object
 		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	mBlobbArray;	// list of Blobbs
 		VRS::SO<Ball>			mBall;
-		VRS::SO<Referee>		mReferee;
 		VRS::SO<SceneLoader>	mSceneLoader;
 		VRS::SO<Menu>			mMenu;
 	};

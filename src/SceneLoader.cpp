@@ -22,6 +22,7 @@
 #include <vrs/opengl/imagetexture2dgl.h>
 #include <vrs/cylinder.h>
 #include <vrs/facestyle.h>
+#include <vrs/plane.h>
 //#include <vrs/opengl/texturegl.h>
 
 
@@ -197,9 +198,9 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	//VRS::Matrix texMatrix = VRS::Matrix();
 	wall->append(new VRS::FaceStyle(VRS::FaceStyle::Filled, VRS::FaceStyle::Filled));
 	wall->append(new VRS::ImageTexture2DGL(VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "BricksLgMortar.jpg"),
-		VRS::TextureGL::REPEAT, VRS::TextureGL::REPEAT, VRS::TextureGL::NEAREST, VRS::TextureGL::NEAREST, 1.0, 
+		VRS::TextureGL::REPEAT, VRS::TextureGL::REPEAT, VRS::TextureGL::LINEAR, VRS::TextureGL::LINEAR, 1.0, 
 		texMatrix));
-	wall->append(new VRS::Cylinder(VRS::Vector(0.0, 8.0, 0.0), VRS::Vector(0.0, -0.5, 0.0), groundRadius, 360.0));
+	wall->append(new VRS::Cylinder(VRS::Vector(0.0, 9.5, 0.0), VRS::Vector(0.0, -0.5, 0.0), groundRadius, 360.0));
 	
 	//chainlink
 	VRS::SO<VRS::SceneThing> fenceModelBase = new VRS::SceneThing();
@@ -243,16 +244,6 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	fence = new VRS::SceneThing(arenaScene);
 	fence->setLocalMatrix(VRS::Matrix::translation(VRS::Vector(0.0, 0.0, extent[2])));
 	fence->append(fenceSceneSide);
-
-	//swingset
-	//VRS::SO<VRS::SceneThing> swingset = new VRS::SceneThing();
-	//vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0]-5.0, 2.0, extent[2] * 3));
-	//vrsMatrix = vrsMatrix * VRS::Matrix::scaling(VRS::Vector(scalSwing, scalSwing, scalSwing));
-	//swingset->setLocalMatrix(vrsMatrix);
-	//swingset->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "swingset_mrealms.3ds"));
-	//VRS::SO<VRS::CullingSceneThing> swingsetScene = new VRS::CullingSceneThing(swingset->boundingBox(mCanvas->engine()));
-	//swingsetScene->append(swingset);
-	//arenaScene->append(swingsetScene);
 	
 	//metal stands
 	VRS::SO<VRS::SceneThing> standsModel = new VRS::SceneThing();
@@ -268,11 +259,6 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 180.0);
 	stands->setLocalMatrix(vrsMatrix);
 	stands->append(standsScene);
-	
-	/*stands = new VRS::SceneThing(arenaScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(0, 2.5, -2*extent[2]));
-	stands->setLocalMatrix(vrsMatrix);
-	stands->append(standsScene);*/
 
 	stands = new VRS::SceneThing(arenaScene);
 	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-5*extent[0]/4, 2.5, 0));
@@ -305,13 +291,16 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHeaven()
 	//ground plane with heaven bumpmap
 	VRS::SO<VRS::SceneThing> groundPlane = new VRS::SceneThing(heavenScene);
 	VRS::SO<VRS::DistantLight> light = new VRS::DistantLight(VRS::Vector(0.0, 1.0, 1.0), VRS::Color(1.0));
-	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "orange.pgm");
+	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "PittedTexture.jpg"); //"orange.pgm" 
 	VRS::SO<VRS::Bumpmap> bumpmap = new VRS::Bumpmap(img1, light, -4.0);  
-	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, -bumpmapOffset)));
+	VRS::SO<VRS::Plane> plane = new VRS::Plane();
+	plane->setTextureTiling(7.0);
+	//groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, -bumpmapOffset)));
     groundPlane->append(bumpmap);
 	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.6, 0.6, 0.6), VRS::Color(0.0), 128.0));
-	groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 60.0));
-	groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, bumpmapOffset)));
+	//groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 200.0));
+	groundPlane->append(plane);
+	//groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, bumpmapOffset)));
 	groundPlane->append(getFieldLines());
 
 	return heavenScene;
