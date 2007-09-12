@@ -29,7 +29,6 @@ namespace BV3D
 		~Blobb();
 		void setPosition(VRS::Vector position);
 		void setLookAt(VRS::SO<VRS::LookAt> lookAt) {mLookAt = lookAt;}
-		void setStepDistance(double distance) {mStepDistance = distance;}
 		void setControls(VRS::SO<BV3D::Controls> controls);
 		void setColor(VRS::Color color);
 		VRS::SO<BV3D::Controls> getControls();
@@ -56,7 +55,6 @@ namespace BV3D
 		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;				// blobb material
 		VRS::SO<Controls>				mControls;				// blobb controls
 		VRS::SO<VRS::LookAt>			mLookAt;				// blobb movement orientation
-		double							mStepDistance;			// blobb step distance
 		bool							mJumpAllowed;			// indicates if blobb may jump
 		BV3D::TEAM						mTeam;
 		static const int				mNumShapes = 5;		//number of animation shapes

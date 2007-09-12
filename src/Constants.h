@@ -37,16 +37,20 @@ namespace BV3D
 		static const double ballRadius = 0.9;
 		static const double blobbHeight = 2.6;
 		static const double blobbAlpha = 0.7;
+		static const double blobbJumpSpeed = 14.0;
+		static const double blobbMaxJumpHeight = 2.0;
+		static const double blobbMovementStepDistance = 12.0; // // blobb step distance
+		static const double blobbGravityMultiplier = 3.5; // the gravity for the blobbs is stronger, because they should fall down faster than the ball
 		static const std::string threeDSPath = "../Modelle/3ds/";
 		static const std::string cubemapsPath = "../Modelle/cubemaps/";
 		static const VRS::Vector lookTo = VRS::Vector(0.0, 4.0, 0.0);
 		static const VRS::Vector lookFrom = VRS::Vector(0.0, 9.0, -16.0);
 		static const float maxBallVelocity = 20.0;
 
-		static const double shadowHeight = 0.01f;
-		static const double shadowMaxHeight = 20.0f;
+		static const double shadowHeight = 0.01;
+		static const double shadowMaxHeight = 20.0;
 
-		static const float gravity = 20.81f;;
+		static const double gravity = 21.00;;
 };
 
 #endif	// BV3D_CONSTANTS

@@ -62,7 +62,6 @@ dFloat colData[5][5] = {
 	mTeam = team;
 	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
 	mLookAt = lookAt;
-	mStepDistance = 9.0;
 	mJumpAllowed = false;
 	mBody = 0;
 	mCollision = 0;
@@ -136,7 +135,7 @@ dFloat colData[5][5] = {
 	// set up mass matrix
 	dFloat radius = 1.0; // TODO?
 	dFloat inertia = 2*1*(radius * radius) / 5;
-	NewtonBodySetMassMatrix(mBody, 50 ,inertia,inertia,inertia);
+	NewtonBodySetMassMatrix(mBody, 50,inertia,inertia,inertia);
 
 	// attach two up-vector joints to prevent blobb from leaning, tipping over and spinning around the y-axis
 	dFloat upVector[3] = {0.0,1.0,0.0};
@@ -290,7 +289,7 @@ void BV3D::Blobb::processInput(VRS::SO<VRS::InputEvent> ie) {
 VRS::Vector BV3D::Blobb::getMovement() {
 	if(!mControls) {
 		if(mMaxJump)
-			return VRS::Vector(0.0,14.0,0.0);
+			return VRS::Vector(0.0,BV3D::blobbJumpSpeed,0.0);
 		else
 			return VRS::Vector();
 	}
@@ -298,7 +297,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	// create orientation vector for movement to the specified mLookAt object
 	VRS::Vector orientation = mLookAt->getTo() - mLookAt->getFrom();	// get from-to vector
 	orientation[1] = 0;												// map vector onto xz-plane
-	orientation = orientation.normalized() * mStepDistance;			// normalize vector and resize to step distance
+	orientation = orientation.normalized() * BV3D::blobbMovementStepDistance;			// normalize vector and resize to step distance
 
 	VRS::Vector requestedMovement = mControls->getRequestedMovement();
 
@@ -308,10 +307,10 @@ VRS::Vector BV3D::Blobb::getMovement() {
 
 	if(requestedMovement[1]) {
 		if(mJumpAllowed)
-			movement += VRS::Vector(0.0,14.0,0.0);	// blobb may jump only if it is allowed
+			movement += VRS::Vector(0.0,BV3D::blobbJumpSpeed,0.0);	// blobb may jump only if it is allowed
 	}
-	else
-		mJumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
+	//else
+	//	mJumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
 
 	return movement;
 }
@@ -338,7 +337,7 @@ void BV3D::Blobb::update() {
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -BV3D::gravity* 3.5f * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, -BV3D::gravity * BV3D::blobbGravityMultiplier * mass, 0.0f};
 		NewtonBodyAddForce(mBody, gravitation);
 	}
 
@@ -357,14 +356,14 @@ void BV3D::Blobb::update() {
 		newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14],
 		newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
 
-	if(newtonMatrix[13]>2.0) {	// prevent blobb from jumping too high
+	if(newtonMatrix[13]>BV3D::blobbMaxJumpHeight) {	// prevent blobb from jumping too high
 		mJumpAllowed = false;
 		mMaxJump = false;
 	}
 	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
 	{
-		//if (!mJumpAllowed)		//if Blobb was jumping high, then animate when landing again
-		//	forceSingleAnimation();
+		if (!mJumpAllowed)		//if Blobb was jumping high, then animate when landing again
+			forceSingleAnimation();
 		mJumpAllowed = true;
 	}
 
