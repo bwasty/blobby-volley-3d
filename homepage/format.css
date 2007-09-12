@@ -1,0 +1,8 @@
+body { font-family:Arial,sans-serif; }
+h1 { color:black; size:48px; text-decoration:underline;}
+h3 { color:black; size:8px;}
+a:link {color:blue;text-decoration:none; font-weight:bold}
+a:visited {color:blue;text-decoration:none; font-weight:bold}
+a:hover {color:blue;text-decoration:none; font-weight:bold;background-color:#AAA}
+a:focus{color:blue;text-decoration:none; font-weight:bold}
+a:active{color:blue;text-decoration:none; font-weight:bold}
