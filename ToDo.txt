@@ -1,16 +1,17 @@
 --------------------
 Neue ToDo:
-- KI ausschaltbar (benny, erik)
+v KI ausschaltbar (benny, erik)
 - Refactoring
-	- KI zentral
+	v KI zentral
 	- m_...
 	- Kommentare
 	- Includes
-- Blobb animieren bei Landung
-- Szenen + Optimierung
-- Spiellogik aus Callbacks auslagern
+v Blobb animieren bei Landung
+v Szenen + Optimierung
+v Spiellogik aus Callbacks auslagern
 - Webseite
 - Helpseite erstellen (Tastenbelegung, Spielziel,...)
+- 
 
 Bugs:
 V angabenanzeige(!) ändert nicht, wenn kein punkt gemacht wurde
