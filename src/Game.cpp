@@ -245,7 +245,7 @@ void BV3D::Game::update() {
  * evaluates incoming InputEvents from canvas, processes and dispatches them
  */
 void BV3D::Game::processInput() {
-	static bool warpingMousePointer = false;
+	static bool warpingMousePointer = false;	// indicates whether mouse pointer was warped (see below)
 	InputEvent* ie = VRS_Cast(InputEvent, mCbInput->currentCanvasEvent());
 	if(ie==NULL)
 		return;
@@ -293,25 +293,28 @@ void BV3D::Game::processInput() {
 		}
 
 	VRS::SO<VRS::MotionEvent> me = VRS_Cast(MotionEvent, ie);
-	if(me==NULL || !warpingMousePointer) {
-		// pass input to blobbs unless mouse pointer was warped back to center
+
+	// mouse pointer warping is finished after motion event with center coordinates is processed
+	// that is, if...
+	if (me!=NULL &&					// ...the current event is a MotionEvent that is not NULL...
+		warpingMousePointer &&						// ...warping was issued...
+		(me->x() == mCanvas->getWidth() / 2) &&		// ...the event position is the horizontal...
+		(me->y() == mCanvas->getHeight() / 2))		// ...and vertical center of the canvas
+	{
+		warpingMousePointer = false;
+	} else {	// otherwise, the event should be processed regularly by the blobbs
 		mBlobbArray->getElement(0)->processInput(ie);
 		mBlobbArray->getElement(1)->processInput(ie);
 	}
 
-	// warping the pointer freezes the simulation
-	if(me!=NULL) {
-		if(warpingMousePointer)
-			// mouse pointer warping is done after 1 mouse event
-			warpingMousePointer = false;
-		else if(me->x() > mCanvas->getWidth() * 0.75f)
-			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
-		else if(me->x() < mCanvas->getWidth() * 0.15f)
-			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
-		else if(me->y() > mCanvas->getHeight() * 0.75f)
-			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
-		else if(me->y() < mCanvas->getHeight() * 0.15f)
-			glutWarpPointer(mCanvas->getWidth()/2,mCanvas->getHeight()/2);
+	// warp pointer back to canvas center if pointer leaves some rectangle inside the canvas
+	if(me!=NULL &&
+		((me->x() > mCanvas->getWidth() * 0.75f) ||
+		(me->x() < mCanvas->getWidth() * 0.25f) ||
+		(me->y() > mCanvas->getHeight() * 0.75f) ||
+		(me->y() < mCanvas->getWidth() * 0.25f))) {
+			glutWarpPointer(mCanvas->getWidth() / 2, mCanvas->getHeight() / 2);
+			warpingMousePointer = true;
 	}
 }
 
