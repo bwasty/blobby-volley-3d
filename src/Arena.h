@@ -121,9 +121,8 @@ namespace BV3D {
 		static int blobbContactBeginCallback(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
 	};
-}
 
-struct CollisionData {
+	struct CollisionData {
 	int material1;
 	int material2;
 	VRS::SO<BV3D::Game> game;
@@ -133,6 +132,9 @@ struct CollisionData {
 	VRS::SO<BV3D::Blobb> currentBlobb;
 	NewtonWorld* world;
 	int delayStartFrame;
-};
+	};
+}
+
+
 
 #endif	//BV3D_ARENA
