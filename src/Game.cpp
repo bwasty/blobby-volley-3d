@@ -193,6 +193,11 @@ void BV3D::Game::applyMenuSettings() {
 	mReferee = newReferee;
 	mReferee->setHUD(mHud);
 
+	// always put HUD at the very end of the scene graph to prevent it from getting covered!
+	if(mScene->contains(mHud->getScene()))
+		mScene->remove(mHud->getScene());
+	mScene->append(mHud->getScene());
+
 	mArena->setupMaterials();
 }
 
