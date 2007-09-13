@@ -12,10 +12,6 @@
 
 #include <vrs/sg/scenething.h>
 #include <vrs/camera.h>
-#include <vrs/sg/selector.h>
-#include <vrs/rayrequest.h>
-#include <vrs/rayrequesttechnique.h>
-#include <vrs/methodcallback.h>
 #include <vrs/perspective.h>
 #include <vrs/ambientlight.h>
 #include <vrs/pointlight.h>
@@ -34,6 +30,9 @@
 #include <vrs/io/filedataresource.h>
 #include <vrs/io/wavefrontreader.h>
 #include <vrs/io/threedsreader.h>
+#include <vrs/sg/pickingcallback.h>
+#include <vrs/methodcallback.h>
+#include <vrs/intersectioninfo.h>
 #include <stdio.h>
 
 
@@ -84,60 +83,57 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mBlobb->prepend(new VRS::Translation(0.5,-0.25,-2.0));
 	mBlobb->prepend(new VRS::ShadowCaster(mLight));
 
-	mSelector = new VRS::Selector(VRS::InputEvent::MouseButton1,
-		VRS::InputEvent::NoModifier,VRS::InputEvent::NoModifier,
-		mRayRequest = new VRS::RayRequest(VRS::RayRequestTechnique::Nearest),0,0,
-		new VRS::MethodCallback<Menu>(this,&Menu::select),0,0);
+	mPickingCallback = new VRS::PickingCallback(
+		new VRS::MethodCallback1<BV3D::Menu, VRS::IntersectionInfo*>(this,&Menu::select));
 }
 
-void BV3D::Menu::select() {
-    if(mRayRequest->results()>0) {
-		VRS::SO<VRS::IntersectionInfo> info = mRayRequest->result(0);
+void BV3D::Menu::select(VRS::IntersectionInfo* info) {
 
-        const std::string& name = info->getShape()->getObjectName();
+    const std::string& name = info->getShape()->getObjectName();
 
-		if(name.compare("Start")==0) {
-			mGame->switchToGame(true); mGame->playSoundWhistle();}
-		else if(name.compare("Resume")==0) {
-			mGame->switchToGame(false); mGame->playSoundTouch();}
-		else if(name.compare("Main")==0)	showMenu(MAIN);
-		else if(name.compare("Options")==0)	showMenu(OPTIONS);
-		else if(name.compare("Credits")==0)	showMenu(CREDITS);
-		else if(name.compare("Game")==0)	showMenu(GAME);
-		else if(name.compare("Player 1")==0)	showMenu(P1);
-		else if(name.compare("Player 2")==0)	showMenu(P2);
-		else if(name.compare("Fullscreen")==0) {
-			mGame->toggleFullscreen();
-			mFullscreen = (mFullscreen==OFF) ? ON : OFF;
-			mGame->playSoundTouch();
-			showMenu(GAME);}
-		else if(name.compare("Place")==0) {
-			mPlace = (PLACE)((mPlace+1) % MAX_PLACES);
-			mGame->playSoundTouch();
-			showMenu(GAME);}
-		else if(name.compare("Rules")==0) {
-			mRules = (RULES)((mRules+1) % MAX_RULES);
-			mGame->playSoundTouch();
-			showMenu(GAME);}
-		else if(name.compare("P1Color")==0) {
-			mP1Color = (COLOR)((mP1Color+1) % MAX_COLORS);
-			mGame->playSoundTouch();
-			showMenu(P1);}
-		else if(name.compare("P2Color")==0) {
-			mP2Color = (COLOR)((mP2Color+1) % MAX_COLORS);
-			mGame->playSoundTouch();
-			showMenu(P2);}
-		else if(name.compare("P1Controls")==0) {
-			mP1Controls = (CONTROLS)((mP1Controls+1) % MAX_CONTROLS);
-			mGame->playSoundTouch();
-			showMenu(P1);}
-		else if(name.compare("P2Controls")==0) {
-			mP2Controls = (CONTROLS)((mP2Controls+1) % MAX_CONTROLS);
-			mGame->playSoundTouch();
-			showMenu(P2);}
-		else if(name.compare("Quit")==0) exit(0);
-		else return;
-    }
+	if(name.length()<=0)
+		return;
+	else if(name.compare("Start")==0) {
+		mGame->switchToGame(true); mGame->playSoundWhistle();}
+	else if(name.compare("Resume")==0) {
+		mGame->switchToGame(false); mGame->playSoundTouch();}
+	else if(name.compare("Main")==0)	showMenu(MAIN);
+	else if(name.compare("Options")==0)	showMenu(OPTIONS);
+	else if(name.compare("Credits")==0)	showMenu(CREDITS);
+	else if(name.compare("Game")==0)	showMenu(GAME);
+	else if(name.compare("Player 1")==0)	showMenu(P1);
+	else if(name.compare("Player 2")==0)	showMenu(P2);
+	else if(name.compare("Fullscreen")==0) {
+		mGame->toggleFullscreen();
+		mFullscreen = (mFullscreen==OFF) ? ON : OFF;
+		mGame->playSoundTouch();
+		showMenu(GAME);}
+	else if(name.compare("Place")==0) {
+		mPlace = (PLACE)((mPlace+1) % MAX_PLACES);
+		mGame->playSoundTouch();
+		showMenu(GAME);}
+	else if(name.compare("Rules")==0) {
+		mRules = (RULES)((mRules+1) % MAX_RULES);
+		mGame->playSoundTouch();
+		showMenu(GAME);}
+	else if(name.compare("P1Color")==0) {
+		mP1Color = (COLOR)((mP1Color+1) % MAX_COLORS);
+		mGame->playSoundTouch();
+		showMenu(P1);}
+	else if(name.compare("P2Color")==0) {
+		mP2Color = (COLOR)((mP2Color+1) % MAX_COLORS);
+		mGame->playSoundTouch();
+		showMenu(P2);}
+	else if(name.compare("P1Controls")==0) {
+		mP1Controls = (CONTROLS)((mP1Controls+1) % MAX_CONTROLS);
+		mGame->playSoundTouch();
+		showMenu(P1);}
+	else if(name.compare("P2Controls")==0) {
+		mP2Controls = (CONTROLS)((mP2Controls+1) % MAX_CONTROLS);
+		mGame->playSoundTouch();
+		showMenu(P2);}
+	else if(name.compare("Quit")==0) exit(0);
+	else return;
 }
 
 void BV3D::Menu::showMenu(MENUSCREEN screen) {

@@ -7,11 +7,11 @@
 namespace VRS {
 	template<class T> class SO;
 	class SceneThing;
-	class Selector;
-	class RayRequest;
 	class Font;
 	class ShapeMaterialGL;
 	class PointLight;
+	class PickingCallback;
+	class IntersectionInfo;
 }
 
 namespace BV3D
@@ -35,7 +35,7 @@ namespace BV3D
 		Menu(VRS::SO<Game> game);
 		virtual ~Menu() {}
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
-		VRS::SO<VRS::Selector> getSelector() {return mSelector;}
+		VRS::SO<VRS::PickingCallback> getPickingCallback() {return mPickingCallback;}
 		void showMainMenu(bool paused);
 
 	public:
@@ -47,7 +47,7 @@ namespace BV3D
 		PLACE getPlace() {return mPlace;}
 
 	protected:
-		void select();
+		void select(VRS::IntersectionInfo* info);
 		void addText(const char* label, const char* command = 0);
 		void showMenu(MENUSCREEN screen);
 		static const char** places() {static const char* placez[] = {"Beach", "Heaven","Arena"}; return placez;}
@@ -74,14 +74,13 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	mScene;
 		VRS::SO<VRS::SceneThing>	mCurrentMenuScene;
 		VRS::SO<VRS::SceneThing>	mBallScene;
-		VRS::SO<VRS::Selector>		mSelector;
-		VRS::SO<VRS::RayRequest>	mRayRequest;
 		VRS::SO<VRS::Font>			mFont;
 		VRS::SO<VRS::ShapeMaterialGL>	mMenuTextMaterial;
 		VRS::SO<VRS::ShapeMaterialGL>	mMenuHitBoxMaterial;
 		VRS::SO<VRS::PointLight>	mLight;
 		VRS::SO<VRS::SceneThing>	mBlobb;
 		VRS::SO<VRS::ShapeMaterialGL>	mBlobbMaterial;
+		VRS::SO<VRS::PickingCallback>	mPickingCallback;
 	};
 }
 

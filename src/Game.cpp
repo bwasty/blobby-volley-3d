@@ -20,9 +20,9 @@
 #include <vrs/perspective.h>
 #include <vrs/opengl/texgengl.h>
 #include <vrs/color.h>
-#include <vrs/sg/selector.h>
 #include <gl/glut.h>
 #include <vrs/facestyle.h>
+#include <vrs/sg/pickingcallback.h>
 
 #include "MouseControls.h"
 #include "KeyboardControls.h"
@@ -56,7 +56,7 @@ BV3D::Game::Game() {
 
 	mScene->append(new VRS::FaceStyle(FaceStyle::Filled, FaceStyle::Culled));
 
-	// add transparency and shadow support to scene
+	// add transparency support to scene
 	mTransparencyTechnique = new TransparencyTechniqueGL();
 	mScene->append(mTransparencyTechnique);
 
@@ -106,7 +106,7 @@ BV3D::Game::Game() {
 
 	mMenu = new Menu(this);
 	mCanvas->append(mMenu->getScene());
-	mCanvas->append(mMenu->getSelector());
+	mCanvas->append(mMenu->getPickingCallback());
 
 	// Init sound
 	setupSound();
@@ -341,7 +341,7 @@ void BV3D::Game::newServe() {
 void BV3D::Game::switchToGame(bool restart) {
 	// deactivate menu
 	if(mCanvas->contains(mMenu->getScene())) mCanvas->switchOff(mMenu->getScene());
-	if(mCanvas->contains(mMenu->getSelector())) mCanvas->switchOff(mMenu->getSelector());
+	if(mCanvas->contains(mMenu->getPickingCallback())) mCanvas->switchOff(mMenu->getPickingCallback());
 
 	// adjust settings
 	applyMenuSettings();
@@ -366,7 +366,7 @@ void BV3D::Game::switchToMenu(bool allowResume) {
 	// activate menu (allow resume game if game is not yet over)
 	mMenu->showMainMenu(allowResume);
 	if(mCanvas->contains(mMenu->getScene())) mCanvas->switchOn(mMenu->getScene());
-	if(mCanvas->contains(mMenu->getSelector())) mCanvas->switchOn(mMenu->getSelector());
+	if(mCanvas->contains(mMenu->getPickingCallback())) mCanvas->switchOn(mMenu->getPickingCallback());
 	mCanvas->setCursor(VRS::Cursor::Arrow);
 }
 
