@@ -50,6 +50,8 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getFieldLines()
 	lines->append(new VRS::Box(VRS::Vector(-ext[0]/2, 0, -ext[2]/2), VRS::Vector(-ext[0]/2 + width, 0.01, ext[2]/2)));
 	//right baseline
 	lines->append(new VRS::Box(VRS::Vector(ext[0]/2, 0, -ext[2]/2), VRS::Vector(ext[0]/2 - width, 0.01, ext[2]/2)));
+	//middle line
+	lines->append(new VRS::Box(VRS::Vector(width/-2, 0, -ext[2]/2), VRS::Vector(width/2, 0.01, ext[2]/2)));
 	return lines;
 }
 
