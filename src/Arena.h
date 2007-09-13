@@ -85,7 +85,14 @@ namespace BV3D {
 		 */
 		NewtonWorld* getWorld() {return mWorld;}
 
+		/**
+		 * create Newton material IDs
+		 */
 		void createMaterials();
+
+		/*
+		 * sets physical material properties (e.g. elasticity) and collision callbacks for specific material pairs
+		 */
 		void setupMaterials();
 
 		int getBallMaterialID() {return mBallMaterialID;}
@@ -123,7 +130,9 @@ namespace BV3D {
 	};
 
 	/**
-	 * \brief Struct for aggregating all information needed to realize the gamelogic based on physical interaction.
+	 * \brief Struct for aggregating all information needed to realize the gamelogic based on physical interaction callbacks.
+	 * As the collision callbacks are static methods, the only way to connect them to the game logic is to store a pointer to user data (->CollisionData) connected 
+	 * with a material pair. The user data can be queried in the callback.
 	 */
 	struct CollisionData {
 		int material1;
