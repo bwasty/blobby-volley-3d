@@ -48,7 +48,7 @@
 	mShadowScene = new VRS::SceneThing();
 
 	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.0,0.0,0.0,BV3D::BLOBB_ALPHA), VRS::Color(1.0),
-		10.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
+		40.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mBlobbScene->append(mMaterial);
 
 	for(int i = 0; i < mNumShapes; i++)

@@ -26,7 +26,6 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 		case NO_MATERIAL_NO_TEXTURES:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
-			//return VRS::ThreeDSReader::readObject(fileName);
 			break;
 		case ALL_AND_NO_OPTIMIZATIONS:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);

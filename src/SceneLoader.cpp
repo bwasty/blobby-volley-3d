@@ -139,14 +139,32 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	//garlic plant
 	VRS::SO<VRS::SceneThing> garlicModel = new VRS::SceneThing();
 	garlicModel->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(0.1, 0.1, 0.1)));
-	garlicModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "garlic_mrealms.3ds", true, ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
+	garlicModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "garlic_mrealms.3ds", true, BV3D::ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
 	VRS::SO<VRS::CullingSceneThing> garlicScene = new VRS::CullingSceneThing(garlicModel->boundingBox(mCanvas->engine()));
 	garlicScene->append(garlicModel);
 
 	VRS::SO<VRS::SceneThing> garlic = new VRS::SceneThing(beachScene);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(20.0, 0.0, 0.0));
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(2*extent[0], 0.0, extent[2]));
 	garlic->setLocalMatrix(vrsMatrix);
 	garlic->append(garlicScene);
+
+	garlic = new VRS::SceneThing(beachScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-5.0, 0.0, -extent[0]*2.0));
+	garlic->setLocalMatrix(vrsMatrix);
+	garlic->append(garlicScene);
+
+	//beach hut
+	VRS::SO<VRS::SceneThing> beachHutModel = new VRS::SceneThing();
+	beachHutModel->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(0.03, 0.03, 0.03)));
+	beachHutModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "beach_hut_mrealms.3ds", true, BV3D::ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
+	VRS::SO<VRS::CullingSceneThing> beachHutScene = new VRS::CullingSceneThing(beachHutModel->boundingBox(mCanvas->engine()));
+	beachHutScene->append(beachHutModel);
+
+	VRS::SO<VRS::SceneThing> beachHut = new VRS::SceneThing(beachScene);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(extent[0], 4.0, -extent[0]));
+	vrsMatrix = vrsMatrix * VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, 0.0), 45.0);
+	beachHut->setLocalMatrix(vrsMatrix);
+	beachHut->append(beachHutScene);
 
 	return beachScene;
 }
