@@ -1,19 +1,16 @@
-
 #include "KeyboardControls.h"
 #include <vrs/sg/keyevent.h>
 
-
-/**
- * ctor
- */
 BV3D::KeyboardControls::KeyboardControls(int keyForward, int keyBackward, int keyLeft, int keyRight, int keyJump) : Controls() {
+	// bind keys to movement requests
 	setBinding(FORWARD, keyForward);
 	setBinding(BACKWARD, keyBackward);
 	setBinding(RIGHT, keyRight);
 	setBinding(LEFT, keyLeft);
 	setBinding(JUMP, keyJump);
 
-	for(int i=0;i<5;i++) mRequests[i] = false;	// reset requests
+	// clear requests bit-field
+	for(int i=0;i<5;i++) mRequests[i] = false;
 }
 
 
@@ -23,18 +20,18 @@ BV3D::KeyboardControls::KeyboardControls(int keyForward, int keyBackward, int ke
 void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
 	VRS::SO<VRS::KeyEvent> ke = VRS_Cast(VRS::KeyEvent, ie);
 
-	// process KeyEvents only
-	if(ke != NULL) {
+	if(ke != NULL)				// process KeyEvents only
 		for(int i=0;i<5;i++)
-			if(ke->keyCode()==mBinding[i])
-				mRequests[i] = ke->pressed();	// signal state of request
-	}
+			if(ke->keyCode()==mBinding[i])		// if key code corresponds to mapped reuqest...
+				mRequests[i] = ke->pressed();	// ...store state of request according to key state (pressed/released)
 }
 
 
 /**
  * is called by Blobb to check for move requests for the current frame
- * blobbs should move accordingly
+ * Blobbs should move accordingly
+ * Blobbs should call this function only once per frame!
+ * \result a VRS::Vector is returned which represents the movement requests of the user
  */
 VRS::Vector BV3D::KeyboardControls::getRequestedMovement() {
 	VRS::Vector movement;
@@ -48,8 +45,10 @@ VRS::Vector BV3D::KeyboardControls::getRequestedMovement() {
 
 
 /**
- * map VRS virtual key codes to move requests
+ * map VRS key codes to move requests
+ * \param request is one of the movement requests in BV3D::Controls::REQUEST
+ * \param keyCode is the VRS key code to be associated with the movement request
  */
-void BV3D::KeyboardControls::setBinding(REQUEST req, int keyCode) {
-	mBinding[req] = keyCode;
+void BV3D::KeyboardControls::setBinding(REQUEST request, int keyCode) {
+	mBinding[request] = keyCode;
 }
