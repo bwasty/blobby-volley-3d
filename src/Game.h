@@ -85,16 +85,19 @@ namespace BV3D
 		VRS::Vector getDirectionVector(CAMERAPOSITION position);
 		bool isCameraMovieStyle()	{return mUseMovieStyleCamera;}
 		bool isCameraDistant()		{return mIsCameraDistant;}
+		bool isCameraHigher()		{return mIsCameraHigher;}
 		void setMovieStyleCamera(bool useMovieStyle) {mUseMovieStyleCamera = useMovieStyle;}
 		void setCameraDistant(bool distant) {mIsCameraDistant = distant;}
+		void setCameraHigher(bool higher) {mIsCameraHigher = higher;}
 		bool isPaused()				{return mIsPaused;}
-		void setPaused(bool pauseGame);
+		void setPaused(bool pauseGame) {mIsPaused = pauseGame;}
 
 	private:
 		double			mDelayedActionStart;
 		bool			mScheduleNewServe;
 		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
 		bool			mIsCameraDistant;
+		bool			mIsCameraHigher;
 		bool			mUseMovieStyleCamera;
 		bool			mIsPaused;
 		bool			mIsCameraAnimating;

@@ -48,7 +48,11 @@ namespace BV3D
 		static const double SHADOW_HEIGHT = 0.01;
 		static const double SHADOW_MAX_HEIGHT = 20.0;
 
-		static const double GRAVITY = 21.00;;
+		static const double GRAVITY = 21.00;
+
+		// data per blobb:
+		//	lower vertical offset/radius, lower horizontal radius
+		//	upper vertical offset, upper horizontal radius, upper vertical radius
 		static const float BLOBB_SHAPE_DATA[5][5] = {
 			{1.0f+0.1f, 1.0f, 1.5f, 0.9f, 1.1f},
 			{0.9f+0.1f, 1.01f, 1.35f, 0.9f, 1.1f},

@@ -24,6 +24,7 @@ namespace BV3D
 
 		This includes the ground, objects in the vicinity of the field and some background.
 		Several methods are given for loading different predefined skyboxes and whole sceneries.
+		There are more skyboxes than we currently use, but we left them inside, since we plan to develop the game further.
 	*/	
 	class SceneLoader :	public VRS::SharedObj
 	{

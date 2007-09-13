@@ -3,40 +3,15 @@
 #include "KeyboardControls.h"
 #include "ModelOptimizer.h"
 #include "Constants.h"
-#include <vrs/so.h>
-#include <vrs/sg/scenething.h>
-#include <vrs/opengl/shapematerialgl.h>
-#include <vrs/sg/inputevent.h>
-#include <vrs/io/threedsreader.h>
-#include <vrs/io/wavefrontreader.h>
-#include <vrs/io/vrml1reader.h>
-#include <vrs/io/filedataresource.h>
-#include <vrs/sg/canvas.h>
+
 #include <vrs/lookat.h>
 #include <vrs/disc.h>
 #include <vrs/cache.h>
+#include <vrs/sg/scenething.h>
+#include <vrs/sg/inputevent.h>
+#include <vrs/sg/canvas.h>
+#include <vrs/opengl/shapematerialgl.h>
 #include <Newton.h>
-
-/*3ds-blobb measures:
-		blobb1.3ds:
-			height: 2.6		lower radius: 1.0	lower center: 1.0
-							upper radius: 0.9	upper center: 1.5)
-		blobb2.3ds:
-			height: 2.45	lower radius: 1.01	lower center: 0.9
-							upper radius: 0.9	upper center: 1.35
-		blobb2.3ds:
-			height: 2.3		lower radius: 1.05	lower center: 0.8
-							upper radius: 0.9	upper center: 1.2
-		blobb2.3ds:
-			height: 2.1		lower radius: 1.1	lower center: 0.65
-							upper radius: 0.9	upper center: 1.1
-		blobb2.3ds:
-			height: 1.9		lower radius: 1.2	lower center: 0.5
-							upper radius: 0.9	upper center: 1.0
-	*/
-// data per blobb:
-//	lower vertical offset/radius, lower horizontal radius
-//	upper vertical offset, upper horizontal radius, upper vertical radius
 
 /*!
  \ctor
@@ -45,7 +20,7 @@
 	BV3D::Blobb::Blobb(VRS::SO<BV3D::Arena> arena, BV3D::TEAM team, VRS::SO<VRS::LookAt> lookAt) {
 	mArena = arena;
 	mTeam = team;
-	mControls = new BV3D::KeyboardControls();		// TODO: use as default value in constructor
+	mControls = 0;
 	mLookAt = lookAt;
 	mJumpAllowed = false;
 	mBody = 0;
@@ -170,14 +145,6 @@ void BV3D::Blobb::setPosition(VRS::Vector position) {
 	dFloat newtonMatrix[16] = {1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0, 0.0,0.0,1.0,0.0,
 						(dFloat)position[0], (dFloat)position[1], (dFloat)position[2], 1.0};
 	NewtonBodySetMatrix(mBody, newtonMatrix);
-	//printf("%f, %f, %f\n", position[0], position[1], position[2]);
-}
-
-/**
- * assigns the controls for controlling the blobb
- */
-void BV3D::Blobb::setControls(VRS::SO<BV3D::Controls> controls) {
-	mControls = controls;
 }
 
 /**
@@ -188,75 +155,49 @@ void BV3D::Blobb::setColor(VRS::Color color) {
 }
 
 /**
- * returns the current controls for this blobb
- */
-inline VRS::SO<BV3D::Controls> BV3D::Blobb::getControls() {
-	return mControls;
-}
-
-/**
- * returns the blobb local scene
- */
-VRS::SO<VRS::SceneThing> BV3D::Blobb::getScene() {
-	return mScene;
-}
-
-/**
  * returns the blobb's current color
  */
-inline VRS::Color BV3D::Blobb::getColor() {
+VRS::Color BV3D::Blobb::getColor() {
 	return mMaterial->getPerVertexColor();
 }
 
-BV3D::TEAM	BV3D::Blobb::getTeam() {
-	return mTeam;
-}
-
-inline bool BV3D::Blobb::isMoving() {//TODO: not needed anymore?
-	return mIsMoving;
-}
-
 /**
- * responsible for the animation of the blobb, does one animation step each call
+ * Animates the blobb by switching the different blobb shapes on and off, depending on various circumstances,
+ * e.g. if the blobb is moving or jumping.
+ * At most one shape is active at any given moment.
  */
-void BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas)
-{
-	//printf("%i\n", mCurrentShape);
+void BV3D::Blobb::updateShape(VRS::SO<VRS::Canvas> canvas) {
 	mStep = ++mStep % mMaxStep;
 	//animate blobb initially once and then if he is moving or to return to initial shape
-	if ((mStep == 0) && ((mIsMoving) || (mForceAnimation) || (mCurrentShape != 0)))
-	{
+	if ((mStep == 0) && ((mIsMoving) || (mForceAnimation) || (mCurrentShape != 0)))	{
 		//if blobb is in the air, don't animate
 		if ((mCurrentShape == 0) && (mBlobbScene->getLocalMatrix().element(1, 3) >= 0.2))
 			return;
 		mForceAnimation = false;
-		for(int i = 0; i < mNumShapes; i++)
+		for(int i = 0; i < mNumShapes; i++)	//switch off all shapes
 			canvas->switchOff(mShapes->getElement(i));
 
-		if (mDecreasing)
-		{
+		if (mDecreasing) {
 			if (mCurrentShape == 1)
 				mDecreasing = false;
-			else if (mCurrentShape < 1)
-			{
+			else if (mCurrentShape < 1)	{
 				mDecreasing = false;
 				++mCurrentShape;
 				return;
 			}
-			canvas->switchOn(mShapes->getElement(--mCurrentShape));
-			NewtonBodySetCollision(mBody, mCollision[mCurrentShape]);	// replaces physical body
+			canvas->switchOn(mShapes->getElement(--mCurrentShape));		// switch on new shape
+			NewtonBodySetCollision(mBody, mCollision[mCurrentShape]);	// replace corresponding physical body
 		}
-		else
-		{
+		else {
 			if (mCurrentShape == (mNumShapes - 2))
 				mDecreasing = true;
-			else if (mCurrentShape > (mNumShapes - 2))
-			{
+			else if (mCurrentShape > (mNumShapes - 2)) {
 				mDecreasing = true;
 				--mCurrentShape;
 				return;
 			}
 			canvas->switchOn(mShapes->getElement(++mCurrentShape));
+			NewtonBodySetCollision(mBody, mCollision[mCurrentShape]);
 		}
 	}
 }
@@ -285,7 +226,7 @@ VRS::Vector BV3D::Blobb::getMovement() {
 	// create orientation vector for movement to the specified mLookAt object
 	VRS::Vector orientation = mLookAt->getTo() - mLookAt->getFrom();	// get from-to vector
 	orientation[1] = 0;												// map vector onto xz-plane
-	orientation = orientation.normalized() * BV3D::BLOBB_MOVEMENT_STEP_DISTANCE;			// normalize vector and resize to step distance
+	orientation = orientation.normalized() * BV3D::BLOBB_MOVEMENT_STEP_DISTANCE;	// normalize vector and resize to step distance
 
 	VRS::Vector requestedMovement = mControls->getRequestedMovement();
 
@@ -294,12 +235,9 @@ VRS::Vector BV3D::Blobb::getMovement() {
 			+ requestedMovement[2] * orientation;
 
 	if(requestedMovement[1]) {
-		if(mJumpAllowed)
-			movement += VRS::Vector(0.0,BV3D::BLOBB_JUMP_SPEED,0.0);	// blobb may jump only if it is allowed
+		if(mJumpAllowed)		// blobb may jump only if it is allowed
+			movement += VRS::Vector(0.0,BV3D::BLOBB_JUMP_SPEED,0.0);
 	}
-	//else
-	//	mJumpAllowed = false;	// if blobb does not jump in this frame it is not allowed to jump until landed again
-
 	return movement;
 }
 
@@ -325,7 +263,7 @@ void BV3D::Blobb::update() {
 	// apply gravitational force (except when jumping -> linear up-movement)
 	if(movement[1]<=0) {
 		NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-		dFloat gravitation[3] = {0.0f, -BV3D::GRAVITY * BV3D::BLOBB_GRAVITY_MULTIPLIER * mass, 0.0f};
+		dFloat gravitation[3] = {0.0f, (dFloat) (-BV3D::GRAVITY * BV3D::BLOBB_GRAVITY_MULTIPLIER * mass), 0.0f};
 		NewtonBodyAddForce(mBody, gravitation);
 	}
 
@@ -348,8 +286,7 @@ void BV3D::Blobb::update() {
 		mJumpAllowed = false;
 		mMaxJump = false;
 	}
-	else if(newtonMatrix[13]<0.2)	// re-enable jumping when landed
-	{
+	else if(newtonMatrix[13]<0.2) {	// re-enable jumping when landed
 		if (!mJumpAllowed)		//if Blobb was jumping high, then animate when landing again
 			forceSingleAnimation();
 		mJumpAllowed = true;
@@ -369,9 +306,7 @@ void BV3D::Blobb::update() {
 		VRS::Vector newPos(mArena->getTeamBounds(mTeam).center());
 		newPos[1] = 0.0;
 		setPosition(newPos);
-	}
-
-		
+	}	
 }
 
 /**
@@ -379,7 +314,6 @@ void BV3D::Blobb::update() {
 * \param body is the changed NewtonBody
 */
 void BV3D::Blobb::applyForceAndTorqueCallback(const NewtonBody* body) {
-	// TODO: use c++/vrs cast
 	VRS::SO<BV3D::Blobb> blobb = static_cast<BV3D::Blobb*>(NewtonBodyGetUserData(body));
 	if (blobb)
 		blobb->update();

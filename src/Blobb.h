@@ -29,7 +29,6 @@ namespace BV3D
 		- creating(loading) and managing: the 3D shape of the Blobb
 		- forwarding InputEvents to its Controls
 		- managing the Controls orientation and movement distance
-		- moving the Blobb inside its assigned bounds
 		- updating the position based on input and physics. */
 	class Blobb : public VRS::SharedObj {
 	public:
@@ -37,13 +36,12 @@ namespace BV3D
 		~Blobb();
 		void setPosition(VRS::Vector position);
 		void setLookAt(VRS::SO<VRS::LookAt> lookAt) {mLookAt = lookAt;}
-		void setControls(VRS::SO<BV3D::Controls> controls);
+		void setControls(VRS::SO<BV3D::Controls> controls){mControls = controls;}
 		void setColor(VRS::Color color);
-		VRS::SO<BV3D::Controls> getControls();
-		VRS::SO<VRS::SceneThing> getScene();
+		VRS::SO<BV3D::Controls> getControls()		{return mControls;}
+		VRS::SO<VRS::SceneThing> getScene()			{return mScene;}
 		VRS::Color BV3D::Blobb::getColor();
-		BV3D::TEAM	getTeam();
-		bool isMoving();
+		BV3D::TEAM	getTeam()						{return mTeam;}
 		void updateShape(VRS::SO<VRS::Canvas> canvas);
 		void processInput(VRS::SO<VRS::InputEvent> ie);
 		void forceSingleAnimation();

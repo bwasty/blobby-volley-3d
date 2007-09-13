@@ -4,19 +4,8 @@
 #include <vrs/io/wavefrontreader.h>
 #include <vrs/io/filedataresource.h>
 #include <vrs/sg/scenegraphanalyzer.h>
-#include <vrs/polygonsettool.h>
-#include <vrs/polygonset.h>
 #include <vrs/opengl/shapematerialgl.h>
 #include <vrs/cache.h>
-
-//BV3D::ModelOptimizer::ModelOptimizer(void)
-//{
-//	mStaticLighting = false;
-//}
-//
-//BV3D::ModelOptimizer::~ModelOptimizer(void)
-//{
-//}
 
 /**
  * loads a 3ds model with the given options and optimizes it
@@ -59,29 +48,8 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::stri
 	VRS::ID id = VRS::ID("something");
 	VRS::WavefrontReader reader = VRS::WavefrontReader();
 	VRS::SO<VRS::FileDataResource> file = new VRS::FileDataResource(fileName);
-	VRS::SO<VRS::SceneThing> model = new VRS::SceneThing();
-	VRS::SO<VRS::SceneThing> ball = VRS_Cast(VRS::SceneThing, reader.read(file, id));
-	//cache shape for better performance
-	//printf("Objects in ball model:\n");
-	ball = optimizeModel(ball);
-	//for(int i=0; i< ball->objects(); i++)
-	//{
-	//	//printf("    %s\n", ball->object(i)->classNameVRS().text());
-	//	if (ball->object(i)->isA(VRS::SceneThing::ClassNameVRS()))
-	//	{
-	//		VRS::SO<VRS::SceneThing> scene = VRS_Cast(VRS::SceneThing, ball->object(i));
-	//		for(int j=0; j< scene->objects(); j++)
-	//		{
-	//			if (scene->object(j)->isA(VRS::Shape::ClassNameVRS()))
-	//			{
-	//				printf("        %s\n", scene->object(j)->classNameVRS().text());
-	//				scene->replace(scene->object(j), new VRS::Cache(VRS_Cast(VRS::Shape, scene->object(j))));
-	//			}
-	//		}
-	//	}
-	//}
-	model->append(ball);
-	return model;
+	VRS::SO<VRS::SceneThing> model = VRS_Cast(VRS::SceneThing, reader.read(file, id));
+	return optimizeModel(model);
 }
 
 /**
@@ -90,9 +58,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::stri
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::optimizeModel(VRS::SO<VRS::SceneThing> origModel)
 {
 	VRS::SceneGraphAnalyzer analyzer = VRS::SceneGraphAnalyzer();
-	VRS::PolygonSetTool tool = VRS::PolygonSetTool();
 	VRS::SO<VRS::SceneThing> newModel, model;
-	VRS::SO<VRS::PolygonSet> set;
 	newModel = analyzer.createOptimizedScene(origModel, true, mStaticLighting);
 	if(!newModel)
 		newModel = origModel;

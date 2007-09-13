@@ -1,5 +1,3 @@
-/// Ball.h: declare class BV3D::Ball
-
 #ifndef BV3D_BALL
 #define BV3D_BALL
 
@@ -18,6 +16,9 @@ namespace BV3D
 {
 	class Arena;
 
+	/**
+	 * \brief Class for representing the ball and its physical body.
+	 */
 	class Ball : public VRS::SharedObj
 	{
 	public:

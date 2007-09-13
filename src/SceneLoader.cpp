@@ -1,31 +1,27 @@
 #include "SceneLoader.h"
 #include "Constants.h"
+#include "ModelOptimizer.h"
 
-#include <vrs/sg/scenething.h>
-#include <vrs/io/threedsreader.h>
-#include <vrs/disc.h>
-#include <vrs/opengl/shapematerialgl.h>
-#include <vrs/image/image.h>
 #include <vrs/bumpmap.h>
 #include <vrs/sky.h>
-#include <vrs/distantlight.h>
 #include <vrs/matrix.h>
-#include <vrs/opengl/imagecubemaptexturegl.h>
-#include <vrs/io/pngreader.h>
-#include <vrs/io/jpegreader.h>
-#include <vrs/opengl/backgroundgl.h>
-#include <vrs/fog.h>
-#include <vrs/box.h>
 #include <vrs/translation.h>
-#include <vrs/sg/cullingscenething.h>
-#include <vrs/sg/canvas.h>
-#include <vrs/opengl/imagetexture2dgl.h>
+#include <vrs/box.h>
 #include <vrs/cylinder.h>
 #include <vrs/facestyle.h>
+#include <vrs/disc.h>
 #include <vrs/plane.h>
-
-
-#include "ModelOptimizer.h"
+#include <vrs/distantlight.h>
+#include <vrs/opengl/imagecubemaptexturegl.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/opengl/backgroundgl.h>
+#include <vrs/opengl/imagetexture2dgl.h>
+#include <vrs/image/image.h>
+#include <vrs/io/pngreader.h>
+#include <vrs/io/jpegreader.h>
+#include <vrs/sg/cullingscenething.h>
+#include <vrs/sg/canvas.h>
+#include <vrs/sg/scenething.h>
 
 BV3D::SceneLoader::SceneLoader(VRS::SO<VRS::Canvas> canvas)
 {

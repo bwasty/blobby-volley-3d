@@ -2,17 +2,15 @@
 #include "Arena.h"
 #include "ModelOptimizer.h"
 #include "Constants.h"
-#include <vrs/sg/scenething.h>
+
 #include <vrs/matrix.h>
-#include <vrs/io/threedsreader.h>
-#include <vrs/io/wavefrontreader.h>
-#include <vrs/io/filedataresource.h>
-#include <vrs/opengl/shapematerialgl.h>
 #include <vrs/color.h>
 #include <vrs/vector.h>
 #include <vrs/scaling.h>
 #include <vrs/disc.h>
 #include <vrs/cache.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/sg/scenething.h>
 #include <Newton.h>
 
 
@@ -51,7 +49,6 @@ BV3D::Ball::Ball(VRS::SO<BV3D::Arena> arena) {
 	NewtonBodySetForceAndTorqueCallback (mBody, applyForceAndTorqueCallback);
 	NewtonBodySetMaterialGroupID(mBody, mArena->getBallMaterialID());
 	NewtonBodySetAutoFreeze (mBody, 0);
-	//NewtonBodySetContinuousCollisionMode(mBody, 1); // needed?
 	NewtonWorldUnfreezeBody(world, mBody);
 
 	// move ball (and ball body!) to origin
@@ -63,11 +60,14 @@ BV3D::Ball::~Ball() {
 		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
+/**
+ * Translates visual ball to specified position
+ */
 void BV3D::Ball::resetPosition(VRS::Vector& position) {
-	// translate visual ball to specified position
+
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
 	mBallScene->setLocalMatrix(vrsMatrix);
-	double scaling = (SHADOW_MAX_HEIGHT - position[1]) / SHADOW_MAX_HEIGHT;
+	double scaling = (BV3D::SHADOW_MAX_HEIGHT - position[1]) / BV3D::SHADOW_MAX_HEIGHT;
 	mShadowScene->setLocalMatrix(VRS::Matrix(
 		scaling, 0.0f, 0.0f, position[0],
 		0.0f, scaling, 0.0f, SHADOW_HEIGHT,
@@ -109,7 +109,7 @@ void BV3D::Ball::update() {
 
 	// apply gravitational force
 	NewtonBodyGetMassMatrix(mBody, &mass, &Ixx, &Iyy, &Izz);
-	dFloat gravitation[3] = {0.0f, -BV3D::GRAVITY * mass, 0.0f};
+	dFloat gravitation[3] = {0.0f, (dFloat) (-BV3D::GRAVITY * mass), 0.0f};
 	dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
 	NewtonBodySetForce(mBody, nullForce);
 	NewtonBodyAddForce(mBody, gravitation);

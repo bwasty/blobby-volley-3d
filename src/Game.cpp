@@ -44,6 +44,7 @@ BV3D::Game::Game() {
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
 	mFrameCount = 0;
 	mIsCameraDistant = false;
+	mIsCameraHigher = false;
 	mUseMovieStyleCamera = false;
 	mIsPaused = false;
 	mIsCameraAnimating = false;
@@ -224,8 +225,8 @@ void BV3D::Game::update() {
 			mDLastSecond = mDLastUpdateTime;
 			mIFramerate = 0;
 		}
-
-		if(mCanvas->isSwitchedOn(mScene) && (!isPaused()) && (!mNavigation->pathActive())){	// simulate world only if root scene is visible
+		//skip physics update if game is paused, currently in menu or a camera animation is active in movie-style mode
+		if(mCanvas->isSwitchedOn(mScene) && (!isPaused()) && (!(mNavigation->pathActive() && isCameraMovieStyle()))){	// simulate world only if root scene is visible
 			mArena->updateWorld(timestep);
 
 			// used to delay a new serve for a few seconds when one player scores
@@ -264,8 +265,7 @@ void BV3D::Game::processInput() {
 	VRS::KeyEvent* ke = VRS_Cast(VRS::KeyEvent, ie);
 	if(ke != NULL)
 		if(ke->pressed()) {
-			switch (ke->keyCode())
-			{
+			switch (ke->keyCode()) {
 				case VRS::Key::Escape:
 					switchToMenu(!mReferee->isGameOver());
 					return;
@@ -291,6 +291,10 @@ void BV3D::Game::processInput() {
 						mNavigation->setDuration(2.0);
 					else
 						mNavigation->setDuration(3.0);
+					switchCameraposition(mCurrentCameraPosition);
+					break;
+				case VRS::Key::F7:
+					setCameraHigher(!isCameraHigher());
 					switchCameraposition(mCurrentCameraPosition);
 					break;
 				case 112:	//'p' key
@@ -416,12 +420,12 @@ void BV3D::Game::playSoundWhistle() {
 
 /**
  * Initializes a camera animation to the specified cameraposition.
- * 
+ * Animation style depends on weather setMovieStyleCamera is set to true.
+ * In movie-style mode every time the camera moves, the game is paused, 
+ * and the camera always takes the long way to a new camera position
  */
-void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
-{
-	if (mUseMovieStyleCamera)
-	{
+void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position) {
+	if (isCameraMovieStyle()){
 		VRS::SO<VRS::Array<VRS::Vector> > positions = new VRS::Array<VRS::Vector>();
 		VRS::SO<VRS::Array<VRS::Vector>	> directions = new VRS::Array<VRS::Vector>();
 		positions->clear();
@@ -432,8 +436,7 @@ void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
 			 ((mCurrentCameraPosition == BV3D::REVERSE_CAMERA) && (position == BV3D::TEAM2_BASECAMERA)) ||
 			 ((mCurrentCameraPosition == BV3D::TEAM2_BASECAMERA) && (position == BV3D::CLASSIC_CAMERA)) )
 			moveLeft = false;
-		do
-		{
+		do{
 			if (moveLeft)
 				mCurrentCameraPosition = (BV3D::CAMERAPOSITION) ((mCurrentCameraPosition + 1) % BV3D::MAX_CAMERAS);
 			else
@@ -444,52 +447,55 @@ void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position)
 
 		mNavigation->initMultiStepPath(positions, directions);
 	}
-	else
-	{
+	else{
 		mNavigation->initPath(getPositionVector(position), getDirectionVector(position));
 		mCurrentCameraPosition = position;
 	}
 }
 
-VRS::Vector BV3D::Game::getPositionVector(BV3D::CAMERAPOSITION position)
-{
-	double offset = 0.0;
-	if (mIsCameraDistant)
-		offset = 5.0;
-	switch (position)
-		{
+/**
+ * Returns the position vector of the given camera position, modified  
+ * in case setCameraDistant and/or setCameraHigher were set to true.
+ */
+VRS::Vector BV3D::Game::getPositionVector(BV3D::CAMERAPOSITION position) {
+	double distanceOffset = 0.0;
+	double heightOffset = 0.0;
+	if (isCameraDistant())
+		distanceOffset = 5.0;
+	if (isCameraHigher())
+		heightOffset = 5.0;
+	switch (position){
 			case BV3D::CLASSIC_CAMERA:
-				return(BV3D::LOOK_FROM + VRS::Vector(0.0, 0.0, -offset));
+				return(BV3D::LOOK_FROM + VRS::Vector(0.0, heightOffset, -distanceOffset));
 			case BV3D::REVERSE_CAMERA:
-				return(VRS::Vector(0.0, BV3D::LOOK_FROM[1], -(BV3D::LOOK_FROM[2] - offset) ));
+				return(VRS::Vector(0.0, BV3D::LOOK_FROM[1] + heightOffset, -(BV3D::LOOK_FROM[2] - distanceOffset) ));
 			case BV3D::TEAM1_BASECAMERA:
-				return(VRS::Vector(BV3D::LOOK_FROM[2] - offset - 2.0, BV3D::LOOK_FROM[1], 0.0));
+				return(VRS::Vector(BV3D::LOOK_FROM[2] - distanceOffset - 2.0, BV3D::LOOK_FROM[1] + heightOffset, 0.0));
 			case BV3D::TEAM2_BASECAMERA:
-				return(VRS::Vector(-(BV3D::LOOK_FROM[2] - offset - 2.0), BV3D::LOOK_FROM[1], 0.0));
+				return(VRS::Vector(-(BV3D::LOOK_FROM[2] - distanceOffset - 2.0), BV3D::LOOK_FROM[1] + heightOffset, 0.0));
 			default:
-				return(BV3D::LOOK_FROM + VRS::Vector(0.0, 0.0, -offset));
+				return(BV3D::LOOK_FROM + VRS::Vector(0.0, heightOffset, -distanceOffset));
 	}
 }
 
-
-VRS::Vector BV3D::Game::getDirectionVector(BV3D::CAMERAPOSITION position)
-{
-	switch (position)
-		{
+/**
+ * Returns the direction vector of the given camera position, modified 
+ * in case setCameraHigher was set to true.
+ */
+VRS::Vector BV3D::Game::getDirectionVector(BV3D::CAMERAPOSITION position) {
+	double heightOffset = 0.0;
+	if (isCameraHigher())
+		heightOffset = 4.0;
+	switch (position){
 			case BV3D::CLASSIC_CAMERA:
-				return (-BV3D::LOOK_FROM + BV3D::LOOK_TO);
+				return (-BV3D::LOOK_FROM + BV3D::LOOK_TO + VRS::Vector(0.0, -heightOffset, 0.0));
 			case BV3D::REVERSE_CAMERA:
-				return (VRS::Vector(0.0, -BV3D::LOOK_FROM[1], BV3D::LOOK_FROM[2]) + BV3D::LOOK_TO);
+				return (VRS::Vector(0.0, -BV3D::LOOK_FROM[1] - heightOffset, BV3D::LOOK_FROM[2]) + BV3D::LOOK_TO);
 			case BV3D::TEAM1_BASECAMERA:
-				return (VRS::Vector(-BV3D::LOOK_FROM[2], -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
+				return (VRS::Vector(-BV3D::LOOK_FROM[2], -BV3D::LOOK_FROM[1] - heightOffset, 0.0) + BV3D::LOOK_TO);
 			case BV3D::TEAM2_BASECAMERA:
-				return (VRS::Vector(BV3D::LOOK_FROM[2], -BV3D::LOOK_FROM[1], 0.0) + BV3D::LOOK_TO);
+				return (VRS::Vector(BV3D::LOOK_FROM[2], -BV3D::LOOK_FROM[1] - heightOffset, 0.0) + BV3D::LOOK_TO);
 			default:
 				return (-BV3D::LOOK_FROM + BV3D::LOOK_TO);
 	}
-}
-
-void BV3D::Game::setPaused(bool pauseGame)
-{
-	mIsPaused = pauseGame;
 }
