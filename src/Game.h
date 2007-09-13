@@ -83,6 +83,12 @@ namespace BV3D
 		void switchCameraposition(CAMERAPOSITION position);
 		VRS::Vector getPositionVector(CAMERAPOSITION position);
 		VRS::Vector getDirectionVector(CAMERAPOSITION position);
+		bool isCameraMovieStyle()	{return mUseMovieStyleCamera;}
+		bool isCameraDistant()		{return mIsCameraDistant;}
+		void setMovieStyleCamera(bool useMovieStyle) {mUseMovieStyleCamera = useMovieStyle;}
+		void setCameraDistant(bool distant) {mIsCameraDistant = distant;}
+		bool isPaused()				{return mIsPaused;}
+		void setPaused(bool pauseGame);
 
 	private:
 		double			mDelayedActionStart;
@@ -90,6 +96,8 @@ namespace BV3D
 		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
 		bool			mIsCameraDistant;
 		bool			mUseMovieStyleCamera;
+		bool			mIsPaused;
+		bool			mIsCameraAnimating;
 		CAMERAPOSITION	mCurrentCameraPosition;
 		FMOD::System    *mFmodSystem;
 		FMOD::Sound     *soundTouch, *soundWhistle;

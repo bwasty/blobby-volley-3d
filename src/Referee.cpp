@@ -5,7 +5,7 @@
 
 using namespace BV3D;
 
-Referee::Referee(SO<Game> game)
+Referee::Referee(VRS::SO<Game> game)
 {
 	mGame = game;
 	mScore[0] = mScore[1] = mContacts[0] = mContacts[1] = 0; //set start values
@@ -15,10 +15,10 @@ Referee::Referee(SO<Game> game)
 	mHud = 0;
 }
 
-SO<Game> Referee::getGame()
-{
-	return mGame;
-}
+//SO<Game> Referee::getGame()
+//{
+//	return mGame;
+//}
 
 /**
  *	Returns current score for individual teams
@@ -39,26 +39,26 @@ int Referee::getCurrentContacts(TEAM team)
 /**
  *	Returns the score needed to win the game
  */
-int Referee::getWinningScore()
-{
-	return mWinningScore;
-}
+//int Referee::getWinningScore()
+//{
+//	return mWinningScore;
+//}
 
 /**
  *	Returns the maximum number of consecutive contatcts one team might have without causing a fault
  */
-int Referee::getMaximumContacts()
-{
-	return mMaxContacts;
-}
+//int Referee::getMaximumContacts()
+//{
+//	return mMaxContacts;
+//}
 
 /**
  *	Returns the minumum difference between teams needed to win the game
  */
-int Referee::getMinimumDifference()
-{
-	return mMinDifference;
-}
+//int Referee::getMinimumDifference()
+//{
+//	return mMinDifference;
+//}
 
 /**
  *	Sets the score needed to win the game
@@ -205,12 +205,18 @@ TEAM Referee::getOpponent(TEAM team)
 	}
 }
 
+/**
+ * Triggers game over routine.
+ */
 void BV3D::Referee::gameOver(BV3D::TEAM winner)
 {
 	if(mHud)
 		mHud->showWinner(winner);
 }
 
+/**
+ * Starts a new rally with 'team' having the serve.
+ */
 void BV3D::Referee::newServe(BV3D::TEAM servingTeam)
 {
 	mServingTeam = servingTeam;

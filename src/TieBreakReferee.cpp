@@ -2,21 +2,19 @@
 #include "TieBreakReferee.h"
 #include "Game.h"
 
-using namespace BV3D;
-
 /**
  *	Sets up a Referee for new tournament volleyball rules, with a winning score of 25, a minimum difference between teams of 2 and a maximum of 3 contacts with the ball.
  */
-TieBreakReferee::TieBreakReferee(SO<Game> game) : Referee(game)
+BV3D::TieBreakReferee::TieBreakReferee(VRS::SO<Game> game) : Referee(game)
 {
 	setWinningScore(25);
 	setMaximumContacts(3);
 	setMinimumDifference(2);
 }
 
-TieBreakReferee::~TieBreakReferee(void)
-{
-}
+//TieBreakReferee::~TieBreakReferee(void)
+//{
+//}
 
 /**
  *	Handles the case when the ball collides with a blobb from a team.
@@ -24,7 +22,7 @@ TieBreakReferee::~TieBreakReferee(void)
  *  If that is the case it increases the opponents score and checks whether the game is now over.
  *	If not a new rally is started with the opponent team serving.
  */
-void TieBreakReferee::ballOnBlobb(TEAM team)
+void BV3D::TieBreakReferee::ballOnBlobb(TEAM team)
 {
 	if (mActive) 
 	{
@@ -57,7 +55,7 @@ void TieBreakReferee::ballOnBlobb(TEAM team)
  *	The opponent teams score is increased and a check is done whether the game is now over.
  *	The opponent team serves the new ball if the game is not over yet and all contact-counters are reset.
  */
-void TieBreakReferee::ballOnField(TEAM team)
+void BV3D::TieBreakReferee::ballOnField(TEAM team)
 {
 	if (mActive) 
 	{
@@ -84,7 +82,7 @@ void TieBreakReferee::ballOnField(TEAM team)
 /**
  *	Resets all values for a new game to start.
  */
-void TieBreakReferee::startNewGame()
+void BV3D::TieBreakReferee::startNewGame()
 {
 	Referee::startNewGame();
 }

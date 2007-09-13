@@ -29,11 +29,15 @@ namespace BV3D
 	{
 	public:
 		SceneLoader(VRS::SO<VRS::Canvas> canvas);
-		~SceneLoader(void);
+		~SceneLoader(void){}
 		
 		VRS::SO<VRS::SceneThing>	loadBeach();
 		VRS::SO<VRS::SceneThing>	loadArena();
 		VRS::SO<VRS::SceneThing>	loadHeaven();
+
+	protected:
+		VRS::SO<VRS::Canvas>		mCanvas;
+		VRS::SO<ModelOptimizer>		mOptimizer;
 
 		VRS::SO<VRS::SceneThing>	getDesertSkybox();
 		VRS::SO<VRS::SceneThing>	getWaterscapeSkybox();
@@ -43,10 +47,6 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	getZolsky6Skybox();
 		VRS::SO<VRS::SceneThing>	getZolsky8Skybox();
 		VRS::SO<VRS::SceneThing>	getZolsky9Skybox();
-
-	protected:
-		VRS::SO<VRS::Canvas>		mCanvas;
-		VRS::SO<ModelOptimizer>		mOptimizer;
 		VRS::SO<VRS::SceneThing>	getFieldLines();
 	};
 }

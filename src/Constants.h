@@ -2,9 +2,7 @@
 #define BV3D_CONSTANTS
 
 #include <vrs/vector.h>
-//namespace VRS{
-//	class Vector;
-//}
+
 namespace BV3D
 {
 		enum TEAM { TEAM1, TEAM2 };

@@ -146,7 +146,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(mNet);
 	double netDepth = 0.03;
 	double poleOffset = 1.0;
-	Bounds netBoxBounds = Bounds(Vector(netDepth, BV3D::NET_HEIGHT/2+0.1, BV3D::ARENA_EXTENT[2]/2+0.1), Vector(-netDepth, BV3D::NET_HEIGHT-0.05, -(BV3D::ARENA_EXTENT[2]/2+0.1)));
+	VRS::Bounds netBoxBounds = VRS::Bounds(VRS::Vector(netDepth, BV3D::NET_HEIGHT/2+0.1, BV3D::ARENA_EXTENT[2]/2+0.1), VRS::Vector(-netDepth, BV3D::NET_HEIGHT-0.05, -(BV3D::ARENA_EXTENT[2]/2+0.1)));
 	VRS::Matrix netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)), -90.0);
 	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::NET_HEIGHT - height3ds, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)));
 	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
@@ -155,16 +155,16 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 
 	double poleRadius = 0.14;
 	mNet->append(new VRS::ShapeMaterialGL(VRS::Color(0.6,0.6,0.6,1.0)));
-	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(Vector(0, BV3D::NET_HEIGHT, 0), Vector(0,0,0), poleRadius);
-	VRS::SO<VRS::Cone> cone = new VRS::Cone(Vector(0,BV3D::NET_HEIGHT+0.1,0), Vector(0, BV3D::NET_HEIGHT, 0), 0.0, poleRadius);
+	VRS::SO<VRS::Cylinder> cylinder = new VRS::Cylinder(VRS::Vector(0, BV3D::NET_HEIGHT, 0), VRS::Vector(0,0,0), poleRadius);
+	VRS::SO<VRS::Cone> cone = new VRS::Cone(VRS::Vector(0,BV3D::NET_HEIGHT+0.1,0), VRS::Vector(0, BV3D::NET_HEIGHT, 0), 0.0, poleRadius);
 	VRS::SO<VRS::SceneThing> pole1 = new VRS::SceneThing();
 	VRS::SO<VRS::SceneThing> pole2 = new VRS::SceneThing();
 	mNet->append(pole1);
 	mNet->append(pole2);
-	pole1->append(new VRS::Translation(Vector(0,0,-(BV3D::ARENA_EXTENT[2]/2+poleRadius+poleOffset))));
+	pole1->append(new VRS::Translation(VRS::Vector(0,0,-(BV3D::ARENA_EXTENT[2]/2+poleRadius+poleOffset))));
 	pole1->append(cone);
 	pole1->append(cylinder);
-	pole2->append(new VRS::Translation(Vector(0,0,BV3D::ARENA_EXTENT[2]/2+poleRadius+poleOffset)));
+	pole2->append(new VRS::Translation(VRS::Vector(0,0,BV3D::ARENA_EXTENT[2]/2+poleRadius+poleOffset)));
 	pole2->append(cone);
 	pole2->append(cylinder);
 
@@ -330,7 +330,7 @@ int BV3D::Arena::contactProcessCallback(const NewtonMaterial* material, const Ne
 	}
 	else if (collData->material1 == collData->arena->getBallMaterialID() && collData->material2 == collData->arena->getInvisibleBarrierID()) {
 		// tell referee if ball passes under the net
-		Vector pos = collData->ball->getPosition();
+		VRS::Vector pos = collData->ball->getPosition();
 		if (pos[1] < BV3D::NET_HEIGHT/2) {
 			if (pos[0] < 0)
 				team = BV3D::TEAM1;

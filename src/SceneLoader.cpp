@@ -23,7 +23,6 @@
 #include <vrs/cylinder.h>
 #include <vrs/facestyle.h>
 #include <vrs/plane.h>
-//#include <vrs/opengl/texturegl.h>
 
 
 #include "ModelOptimizer.h"
@@ -34,9 +33,9 @@ BV3D::SceneLoader::SceneLoader(VRS::SO<VRS::Canvas> canvas)
 	mOptimizer = new ModelOptimizer();
 }
 
-BV3D::SceneLoader::~SceneLoader(void)
-{
-}
+//BV3D::SceneLoader::~SceneLoader(void)
+//{
+//}
 
 /**
  * Returns a scene graph, which includes white lines(base- and sidelines) that fit the extent of the gamefield.

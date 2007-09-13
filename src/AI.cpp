@@ -80,7 +80,7 @@ int BV3D::AI::AiCallback(const NewtonMaterial* material, const NewtonContact* co
 		// move blobb to contact point
 		dFloat pos[3], norm[3];
 		NewtonMaterialGetContactPositionAndNormal(material, pos, norm);
-		collData->game->getBlobb(team)->setPosition(Vector(pos[0], 0, pos[2]));
+		collData->game->getBlobb(team)->setPosition(VRS::Vector(pos[0], 0, pos[2]));
 
 		if (v[0]*teamModifier < 0) { // ball moves toward the net -> use normal collision with random elasticity
 			NewtonMaterialSetContactElasticity(material, (0.9f+(rand()%9)/10.0f)*speedUp);

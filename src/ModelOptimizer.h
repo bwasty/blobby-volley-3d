@@ -18,8 +18,8 @@ namespace BV3D
 	class ModelOptimizer : public VRS::SharedObj
 	{
 	public:
-		ModelOptimizer(void);
-		~ModelOptimizer(void);
+		ModelOptimizer(void){ mStaticLighting = false;}
+		virtual ~ModelOptimizer(void){}
 
 		enum ReadMode{
 				MATERIAL_AND_TEXTURES,
@@ -33,6 +33,7 @@ namespace BV3D
 
 	protected:
 		bool	mStaticLighting;
+
 		VRS::SO<VRS::SceneThing> optimizeModel(VRS::SO<VRS::SceneThing> model);
 	};
 }

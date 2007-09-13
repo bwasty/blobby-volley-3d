@@ -9,14 +9,14 @@
 #include <vrs/opengl/shapematerialgl.h>
 #include <vrs/cache.h>
 
-BV3D::ModelOptimizer::ModelOptimizer(void)
-{
-	mStaticLighting = false;
-}
-
-BV3D::ModelOptimizer::~ModelOptimizer(void)
-{
-}
+//BV3D::ModelOptimizer::ModelOptimizer(void)
+//{
+//	mStaticLighting = false;
+//}
+//
+//BV3D::ModelOptimizer::~ModelOptimizer(void)
+//{
+//}
 
 /**
  * loads a 3ds model with the given options and optimizes it
@@ -38,6 +38,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 		case NO_MATERIAL_NO_TEXTURES:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 			VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
+			return VRS::ThreeDSReader::readObject(fileName);
 			break;
 		case ALL_AND_NO_OPTIMIZATIONS:
 			VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
