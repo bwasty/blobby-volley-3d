@@ -1,29 +1,4 @@
 #include "Game.h"
-
-#include <Newton.h>
-#include <fmod.hpp>
-
-#include <vrs/time.h>
-#include <vrs/sg/clock.h>
-#include <vrs/sg/key.h>
-#include <vrs/sg/keyevent.h>
-#include <vrs/sg/jumpnavigation.h>
-#include <vrs/glut/glutcanvas.h>
-#include <vrs/camera.h>
-#include <vrs/sg/scenething.h>
-#include <vrs/ambientlight.h>
-#include <vrs/pointlight.h>
-#include <vrs/distantlight.h>
-#include <vrs/sg/behaviorcallback.h>
-#include <vrs/opengl/transparencytechniquegl.h>
-#include <vrs/lookat.h>
-#include <vrs/perspective.h>
-#include <vrs/opengl/texgengl.h>
-#include <vrs/color.h>
-#include <gl/glut.h>
-#include <vrs/facestyle.h>
-#include <vrs/sg/pickingcallback.h>
-
 #include "MouseControls.h"
 #include "KeyboardControls.h"
 #include "Ball.h"
@@ -35,6 +10,27 @@
 #include "Menu.h"
 #include "Hud.h"
 #include "Ai.h"
+
+#include <Newton.h>
+#include <fmod.hpp>
+
+#include <vrs/time.h>
+#include <vrs/sg/clock.h>
+#include <vrs/sg/key.h>
+#include <vrs/sg/keyevent.h>
+#include <vrs/sg/jumpnavigation.h>
+#include <vrs/glut/glutcanvas.h>
+#include <vrs/camera.h>
+#include <vrs/ambientlight.h>
+#include <vrs/pointlight.h>
+#include <vrs/sg/behaviorcallback.h>
+#include <vrs/opengl/transparencytechniquegl.h>
+#include <vrs/lookat.h>
+#include <vrs/perspective.h>
+#include <vrs/facestyle.h>
+#include <vrs/sg/pickingcallback.h>
+
+
 
 
 BV3D::Game::Game() {
@@ -48,7 +44,7 @@ BV3D::Game::Game() {
 	mUseMovieStyleCamera = false;
 	mIsPaused = false;
 	mIsCameraAnimating = false;
-	mCurrentCameraPosition = CLASSIC_CAMERA;
+	mCurrentCameraPosition = BV3D::CLASSIC_CAMERA;
 	mReferee = 0;
 
 	mCanvas = new VRS::GlutCanvas("BlobbyVolley3D",600,300);	// create the main window
@@ -82,20 +78,15 @@ BV3D::Game::Game() {
 
 	// init Blobbs and add them to the scene
 	mBlobbArray = new VRS::Array<VRS::SO<BV3D::Blobb> >();
-	mBlobbScenesArray = new VRS::Array<VRS::SO<VRS::SceneThing>>();
 	VRS::SO<BV3D::Blobb> blobb = new BV3D::Blobb(mArena, BV3D::TEAM1, mLookAt);
 	blobb->setPosition(VRS::Vector(-BV3D::ARENA_EXTENT[0],0.0,0.0));
-	mBlobbScenesArray->append(new VRS::SceneThing());
-	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
-	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM1));
+	mScene->append(blobb->getScene());
 	mBlobbArray->append(blobb);
 
 	blobb = new BV3D::Blobb(mArena, BV3D::TEAM2, mLookAt);
 	blobb->setPosition(VRS::Vector(BV3D::ARENA_EXTENT[0],0.0,0.0));
 	blobb->setControls(new BV3D::MouseControls());
-	mBlobbScenesArray->append(new VRS::SceneThing());
-	mBlobbScenesArray->getElement(BV3D::TEAM1)->append(blobb->getScene());
-	mScene->append(mBlobbScenesArray->getElement(BV3D::TEAM2));
+	mScene->append(blobb->getScene());
 	mBlobbArray->append(blobb);
 
 	mBall = new BV3D::Ball(mArena);
@@ -115,18 +106,13 @@ BV3D::Game::Game() {
 	setupSound();
 
 	// init update callback
-	mFPS = 30.0;	// assuming 30 fps are desired
 	mCbUpdate = new VRS::BehaviorCallback();
-	mCbUpdate->setTimeCallback(new VRS::MethodCallback<Game>(this,&Game::update));
-	//mCbUpdate->setTimeRequirement(TimeRequirement::infinite);
-	//mCbUpdate->activate();
+	mCbUpdate->setTimeCallback(new VRS::MethodCallback<BV3D::Game>(this,&BV3D::Game::update));
 	mCanvas->append(mCbUpdate);
-	//mCanvas->switchOn(mCbUpdate);
-	//mCanvas->engine()->addPreRenderCallback();
 
 	// init input callback
 	mCbInput = new VRS::BehaviorCallback();
-	mCbInput->setCanvasCallback(new VRS::MethodCallback<Game>(this,&Game::processInput));
+	mCbInput->setCanvasCallback(new VRS::MethodCallback<BV3D::Game>(this,&BV3D::Game::processInput));
 	mCanvas->append(mCbInput);
 
 	// init JumpNavigation
@@ -212,8 +198,8 @@ void BV3D::Game::applyMenuSettings() {
  */
 void BV3D::Game::update() {
 	VRS::VRSTime time = mCanvas->clock()->time();
-	// test if current frame's time is over (0.8/mFPS seems to be a good approximation)
-	if(double(time) - mDLastUpdateTime >= 0.7/mFPS) {
+	// test if current frame's time is over (0.7/MAX_FPS seems to be a good approximation)
+	if(double(time) - mDLastUpdateTime >= 0.7/BV3D::MAX_FPS) {
 		float timestep = (double)time - mDLastUpdateTime;
 		mDLastUpdateTime = double(time);
 
@@ -403,10 +389,13 @@ void BV3D::Game::toggleFullscreen() {
 }
 
 void BV3D::Game::setupSound() {
+	std::string file = BV3D::SOUNDS_PATH;
 	FMOD::System_Create(&mFmodSystem);
 	mFmodSystem->init(32, FMOD_INIT_NORMAL, 0);
-	mFmodSystem->createSound("../Sounds/bums.wav", FMOD_DEFAULT, 0, &soundTouch);
-	mFmodSystem->createSound("../Sounds/pfiff.wav", FMOD_DEFAULT, 0, &soundWhistle);
+	file.append("bums.wav");
+	mFmodSystem->createSound(file.c_str(), FMOD_DEFAULT, 0, &soundTouch);
+	file = BV3D::SOUNDS_PATH + "pfiff.wav";
+	mFmodSystem->createSound(file.c_str(), FMOD_DEFAULT, 0, &soundWhistle);
 	soundWhistle->setDefaults(44100, 0.5, 1.0, 128);
 }
 

@@ -1,20 +1,15 @@
-#include "Constants.h"
 #include "ClassicReferee.h"
 #include "Game.h"
 
 /**
  *	Sets up a Referee for classic volleyball rules, with a winning score of 15, a minimum difference between teams of 2 and a maximum of 3 contacts with the ball.
  */
-BV3D::ClassicReferee::ClassicReferee(VRS::SO<Game> game) : Referee(game)
+BV3D::ClassicReferee::ClassicReferee(VRS::SO<BV3D::Game> game) : BV3D::Referee(game)
 {
 	setWinningScore(15);
 	setMaximumContacts(3);
 	setMinimumDifference(2);
 }
-
-//ClassicReferee::~ClassicReferee(void)
-//{
-//}
 
 /**
  *	Handles the case when the ball collides with a blobb from a team.
@@ -22,11 +17,11 @@ BV3D::ClassicReferee::ClassicReferee(VRS::SO<Game> game) : Referee(game)
  *  If that is the case it increases the opponents score(if that team served the ball) and checks whether the game is now over.
  *	If not a new rally is started with the opponent team serving.
  */
-void BV3D::ClassicReferee::ballOnBlobb(TEAM team)
+void BV3D::ClassicReferee::ballOnBlobb(BV3D::TEAM team)
 {
 	if (mActive) 
 	{
-		TEAM opponent = getOpponent(team);
+		BV3D::TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
@@ -62,12 +57,12 @@ void BV3D::ClassicReferee::ballOnBlobb(TEAM team)
  *	If the opponent team served the ball their score is increased. In that case a check is done whether the game is now over.
  *	The opponent team serves the new ball if the game is not over yet and all contact-counters are reset.
  */
-void BV3D::ClassicReferee::ballOnField(TEAM team)
+void BV3D::ClassicReferee::ballOnField(BV3D::TEAM team)
 {
 	if (mActive) {
 		mGame->playSoundWhistle();
-		resetContacts(TEAM1);
-		resetContacts(TEAM2);
+		resetContacts(BV3D::TEAM1);
+		resetContacts(BV3D::TEAM2);
 
 		if (mServingTeam != team)
 		{
@@ -89,12 +84,4 @@ void BV3D::ClassicReferee::ballOnField(TEAM team)
 			mActive = false;
 		}
 	}
-}
-
-/**
- *	Resets all values for a new game to start.
- */
-void BV3D::ClassicReferee::startNewGame()
-{
-	Referee::startNewGame();
 }

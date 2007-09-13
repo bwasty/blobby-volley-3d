@@ -141,10 +141,10 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(VRS_HOME)\lib;$(NEWTON_SDK)\dll;.\fmod"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				EntryPointSymbol=""
+				EntryPointSymbol="mainCRTStartup"
 				TargetMachine="1"
 			/>
 			<Tool

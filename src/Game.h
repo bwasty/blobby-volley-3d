@@ -61,55 +61,63 @@ namespace BV3D
 		~Game();
 		void update();			// render new frame
 		void processInput();	// process and dispatch input
-		VRS::SO<Ball> getBall() {return mBall;}
-		VRS::SO<Referee> getReferee() {return mReferee;}
-		VRS::SO<Blobb> getBlobb(BV3D::TEAM team) {return mBlobbArray->getElement(team==BV3D::TEAM1 ? 0 : 1);}
-		VRS::SO<Arena> getArena() {return mArena;}
+		VRS::SO<BV3D::Ball> getBall()			{return mBall;}
+		VRS::SO<BV3D::Referee> getReferee()		{return mReferee;}
+		VRS::SO<BV3D::Blobb> getBlobb(BV3D::TEAM team) {return mBlobbArray->getElement(team==BV3D::TEAM1 ? 0 : 1);}
+		VRS::SO<BV3D::Arena> getArena()			{return mArena;}
 		void scheduleNewServe();
 		void newServe();
 		void aiServe(BV3D::TEAM team);
-
 		void playSoundTouch();
 		void playSoundWhistle();
-
 		void switchToGame(bool bRestart);
 		void toggleFullscreen();
-
 		int getFrameCount() {return mFrameCount;}
+
 	protected:
 		void switchToMenu(bool allowResume);
 		void setupSound();
 		void applyMenuSettings();
-		void switchCameraposition(CAMERAPOSITION position);
-		VRS::Vector getPositionVector(CAMERAPOSITION position);
-		VRS::Vector getDirectionVector(CAMERAPOSITION position);
-		bool isCameraMovieStyle()	{return mUseMovieStyleCamera;}
-		bool isCameraDistant()		{return mIsCameraDistant;}
-		bool isCameraHigher()		{return mIsCameraHigher;}
+		void switchCameraposition(BV3D::CAMERAPOSITION position);
+		VRS::Vector getPositionVector(BV3D::CAMERAPOSITION position);
+		VRS::Vector getDirectionVector(BV3D::CAMERAPOSITION position);
+		bool isCameraMovieStyle()				{return mUseMovieStyleCamera;}
+		bool isCameraDistant()					{return mIsCameraDistant;}
+		bool isCameraHigher()					{return mIsCameraHigher;}
 		void setMovieStyleCamera(bool useMovieStyle) {mUseMovieStyleCamera = useMovieStyle;}
-		void setCameraDistant(bool distant) {mIsCameraDistant = distant;}
-		void setCameraHigher(bool higher) {mIsCameraHigher = higher;}
-		bool isPaused()				{return mIsPaused;}
-		void setPaused(bool pauseGame) {mIsPaused = pauseGame;}
+		void setCameraDistant(bool distant)		{mIsCameraDistant = distant;}
+		void setCameraHigher(bool higher)		{mIsCameraHigher = higher;}
+		bool isPaused()							{return mIsPaused;}
+		void setPaused(bool pauseGame)			{mIsPaused = pauseGame;}
 
 	private:
-		double			mDelayedActionStart;
-		bool			mScheduleNewServe;
-		int				mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
-		bool			mIsCameraDistant;
-		bool			mIsCameraHigher;
-		bool			mUseMovieStyleCamera;
-		bool			mIsPaused;
-		bool			mIsCameraAnimating;
-		CAMERAPOSITION	mCurrentCameraPosition;
-		FMOD::System    *mFmodSystem;
-		FMOD::Sound     *soundTouch, *soundWhistle;
+		double								mDelayedActionStart;
+		bool								mScheduleNewServe;
+		int									mPrevWidth, mPrevHeight, mPrevPosX, mPrevPosY;
+		bool								mIsCameraDistant;
+		bool								mIsCameraHigher;
+		bool								mUseMovieStyleCamera;
+		bool								mIsPaused;
+		bool								mIsCameraAnimating;
+		int									mIFramerate;		// frame counter to allow frame rate checking
+		int									mFrameCount;		// total frame count
+		double								mDLastSecond;		// auxiliary variable for frame rate checking
+		double								mDLastUpdateTime;	// auxiliary variable for frame stepping
+		BV3D::CAMERAPOSITION				mCurrentCameraPosition;
+		FMOD::System						*mFmodSystem;
+		FMOD::Sound							*soundTouch, *soundWhistle;
 
-		VRS::SO<HUD>			mHud;
+		VRS::SO<BV3D::HUD>					mHud;
+		VRS::SO<BV3D::Referee>				mReferee;
+		VRS::SO<BV3D::Arena>				mArena;					// Arena object
+		VRS::SO<VRS::Array<VRS::SO<BV3D::Blobb> > >	mBlobbArray;	// list of Blobbs
+		VRS::SO<BV3D::Ball>					mBall;
+		VRS::SO<BV3D::SceneLoader>			mSceneLoader;
+		VRS::SO<BV3D::Menu>					mMenu;
+		VRS::SO<BV3D::AI>					mAI;
 
 		VRS::SO<VRS::GlutCanvas>			mCanvas;		// main canvas
 		VRS::SO<VRS::SceneThing>			mScene;			// root node where Blobbs etc will be appended to
-		VRS::SO<VRS::Array<VRS::SO<VRS::SceneThing> > >	mBlobbScenesArray;	// list of BlobbScenes
 		VRS::SO<VRS::TransparencyTechniqueGL>	mTransparencyTechnique;	// to enable transparency
 		VRS::SO<VRS::Perspective>			mPerspective;
 		VRS::SO<VRS::LookAt>				mLookAt;
@@ -121,20 +129,7 @@ namespace BV3D
 		VRS::SO<VRS::JumpNavigation>		mNavigation;	// select and fly between different camera settings
 		VRS::SO<VRS::SceneThing>			mBackground;		//SceneNode for background
 
-		VRS::SO<AI>							mAI;
 
-		int			mIFramerate;		// frame counter to allow frame rate checking
-		int			mFrameCount;		// total frame count
-		double		mDLastSecond;		// auxiliary variable for frame rate checking
-		double		mDLastUpdateTime;	// auxiliary variable for frame stepping
-		double		mFPS;				// desired frame rate
-		
-		VRS::SO<Referee>		mReferee;
-		VRS::SO<Arena>			mArena;	// Arena object
-		VRS::SO<VRS::Array<VRS::SO<Blobb> > >	mBlobbArray;	// list of Blobbs
-		VRS::SO<Ball>			mBall;
-		VRS::SO<SceneLoader>	mSceneLoader;
-		VRS::SO<Menu>			mMenu;
 	};
 }
 

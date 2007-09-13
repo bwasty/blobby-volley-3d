@@ -1,20 +1,15 @@
-#include "Constants.h"
 #include "TieBreakReferee.h"
 #include "Game.h"
 
 /**
  *	Sets up a Referee for new tournament volleyball rules, with a winning score of 25, a minimum difference between teams of 2 and a maximum of 3 contacts with the ball.
  */
-BV3D::TieBreakReferee::TieBreakReferee(VRS::SO<Game> game) : Referee(game)
+BV3D::TieBreakReferee::TieBreakReferee(VRS::SO<BV3D::Game> game) : BV3D::Referee(game)
 {
 	setWinningScore(25);
 	setMaximumContacts(3);
 	setMinimumDifference(2);
 }
-
-//TieBreakReferee::~TieBreakReferee(void)
-//{
-//}
 
 /**
  *	Handles the case when the ball collides with a blobb from a team.
@@ -22,11 +17,11 @@ BV3D::TieBreakReferee::TieBreakReferee(VRS::SO<Game> game) : Referee(game)
  *  If that is the case it increases the opponents score and checks whether the game is now over.
  *	If not a new rally is started with the opponent team serving.
  */
-void BV3D::TieBreakReferee::ballOnBlobb(TEAM team)
+void BV3D::TieBreakReferee::ballOnBlobb(BV3D::TEAM team)
 {
 	if (mActive) 
 	{
-		TEAM opponent = getOpponent(team);
+		BV3D::TEAM opponent = getOpponent(team);
 		resetContacts(opponent);
 		if (increaseContacts(team) > getMaximumContacts())
 		{
@@ -55,13 +50,13 @@ void BV3D::TieBreakReferee::ballOnBlobb(TEAM team)
  *	The opponent teams score is increased and a check is done whether the game is now over.
  *	The opponent team serves the new ball if the game is not over yet and all contact-counters are reset.
  */
-void BV3D::TieBreakReferee::ballOnField(TEAM team)
+void BV3D::TieBreakReferee::ballOnField(BV3D::TEAM team)
 {
 	if (mActive) 
 	{
 		mGame->playSoundWhistle();
 
-		TEAM opponent = getOpponent(team);
+		BV3D::TEAM opponent = getOpponent(team);
 		increaseScore(opponent);		//opponent of 'team scores'
 		if (isGameOver())				//only opponent could have scored since last test
 		{
@@ -77,12 +72,4 @@ void BV3D::TieBreakReferee::ballOnField(TEAM team)
 			mActive = false;
 		}
 	}
-}
-
-/**
- *	Resets all values for a new game to start.
- */
-void BV3D::TieBreakReferee::startNewGame()
-{
-	Referee::startNewGame();
 }

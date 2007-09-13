@@ -17,21 +17,15 @@
 #include <vrs/opengl/backgroundgl.h>
 #include <vrs/opengl/imagetexture2dgl.h>
 #include <vrs/image/image.h>
-#include <vrs/io/pngreader.h>
 #include <vrs/io/jpegreader.h>
 #include <vrs/sg/cullingscenething.h>
 #include <vrs/sg/canvas.h>
-#include <vrs/sg/scenething.h>
 
 BV3D::SceneLoader::SceneLoader(VRS::SO<VRS::Canvas> canvas)
 {
 	mCanvas = canvas;
 	mOptimizer = new ModelOptimizer();
 }
-
-//BV3D::SceneLoader::~SceneLoader(void)
-//{
-//}
 
 /**
  * Returns a scene graph, which includes white lines(base- and sidelines) that fit the extent of the gamefield.
@@ -192,7 +186,6 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	//wall
 	VRS::SO<VRS::SceneThing> wall = new VRS::SceneThing(arenaScene);
 	VRS::Matrix texMatrix = VRS::Matrix::scaling(VRS::Vector(4*groundRadius, 4.0, 4*groundRadius));
-	//VRS::Matrix texMatrix = VRS::Matrix();
 	wall->append(new VRS::FaceStyle(VRS::FaceStyle::Filled, VRS::FaceStyle::Filled));
 	wall->append(new VRS::ImageTexture2DGL(VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "BricksLgMortar.jpg"),
 		VRS::TextureGL::REPEAT, VRS::TextureGL::REPEAT, VRS::TextureGL::LINEAR, VRS::TextureGL::LINEAR, 1.0, 
@@ -288,7 +281,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHeaven()
 	//ground plane with heaven bumpmap
 	VRS::SO<VRS::SceneThing> groundPlane = new VRS::SceneThing(heavenScene);
 	VRS::SO<VRS::DistantLight> light = new VRS::DistantLight(VRS::Vector(0.0, 1.0, 1.0), VRS::Color(1.0));
-	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "PittedTexture.jpg"); //"orange.pgm" 
+	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "PittedTexture.jpg");
 	VRS::SO<VRS::Bumpmap> bumpmap = new VRS::Bumpmap(img1, light, -4.0);  
 	VRS::SO<VRS::Plane> plane = new VRS::Plane();
 	plane->setTextureTiling(7.0);
