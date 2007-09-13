@@ -29,6 +29,7 @@
 	mDecreasing = false;
 	mIsMoving = false;
 	mForceAnimation = true;
+	mStep = 1;
 	mMaxJump = false;
 	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
 

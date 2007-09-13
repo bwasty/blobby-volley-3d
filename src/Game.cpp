@@ -68,8 +68,11 @@ BV3D::Game::Game() {
 	mAmbientLight = new VRS::AmbientLight(VRS::Color(0.7));
 	mScene->append(mAmbientLight);
 
-	//// add PointLight for shadows and reflection
+	// add PointLight for shadows and reflection
 	mPointLight = new VRS::PointLight(VRS::Vector(-BV3D::ARENA_EXTENT[0]/2, BV3D::ARENA_EXTENT[1]/2, -BV3D::ARENA_EXTENT[2]/2), VRS::Color(0.7));
+	mScene->append(mPointLight);
+
+	mPointLight = new VRS::PointLight(VRS::Vector(BV3D::ARENA_EXTENT[0]/2, BV3D::ARENA_EXTENT[1]/4, -BV3D::ARENA_EXTENT[2]/2), VRS::Color(0.45));
 	mScene->append(mPointLight);
 
 	mArena = new BV3D::Arena(this);

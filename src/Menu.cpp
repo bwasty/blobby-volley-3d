@@ -46,7 +46,7 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 
 	// init settings
 	mCurrentScreen = MAIN;
-	mPlace = ARENA;
+	mPlace = BEACH;
 	mRules = TIE_BREAK;
 	mFullscreen = OFF;
 	mP1Color = RED;
