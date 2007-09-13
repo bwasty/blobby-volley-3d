@@ -33,106 +33,70 @@
     <li class="current"><a href="files.html"><span>Files</span></a></li>
   </ul>
 </div>
-<h1>TieBreakReferee.cpp</h1><a href="_tie_break_referee_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment"> * The TieBreakReferee class is a subclass of Referee and implements the newer tournament volleyball rules.</span>
-<a name="l00003"></a>00003 <span class="comment"> * The game goes until one team reaches a score of 25 or more with 2 or more points difference to the other team.</span>
-<a name="l00004"></a>00004 <span class="comment"> * Teams can touch the ball only 3 times before causing a fault each fault causes the other team to score a point and get to serve the ball.</span>
-<a name="l00005"></a>00005 <span class="comment"> */</span>
-<a name="l00006"></a>00006 
-<a name="l00007"></a>00007 <span class="preprocessor">#include "<a class="code" href="_constants_8h.html">Constants.h</a>"</span>
-<a name="l00008"></a>00008 <span class="preprocessor">#include "<a class="code" href="_tie_break_referee_8h.html">TieBreakReferee.h</a>"</span>
-<a name="l00009"></a>00009 <span class="preprocessor">#include "<a class="code" href="_game_8h.html">Game.h</a>"</span>
-<a name="l00010"></a>00010 
-<a name="l00011"></a>00011 <span class="keyword">using namespace </span>BV3D;
-<a name="l00012"></a>00012 
-<a name="l00013"></a>00013 <span class="comment">/*</span>
-<a name="l00014"></a>00014 <span class="comment"> *      Sets up a Referee for new tournament volleyball rules, with a winning score of 25, a minimum difference between teams of 2 and a maximum of 3 contacts with the ball.</span>
-<a name="l00015"></a>00015 <span class="comment"> */</span>
-<a name="l00016"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#9dd0507540af38f0d4e9fadc844af753">00016</a> TieBreakReferee::TieBreakReferee(SO&lt;Game&gt; game) : <a class="code" href="class_b_v3_d_1_1_referee.html" title="The Referee class is an abstract class for implementation of volleyball rules.">Referee</a>(game)
-<a name="l00017"></a>00017 {
-<a name="l00018"></a>00018         <a class="code" href="class_b_v3_d_1_1_referee.html#f5f58ad8689126c48b48ce4ea567cc45">setWinningScore</a>(25);
-<a name="l00019"></a>00019         <a class="code" href="class_b_v3_d_1_1_referee.html#a506d434fa70cb84107ec95e17f6b97d">setMaximumContacts</a>(3);
-<a name="l00020"></a>00020         <a class="code" href="class_b_v3_d_1_1_referee.html#d38d2e48799f83ca940538bf94141c62">setMinimumDifference</a>(2);
-<a name="l00021"></a>00021         <span class="comment">//game-&gt;newServe(true);         //left team has first serve</span>
-<a name="l00022"></a>00022 }
-<a name="l00023"></a>00023 
-<a name="l00024"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#272ae860c5b5f021cda66eb7c9eb9e56">00024</a> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#272ae860c5b5f021cda66eb7c9eb9e56">TieBreakReferee::~TieBreakReferee</a>(<span class="keywordtype">void</span>)
-<a name="l00025"></a>00025 {
-<a name="l00026"></a>00026 }
-<a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <span class="comment">/*</span>
-<a name="l00029"></a>00029 <span class="comment"> *      Handles the case when the ball collides with a blobb from a team.</span>
-<a name="l00030"></a>00030 <span class="comment"> *  Increases the teams contact-counter and checks whether a fault occured.</span>
-<a name="l00031"></a>00031 <span class="comment"> *  If that is the case it increases the opponents score and checks whether the game is now over.</span>
-<a name="l00032"></a>00032 <span class="comment"> *      If not a new rally is started with the opponent team serving.</span>
-<a name="l00033"></a>00033 <span class="comment"> */</span>
-<a name="l00034"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#6db8925cba455a86d6dc89565b13f608">00034</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#6db8925cba455a86d6dc89565b13f608">TieBreakReferee::ballOnBlobb</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> team)
-<a name="l00035"></a>00035 {
-<a name="l00036"></a>00036         <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a>) 
-<a name="l00037"></a>00037         {
-<a name="l00038"></a>00038                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> opponent = <a class="code" href="class_b_v3_d_1_1_referee.html#66c9730f2cc7863fed00d866d8f27755">getOpponent</a>(team);
-<a name="l00039"></a>00039                 <a class="code" href="class_b_v3_d_1_1_referee.html#7fe9bbf7201ae395a6e3e24a83a9f221">resetContacts</a>(opponent);
-<a name="l00040"></a>00040                 <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#6b7872b5a040ac371d083f775098bf71">increaseContacts</a>(team) &gt; <a class="code" href="class_b_v3_d_1_1_referee.html#184e4412476a0afd0a7402907cacb59d">getMaximumContacts</a>())
-<a name="l00041"></a>00041                 {
-<a name="l00042"></a>00042                         <a class="code" href="class_b_v3_d_1_1_referee.html#1b336d6ce8d19a3d583de9690657041f">mGame</a>-&gt;playSoundWhistle();
-<a name="l00043"></a>00043 
-<a name="l00044"></a>00044                         <a class="code" href="class_b_v3_d_1_1_referee.html#990ca4fd7fac2e779744aa1f07878b6e">increaseScore</a>(opponent);
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046                         <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#8a69c410ff7d922116d3c78199b9c784">isGameOver</a>())                       <span class="comment">//only opponent could have scored since last test</span>
-<a name="l00047"></a>00047                         {
-<a name="l00048"></a>00048                                 <a class="code" href="class_b_v3_d_1_1_referee.html#aa7aeebed0974a7de6332f23b4619e6d">gameOver</a>(opponent);             <span class="comment">//if game over then opponent must be winner</span>
-<a name="l00049"></a>00049                                 <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
-<a name="l00050"></a>00050                         }
-<a name="l00051"></a>00051                         <span class="keywordflow">else</span>
-<a name="l00052"></a>00052                         {       
-<a name="l00053"></a>00053                                 <a class="code" href="class_b_v3_d_1_1_referee.html#4da4e30b4c8309d8144c96a121991ce7">newServe</a>(opponent);
-<a name="l00054"></a>00054                                 <a class="code" href="class_b_v3_d_1_1_referee.html#7fe9bbf7201ae395a6e3e24a83a9f221">resetContacts</a>(team);
-<a name="l00055"></a>00055 
-<a name="l00056"></a>00056                                 <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
-<a name="l00057"></a>00057                         }
-<a name="l00058"></a>00058                 }
-<a name="l00059"></a>00059         }
-<a name="l00060"></a>00060 }
-<a name="l00061"></a>00061 
-<a name="l00062"></a>00062 <span class="comment">/*</span>
-<a name="l00063"></a>00063 <span class="comment"> *      Handles the case when the ball touches the ground on a teams side.</span>
-<a name="l00064"></a>00064 <span class="comment"> *      The opponent teams score is increased and a check is done whether the game is now over.</span>
-<a name="l00065"></a>00065 <span class="comment"> *      The opponent team serves the new ball if the game is not over yet and all contact-counters are reset.</span>
-<a name="l00066"></a>00066 <span class="comment"> */</span>
-<a name="l00067"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#aa59ad5fa9a05cce6841aa149f868960">00067</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#aa59ad5fa9a05cce6841aa149f868960">TieBreakReferee::ballOnField</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> team)
-<a name="l00068"></a>00068 {
-<a name="l00069"></a>00069         <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a>) 
-<a name="l00070"></a>00070         {
-<a name="l00071"></a>00071                 <a class="code" href="class_b_v3_d_1_1_referee.html#1b336d6ce8d19a3d583de9690657041f">mGame</a>-&gt;playSoundWhistle();
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> opponent = <a class="code" href="class_b_v3_d_1_1_referee.html#66c9730f2cc7863fed00d866d8f27755">getOpponent</a>(team);
-<a name="l00074"></a>00074                 <a class="code" href="class_b_v3_d_1_1_referee.html#990ca4fd7fac2e779744aa1f07878b6e">increaseScore</a>(opponent);                <span class="comment">//opponent of 'team scores'</span>
-<a name="l00075"></a>00075                 <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#8a69c410ff7d922116d3c78199b9c784">isGameOver</a>())                               <span class="comment">//only opponent could have scored since last test</span>
-<a name="l00076"></a>00076                 {
-<a name="l00077"></a>00077                         <a class="code" href="class_b_v3_d_1_1_referee.html#aa7aeebed0974a7de6332f23b4619e6d">gameOver</a>(opponent);                     <span class="comment">//if game over then opponent must be winner</span>
-<a name="l00078"></a>00078                         <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
-<a name="l00079"></a>00079                 }
-<a name="l00080"></a>00080                 <span class="keywordflow">else</span>
-<a name="l00081"></a>00081                 {       
-<a name="l00082"></a>00082                         <a class="code" href="class_b_v3_d_1_1_referee.html#4da4e30b4c8309d8144c96a121991ce7">newServe</a>(opponent);
-<a name="l00083"></a>00083                         <a class="code" href="class_b_v3_d_1_1_referee.html#7fe9bbf7201ae395a6e3e24a83a9f221">resetContacts</a>(team);            <span class="comment">//reset current contact counters</span>
-<a name="l00084"></a>00084                         <a class="code" href="class_b_v3_d_1_1_referee.html#7fe9bbf7201ae395a6e3e24a83a9f221">resetContacts</a>(opponent);
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086                         <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
-<a name="l00087"></a>00087                 }
-<a name="l00088"></a>00088         }
-<a name="l00089"></a>00089 }
-<a name="l00090"></a>00090 
-<a name="l00091"></a>00091 <span class="comment">/*</span>
-<a name="l00092"></a>00092 <span class="comment"> *      Resets all values for a new game to start.</span>
-<a name="l00093"></a>00093 <span class="comment"> */</span>
-<a name="l00094"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#fe841d7538060ab7cdecaa565a7b9129">00094</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#fe841d7538060ab7cdecaa565a7b9129">TieBreakReferee::startNewGame</a>()
-<a name="l00095"></a>00095 {
-<a name="l00096"></a>00096         <a class="code" href="class_b_v3_d_1_1_referee.html#0a6a056037db5abbd1f72532e951c43b">Referee::startNewGame</a>();
-<a name="l00097"></a>00097 }
+<h1>TieBreakReferee.cpp</h1><a href="_tie_break_referee_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include "<a class="code" href="_tie_break_referee_8h.html">TieBreakReferee.h</a>"</span>
+<a name="l00002"></a>00002 <span class="preprocessor">#include "<a class="code" href="_game_8h.html">Game.h</a>"</span>
+<a name="l00003"></a>00003 
+<a name="l00007"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#e52f0a6041fbfa267907502a5e39de19">00007</a> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#e52f0a6041fbfa267907502a5e39de19">BV3D::TieBreakReferee::TieBreakReferee</a>(VRS::SO&lt;BV3D::Game&gt; game) : BV3D::<a class="code" href="class_b_v3_d_1_1_referee.html" title="The Referee class is an abstract class for implementation of volleyball rules.">Referee</a>(game)
+<a name="l00008"></a>00008 {
+<a name="l00009"></a>00009         <a class="code" href="class_b_v3_d_1_1_referee.html#88d732af14c7c87022987b253e0b7564">setWinningScore</a>(25);
+<a name="l00010"></a>00010         <a class="code" href="class_b_v3_d_1_1_referee.html#dbd4fb384526e903c2a2b3761d5830c5">setMaximumContacts</a>(3);
+<a name="l00011"></a>00011         <a class="code" href="class_b_v3_d_1_1_referee.html#7e80828da70432807a53df934cabadbc">setMinimumDifference</a>(2);
+<a name="l00012"></a>00012 }
+<a name="l00013"></a>00013 
+<a name="l00020"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#1101212820bf1764bd8200b04fcef52f">00020</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#1101212820bf1764bd8200b04fcef52f">BV3D::TieBreakReferee::ballOnBlobb</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team)
+<a name="l00021"></a>00021 {
+<a name="l00022"></a>00022         <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a>) 
+<a name="l00023"></a>00023         {
+<a name="l00024"></a>00024                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> opponent = <a class="code" href="class_b_v3_d_1_1_referee.html#a48b05be552b812e96d44ac1580940b3">getOpponent</a>(team);
+<a name="l00025"></a>00025                 <a class="code" href="class_b_v3_d_1_1_referee.html#6f49530d938b9cfbce81d5c5261305dd">resetContacts</a>(opponent);
+<a name="l00026"></a>00026                 <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#06de5e12258862e925f2b2921c2af829">increaseContacts</a>(team) &gt; <a class="code" href="class_b_v3_d_1_1_referee.html#f6a6043d042cf340d1528b35bffe63a1">getMaximumContacts</a>())
+<a name="l00027"></a>00027                 {
+<a name="l00028"></a>00028                         <a class="code" href="class_b_v3_d_1_1_referee.html#2d565fd8638d5bbf9f2aa2615f810f06">mGame</a>-&gt;playSoundWhistle();
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030                         <a class="code" href="class_b_v3_d_1_1_referee.html#c67bb0a4c8df58b6475684facd8ffe05">increaseScore</a>(opponent);
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032                         <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#94c9f965dc5ec5812522fa113478c711">isGameOver</a>())                       <span class="comment">//only opponent could have scored since last test</span>
+<a name="l00033"></a>00033                         {
+<a name="l00034"></a>00034                                 <a class="code" href="class_b_v3_d_1_1_referee.html#00630bf3fc8c1a4afd8011a193d34bf2">gameOver</a>(opponent);             <span class="comment">//if game over then opponent must be winner</span>
+<a name="l00035"></a>00035                                 <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
+<a name="l00036"></a>00036                         }
+<a name="l00037"></a>00037                         <span class="keywordflow">else</span>
+<a name="l00038"></a>00038                         {       
+<a name="l00039"></a>00039                                 <a class="code" href="class_b_v3_d_1_1_referee.html#c592d05847b56a3b149c26bc178f5214">newServe</a>(opponent);
+<a name="l00040"></a>00040                                 <a class="code" href="class_b_v3_d_1_1_referee.html#6f49530d938b9cfbce81d5c5261305dd">resetContacts</a>(team);
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042                                 <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
+<a name="l00043"></a>00043                         }
+<a name="l00044"></a>00044                 }
+<a name="l00045"></a>00045         }
+<a name="l00046"></a>00046 }
+<a name="l00047"></a>00047 
+<a name="l00053"></a><a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#d3fc7a0a7ee69347af90329aed86d146">00053</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_tie_break_referee.html#d3fc7a0a7ee69347af90329aed86d146">BV3D::TieBreakReferee::ballOnField</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team)
+<a name="l00054"></a>00054 {
+<a name="l00055"></a>00055         <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a>) 
+<a name="l00056"></a>00056         {
+<a name="l00057"></a>00057                 <a class="code" href="class_b_v3_d_1_1_referee.html#2d565fd8638d5bbf9f2aa2615f810f06">mGame</a>-&gt;playSoundWhistle();
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> opponent = <a class="code" href="class_b_v3_d_1_1_referee.html#a48b05be552b812e96d44ac1580940b3">getOpponent</a>(team);
+<a name="l00060"></a>00060                 <a class="code" href="class_b_v3_d_1_1_referee.html#c67bb0a4c8df58b6475684facd8ffe05">increaseScore</a>(opponent);                <span class="comment">//opponent of 'team scores'</span>
+<a name="l00061"></a>00061                 <span class="keywordflow">if</span> (<a class="code" href="class_b_v3_d_1_1_referee.html#94c9f965dc5ec5812522fa113478c711">isGameOver</a>())                               <span class="comment">//only opponent could have scored since last test</span>
+<a name="l00062"></a>00062                 {
+<a name="l00063"></a>00063                         <a class="code" href="class_b_v3_d_1_1_referee.html#00630bf3fc8c1a4afd8011a193d34bf2">gameOver</a>(opponent);                     <span class="comment">//if game over then opponent must be winner</span>
+<a name="l00064"></a>00064                         <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
+<a name="l00065"></a>00065                 }
+<a name="l00066"></a>00066                 <span class="keywordflow">else</span>
+<a name="l00067"></a>00067                 {       
+<a name="l00068"></a>00068                         <a class="code" href="class_b_v3_d_1_1_referee.html#c592d05847b56a3b149c26bc178f5214">newServe</a>(opponent);
+<a name="l00069"></a>00069                         <a class="code" href="class_b_v3_d_1_1_referee.html#6f49530d938b9cfbce81d5c5261305dd">resetContacts</a>(team);            <span class="comment">//reset current contact counters</span>
+<a name="l00070"></a>00070                         <a class="code" href="class_b_v3_d_1_1_referee.html#6f49530d938b9cfbce81d5c5261305dd">resetContacts</a>(opponent);
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072                         <a class="code" href="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40">mActive</a> = <span class="keyword">false</span>;
+<a name="l00073"></a>00073                 }
+<a name="l00074"></a>00074         }
+<a name="l00075"></a>00075 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Thu Sep 13 00:43:09 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 18:38:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

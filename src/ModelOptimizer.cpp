@@ -8,7 +8,7 @@
 #include <vrs/cache.h>
 
 /**
- * loads a 3ds model with the given options and optimizes it
+ * Loads a 3ds model with the given options and optimizes it
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
 {
@@ -41,7 +41,7 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 }
 
 /**
- * loads an obj model and optimizes it
+ * Loads an obj model and optimizes it
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::getWavefrontModel(const std::string &fileName)
 {

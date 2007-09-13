@@ -6,7 +6,7 @@
 
 namespace BV3D
 {
-	/*
+	/**
 	* \brief Implements the newer, tournament volleyball rules.
 
 	* The game goes until one team reaches a score of 25 or more with 2 or more points difference to the other team.

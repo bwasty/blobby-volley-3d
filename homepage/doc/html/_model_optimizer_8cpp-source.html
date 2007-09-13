@@ -33,135 +33,71 @@
     <li class="current"><a href="files.html"><span>Files</span></a></li>
   </ul>
 </div>
-<h1>ModelOptimizer.cpp</h1><a href="_model_optimizer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment"> * Class for loading and optimizing external 3D-models, currently supporting .obj and .3ds files</span>
-<a name="l00003"></a>00003 <span class="comment"> */</span>
-<a name="l00004"></a>00004 
-<a name="l00005"></a>00005 <span class="preprocessor">#include "<a class="code" href="_model_optimizer_8h.html">ModelOptimizer.h</a>"</span>
-<a name="l00006"></a>00006 
-<a name="l00007"></a>00007 <span class="preprocessor">#include &lt;vrs/io/threedsreader.h&gt;</span>
-<a name="l00008"></a>00008 <span class="preprocessor">#include &lt;vrs/io/wavefrontreader.h&gt;</span>
-<a name="l00009"></a>00009 <span class="preprocessor">#include &lt;vrs/io/filedataresource.h&gt;</span>
-<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;vrs/sg/scenegraphanalyzer.h&gt;</span>
-<a name="l00011"></a>00011 <span class="preprocessor">#include &lt;vrs/polygonsettool.h&gt;</span>
-<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;vrs/polygonset.h&gt;</span>
-<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;vrs/opengl/shapematerialgl.h&gt;</span>
-<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;vrs/cache.h&gt;</span>
-<a name="l00015"></a>00015 
-<a name="l00016"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#94f7877f5c8612c82039571f44eab6fb">00016</a> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#94f7877f5c8612c82039571f44eab6fb">BV3D::ModelOptimizer::ModelOptimizer</a>(<span class="keywordtype">void</span>)
-<a name="l00017"></a>00017 {
-<a name="l00018"></a>00018         <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a> = <span class="keyword">false</span>;
-<a name="l00019"></a>00019 }
-<a name="l00020"></a>00020 
-<a name="l00021"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#16b93584be53373b22a4f3822eb25736">00021</a> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#16b93584be53373b22a4f3822eb25736">BV3D::ModelOptimizer::~ModelOptimizer</a>(<span class="keywordtype">void</span>)
-<a name="l00022"></a>00022 {
-<a name="l00023"></a>00023 }
-<a name="l00024"></a>00024 
-<a name="l00025"></a>00025 <span class="comment">/*</span>
-<a name="l00026"></a>00026 <span class="comment"> * loads a 3ds model with the given options and optimizes it</span>
-<a name="l00027"></a>00027 <span class="comment"> */</span>
-<a name="l00028"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4">00028</a> VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4">BV3D::ModelOptimizer::get3dsModel</a>(<span class="keyword">const</span> std::string &amp;fileName, <span class="keywordtype">bool</span> useStaticLighting, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">ReadMode</a> readMode)
-<a name="l00029"></a>00029 {
-<a name="l00030"></a>00030         VRS::SO&lt;VRS::SceneThing&gt; ball;
-<a name="l00031"></a>00031         <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a> = useStaticLighting;
-<a name="l00032"></a>00032         <span class="keywordflow">switch</span>(readMode)                <span class="comment">//setup 3dsReader according to readMode</span>
-<a name="l00033"></a>00033         {
-<a name="l00034"></a>00034                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de60575ff1401dfb35b29bcef3ec115c52">MATERIAL_AND_TEXTURES</a>:
-<a name="l00035"></a>00035                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
-<a name="l00036"></a>00036                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::TRY_TEXTURES);
+<h1>ModelOptimizer.cpp</h1><a href="_model_optimizer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include "<a class="code" href="_model_optimizer_8h.html">ModelOptimizer.h</a>"</span>
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="preprocessor">#include &lt;vrs/io/threedsreader.h&gt;</span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;vrs/io/wavefrontreader.h&gt;</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;vrs/io/filedataresource.h&gt;</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &lt;vrs/sg/scenegraphanalyzer.h&gt;</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &lt;vrs/opengl/shapematerialgl.h&gt;</span>
+<a name="l00008"></a>00008 <span class="preprocessor">#include &lt;vrs/cache.h&gt;</span>
+<a name="l00009"></a>00009 
+<a name="l00013"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4">00013</a> VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4">BV3D::ModelOptimizer::get3dsModel</a>(<span class="keyword">const</span> std::string &amp;fileName, <span class="keywordtype">bool</span> useStaticLighting, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">ReadMode</a> readMode)
+<a name="l00014"></a>00014 {
+<a name="l00015"></a>00015         VRS::SO&lt;VRS::SceneThing&gt; ball;
+<a name="l00016"></a>00016         <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a> = useStaticLighting;
+<a name="l00017"></a>00017         <span class="keywordflow">switch</span>(readMode)                <span class="comment">//setup 3dsReader according to readMode</span>
+<a name="l00018"></a>00018         {
+<a name="l00019"></a>00019                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de60575ff1401dfb35b29bcef3ec115c52">MATERIAL_AND_TEXTURES</a>:
+<a name="l00020"></a>00020                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
+<a name="l00021"></a>00021                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::TRY_TEXTURES);
+<a name="l00022"></a>00022                         <span class="keywordflow">break</span>;
+<a name="l00023"></a>00023                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">ONLY_MATERIAL</a>:
+<a name="l00024"></a>00024                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
+<a name="l00025"></a>00025                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
+<a name="l00026"></a>00026                         <span class="keywordflow">break</span>;
+<a name="l00027"></a>00027                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">NO_MATERIAL_NO_TEXTURES</a>:
+<a name="l00028"></a>00028                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
+<a name="l00029"></a>00029                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
+<a name="l00030"></a>00030                         <span class="keywordflow">return</span> VRS::ThreeDSReader::readObject(fileName);
+<a name="l00031"></a>00031                         <span class="keywordflow">break</span>;
+<a name="l00032"></a>00032                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b">ALL_AND_NO_OPTIMIZATIONS</a>:
+<a name="l00033"></a>00033                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
+<a name="l00034"></a>00034                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::FORCE_TEXTURES);
+<a name="l00035"></a>00035                         VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::NO_OPTIMIZATIONS);
+<a name="l00036"></a>00036                         <span class="keywordflow">return</span> VRS::ThreeDSReader::readObject(fileName);
 <a name="l00037"></a>00037                         <span class="keywordflow">break</span>;
-<a name="l00038"></a>00038                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">ONLY_MATERIAL</a>:
-<a name="l00039"></a>00039                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
-<a name="l00040"></a>00040                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
-<a name="l00041"></a>00041                         <span class="keywordflow">break</span>;
-<a name="l00042"></a>00042                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">NO_MATERIAL_NO_TEXTURES</a>:
-<a name="l00043"></a>00043                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
-<a name="l00044"></a>00044                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::NO_TEXTURES);
-<a name="l00045"></a>00045                         <span class="keywordflow">break</span>;
-<a name="l00046"></a>00046                 <span class="keywordflow">case</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b">ALL_AND_NO_OPTIMIZATIONS</a>:
-<a name="l00047"></a>00047                         VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::COMPLETE_MATERIAL);
-<a name="l00048"></a>00048                         VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::FORCE_TEXTURES);
-<a name="l00049"></a>00049                         VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::NO_OPTIMIZATIONS);
-<a name="l00050"></a>00050                         <span class="keywordflow">return</span> VRS::ThreeDSReader::readObject(fileName);
-<a name="l00051"></a>00051                         <span class="keywordflow">break</span>;
-<a name="l00052"></a>00052         }
-<a name="l00053"></a>00053         VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
-<a name="l00054"></a>00054         <span class="keywordflow">return</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">optimizeModel</a>(VRS::ThreeDSReader::readObject(fileName));
-<a name="l00055"></a>00055         <span class="comment">//ball = optimizeModel(VRS::ThreeDSReader::readObject(fileName));</span>
-<a name="l00056"></a>00056         <span class="comment">//for(int i=0; i&lt; ball-&gt;objects(); i++)</span>
-<a name="l00057"></a>00057         <span class="comment">//{</span>
-<a name="l00058"></a>00058         <span class="comment">//      //printf("    %s\n", ball-&gt;object(i)-&gt;classNameVRS().text());</span>
-<a name="l00059"></a>00059         <span class="comment">//      if (ball-&gt;object(i)-&gt;isA(VRS::SceneThing::ClassNameVRS()))</span>
-<a name="l00060"></a>00060         <span class="comment">//      {</span>
-<a name="l00061"></a>00061         <span class="comment">//              VRS::SO&lt;VRS::SceneThing&gt; scene = VRS_Cast(VRS::SceneThing, ball-&gt;object(i));</span>
-<a name="l00062"></a>00062         <span class="comment">//              for(int j=0; j&lt; scene-&gt;objects(); j++)</span>
-<a name="l00063"></a>00063         <span class="comment">//              {</span>
-<a name="l00064"></a>00064         <span class="comment">//                      if (scene-&gt;object(j)-&gt;isA(VRS::Shape::ClassNameVRS()))</span>
-<a name="l00065"></a>00065         <span class="comment">//                      {</span>
-<a name="l00066"></a>00066         <span class="comment">//                              printf("        %s\n", scene-&gt;object(j)-&gt;classNameVRS().text());</span>
-<a name="l00067"></a>00067         <span class="comment">//                              scene-&gt;replace(scene-&gt;object(j), new VRS::Cache(VRS_Cast(VRS::Shape, scene-&gt;object(j))));</span>
-<a name="l00068"></a>00068         <span class="comment">//                      }</span>
-<a name="l00069"></a>00069         <span class="comment">//              }</span>
-<a name="l00070"></a>00070         <span class="comment">//      }</span>
-<a name="l00071"></a>00071         <span class="comment">//}</span>
-<a name="l00072"></a>00072         <span class="comment">//return ball;</span>
-<a name="l00073"></a>00073 }
-<a name="l00074"></a>00074 
-<a name="l00075"></a>00075 <span class="comment">/*</span>
-<a name="l00076"></a>00076 <span class="comment"> * loads an obj model and optimizes it</span>
-<a name="l00077"></a>00077 <span class="comment"> */</span>
-<a name="l00078"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c">00078</a> VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c">BV3D::ModelOptimizer::getWavefrontModel</a>(<span class="keyword">const</span> std::string &amp;fileName)
-<a name="l00079"></a>00079 {
-<a name="l00080"></a>00080         VRS::ID <span class="keywordtype">id</span> = VRS::ID(<span class="stringliteral">"something"</span>);
-<a name="l00081"></a>00081         VRS::WavefrontReader reader = VRS::WavefrontReader();
-<a name="l00082"></a>00082         VRS::SO&lt;VRS::FileDataResource&gt; file = <span class="keyword">new</span> VRS::FileDataResource(fileName);
-<a name="l00083"></a>00083         VRS::SO&lt;VRS::SceneThing&gt; model = <span class="keyword">new</span> VRS::SceneThing();
-<a name="l00084"></a>00084         VRS::SO&lt;VRS::SceneThing&gt; ball = VRS_Cast(VRS::SceneThing, reader.read(file, <span class="keywordtype">id</span>));
-<a name="l00085"></a>00085         <span class="comment">//cache shape for better performance</span>
-<a name="l00086"></a>00086         <span class="comment">//printf("Objects in ball model:\n");</span>
-<a name="l00087"></a>00087         ball = <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">optimizeModel</a>(ball);
-<a name="l00088"></a>00088         <span class="comment">//for(int i=0; i&lt; ball-&gt;objects(); i++)</span>
-<a name="l00089"></a>00089         <span class="comment">//{</span>
-<a name="l00090"></a>00090         <span class="comment">//      //printf("    %s\n", ball-&gt;object(i)-&gt;classNameVRS().text());</span>
-<a name="l00091"></a>00091         <span class="comment">//      if (ball-&gt;object(i)-&gt;isA(VRS::SceneThing::ClassNameVRS()))</span>
-<a name="l00092"></a>00092         <span class="comment">//      {</span>
-<a name="l00093"></a>00093         <span class="comment">//              VRS::SO&lt;VRS::SceneThing&gt; scene = VRS_Cast(VRS::SceneThing, ball-&gt;object(i));</span>
-<a name="l00094"></a>00094         <span class="comment">//              for(int j=0; j&lt; scene-&gt;objects(); j++)</span>
-<a name="l00095"></a>00095         <span class="comment">//              {</span>
-<a name="l00096"></a>00096         <span class="comment">//                      if (scene-&gt;object(j)-&gt;isA(VRS::Shape::ClassNameVRS()))</span>
-<a name="l00097"></a>00097         <span class="comment">//                      {</span>
-<a name="l00098"></a>00098         <span class="comment">//                              printf("        %s\n", scene-&gt;object(j)-&gt;classNameVRS().text());</span>
-<a name="l00099"></a>00099         <span class="comment">//                              scene-&gt;replace(scene-&gt;object(j), new VRS::Cache(VRS_Cast(VRS::Shape, scene-&gt;object(j))));</span>
-<a name="l00100"></a>00100         <span class="comment">//                      }</span>
-<a name="l00101"></a>00101         <span class="comment">//              }</span>
-<a name="l00102"></a>00102         <span class="comment">//      }</span>
-<a name="l00103"></a>00103         <span class="comment">//}</span>
-<a name="l00104"></a>00104         model-&gt;append(ball);
-<a name="l00105"></a>00105         <span class="keywordflow">return</span> model;
-<a name="l00106"></a>00106 }
-<a name="l00107"></a>00107 
-<a name="l00108"></a>00108 <span class="comment">/*</span>
-<a name="l00109"></a>00109 <span class="comment"> * Optimizes the given Scenegraph and returns a new one.</span>
-<a name="l00110"></a>00110 <span class="comment"> */</span>
-<a name="l00111"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">00111</a> VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">BV3D::ModelOptimizer::optimizeModel</a>(VRS::SO&lt;VRS::SceneThing&gt; origModel)
-<a name="l00112"></a>00112 {
-<a name="l00113"></a>00113         VRS::SceneGraphAnalyzer analyzer = VRS::SceneGraphAnalyzer();
-<a name="l00114"></a>00114         VRS::PolygonSetTool tool = VRS::PolygonSetTool();
-<a name="l00115"></a>00115         VRS::SO&lt;VRS::SceneThing&gt; newModel, model;
-<a name="l00116"></a>00116         VRS::SO&lt;VRS::PolygonSet&gt; <span class="keyword">set</span>;
-<a name="l00117"></a>00117         newModel = analyzer.createOptimizedScene(origModel, <span class="keyword">true</span>, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a>);
-<a name="l00118"></a>00118         <span class="keywordflow">if</span>(!newModel)
-<a name="l00119"></a>00119                 newModel = origModel;
-<a name="l00120"></a>00120 
-<a name="l00121"></a>00121         <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a> = <span class="keyword">false</span>;
-<a name="l00122"></a>00122         <span class="comment">//We wanted to use analyzer.collapseScene followed by tool.mergePolygonSets,</span>
-<a name="l00123"></a>00123         <span class="comment">//but collapseScene removes all material-information from the graph.</span>
-<a name="l00124"></a>00124         <span class="comment">//This would cause all loaded objects to appear grey, so unfortunately it is of no use to us.</span>
-<a name="l00125"></a>00125         <span class="keywordflow">return</span> newModel;
-<a name="l00126"></a>00126 }
+<a name="l00038"></a>00038         }
+<a name="l00039"></a>00039         VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
+<a name="l00040"></a>00040         <span class="keywordflow">return</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">optimizeModel</a>(VRS::ThreeDSReader::readObject(fileName));
+<a name="l00041"></a>00041 }
+<a name="l00042"></a>00042 
+<a name="l00046"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c">00046</a> VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c">BV3D::ModelOptimizer::getWavefrontModel</a>(<span class="keyword">const</span> std::string &amp;fileName)
+<a name="l00047"></a>00047 {
+<a name="l00048"></a>00048         VRS::ID <span class="keywordtype">id</span> = VRS::ID(<span class="stringliteral">"something"</span>);
+<a name="l00049"></a>00049         VRS::WavefrontReader reader = VRS::WavefrontReader();
+<a name="l00050"></a>00050         VRS::SO&lt;VRS::FileDataResource&gt; file = <span class="keyword">new</span> VRS::FileDataResource(fileName);
+<a name="l00051"></a>00051         VRS::SO&lt;VRS::SceneThing&gt; model = VRS_Cast(VRS::SceneThing, reader.read(file, <span class="keywordtype">id</span>));
+<a name="l00052"></a>00052         <span class="keywordflow">return</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">optimizeModel</a>(model);
+<a name="l00053"></a>00053 }
+<a name="l00054"></a>00054 
+<a name="l00058"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">00058</a> VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">BV3D::ModelOptimizer::optimizeModel</a>(VRS::SO&lt;VRS::SceneThing&gt; origModel)
+<a name="l00059"></a>00059 {
+<a name="l00060"></a>00060         VRS::SceneGraphAnalyzer analyzer = VRS::SceneGraphAnalyzer();
+<a name="l00061"></a>00061         VRS::SO&lt;VRS::SceneThing&gt; newModel, model;
+<a name="l00062"></a>00062         newModel = analyzer.createOptimizedScene(origModel, <span class="keyword">true</span>, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a>);
+<a name="l00063"></a>00063         <span class="keywordflow">if</span>(!newModel)
+<a name="l00064"></a>00064                 newModel = origModel;
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066         <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a> = <span class="keyword">false</span>;
+<a name="l00067"></a>00067         <span class="comment">//We wanted to use analyzer.collapseScene followed by tool.mergePolygonSets,</span>
+<a name="l00068"></a>00068         <span class="comment">//but collapseScene removes all material-information from the graph.</span>
+<a name="l00069"></a>00069         <span class="comment">//This would cause all loaded objects to appear grey, so unfortunately it is of no use to us.</span>
+<a name="l00070"></a>00070         <span class="keywordflow">return</span> newModel;
+<a name="l00071"></a>00071 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 18:38:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

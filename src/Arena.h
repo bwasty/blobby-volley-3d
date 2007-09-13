@@ -97,16 +97,16 @@ namespace BV3D {
 		int getAiTriggerID(){return mAiTriggerID;}
 
 	private:
-		VRS::SO<VRS::SceneThing>		mScene;		// local arena scene (walls)
-		VRS::SO<VRS::FixedSizeIterator<VRS::Vector>>	mWallsVertices;	// vertices for walls
-		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;		// wall material
-		VRS::SO<VRS::PolygonSet>		mWalls;		// walls shape
-		VRS::Bounds						mBounds;		// bounds of the Arena box
+		VRS::SO<VRS::SceneThing>		mScene;				// local arena scene (walls)
+		VRS::SO<VRS::FixedSizeIterator<VRS::Vector> >	mWallsVertices;	// vertices for walls
+		VRS::SO<VRS::ShapeMaterialGL>	mMaterial;			// wall material
+		VRS::SO<VRS::PolygonSet>		mWalls;				// walls shape
+		VRS::Bounds						mBounds;			// bounds of the Arena box
 		VRS::SO<VRS::SceneThing>		mNet;
 		VRS::SO<BV3D::Game>				mGame;
 
 		// Physics
-		NewtonWorld*	mWorld;	// physics world
+		NewtonWorld*	mWorld;		// physics world
 		NewtonBody*		mBody;		// physical arena walls
 		NewtonBody*		mFloor;		// physical arena floor
 
@@ -122,16 +122,19 @@ namespace BV3D {
 		static int contactProcessCallback(const NewtonMaterial* material, const NewtonContact* contact);
 	};
 
+	/**
+	 * \brief Struct for aggregating all information needed to realize the gamelogic based on physical interaction.
+	 */
 	struct CollisionData {
-	int material1;
-	int material2;
-	VRS::SO<BV3D::Game> game;
-	VRS::SO<BV3D::Arena> arena;
-	VRS::SO<BV3D::Ball> ball;
-	VRS::SO<BV3D::Referee> referee;
-	VRS::SO<BV3D::Blobb> currentBlobb;
-	NewtonWorld* world;
-	int delayStartFrame;
+		int material1;
+		int material2;
+		VRS::SO<BV3D::Game> game;
+		VRS::SO<BV3D::Arena> arena;
+		VRS::SO<BV3D::Ball> ball;
+		VRS::SO<BV3D::Referee> referee;
+		VRS::SO<BV3D::Blobb> currentBlobb;
+		NewtonWorld* world;
+		int delayStartFrame;
 	};
 }
 

@@ -60,9 +60,6 @@ BV3D::Ball::~Ball() {
 		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
-/**
- * Translates visual ball to specified position
- */
 void BV3D::Ball::resetPosition(VRS::Vector& position) {
 
 	VRS::Matrix vrsMatrix = VRS::Matrix::translation(position);
@@ -87,9 +84,6 @@ VRS::Vector BV3D::Ball::getPosition() {
 	return mBallScene->getLocalMatrix() * VRS::Vector(0.0,0.0,0.0);
 }
 
-/**
- * physics callback. Calls update()
- */
 void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
 	// TODO: use c++/vrs cast
 	BV3D::Ball* ball = (BV3D::Ball*)NewtonBodyGetUserData(body);
@@ -98,9 +92,6 @@ void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
 		ball->update();
 }
 
-/**
- * applies gravitational force to ball, reduces ball speed if too fast and updates shadows
- */
 void BV3D::Ball::update() {
 	dFloat Ixx, Iyy, Izz, mass;
 

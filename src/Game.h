@@ -67,7 +67,6 @@ namespace BV3D
 		VRS::SO<BV3D::Arena> getArena()			{return mArena;}
 		void scheduleNewServe();
 		void newServe();
-		void aiServe(BV3D::TEAM team);
 		void playSoundTouch();
 		void playSoundWhistle();
 		void switchToGame(bool bRestart);

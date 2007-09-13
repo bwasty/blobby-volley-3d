@@ -58,59 +58,58 @@
 <a name="l00023"></a>00023         <span class="keyword">class </span>Arena;
 <a name="l00024"></a>00024         <span class="keyword">class </span>Controls;
 <a name="l00025"></a>00025 
-<a name="l00034"></a><a class="code" href="class_b_v3_d_1_1_blobb.html">00034</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">Blobb</a> : <span class="keyword">public</span> VRS::SharedObj {
-<a name="l00035"></a>00035         <span class="keyword">public</span>:
-<a name="l00036"></a>00036                 <a class="code" href="class_b_v3_d_1_1_blobb.html#b70ad143a45b6891052302badca1376e">Blobb</a>(VRS::SO&lt;BV3D::Arena&gt; arena, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team, VRS::SO&lt;VRS::LookAt&gt; lookAt);
-<a name="l00037"></a>00037                 <a class="code" href="class_b_v3_d_1_1_blobb.html#aaffcc92b3018f90adf6c7122f68a4cc">~Blobb</a>();
-<a name="l00038"></a>00038                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#bc1047f3017fecb17a348b1194fbb9b3">setPosition</a>(VRS::Vector position);
-<a name="l00039"></a><a class="code" href="class_b_v3_d_1_1_blobb.html#ec3d9e08e863e31e877392556bb6c868">00039</a>                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#ec3d9e08e863e31e877392556bb6c868">setLookAt</a>(VRS::SO&lt;VRS::LookAt&gt; lookAt) {mLookAt = lookAt;}
-<a name="l00040"></a>00040                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#e6a07aadb23ba5a2376c5b9095b8b5ea">setControls</a>(VRS::SO&lt;BV3D::Controls&gt; controls);
-<a name="l00041"></a>00041                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#b4a95f1d8c604ac94ceddf02a81563a4">setColor</a>(VRS::Color color);
-<a name="l00042"></a>00042                 VRS::SO&lt;BV3D::Controls&gt; <a class="code" href="class_b_v3_d_1_1_blobb.html#e806a2aeefef241cfffd60f0919ed9f5">getControls</a>();
-<a name="l00043"></a>00043                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_blobb.html#d7b1c341bf798da97f1e20276a846c94">getScene</a>();
-<a name="l00044"></a>00044                 VRS::Color <a class="code" href="class_b_v3_d_1_1_blobb.html#cd718076f0b0201cf095a4c2f3ba2c8d">BV3D::Blobb::getColor</a>();
-<a name="l00045"></a>00045                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a>      <a class="code" href="class_b_v3_d_1_1_blobb.html#b435c2001126f1f450d0dfb0a7b9491e">getTeam</a>();
-<a name="l00046"></a>00046                 <span class="keywordtype">bool</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#c170754883e726a9adbb1247805b4e76">isMoving</a>();
-<a name="l00047"></a>00047                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#4023a3299cb7566bd8869146b803fc0c">updateShape</a>(VRS::SO&lt;VRS::Canvas&gt; canvas);
-<a name="l00048"></a>00048                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#22b3b66565e5381b62740eb64497b675">processInput</a>(VRS::SO&lt;VRS::InputEvent&gt; ie);
-<a name="l00049"></a>00049                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#dfabfe3727f6a2a56364831d3e9cc43d">forceSingleAnimation</a>();
-<a name="l00050"></a>00050                 <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#6b2d4727c70710d7c385ea130b2dbfc0">applyForceAndTorqueCallback</a>(<span class="keyword">const</span> NewtonBody* body);
-<a name="l00051"></a>00051                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#0c408501d791b555ef524972dddba3a2">maxJump</a>();                                 <span class="comment">// let blobb do a jump with maximum height</span>
-<a name="l00052"></a>00052 
-<a name="l00053"></a>00053         <span class="keyword">protected</span>:
-<a name="l00054"></a>00054                 VRS::Vector <a class="code" href="class_b_v3_d_1_1_blobb.html#43c932dbd42c146a25345afe2ecf48ec">getMovement</a>();
-<a name="l00055"></a>00055                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#bc6db78eeef391342c05e4bbbdb86718">update</a>();
-<a name="l00056"></a>00056                 
-<a name="l00057"></a>00057         <span class="keyword">private</span>:
-<a name="l00058"></a>00058                 VRS::SO&lt;VRS::SceneThing&gt;                mScene;                         <span class="comment">// blobb local scene</span>
-<a name="l00059"></a>00059                 VRS::SO&lt;VRS::SceneThing&gt;                mBlobbScene;            <span class="comment">// subscene holding actual blobb</span>
-<a name="l00060"></a>00060                 VRS::SO&lt;VRS::SceneThing&gt;                mShadowScene;           <span class="comment">// subscene holding blobb shadow</span>
-<a name="l00061"></a>00061                 VRS::SO&lt;VRS::ShapeMaterialGL&gt;   mMaterial;                              <span class="comment">// blobb material</span>
-<a name="l00062"></a>00062                 VRS::SO&lt;Controls&gt;                               mControls;                              <span class="comment">// blobb controls</span>
-<a name="l00063"></a>00063                 VRS::SO&lt;VRS::LookAt&gt;                    mLookAt;                                <span class="comment">// blobb movement orientation</span>
-<a name="l00064"></a>00064                 <span class="keywordtype">bool</span>                                                    mJumpAllowed;                   <span class="comment">// indicates if blobb may jump</span>
-<a name="l00065"></a>00065                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a>                                              mTeam;
-<a name="l00066"></a>00066                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span>                                mNumShapes = 5;         <span class="comment">//number of animation shapes</span>
-<a name="l00067"></a>00067                 <span class="keywordtype">int</span>                                                             mCurrentShape;
-<a name="l00068"></a>00068                 VRS::SO&lt;VRS::Array&lt; VRS::SO&lt;VRS::SceneThing&gt;&gt; &gt; mShapes;        <span class="comment">//shapes for animation of blobb</span>
-<a name="l00069"></a>00069                 <span class="keywordtype">bool</span>                                                    mDecreasing;                    <span class="comment">//true if current shape is decreasing</span>
-<a name="l00070"></a>00070                 <span class="keywordtype">bool</span>                                                    mIsMoving;
-<a name="l00071"></a>00071                 <span class="keywordtype">bool</span>                                                    mForceAnimation;
-<a name="l00072"></a>00072                 <span class="keywordtype">int</span>                                                             mStep;
-<a name="l00073"></a>00073                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span>                                mMaxStep = 1;
-<a name="l00074"></a>00074                 <span class="keywordtype">bool</span>                                                    mMaxJump;                       <span class="comment">// indicates that blobb should do a maximum high jump</span>
-<a name="l00075"></a>00075 
-<a name="l00076"></a>00076                 <span class="comment">// physics</span>
-<a name="l00077"></a>00077                 VRS::SO&lt;BV3D::Arena&gt;                    mArena;         <span class="comment">// parent physics object</span>
-<a name="l00078"></a>00078                 NewtonBody*                                             mBody;          <span class="comment">// physical body in simulated world</span>
-<a name="l00079"></a>00079                 NewtonCollision**                               mCollision;     <span class="comment">// pointer to newton (compound) collision objects</span>
-<a name="l00080"></a>00080         };
-<a name="l00081"></a>00081 }
-<a name="l00082"></a>00082 
-<a name="l00083"></a>00083 <span class="preprocessor">#endif  // #ifndef BV3D_BLOBB</span>
+<a name="l00033"></a><a class="code" href="class_b_v3_d_1_1_blobb.html">00033</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">Blobb</a> : <span class="keyword">public</span> VRS::SharedObj {
+<a name="l00034"></a>00034         <span class="keyword">public</span>:
+<a name="l00035"></a>00035                 <a class="code" href="class_b_v3_d_1_1_blobb.html#b70ad143a45b6891052302badca1376e">Blobb</a>(VRS::SO&lt;BV3D::Arena&gt; arena, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team, VRS::SO&lt;VRS::LookAt&gt; lookAt);
+<a name="l00036"></a>00036                 <a class="code" href="class_b_v3_d_1_1_blobb.html#aaffcc92b3018f90adf6c7122f68a4cc">~Blobb</a>();
+<a name="l00037"></a>00037                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#bc1047f3017fecb17a348b1194fbb9b3">setPosition</a>(VRS::Vector position);
+<a name="l00038"></a><a class="code" href="class_b_v3_d_1_1_blobb.html#ec3d9e08e863e31e877392556bb6c868">00038</a>                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#ec3d9e08e863e31e877392556bb6c868">setLookAt</a>(VRS::SO&lt;VRS::LookAt&gt; lookAt) {mLookAt = lookAt;}
+<a name="l00039"></a><a class="code" href="class_b_v3_d_1_1_blobb.html#e6a07aadb23ba5a2376c5b9095b8b5ea">00039</a>                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#e6a07aadb23ba5a2376c5b9095b8b5ea">setControls</a>(VRS::SO&lt;BV3D::Controls&gt; controls){mControls = controls;}
+<a name="l00040"></a>00040                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#b4a95f1d8c604ac94ceddf02a81563a4">setColor</a>(VRS::Color color);
+<a name="l00041"></a><a class="code" href="class_b_v3_d_1_1_blobb.html#81b603e1de0e48048196e874dd8fc55c">00041</a>                 VRS::SO&lt;BV3D::Controls&gt; <a class="code" href="class_b_v3_d_1_1_blobb.html#81b603e1de0e48048196e874dd8fc55c">getControls</a>()           {<span class="keywordflow">return</span> mControls;}
+<a name="l00042"></a><a class="code" href="class_b_v3_d_1_1_blobb.html#83a288195afc423f5d752a907af6edff">00042</a>                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_blobb.html#83a288195afc423f5d752a907af6edff">getScene</a>()                     {<span class="keywordflow">return</span> mScene;}
+<a name="l00043"></a>00043                 VRS::Color <a class="code" href="class_b_v3_d_1_1_blobb.html#cd718076f0b0201cf095a4c2f3ba2c8d">BV3D::Blobb::getColor</a>();
+<a name="l00044"></a><a class="code" href="class_b_v3_d_1_1_blobb.html#b435c2001126f1f450d0dfb0a7b9491e">00044</a>                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a>      <a class="code" href="class_b_v3_d_1_1_blobb.html#b435c2001126f1f450d0dfb0a7b9491e">getTeam</a>()                                               {<span class="keywordflow">return</span> mTeam;}
+<a name="l00045"></a>00045                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#4023a3299cb7566bd8869146b803fc0c">updateShape</a>(VRS::SO&lt;VRS::Canvas&gt; canvas);
+<a name="l00046"></a>00046                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#22b3b66565e5381b62740eb64497b675">processInput</a>(VRS::SO&lt;VRS::InputEvent&gt; ie);
+<a name="l00047"></a>00047                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#dfabfe3727f6a2a56364831d3e9cc43d">forceSingleAnimation</a>();
+<a name="l00048"></a>00048                 <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#6b2d4727c70710d7c385ea130b2dbfc0">applyForceAndTorqueCallback</a>(<span class="keyword">const</span> NewtonBody* body);
+<a name="l00049"></a>00049                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#0c408501d791b555ef524972dddba3a2">maxJump</a>();                                 <span class="comment">// let blobb do a jump with maximum height</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051         <span class="keyword">protected</span>:
+<a name="l00052"></a>00052                 VRS::Vector <a class="code" href="class_b_v3_d_1_1_blobb.html#43c932dbd42c146a25345afe2ecf48ec">getMovement</a>();
+<a name="l00053"></a>00053                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_blobb.html#bc6db78eeef391342c05e4bbbdb86718">update</a>();
+<a name="l00054"></a>00054                 
+<a name="l00055"></a>00055         <span class="keyword">private</span>:
+<a name="l00056"></a>00056                 VRS::SO&lt;VRS::SceneThing&gt;                mScene;                         <span class="comment">// blobb local scene</span>
+<a name="l00057"></a>00057                 VRS::SO&lt;VRS::SceneThing&gt;                mBlobbScene;            <span class="comment">// subscene holding actual blobb</span>
+<a name="l00058"></a>00058                 VRS::SO&lt;VRS::SceneThing&gt;                mShadowScene;           <span class="comment">// subscene holding blobb shadow</span>
+<a name="l00059"></a>00059                 VRS::SO&lt;VRS::ShapeMaterialGL&gt;   mMaterial;                              <span class="comment">// blobb material</span>
+<a name="l00060"></a>00060                 VRS::SO&lt;Controls&gt;                               mControls;                              <span class="comment">// blobb controls</span>
+<a name="l00061"></a>00061                 VRS::SO&lt;VRS::LookAt&gt;                    mLookAt;                                <span class="comment">// blobb movement orientation</span>
+<a name="l00062"></a>00062                 <span class="keywordtype">bool</span>                                                    mJumpAllowed;                   <span class="comment">// indicates if blobb may jump</span>
+<a name="l00063"></a>00063                 <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a>                                              mTeam;
+<a name="l00064"></a>00064                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span>                                mNumShapes = 5;         <span class="comment">//number of animation shapes</span>
+<a name="l00065"></a>00065                 <span class="keywordtype">int</span>                                                             mCurrentShape;
+<a name="l00066"></a>00066                 VRS::SO&lt;VRS::Array&lt; VRS::SO&lt;VRS::SceneThing&gt;&gt; &gt; mShapes;        <span class="comment">//shapes for animation of blobb</span>
+<a name="l00067"></a>00067                 <span class="keywordtype">bool</span>                                                    mDecreasing;                    <span class="comment">//true if current shape is decreasing</span>
+<a name="l00068"></a>00068                 <span class="keywordtype">bool</span>                                                    mIsMoving;
+<a name="l00069"></a>00069                 <span class="keywordtype">bool</span>                                                    mForceAnimation;
+<a name="l00070"></a>00070                 <span class="keywordtype">int</span>                                                             mStep;
+<a name="l00071"></a>00071                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span>                                mMaxStep = 1;
+<a name="l00072"></a>00072                 <span class="keywordtype">bool</span>                                                    mMaxJump;                       <span class="comment">// indicates that blobb should do a maximum high jump</span>
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074                 <span class="comment">// physics</span>
+<a name="l00075"></a>00075                 VRS::SO&lt;BV3D::Arena&gt;                    mArena;         <span class="comment">// parent physics object</span>
+<a name="l00076"></a>00076                 NewtonBody*                                             mBody;          <span class="comment">// physical body in simulated world</span>
+<a name="l00077"></a>00077                 NewtonCollision**                               mCollision;     <span class="comment">// pointer to newton (compound) collision objects</span>
+<a name="l00078"></a>00078         };
+<a name="l00079"></a>00079 }
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <span class="preprocessor">#endif  // #ifndef BV3D_BLOBB</span>
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 18:38:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

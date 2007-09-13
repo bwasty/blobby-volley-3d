@@ -23,13 +23,13 @@ namespace BV3D
 	{
 	public:
 		/**
-		 * ctor
+		 * \ctor
 		 * \param arena specifies the arena in which the ball is simulated
 		 */
 		Ball(VRS::SO<BV3D::Arena> arena);
 
 		/**
-		 * dtor
+		 * \dtor
 		 */
 		~Ball();
 
@@ -39,7 +39,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 
 		/**
-		 * position ball
+		 * Translates ball to specified position
 		 * \param position is the ball's new location
 		 */
 		void resetPosition(VRS::Vector& position);
@@ -49,14 +49,14 @@ namespace BV3D
 		NewtonBody* getBody() {return mBody;}
 
 		/**
-		 * callback which notifies that a NewtonBody in the NewtonWorld has changed
+		 * Callback which notifies that a NewtonBody in the NewtonWorld has changed
 		 * \param body is the changed NewtonBody
 		 */
 		static void applyForceAndTorqueCallback(const NewtonBody* body);
 
 	protected:
 		/**
-		 * update ball physics and visuals
+		 * applies gravitational force to ball, reduces ball speed if too fast and updates shadows
 		 */
 		void update();
 
@@ -67,7 +67,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	mShadowScene;	// subscene holding fake shadow
 
 		// physics
-		VRS::SO<BV3D::Arena>	mArena;	// parent physics object
+		VRS::SO<BV3D::Arena>	mArena;		// parent physics object
 		NewtonBody*				mBody;		// physical body in simulated world
 	};
 }

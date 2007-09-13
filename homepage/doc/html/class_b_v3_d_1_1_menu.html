@@ -91,24 +91,21 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::SO<br>
 &lt; VRS::SceneThing &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#e81b3b015446ace8fbb10c8b221a71a8">getScene</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::SO&lt; VRS::Selector &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#ea04d45433500d5a152e725fc24f1b78">getSelector</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::SO<br>
+&lt; VRS::PickingCallback &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#22fcd47bc303b038ad3c6987a0876879">getPickingCallback</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#a66f260b80bb9817366f298f222da836">showMainMenu</a> (bool paused)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6">CONTROLS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#37ce0188563151516945e6b3aea610b1">getPlayer1Controls</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6">CONTROLS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#91f4b362a1bb3aa6b5b72b7ad20ceff6">getControls</a> (<a class="el" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6">CONTROLS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#6b31e81888df4fed318f6135df9dd43d">getPlayer2Controls</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::Color&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#eaa6938d6facf70cc93ab6509f5a4da8">getPlayer1Color</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::Color&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#59fbdef527b6677b4c22803149d58869">getPlayer2Color</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VRS::Color&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#bbe0c6880e0ac8de6950945d70bc1c93">getColor</a> (<a class="el" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf">RULES</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#27314a0aa656f1be85d233bae35ed82a">getRules</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_b_v3_d_1_1_menu.html#7c38fdbf13986d79b65a9dce4373ac99">PLACE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#34387ebca339018d544543fb14b1bb9d">getPlace</a> ()</td></tr>
 
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#8e4ef8ebc3492edc636fdf51c3fc2173">select</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#c34f19bc6a4cd25228ac805c5766ed56">select</a> (VRS::IntersectionInfo *info)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html#16d2fc38f9a87c84d87ccc829603cbac">addText</a> (const char *label, const char *command=0)</td></tr>
 
@@ -128,7 +125,7 @@
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00022">22</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00023">23</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 <hr><h2>Member Enumeration Documentation</h2>
 <a class="anchor" name="7c38fdbf13986d79b65a9dce4373ac99"></a><!-- doxytag: member="BV3D::Menu::PLACE" ref="7c38fdbf13986d79b65a9dce4373ac99" args="" -->
 <div class="memitem">
@@ -155,7 +152,7 @@
 </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00025">25</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00026">26</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -182,7 +179,7 @@
 </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00026">26</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00027">27</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -217,7 +214,7 @@
 </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00027">27</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00028">28</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -248,7 +245,7 @@
 </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00028">28</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00029">29</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -272,9 +269,9 @@
 <p>
 <a class="el" href="_menu_8cpp.html">Menu.cpp</a><p>
 class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements the menu for bv3d 
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00040">40</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00039">39</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
 
-<p>References <a class="el" href="_menu_8h-source.html#l00025">ARENA</a>, <a class="el" href="_menu_8h-source.html#l00027">GREEN</a>, <a class="el" href="_menu_8h-source.html#l00028">KB_ARROWS</a>, <a class="el" href="_constants_8h-source.html#l00044">BV3D::MODELS_PATH</a>, <a class="el" href="_model_optimizer_8h-source.html#l00024">BV3D::ModelOptimizer::NO_MATERIAL_NO_TEXTURES</a>, <a class="el" href="_menu_8h-source.html#l00027">RED</a>, <a class="el" href="_menu_8cpp-source.html#l00093">select()</a>, and <a class="el" href="_menu_8h-source.html#l00026">TIE_BREAK</a>.</p>
+<p>References <a class="el" href="_menu_8h-source.html#l00026">ARENA</a>, <a class="el" href="_menu_8h-source.html#l00028">GREEN</a>, <a class="el" href="_menu_8h-source.html#l00029">KB_ARROWS</a>, <a class="el" href="_constants_8h-source.html#l00039">BV3D::MODELS_PATH</a>, <a class="el" href="_model_optimizer_8h-source.html#l00027">BV3D::ModelOptimizer::NO_MATERIAL_NO_TEXTURES</a>, <a class="el" href="_menu_8h-source.html#l00028">RED</a>, <a class="el" href="_menu_8cpp-source.html#l00090">select()</a>, and <a class="el" href="_menu_8h-source.html#l00027">TIE_BREAK</a>.</p>
 
 </div>
 </div><p>
@@ -295,7 +292,7 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00036">36</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00037">37</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -317,16 +314,16 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00037">37</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00038">38</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="ea04d45433500d5a152e725fc24f1b78"></a><!-- doxytag: member="BV3D::Menu::getSelector" ref="ea04d45433500d5a152e725fc24f1b78" args="()" -->
+<a class="anchor" name="22fcd47bc303b038ad3c6987a0876879"></a><!-- doxytag: member="BV3D::Menu::getPickingCallback" ref="22fcd47bc303b038ad3c6987a0876879" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">VRS::SO&lt;VRS::Selector&gt; BV3D::Menu::getSelector           </td>
+          <td class="memname">VRS::SO&lt;VRS::PickingCallback&gt; BV3D::Menu::getPickingCallback           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -338,7 +335,7 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00038">38</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00039">39</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -360,41 +357,21 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00210">210</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00206">206</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
 
-<p>References <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>References <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="37ce0188563151516945e6b3aea610b1"></a><!-- doxytag: member="BV3D::Menu::getPlayer1Controls" ref="37ce0188563151516945e6b3aea610b1" args="()" -->
+<a class="anchor" name="91f4b362a1bb3aa6b5b72b7ad20ceff6"></a><!-- doxytag: member="BV3D::Menu::getControls" ref="91f4b362a1bb3aa6b5b72b7ad20ceff6" args="(BV3D::TEAM team)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6">CONTROLS</a> BV3D::Menu::getPlayer1Controls           </td>
+          <td class="memname"><a class="el" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6">CONTROLS</a> BV3D::Menu::getControls           </td>
           <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00042">42</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="6b31e81888df4fed318f6135df9dd43d"></a><!-- doxytag: member="BV3D::Menu::getPlayer2Controls" ref="6b31e81888df4fed318f6135df9dd43d" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e6">CONTROLS</a> BV3D::Menu::getPlayer2Controls           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
+          <td class="paramtype"><a class="el" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a>&nbsp;</td>
+          <td class="paramname"> <em>team</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [inline]</code></td>
         </tr>
@@ -408,14 +385,15 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 </div>
 </div><p>
-<a class="anchor" name="eaa6938d6facf70cc93ab6509f5a4da8"></a><!-- doxytag: member="BV3D::Menu::getPlayer1Color" ref="eaa6938d6facf70cc93ab6509f5a4da8" args="()" -->
+<a class="anchor" name="bbe0c6880e0ac8de6950945d70bc1c93"></a><!-- doxytag: member="BV3D::Menu::getColor" ref="bbe0c6880e0ac8de6950945d70bc1c93" args="(BV3D::TEAM team)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">VRS::Color BV3D::Menu::getPlayer1Color           </td>
+          <td class="memname">VRS::Color BV3D::Menu::getColor           </td>
           <td>(</td>
-          <td class="paramname">          </td>
+          <td class="paramtype"><a class="el" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a>&nbsp;</td>
+          <td class="paramname"> <em>team</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
         </tr>
@@ -425,32 +403,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00259">259</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00255">255</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00039">BV3D::BLOBB_ALPHA</a>, and <a class="el" href="_menu_8h-source.html#l00056">colors()</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="59fbdef527b6677b4c22803149d58869"></a><!-- doxytag: member="BV3D::Menu::getPlayer2Color" ref="59fbdef527b6677b4c22803149d58869" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">VRS::Color BV3D::Menu::getPlayer2Color           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00264">264</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
-
-<p>References <a class="el" href="_constants_8h-source.html#l00039">BV3D::BLOBB_ALPHA</a>, and <a class="el" href="_menu_8h-source.html#l00056">colors()</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00034">BV3D::BLOBB_ALPHA</a>, and <a class="el" href="_menu_8h-source.html#l00055">colors()</a>.</p>
 
 </div>
 </div><p>
@@ -471,7 +426,7 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00046">46</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00045">45</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
@@ -492,18 +447,19 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00047">47</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00046">46</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="8e4ef8ebc3492edc636fdf51c3fc2173"></a><!-- doxytag: member="BV3D::Menu::select" ref="8e4ef8ebc3492edc636fdf51c3fc2173" args="()" -->
+<a class="anchor" name="c34f19bc6a4cd25228ac805c5766ed56"></a><!-- doxytag: member="BV3D::Menu::select" ref="c34f19bc6a4cd25228ac805c5766ed56" args="(VRS::IntersectionInfo *info)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void BV3D::Menu::select           </td>
           <td>(</td>
-          <td class="paramname">          </td>
+          <td class="paramtype">VRS::IntersectionInfo *&nbsp;</td>
+          <td class="paramname"> <em>info</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [protected]</code></td>
         </tr>
@@ -513,11 +469,11 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00093">93</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00090">90</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
 
-<p>References <a class="el" href="_menu_8h-source.html#l00027">MAX_COLORS</a>, <a class="el" href="_menu_8h-source.html#l00028">MAX_CONTROLS</a>, <a class="el" href="_menu_8h-source.html#l00025">MAX_PLACES</a>, <a class="el" href="_menu_8h-source.html#l00026">MAX_RULES</a>, and <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>References <a class="el" href="_menu_8h-source.html#l00028">MAX_COLORS</a>, <a class="el" href="_menu_8h-source.html#l00029">MAX_CONTROLS</a>, <a class="el" href="_menu_8h-source.html#l00026">MAX_PLACES</a>, <a class="el" href="_menu_8h-source.html#l00027">MAX_RULES</a>, and <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00040">Menu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00039">Menu()</a>.</p>
 
 </div>
 </div><p>
@@ -548,9 +504,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00216">216</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00212">212</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -572,11 +528,11 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00143">143</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8cpp-source.html#l00139">139</a> of file <a class="el" href="_menu_8cpp-source.html">Menu.cpp</a>.</p>
 
-<p>References <a class="el" href="_menu_8cpp-source.html#l00216">addText()</a>, <a class="el" href="_constants_8h-source.html#l00039">BV3D::BLOBB_ALPHA</a>, <a class="el" href="_menu_8h-source.html#l00056">colors()</a>, <a class="el" href="_menu_8h-source.html#l00059">controls()</a>, <a class="el" href="_menu_8h-source.html#l00055">fullscreen()</a>, <a class="el" href="_menu_8h-source.html#l00053">places()</a>, and <a class="el" href="_menu_8h-source.html#l00054">rules()</a>.</p>
+<p>References <a class="el" href="_menu_8cpp-source.html#l00212">addText()</a>, <a class="el" href="_constants_8h-source.html#l00034">BV3D::BLOBB_ALPHA</a>, <a class="el" href="_menu_8h-source.html#l00055">colors()</a>, <a class="el" href="_menu_8h-source.html#l00058">controls()</a>, <a class="el" href="_menu_8h-source.html#l00054">fullscreen()</a>, <a class="el" href="_menu_8h-source.html#l00052">places()</a>, and <a class="el" href="_menu_8h-source.html#l00053">rules()</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00093">select()</a>, and <a class="el" href="_menu_8cpp-source.html#l00210">showMainMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00090">select()</a>, and <a class="el" href="_menu_8cpp-source.html#l00206">showMainMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -597,9 +553,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00053">53</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00052">52</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -620,9 +576,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00054">54</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00053">53</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -643,9 +599,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00055">55</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00054">54</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -666,9 +622,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00056">56</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00055">55</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00259">getPlayer1Color()</a>, <a class="el" href="_menu_8cpp-source.html#l00264">getPlayer2Color()</a>, and <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00255">getColor()</a>, and <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -689,9 +645,9 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 
 <p>
 
-<p>Definition at line <a class="el" href="_menu_8h-source.html#l00059">59</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
+<p>Definition at line <a class="el" href="_menu_8h-source.html#l00058">58</a> of file <a class="el" href="_menu_8h-source.html">Menu.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00143">showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_menu_8cpp-source.html#l00139">showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -699,7 +655,7 @@ class <a class="el" href="class_b_v3_d_1_1_menu.html">BV3D::Menu</a> implements 
 <li><a class="el" href="_menu_8h-source.html">Menu.h</a><li><a class="el" href="_menu_8cpp-source.html">Menu.cpp</a></ul>
 <!-- bottom line -->
 <address><small>
-  Generated on Thu Sep 13 00:43:09 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 18:38:11 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

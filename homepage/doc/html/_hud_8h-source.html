@@ -37,37 +37,41 @@
 <a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define BV3D_HUD</span>
 <a name="l00003"></a>00003 <span class="preprocessor"></span>
 <a name="l00004"></a>00004 <span class="preprocessor">#include &lt;vrs/sharedobj.h&gt;</span>
-<a name="l00005"></a>00005 
-<a name="l00006"></a>00006 <span class="keyword">namespace </span>VRS {
-<a name="l00007"></a>00007         <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt; <span class="keyword">class </span>SO;
-<a name="l00008"></a>00008         <span class="keyword">class </span>SceneThing;
-<a name="l00009"></a>00009 }
-<a name="l00010"></a>00010 
-<a name="l00011"></a>00011 <span class="keyword">namespace </span>BV3D
-<a name="l00012"></a>00012 {
-<a name="l00013"></a>00013         <span class="keyword">enum</span> <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a>;
-<a name="l00014"></a>00014 
-<a name="l00015"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html">00015</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_h_u_d.html">HUD</a> : <span class="keyword">public</span> VRS::SharedObj
-<a name="l00016"></a>00016         {
-<a name="l00017"></a>00017         <span class="keyword">public</span>:
-<a name="l00018"></a>00018                 <a class="code" href="class_b_v3_d_1_1_h_u_d.html#f43811ef453192601e0e2e72466c6f4c">HUD</a>();
-<a name="l00019"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#f8a93a636e4f9072ac051233ac35e239">00019</a>                 <span class="keyword">virtual</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#f8a93a636e4f9072ac051233ac35e239">~HUD</a>() {}
-<a name="l00020"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#162ca2e6f87f6f15649ee9f7a1176358">00020</a>                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_h_u_d.html#162ca2e6f87f6f15649ee9f7a1176358">getScene</a>() {<span class="keywordflow">return</span> mScene;}
-<a name="l00021"></a>00021                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">setScore</a>(<span class="keywordtype">int</span> scoreP1, <span class="keywordtype">int</span> scoreP2, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> servingTeam);
-<a name="l00022"></a>00022                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1">showWinner</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> winner);
-<a name="l00023"></a>00023         <span class="keyword">private</span>:
-<a name="l00024"></a>00024                 <span class="keywordtype">int</span>             mScoreP1Index;
-<a name="l00025"></a>00025                 <span class="keywordtype">int</span>             mScoreP2Index;
-<a name="l00026"></a>00026                 <span class="keywordtype">int</span>             mServingIndex;
-<a name="l00027"></a>00027                 <span class="keywordtype">int</span>             mWinnerIndex;
-<a name="l00028"></a>00028                 VRS::SO&lt;VRS::SceneThing&gt;        mScene;
-<a name="l00029"></a>00029         };
-<a name="l00030"></a>00030 }
-<a name="l00031"></a>00031 
-<a name="l00032"></a>00032 <span class="preprocessor">#endif  // #ifndef BV3D_HUD</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;vrs/color.h&gt;</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="keyword">namespace </span>VRS {
+<a name="l00008"></a>00008         <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt; <span class="keyword">class </span>SO;
+<a name="l00009"></a>00009         <span class="keyword">class </span>SceneThing;
+<a name="l00010"></a>00010 }
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="keyword">namespace </span>BV3D
+<a name="l00013"></a>00013 {
+<a name="l00014"></a>00014         <span class="keyword">enum</span> <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a>;
+<a name="l00015"></a>00015 
+<a name="l00016"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html">00016</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_h_u_d.html">HUD</a> : <span class="keyword">public</span> VRS::SharedObj
+<a name="l00017"></a>00017         {
+<a name="l00018"></a>00018         <span class="keyword">public</span>:
+<a name="l00019"></a>00019                 <a class="code" href="class_b_v3_d_1_1_h_u_d.html#9b0a61243fec408aec0334e3d3536362">HUD</a>(VRS::Color colorPlayer1 = VRS::Color::red, VRS::Color colorPlayer2 = VRS::Color::green);
+<a name="l00020"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#f8a93a636e4f9072ac051233ac35e239">00020</a>                 <span class="keyword">virtual</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#f8a93a636e4f9072ac051233ac35e239">~HUD</a>() {}
+<a name="l00021"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#162ca2e6f87f6f15649ee9f7a1176358">00021</a>                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_h_u_d.html#162ca2e6f87f6f15649ee9f7a1176358">getScene</a>() {<span class="keywordflow">return</span> mScene;}
+<a name="l00022"></a>00022                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">setScore</a>(<span class="keywordtype">int</span> scoreP1, <span class="keywordtype">int</span> scoreP2, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> servingTeam);
+<a name="l00023"></a>00023                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">setColors</a>(VRS::Color colorPlayer1, VRS::Color colorPlayer2);
+<a name="l00024"></a>00024                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1">showWinner</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> winner);
+<a name="l00025"></a>00025         <span class="keyword">private</span>:
+<a name="l00026"></a>00026                 <span class="keywordtype">int</span>             mScoreP1Index;
+<a name="l00027"></a>00027                 <span class="keywordtype">int</span>             mScoreP2Index;
+<a name="l00028"></a>00028                 <span class="keywordtype">int</span>             mServingIndex;
+<a name="l00029"></a>00029                 <span class="keywordtype">int</span>             mWinnerIndex;
+<a name="l00030"></a>00030                 VRS::SO&lt;VRS::SceneThing&gt;        mScene;
+<a name="l00031"></a>00031                 VRS::Color      mP1Color;
+<a name="l00032"></a>00032                 VRS::Color      mP2Color;
+<a name="l00033"></a>00033         };
+<a name="l00034"></a>00034 }
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="preprocessor">#endif  // #ifndef BV3D_HUD</span>
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 18:38:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

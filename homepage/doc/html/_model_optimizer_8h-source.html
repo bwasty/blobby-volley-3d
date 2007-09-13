@@ -47,32 +47,33 @@
 <a name="l00012"></a>00012 
 <a name="l00013"></a>00013 <span class="keyword">namespace </span>BV3D
 <a name="l00014"></a>00014 {
-<a name="l00015"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html">00015</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_model_optimizer.html">ModelOptimizer</a> : <span class="keyword">public</span> VRS::SharedObj
-<a name="l00016"></a>00016         {
-<a name="l00017"></a>00017         <span class="keyword">public</span>:
-<a name="l00018"></a>00018                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#94f7877f5c8612c82039571f44eab6fb">ModelOptimizer</a>(<span class="keywordtype">void</span>);
-<a name="l00019"></a>00019                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#16b93584be53373b22a4f3822eb25736">~ModelOptimizer</a>(<span class="keywordtype">void</span>);
-<a name="l00020"></a>00020 
-<a name="l00021"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">00021</a>                 <span class="keyword">enum</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">ReadMode</a>{
-<a name="l00022"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de60575ff1401dfb35b29bcef3ec115c52">00022</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de60575ff1401dfb35b29bcef3ec115c52">MATERIAL_AND_TEXTURES</a>,
-<a name="l00023"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">00023</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">ONLY_MATERIAL</a>,
-<a name="l00024"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">00024</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">NO_MATERIAL_NO_TEXTURES</a>,
-<a name="l00025"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b">00025</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b">ALL_AND_NO_OPTIMIZATIONS</a>
-<a name="l00026"></a>00026                 };
-<a name="l00027"></a>00027 
-<a name="l00028"></a>00028                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4">get3dsModel</a>(<span class="keyword">const</span> std::string &amp;fileName, <span class="keywordtype">bool</span> useStaticLighting = <span class="keyword">true</span>, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">ReadMode</a> readMode=<a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">ONLY_MATERIAL</a>);
-<a name="l00029"></a>00029                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c">getWavefrontModel</a>(<span class="keyword">const</span> std::string &amp;fileName);
+<a name="l00018"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html">00018</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_model_optimizer.html" title="Class for loading and optimizing external 3D-models, currently supporting .obj and...">ModelOptimizer</a> : <span class="keyword">public</span> VRS::SharedObj
+<a name="l00019"></a>00019         {
+<a name="l00020"></a>00020         <span class="keyword">public</span>:
+<a name="l00021"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#94f7877f5c8612c82039571f44eab6fb">00021</a>                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#94f7877f5c8612c82039571f44eab6fb">ModelOptimizer</a>(<span class="keywordtype">void</span>){ <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a> = <span class="keyword">false</span>;}
+<a name="l00022"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#ddd01c85d8e629618f44807d3a149f94">00022</a>                 <span class="keyword">virtual</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#ddd01c85d8e629618f44807d3a149f94">~ModelOptimizer</a>(<span class="keywordtype">void</span>){}
+<a name="l00023"></a>00023 
+<a name="l00024"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">00024</a>                 <span class="keyword">enum</span> <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">ReadMode</a>{
+<a name="l00025"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de60575ff1401dfb35b29bcef3ec115c52">00025</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de60575ff1401dfb35b29bcef3ec115c52">MATERIAL_AND_TEXTURES</a>,
+<a name="l00026"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">00026</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">ONLY_MATERIAL</a>,
+<a name="l00027"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">00027</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359">NO_MATERIAL_NO_TEXTURES</a>,
+<a name="l00028"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b">00028</a>                                 <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b">ALL_AND_NO_OPTIMIZATIONS</a>
+<a name="l00029"></a>00029                 };
 <a name="l00030"></a>00030 
-<a name="l00031"></a>00031         <span class="keyword">protected</span>:
-<a name="l00032"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">00032</a>                 <span class="keywordtype">bool</span>    <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a>;
-<a name="l00033"></a>00033                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">optimizeModel</a>(VRS::SO&lt;VRS::SceneThing&gt; model);
-<a name="l00034"></a>00034         };
-<a name="l00035"></a>00035 }
+<a name="l00031"></a>00031                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4">get3dsModel</a>(<span class="keyword">const</span> std::string &amp;fileName, <span class="keywordtype">bool</span> useStaticLighting = <span class="keyword">true</span>, <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de">ReadMode</a> readMode=<a class="code" href="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9">ONLY_MATERIAL</a>);
+<a name="l00032"></a>00032                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c">getWavefrontModel</a>(<span class="keyword">const</span> std::string &amp;fileName);
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034         <span class="keyword">protected</span>:
+<a name="l00035"></a><a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">00035</a>                 <span class="keywordtype">bool</span>    <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5">mStaticLighting</a>;
 <a name="l00036"></a>00036 
-<a name="l00037"></a>00037 <span class="preprocessor">#endif  // #ifndef BV3D_MODELOPTIMIZER</span>
+<a name="l00037"></a>00037                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300">optimizeModel</a>(VRS::SO&lt;VRS::SceneThing&gt; model);
+<a name="l00038"></a>00038         };
+<a name="l00039"></a>00039 }
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="preprocessor">#endif  // #ifndef BV3D_MODELOPTIMIZER</span>
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Thu Sep 13 00:43:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Thu Sep 13 18:38:08 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

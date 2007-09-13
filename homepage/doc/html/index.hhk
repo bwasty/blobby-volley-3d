@@ -12,10 +12,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_a_i.html#81cb910c1aed8693ee7c76918ae6a0c9"><param name="Name" value="AiCallback"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_a_i.html#63a0702c4e8c8e4fb11d8024a3796438"><param name="Name" value="aiServe"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_a_i.html#63a0702c4e8c8e4fb11d8024a3796438"><param name="Name" value="BV3D::AI"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#d283d63ae221adecbfce4f67042cbda2"><param name="Name" value="BV3D::Game"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6ded8947e28d84f5894ab98574866f8f89b"><param name="Name" value="ALL_AND_NO_OPTIMIZATIONS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#a47dbb4bbfc3b12d800af6cbfaae5cc6"><param name="Name" value="applyForceAndTorqueCallback"></OBJECT>
   <UL>
@@ -32,17 +28,17 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#7bc05acfb052875915024ac2eb27cd42"><param name="Name" value="Ball"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_b_v3_d_1_1_collision_data.html#eb0d7b573c05e868d520fca33a4008f4"><param name="Name" value="ball"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#7b17ea53379681c57ddf474e20c7bc5e"><param name="Name" value="BALL_RADIUS"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#6539af3c572c57e7fbda4fbed4622b3c"><param name="Name" value="ballOnBlobb"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#5c0dacb39b215420d714cd99da680a32"><param name="Name" value="ballOnBlobb"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#6539af3c572c57e7fbda4fbed4622b3c"><param name="Name" value="BV3D::ClassicReferee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#ce38aa0c427a522f18c40f08ffbf0157"><param name="Name" value="BV3D::Referee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#6db8925cba455a86d6dc89565b13f608"><param name="Name" value="BV3D::TieBreakReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#5c0dacb39b215420d714cd99da680a32"><param name="Name" value="BV3D::ClassicReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#64656ee3a5f430b7169a8523eacdf2fc"><param name="Name" value="BV3D::Referee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#1101212820bf1764bd8200b04fcef52f"><param name="Name" value="BV3D::TieBreakReferee"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#93cf76ab548ed14384ab458588bbdd82"><param name="Name" value="ballOnField"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#86f77a3d5073ed4b73a1c0c0278aabc8"><param name="Name" value="ballOnField"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#93cf76ab548ed14384ab458588bbdd82"><param name="Name" value="BV3D::ClassicReferee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#8eecd88f70db11e0eee54b07b267c1e8"><param name="Name" value="BV3D::Referee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#aa59ad5fa9a05cce6841aa149f868960"><param name="Name" value="BV3D::TieBreakReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#86f77a3d5073ed4b73a1c0c0278aabc8"><param name="Name" value="BV3D::ClassicReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f6c3f576882114da7e102eb5987cca4e"><param name="Name" value="BV3D::Referee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#d3fc7a0a7ee69347af90329aed86d146"><param name="Name" value="BV3D::TieBreakReferee"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda14c671209f3208b68371c0fadc6ef144cf"><param name="Name" value="BEACH"></OBJECT>
   <UL>
@@ -107,11 +103,10 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#b70ad143a45b6891052302badca1376e"><param name="Name" value="Blobb"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#dfabfe3727f6a2a56364831d3e9cc43d"><param name="Name" value="forceSingleAnimation"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#cd718076f0b0201cf095a4c2f3ba2c8d"><param name="Name" value="getColor"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#e806a2aeefef241cfffd60f0919ed9f5"><param name="Name" value="getControls"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#81b603e1de0e48048196e874dd8fc55c"><param name="Name" value="getControls"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#43c932dbd42c146a25345afe2ecf48ec"><param name="Name" value="getMovement"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#d7b1c341bf798da97f1e20276a846c94"><param name="Name" value="getScene"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#83a288195afc423f5d752a907af6edff"><param name="Name" value="getScene"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#b435c2001126f1f450d0dfb0a7b9491e"><param name="Name" value="getTeam"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#c170754883e726a9adbb1247805b4e76"><param name="Name" value="isMoving"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#0c408501d791b555ef524972dddba3a2"><param name="Name" value="maxJump"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#22b3b66565e5381b62740eb64497b675"><param name="Name" value="processInput"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#b4a95f1d8c604ac94ceddf02a81563a4"><param name="Name" value="setColor"></OBJECT>
@@ -124,11 +119,10 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html"><param name="Name" value="BV3D::ClassicReferee"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#6539af3c572c57e7fbda4fbed4622b3c"><param name="Name" value="ballOnBlobb"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#93cf76ab548ed14384ab458588bbdd82"><param name="Name" value="ballOnField"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#c53494090e9eb305d8db24a0341cea8e"><param name="Name" value="ClassicReferee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#c7909c8ddd96d7f154806adee62b381c"><param name="Name" value="startNewGame"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#acb8157b358edcaaf4e04904e01ce353"><param name="Name" value="~ClassicReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#5c0dacb39b215420d714cd99da680a32"><param name="Name" value="ballOnBlobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#86f77a3d5073ed4b73a1c0c0278aabc8"><param name="Name" value="ballOnField"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#1bbcca17e2335957cd60d880158f15df"><param name="Name" value="ClassicReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#2ef0dbf6b66cb5409be756bd9d596ba9"><param name="Name" value="~ClassicReferee"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_b_v3_d_1_1_collision_data.html"><param name="Name" value="BV3D::CollisionData"></OBJECT>
   <UL>
@@ -156,23 +150,30 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html"><param name="Name" value="BV3D::Game"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#d283d63ae221adecbfce4f67042cbda2"><param name="Name" value="aiServe"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#05f4e6cae8d38141a73a12050271d4f4"><param name="Name" value="applyMenuSettings"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#1d494c2cd8b55b208c3aaa339992cab3"><param name="Name" value="Game"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#6a835b2e21dc7bd1f2c00b68a73fc192"><param name="Name" value="getArena"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#733f586e11d492e8cec503b99a8ec4bf"><param name="Name" value="getBall"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#8b16c0b73ff2c019aa63de6bc0474ba4"><param name="Name" value="getBlobb"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0"><param name="Name" value="getDirectionVector"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#eb7fdd35184e47ecf1e1c831119363bd"><param name="Name" value="getArena"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#cbd7e1fd8c20351e26f356d1d4af1e61"><param name="Name" value="getBall"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#86a7e7c7153341b113388553db16fbe4"><param name="Name" value="getBlobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#971b9a1f4702cc2974b4a6737e276f52"><param name="Name" value="getDirectionVector"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#6ba053669b21807fddcc096b719299d9"><param name="Name" value="getFrameCount"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0"><param name="Name" value="getPositionVector"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#473dfad554d8e9ce88204ce6d137a1ea"><param name="Name" value="getReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#38ea991698df158ec53ffc9705124c62"><param name="Name" value="getPositionVector"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#bba10c339da14fdb19f94a086bf42eb5"><param name="Name" value="getReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#31ce607e5bbe1bd3f1ecec96e657f748"><param name="Name" value="isCameraDistant"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#52d599ced298ffdf31a4b95a59ac88b5"><param name="Name" value="isCameraHigher"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#d67ac2fa34bb2b23c82f3a7dcb3b4812"><param name="Name" value="isCameraMovieStyle"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#f9941eb3310da12eac54ae72abe614bf"><param name="Name" value="isPaused"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca"><param name="Name" value="newServe"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#f89b2a5a9e41cf3c7d0385df951a5225"><param name="Name" value="playSoundTouch"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#20638eb663fdb6c30b36b5eded7b0d59"><param name="Name" value="playSoundWhistle"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#ab64390af37cb1f087796c3001056d0c"><param name="Name" value="processInput"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#4967ec60926e121b15625bbf2757cd11"><param name="Name" value="scheduleNewServe"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#135a6b8cd48e662c0f84078a727668f6"><param name="Name" value="setCameraDistant"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#880f74944d14c4f3cb4ce1985773afae"><param name="Name" value="setCameraHigher"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#869b8b156b4c80713777b127ec724a57"><param name="Name" value="setMovieStyleCamera"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#009304db687944965f68c3738bf84a00"><param name="Name" value="setPaused"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#85eb8928cf4fc5f7dc8d4a6583f0e05c"><param name="Name" value="setupSound"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1"><param name="Name" value="switchCameraposition"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#66c65c5cc51fb91bb2234c7dec81fcc3"><param name="Name" value="switchCameraposition"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#34d2a5efbade1d5df6043ffa66ec9656"><param name="Name" value="switchToGame"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018"><param name="Name" value="switchToMenu"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#e2af63b94116f3a8f16ffbbc4c99e88c"><param name="Name" value="toggleFullscreen"></OBJECT>
@@ -182,7 +183,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html"><param name="Name" value="BV3D::HUD"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#162ca2e6f87f6f15649ee9f7a1176358"><param name="Name" value="getScene"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#f43811ef453192601e0e2e72466c6f4c"><param name="Name" value="HUD"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#9b0a61243fec408aec0334e3d3536362"><param name="Name" value="HUD"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278"><param name="Name" value="setColors"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6"><param name="Name" value="setScore"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1"><param name="Name" value="showWinner"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#f8a93a636e4f9072ac051233ac35e239"><param name="Name" value="~HUD"></OBJECT>
@@ -212,14 +214,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb68635bdf8bab4f254849e1c43f48142064f"><param name="Name" value="CORAL"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb6867096a933e42d3d16e418157106a45269"><param name="Name" value="CYAN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6c819ca61c75971a49ff111d19a19cea"><param name="Name" value="fullscreen"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bbe0c6880e0ac8de6950945d70bc1c93"><param name="Name" value="getColor"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#91f4b362a1bb3aa6b5b72b7ad20ceff6"><param name="Name" value="getControls"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#22fcd47bc303b038ad3c6987a0876879"><param name="Name" value="getPickingCallback"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#34387ebca339018d544543fb14b1bb9d"><param name="Name" value="getPlace"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#eaa6938d6facf70cc93ab6509f5a4da8"><param name="Name" value="getPlayer1Color"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#37ce0188563151516945e6b3aea610b1"><param name="Name" value="getPlayer1Controls"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#59fbdef527b6677b4c22803149d58869"><param name="Name" value="getPlayer2Color"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6b31e81888df4fed318f6135df9dd43d"><param name="Name" value="getPlayer2Controls"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#27314a0aa656f1be85d233bae35ed82a"><param name="Name" value="getRules"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#e81b3b015446ace8fbb10c8b221a71a8"><param name="Name" value="getScene"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#ea04d45433500d5a152e725fc24f1b78"><param name="Name" value="getSelector"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb68621169e2303aad67986a58e3d20334147"><param name="Name" value="GREEN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#7c38fdbf13986d79b65a9dce4373ac99b35d81a33fdaecffc433c255f9567296"><param name="Name" value="HEAVEN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e663deb4e1d8a21dbd3b4feccba7144b36"><param name="Name" value="KB_ARROWS"></OBJECT>
@@ -235,7 +235,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb68674cf511d4e82fc973f88133d585bc2bb"><param name="Name" value="RED"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#cc6ad1af058a4330a436408cbc46d077"><param name="Name" value="rules"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf"><param name="Name" value="RULES"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#8e4ef8ebc3492edc636fdf51c3fc2173"><param name="Name" value="select"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#c34f19bc6a4cd25228ac805c5766ed56"><param name="Name" value="select"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#a66f260b80bb9817366f298f222da836"><param name="Name" value="showMainMenu"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#b8f83077b625fffcbdc055c7cfd6f031"><param name="Name" value="showMenu"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf5cd091e3da0d89b3f6de1513745349cf"><param name="Name" value="TIE_BREAK"></OBJECT>
@@ -254,7 +254,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de025f51459ac1bdd0431ae994289161a9"><param name="Name" value="ONLY_MATERIAL"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#465dd8f848dd2abef50e871f1182b300"><param name="Name" value="optimizeModel"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de"><param name="Name" value="ReadMode"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#16b93584be53373b22a4f3822eb25736"><param name="Name" value="~ModelOptimizer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#ddd01c85d8e629618f44807d3a149f94"><param name="Name" value="~ModelOptimizer"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_mouse_controls.html"><param name="Name" value="BV3D::MouseControls"></OBJECT>
   <UL>
@@ -268,37 +268,37 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html"><param name="Name" value="BV3D::Referee"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#ce38aa0c427a522f18c40f08ffbf0157"><param name="Name" value="ballOnBlobb"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#8eecd88f70db11e0eee54b07b267c1e8"><param name="Name" value="ballOnField"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#aa7aeebed0974a7de6332f23b4619e6d"><param name="Name" value="gameOver"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#64656ee3a5f430b7169a8523eacdf2fc"><param name="Name" value="ballOnBlobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f6c3f576882114da7e102eb5987cca4e"><param name="Name" value="ballOnField"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#00630bf3fc8c1a4afd8011a193d34bf2"><param name="Name" value="gameOver"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7ced463cb355461d28e2d564d83db7ca"><param name="Name" value="getActive"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a91a6f461a3deff4053f58a888538597"><param name="Name" value="getCurrentContacts"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#8fe0a864db89483e61f79497b4f70a6a"><param name="Name" value="getCurrentScore"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#62352262cdefc5f18351c4c48fed8e58"><param name="Name" value="getGame"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#184e4412476a0afd0a7402907cacb59d"><param name="Name" value="getMaximumContacts"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#0fea4eb1b28e7a3164025e8c02f43ef0"><param name="Name" value="getMinimumDifference"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#66c9730f2cc7863fed00d866d8f27755"><param name="Name" value="getOpponent"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#672c053c2c0223701b236c78fd2453e0"><param name="Name" value="getServingTeam"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#68cb4cb2d1c040fbdfe72395946c64ae"><param name="Name" value="getTeamIndex"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#2d38ece9ab36a27b9afa8f41b5052af4"><param name="Name" value="getWinningScore"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#6b7872b5a040ac371d083f775098bf71"><param name="Name" value="increaseContacts"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#990ca4fd7fac2e779744aa1f07878b6e"><param name="Name" value="increaseScore"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#8a69c410ff7d922116d3c78199b9c784"><param name="Name" value="isGameOver"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#19cdc36814d20fb34ee9b7598fdee8b4"><param name="Name" value="getCurrentContacts"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7ce0fc4cf8c2fb3f25f501ab539cc898"><param name="Name" value="getCurrentScore"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#b7ee4b7aec730b28c0a1b74f127b52ae"><param name="Name" value="getGame"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f6a6043d042cf340d1528b35bffe63a1"><param name="Name" value="getMaximumContacts"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a1c55a7ed0adf69da6e5de2f23c8a0cb"><param name="Name" value="getMinimumDifference"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a48b05be552b812e96d44ac1580940b3"><param name="Name" value="getOpponent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a25d4c0e5c6d8525372d97305c5238be"><param name="Name" value="getServingTeam"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a881c7b7a3c66ce94da4cf0bd7c99fe8"><param name="Name" value="getTeamIndex"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#df0223a76266b2002427905425f54c59"><param name="Name" value="getWinningScore"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#06de5e12258862e925f2b2921c2af829"><param name="Name" value="increaseContacts"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#c67bb0a4c8df58b6475684facd8ffe05"><param name="Name" value="increaseScore"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#94c9f965dc5ec5812522fa113478c711"><param name="Name" value="isGameOver"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#812e8ce09392bb456efa01215a1b3d40"><param name="Name" value="mActive"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#1b336d6ce8d19a3d583de9690657041f"><param name="Name" value="mGame"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#19237855384797f89da12c3461f595af"><param name="Name" value="mServingTeam"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#4da4e30b4c8309d8144c96a121991ce7"><param name="Name" value="newServe"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#c0b512bc89c0ba0e16b98ea1c2408a72"><param name="Name" value="Referee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7fe9bbf7201ae395a6e3e24a83a9f221"><param name="Name" value="resetContacts"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#2d565fd8638d5bbf9f2aa2615f810f06"><param name="Name" value="mGame"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f99f49a9f383221cc910a5b10081de43"><param name="Name" value="mServingTeam"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#c592d05847b56a3b149c26bc178f5214"><param name="Name" value="newServe"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#0372df05a22b4a8aece007b8ac462412"><param name="Name" value="Referee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#6f49530d938b9cfbce81d5c5261305dd"><param name="Name" value="resetContacts"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a3ec187393d81c0e2317fccabd6fc902"><param name="Name" value="setActive"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#5712e3172b3f4275920a331f759fdf9d"><param name="Name" value="setCurrentContacts"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#4909a6dbfe64b8897135ddf9526b4a3b"><param name="Name" value="setCurrentScore"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#91ac0cfa5956f8e0f954d1c2ba00cf1c"><param name="Name" value="setHUD"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a506d434fa70cb84107ec95e17f6b97d"><param name="Name" value="setMaximumContacts"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#d38d2e48799f83ca940538bf94141c62"><param name="Name" value="setMinimumDifference"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#3e00a9517fa8908d0345068f8330b1c8"><param name="Name" value="setServingTeam"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f5f58ad8689126c48b48ce4ea567cc45"><param name="Name" value="setWinningScore"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#0a6a056037db5abbd1f72532e951c43b"><param name="Name" value="startNewGame"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#ac62464eebbee8d45f40249ed36f30cf"><param name="Name" value="setCurrentContacts"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#76528893d9eb30f05e6f847813adfe28"><param name="Name" value="setCurrentScore"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#44d1eef9cf5109eb7abb3dd9b44feb7c"><param name="Name" value="setHUD"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#dbd4fb384526e903c2a2b3761d5830c5"><param name="Name" value="setMaximumContacts"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7e80828da70432807a53df934cabadbc"><param name="Name" value="setMinimumDifference"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#2b46ecc0fd0aed181bc1a75e519904a8"><param name="Name" value="setServingTeam"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#88d732af14c7c87022987b253e0b7564"><param name="Name" value="setWinningScore"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#3b3b02e7854a822bd7968ad012f28398"><param name="Name" value="startNewGame"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#1367d12d13c388b26acb6c2c2bb7a00a"><param name="Name" value="~Referee"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html"><param name="Name" value="BV3D::SceneLoader"></OBJECT>
@@ -322,11 +322,10 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html"><param name="Name" value="BV3D::TieBreakReferee"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#6db8925cba455a86d6dc89565b13f608"><param name="Name" value="ballOnBlobb"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#aa59ad5fa9a05cce6841aa149f868960"><param name="Name" value="ballOnField"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#fe841d7538060ab7cdecaa565a7b9129"><param name="Name" value="startNewGame"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#9dd0507540af38f0d4e9fadc844af753"><param name="Name" value="TieBreakReferee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#272ae860c5b5f021cda66eb7c9eb9e56"><param name="Name" value="~TieBreakReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#1101212820bf1764bd8200b04fcef52f"><param name="Name" value="ballOnBlobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#d3fc7a0a7ee69347af90329aed86d146"><param name="Name" value="ballOnField"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#e52f0a6041fbfa267907502a5e39de19"><param name="Name" value="TieBreakReferee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#a3dbd5b054ce0c8f8015cd4b1d2e6de6"><param name="Name" value="~TieBreakReferee"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html"><param name="Name" value="BV3D"></OBJECT>
   <UL>
@@ -353,6 +352,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#f2e46d314fee28044def82d7903d2faf"><param name="Name" value="LOOK_TO"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759"><param name="Name" value="MAX_BALL_VELOCITY"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279"><param name="Name" value="MAX_CAMERAS"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#f744fb73d65c8938949068805719d8ea"><param name="Name" value="MAX_FPS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38"><param name="Name" value="MODELS_PATH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5"><param name="Name" value="NET_HEIGHT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#be819f8b3335a1c1bab63feabab4d080bee4089a7b6e67febf33644e98ad831b"><param name="Name" value="NO_ERROR"></OBJECT>
@@ -360,6 +360,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda14"><param name="Name" value="SCENE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7"><param name="Name" value="SHADOW_HEIGHT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0"><param name="Name" value="SHADOW_MAX_HEIGHT"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#d2770c089948158957e2b026d0d661a8"><param name="Name" value="SOUNDS_PATH"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33"><param name="Name" value="TEAM"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af"><param name="Name" value="TEAM1"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362e95ff162eecfb7efa4aca0236cd450f5"><param name="Name" value="TEAM1_BASECAMERA"></OBJECT>
@@ -370,7 +371,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362"><param name="Name" value="CAMERAPOSITION"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf867c7fc6f455abdada1e16fd1bc10d50"><param name="Name" value="CLASSIC"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563624b5dee4c4673b15fa6e9850501f243a8"><param name="Name" value="CLASSIC_CAMERA"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#c53494090e9eb305d8db24a0341cea8e"><param name="Name" value="ClassicReferee"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#1bbcca17e2335957cd60d880158f15df"><param name="Name" value="ClassicReferee"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb686"><param name="Name" value="COLOR"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#b88c78a5365ccb4043a73af012afc14f"><param name="Name" value="colors"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#779b6e11bd56d7ab032ed5f2670af1f9"><param name="Name" value="controls"></OBJECT>
@@ -387,48 +388,53 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6c819ca61c75971a49ff111d19a19cea"><param name="Name" value="fullscreen"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_b_v3_d_1_1_collision_data.html#db06d3c286fd237b7873ef87dd38233f"><param name="Name" value="game"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#1d494c2cd8b55b208c3aaa339992cab3"><param name="Name" value="Game"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#aa7aeebed0974a7de6332f23b4619e6d"><param name="Name" value="gameOver"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#00630bf3fc8c1a4afd8011a193d34bf2"><param name="Name" value="gameOver"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#2fb02c379194247f5917dc755dc8c2b4"><param name="Name" value="get3dsModel"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7ced463cb355461d28e2d564d83db7ca"><param name="Name" value="getActive"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#d687770fd3f3dacc39df887e57778527"><param name="Name" value="getAiTriggerID"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#6a835b2e21dc7bd1f2c00b68a73fc192"><param name="Name" value="getArena"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#733f586e11d492e8cec503b99a8ec4bf"><param name="Name" value="getBall"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#eb7fdd35184e47ecf1e1c831119363bd"><param name="Name" value="getArena"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#cbd7e1fd8c20351e26f356d1d4af1e61"><param name="Name" value="getBall"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#1a73181cb5628c0ae6537b3017d4306a"><param name="Name" value="getBallMaterialID"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#8b16c0b73ff2c019aa63de6bc0474ba4"><param name="Name" value="getBlobb"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#86a7e7c7153341b113388553db16fbe4"><param name="Name" value="getBlobb"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#bbf9812d04f32192e1514fbb8ee1d193"><param name="Name" value="getBlobbMaterialID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#4d32459d653ee9b9ee494373e046c446"><param name="Name" value="getBody"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#156404f78bb9842cdb8c88b7467eaf0d"><param name="Name" value="getBounds"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#d9956fa943abe6342e1d6663a2d19229"><param name="Name" value="getBrightDaySkybox"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#cd718076f0b0201cf095a4c2f3ba2c8d"><param name="Name" value="getColor"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#e806a2aeefef241cfffd60f0919ed9f5"><param name="Name" value="getControls"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a91a6f461a3deff4053f58a888538597"><param name="Name" value="getCurrentContacts"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#8fe0a864db89483e61f79497b4f70a6a"><param name="Name" value="getCurrentScore"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#cd718076f0b0201cf095a4c2f3ba2c8d"><param name="Name" value="BV3D::Blobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bbe0c6880e0ac8de6950945d70bc1c93"><param name="Name" value="BV3D::Menu"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#81b603e1de0e48048196e874dd8fc55c"><param name="Name" value="getControls"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#81b603e1de0e48048196e874dd8fc55c"><param name="Name" value="BV3D::Blobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#91f4b362a1bb3aa6b5b72b7ad20ceff6"><param name="Name" value="BV3D::Menu"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#19cdc36814d20fb34ee9b7598fdee8b4"><param name="Name" value="getCurrentContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7ce0fc4cf8c2fb3f25f501ab539cc898"><param name="Name" value="getCurrentScore"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#a1044bc83fd1d8224723d73dfe5ea675"><param name="Name" value="getDesertSkybox"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#0ecb498962d2bd2430fa16cf722cded0"><param name="Name" value="getDirectionVector"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#971b9a1f4702cc2974b4a6737e276f52"><param name="Name" value="getDirectionVector"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#85fbd5ef62f530b4800db1fb84b56188"><param name="Name" value="getFieldLines"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#e508d33592a64a20303b22f64c841576"><param name="Name" value="getFloorMaterialID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#6ba053669b21807fddcc096b719299d9"><param name="Name" value="getFrameCount"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_a_i.html#277632edeb63101b5aa2edae62295fa5"><param name="Name" value="getGame"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_a_i.html#277632edeb63101b5aa2edae62295fa5"><param name="Name" value="BV3D::AI"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#62352262cdefc5f18351c4c48fed8e58"><param name="Name" value="BV3D::Referee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#b7ee4b7aec730b28c0a1b74f127b52ae"><param name="Name" value="BV3D::Referee"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#117bf723f11471ad56a579aba1611069"><param name="Name" value="getHotDesertSkybox"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#5ce8c7a4e7ebb63d6d29af23c9ed9534"><param name="Name" value="getInvisibleBarrierID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#01e0768557f194595dab6b115256d191"><param name="Name" value="getIslandsSkybox"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#184e4412476a0afd0a7402907cacb59d"><param name="Name" value="getMaximumContacts"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#0fea4eb1b28e7a3164025e8c02f43ef0"><param name="Name" value="getMinimumDifference"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f6a6043d042cf340d1528b35bffe63a1"><param name="Name" value="getMaximumContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a1c55a7ed0adf69da6e5de2f23c8a0cb"><param name="Name" value="getMinimumDifference"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#43c932dbd42c146a25345afe2ecf48ec"><param name="Name" value="getMovement"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#1e55f71a1c69de52b9d299ae30482d69"><param name="Name" value="getNetMaterialID"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#66c9730f2cc7863fed00d866d8f27755"><param name="Name" value="getOpponent"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a48b05be552b812e96d44ac1580940b3"><param name="Name" value="getOpponent"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#22fcd47bc303b038ad3c6987a0876879"><param name="Name" value="getPickingCallback"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#34387ebca339018d544543fb14b1bb9d"><param name="Name" value="getPlace"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#eaa6938d6facf70cc93ab6509f5a4da8"><param name="Name" value="getPlayer1Color"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#37ce0188563151516945e6b3aea610b1"><param name="Name" value="getPlayer1Controls"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#59fbdef527b6677b4c22803149d58869"><param name="Name" value="getPlayer2Color"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6b31e81888df4fed318f6135df9dd43d"><param name="Name" value="getPlayer2Controls"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#ea91bcd4f00cb107d3a715036602d219"><param name="Name" value="getPosition"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#0803d0095c63cd65426544e7c238a4b0"><param name="Name" value="getPositionVector"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#473dfad554d8e9ce88204ce6d137a1ea"><param name="Name" value="getReferee"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#38ea991698df158ec53ffc9705124c62"><param name="Name" value="getPositionVector"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#bba10c339da14fdb19f94a086bf42eb5"><param name="Name" value="getReferee"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_controls.html#5cd547f2ecf6f9bc62c5f618c5aa8252"><param name="Name" value="getRequestedMovement"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_controls.html#5cd547f2ecf6f9bc62c5f618c5aa8252"><param name="Name" value="BV3D::Controls"></OBJECT>
@@ -440,19 +446,18 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e"><param name="Name" value="BV3D::Arena"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#7f6cf2f45b1efb5ba9f89613ba6d3d8b"><param name="Name" value="BV3D::Ball"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#d7b1c341bf798da97f1e20276a846c94"><param name="Name" value="BV3D::Blobb"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#83a288195afc423f5d752a907af6edff"><param name="Name" value="BV3D::Blobb"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#162ca2e6f87f6f15649ee9f7a1176358"><param name="Name" value="BV3D::HUD"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#e81b3b015446ace8fbb10c8b221a71a8"><param name="Name" value="BV3D::Menu"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#ea04d45433500d5a152e725fc24f1b78"><param name="Name" value="getSelector"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#672c053c2c0223701b236c78fd2453e0"><param name="Name" value="getServingTeam"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a25d4c0e5c6d8525372d97305c5238be"><param name="Name" value="getServingTeam"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#b435c2001126f1f450d0dfb0a7b9491e"><param name="Name" value="getTeam"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294"><param name="Name" value="getTeamBounds"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#68cb4cb2d1c040fbdfe72395946c64ae"><param name="Name" value="getTeamIndex"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a881c7b7a3c66ce94da4cf0bd7c99fe8"><param name="Name" value="getTeamIndex"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#52da5c69f71edc9b68107d637e6497cc"><param name="Name" value="getWallMaterialID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#f4ab0314afcf70f93ad9922f7642208b"><param name="Name" value="getWaterscapeSkybox"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#5f8127e08ac74805737fee75280d0e5c"><param name="Name" value="getWavefrontModel"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#2d38ece9ab36a27b9afa8f41b5052af4"><param name="Name" value="getWinningScore"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#df0223a76266b2002427905425f54c59"><param name="Name" value="getWinningScore"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139"><param name="Name" value="getWorld"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#823eeeb531cdf69f772ac1f2c36002b4"><param name="Name" value="getZolsky6Skybox"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#99ca57cff7807757e885e7a12709648d"><param name="Name" value="getZolsky8Skybox"></OBJECT>
@@ -465,13 +470,16 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda145575f43dee98538c58d2a5f50e3aba23"><param name="Name" value="BV3D"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#7c38fdbf13986d79b65a9dce4373ac99b35d81a33fdaecffc433c255f9567296"><param name="Name" value="BV3D::Menu"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#f43811ef453192601e0e2e72466c6f4c"><param name="Name" value="HUD"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#6b7872b5a040ac371d083f775098bf71"><param name="Name" value="increaseContacts"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#990ca4fd7fac2e779744aa1f07878b6e"><param name="Name" value="increaseScore"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#9b0a61243fec408aec0334e3d3536362"><param name="Name" value="HUD"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#06de5e12258862e925f2b2921c2af829"><param name="Name" value="increaseContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#c67bb0a4c8df58b6475684facd8ffe05"><param name="Name" value="increaseScore"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#be819f8b3335a1c1bab63feabab4d080b13be40f866fea7f22f19ae680ed43e2"><param name="Name" value="INVALID_PARAMETER"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_a_i.html#fe14efc223310773ae4ea3dda149e8a5"><param name="Name" value="isAiControlled"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#8a69c410ff7d922116d3c78199b9c784"><param name="Name" value="isGameOver"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#c170754883e726a9adbb1247805b4e76"><param name="Name" value="isMoving"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#31ce607e5bbe1bd3f1ecec96e657f748"><param name="Name" value="isCameraDistant"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#52d599ced298ffdf31a4b95a59ac88b5"><param name="Name" value="isCameraHigher"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#d67ac2fa34bb2b23c82f3a7dcb3b4812"><param name="Name" value="isCameraMovieStyle"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#94c9f965dc5ec5812522fa113478c711"><param name="Name" value="isGameOver"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#f9941eb3310da12eac54ae72abe614bf"><param name="Name" value="isPaused"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_controls.html#59bd7735296ef1c9969f8a98ade7fd8b799d5bdbc05fead3b573797b14def0ed"><param name="Name" value="JUMP"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e663deb4e1d8a21dbd3b4feccba7144b36"><param name="Name" value="KB_ARROWS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e62ac5494a4feff0b8a47b45c4c85b87a2"><param name="Name" value="KB_WASDQ"></OBJECT>
@@ -493,13 +501,14 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628bb13005f678fb0dd4bb916461480279"><param name="Name" value="MAX_CAMERAS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb6863016bb48c72b6f0cd4b7b5c58c7d5489"><param name="Name" value="MAX_COLORS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#6cd4e5fe64af7ffdba2e76a90938d0e63a883c870a397c5a613f24fa3419ec89"><param name="Name" value="MAX_CONTROLS"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#f744fb73d65c8938949068805719d8ea"><param name="Name" value="MAX_FPS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#7c38fdbf13986d79b65a9dce4373ac99c2a7b8373ba1f257cb25a69f0d1577cc"><param name="Name" value="MAX_PLACES"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf5bc9b9c580b42bac45236f243fa8b34c"><param name="Name" value="MAX_RULES"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#0c408501d791b555ef524972dddba3a2"><param name="Name" value="maxJump"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_keyboard_controls.html#8697fd9575057cfde4bfa1059b0ab75f"><param name="Name" value="mBinding"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#3016912bdf663d3f77fd36c483415b74"><param name="Name" value="mCanvas"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#7f4a9a903bcffe95647d4b512f475cf8"><param name="Name" value="Menu"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#1b336d6ce8d19a3d583de9690657041f"><param name="Name" value="mGame"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#2d565fd8638d5bbf9f2aa2615f810f06"><param name="Name" value="mGame"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_mouse_controls.html#1af5cab226d23ecf4fa692c004cca307"><param name="Name" value="mJumpButton"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#94f7877f5c8612c82039571f44eab6fb"><param name="Name" value="ModelOptimizer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#aa63a0b4330b14afbba940ae1d4b8f38"><param name="Name" value="MODELS_PATH"></OBJECT>
@@ -508,13 +517,13 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_mouse_controls.html#1398abec6e25bc734678de1d664fa609"><param name="Name" value="MouseControls"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_mouse_controls.html#77b62f7122ef939225aec4efaad3e44c"><param name="Name" value="mRequestedMovement"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_keyboard_controls.html#423151cd2eb12ddd37bd49e66ee57dbd"><param name="Name" value="mRequests"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#19237855384797f89da12c3461f595af"><param name="Name" value="mServingTeam"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f99f49a9f383221cc910a5b10081de43"><param name="Name" value="mServingTeam"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#1eec171a97a375006ce44528c709a4a5"><param name="Name" value="mStaticLighting"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#52c621207a72a8e1d376161b06fc07f5"><param name="Name" value="NET_HEIGHT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca"><param name="Name" value="newServe"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#a80ce93bcf30b9e5635c6b9d969b40ca"><param name="Name" value="BV3D::Game"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#4da4e30b4c8309d8144c96a121991ce7"><param name="Name" value="BV3D::Referee"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#c592d05847b56a3b149c26bc178f5214"><param name="Name" value="BV3D::Referee"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#be819f8b3335a1c1bab63feabab4d080bee4089a7b6e67febf33644e98ad831b"><param name="Name" value="NO_ERROR"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de86868d282836ecf722f710c682988359"><param name="Name" value="NO_MATERIAL_NO_TEXTURES"></OBJECT>
@@ -535,9 +544,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#9cbad10989100c251bfec5d9bb24a6de"><param name="Name" value="ReadMode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#de420675b7ec4217de3f45c8a8bbb68674cf511d4e82fc973f88133d585bc2bb"><param name="Name" value="RED"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_b_v3_d_1_1_collision_data.html#b135cfcc3a0a8a6500003662d0417c8a"><param name="Name" value="referee"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#c0b512bc89c0ba0e16b98ea1c2408a72"><param name="Name" value="Referee"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#0372df05a22b4a8aece007b8ac462412"><param name="Name" value="Referee"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_controls.html#59bd7735296ef1c9969f8a98ade7fd8b"><param name="Name" value="REQUEST"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7fe9bbf7201ae395a6e3e24a83a9f221"><param name="Name" value="resetContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#6f49530d938b9cfbce81d5c5261305dd"><param name="Name" value="resetContacts"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#40ef5bfe7ed014db0cd288b57657730d"><param name="Name" value="resetPosition"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362b051ea4271e2d8601d7b30a1aa79b466"><param name="Name" value="REVERSE_CAMERA"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_controls.html#59bd7735296ef1c9969f8a98ade7fd8b8e9904f03cfc562e4b2da7c1ad35a82b"><param name="Name" value="RIGHT"></OBJECT>
@@ -547,37 +556,38 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_scene_loader_8h.html"><param name="Name" value="SceneLoader.h"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#e2a17596b6ed660514ed4332c970048a"><param name="Name" value="SceneLoader"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#4967ec60926e121b15625bbf2757cd11"><param name="Name" value="scheduleNewServe"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#8e4ef8ebc3492edc636fdf51c3fc2173"><param name="Name" value="select"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#c34f19bc6a4cd25228ac805c5766ed56"><param name="Name" value="select"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a3ec187393d81c0e2317fccabd6fc902"><param name="Name" value="setActive"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_keyboard_controls.html#c1c3fdf3dc4a45c3cb0faddc5c4acb0d"><param name="Name" value="setBinding"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#135a6b8cd48e662c0f84078a727668f6"><param name="Name" value="setCameraDistant"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#880f74944d14c4f3cb4ce1985773afae"><param name="Name" value="setCameraHigher"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#b4a95f1d8c604ac94ceddf02a81563a4"><param name="Name" value="setColor"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278"><param name="Name" value="setColors"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#e6a07aadb23ba5a2376c5b9095b8b5ea"><param name="Name" value="setControls"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#5712e3172b3f4275920a331f759fdf9d"><param name="Name" value="setCurrentContacts"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#4909a6dbfe64b8897135ddf9526b4a3b"><param name="Name" value="setCurrentScore"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#ac62464eebbee8d45f40249ed36f30cf"><param name="Name" value="setCurrentContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#76528893d9eb30f05e6f847813adfe28"><param name="Name" value="setCurrentScore"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960"><param name="Name" value="setExtent"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#91ac0cfa5956f8e0f954d1c2ba00cf1c"><param name="Name" value="setHUD"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#44d1eef9cf5109eb7abb3dd9b44feb7c"><param name="Name" value="setHUD"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_mouse_controls.html#77a027f4eb8637c5ef11e6d417569725"><param name="Name" value="setJumpBinding"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#ec3d9e08e863e31e877392556bb6c868"><param name="Name" value="setLookAt"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#a506d434fa70cb84107ec95e17f6b97d"><param name="Name" value="setMaximumContacts"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#d38d2e48799f83ca940538bf94141c62"><param name="Name" value="setMinimumDifference"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#dbd4fb384526e903c2a2b3761d5830c5"><param name="Name" value="setMaximumContacts"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#7e80828da70432807a53df934cabadbc"><param name="Name" value="setMinimumDifference"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#869b8b156b4c80713777b127ec724a57"><param name="Name" value="setMovieStyleCamera"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#009304db687944965f68c3738bf84a00"><param name="Name" value="setPaused"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#bc1047f3017fecb17a348b1194fbb9b3"><param name="Name" value="setPosition"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6"><param name="Name" value="setScore"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#3e00a9517fa8908d0345068f8330b1c8"><param name="Name" value="setServingTeam"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#2b46ecc0fd0aed181bc1a75e519904a8"><param name="Name" value="setServingTeam"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660"><param name="Name" value="setupMaterials"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#85eb8928cf4fc5f7dc8d4a6583f0e05c"><param name="Name" value="setupSound"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#f5f58ad8689126c48b48ce4ea567cc45"><param name="Name" value="setWinningScore"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#88d732af14c7c87022987b253e0b7564"><param name="Name" value="setWinningScore"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7"><param name="Name" value="SHADOW_HEIGHT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0"><param name="Name" value="SHADOW_MAX_HEIGHT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#a66f260b80bb9817366f298f222da836"><param name="Name" value="showMainMenu"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#b8f83077b625fffcbdc055c7cfd6f031"><param name="Name" value="showMenu"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1"><param name="Name" value="showWinner"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#c7909c8ddd96d7f154806adee62b381c"><param name="Name" value="startNewGame"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#c7909c8ddd96d7f154806adee62b381c"><param name="Name" value="BV3D::ClassicReferee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#0a6a056037db5abbd1f72532e951c43b"><param name="Name" value="BV3D::Referee"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#fe841d7538060ab7cdecaa565a7b9129"><param name="Name" value="BV3D::TieBreakReferee"></OBJECT>
-  </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#98e0306ca27604158278cb834a22e1c1"><param name="Name" value="switchCameraposition"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#d2770c089948158957e2b026d0d661a8"><param name="Name" value="SOUNDS_PATH"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#3b3b02e7854a822bd7968ad012f28398"><param name="Name" value="startNewGame"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#66c65c5cc51fb91bb2234c7dec81fcc3"><param name="Name" value="switchCameraposition"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#34d2a5efbade1d5df6043ffa66ec9656"><param name="Name" value="switchToGame"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#0a921ae75af52cda390e5c3d58832018"><param name="Name" value="switchToMenu"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af"><param name="Name" value="TEAM1"></OBJECT>
@@ -586,7 +596,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b1548563628c031ae9dfb3f2c565670182d9fc42d1"><param name="Name" value="TEAM2_BASECAMERA"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33"><param name="Name" value="TEAM"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#bad3ec96b54667a3b31efeb767c2b5bf5cd091e3da0d89b3f6de1513745349cf"><param name="Name" value="TIE_BREAK"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#9dd0507540af38f0d4e9fadc844af753"><param name="Name" value="TieBreakReferee"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#e52f0a6041fbfa267907502a5e39de19"><param name="Name" value="TieBreakReferee"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#e2af63b94116f3a8f16ffbbc4c99e88c"><param name="Name" value="toggleFullscreen"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8"><param name="Name" value="update"></OBJECT>
   <UL>
@@ -602,15 +612,15 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625"><param name="Name" value="~Arena"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_ball.html#a8367561399be9ac7c60aca0856c4f18"><param name="Name" value="~Ball"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_blobb.html#aaffcc92b3018f90adf6c7122f68a4cc"><param name="Name" value="~Blobb"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#acb8157b358edcaaf4e04904e01ce353"><param name="Name" value="~ClassicReferee"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_classic_referee.html#2ef0dbf6b66cb5409be756bd9d596ba9"><param name="Name" value="~ClassicReferee"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_controls.html#dab9a4a1b8f09104e23eaa4d98238a88"><param name="Name" value="~Controls"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_game.html#da216fab8bd9030c4b2e14249a81d344"><param name="Name" value="~Game"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_h_u_d.html#f8a93a636e4f9072ac051233ac35e239"><param name="Name" value="~HUD"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_keyboard_controls.html#bb55f0e57a7106b6a4c485ea0725bea9"><param name="Name" value="~KeyboardControls"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_menu.html#77e5d721e4a327fb0a7b13c52a0e7996"><param name="Name" value="~Menu"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#16b93584be53373b22a4f3822eb25736"><param name="Name" value="~ModelOptimizer"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_model_optimizer.html#ddd01c85d8e629618f44807d3a149f94"><param name="Name" value="~ModelOptimizer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_mouse_controls.html#9a406ac49789a5d0b36cc7cb7dba5c2f"><param name="Name" value="~MouseControls"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_referee.html#1367d12d13c388b26acb6c2c2bb7a00a"><param name="Name" value="~Referee"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_scene_loader.html#d544b6037ff9ec3e573443db99900202"><param name="Name" value="~SceneLoader"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#272ae860c5b5f021cda66eb7c9eb9e56"><param name="Name" value="~TieBreakReferee"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_b_v3_d_1_1_tie_break_referee.html#a3dbd5b054ce0c8f8015cd4b1d2e6de6"><param name="Name" value="~TieBreakReferee"></OBJECT>
 </UL>
