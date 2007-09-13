@@ -62,7 +62,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 
 	//background
 	VRS::SO<VRS::SceneThing> background = new VRS::SceneThing(beachScene);
-	background->append(getZolsky8Skybox());//getBrightDaySkybox());
+	background->append(getZolsky8Skybox());
 
 	//ground plane with sand bumpmap
 	VRS::SO<VRS::SceneThing> groundPlane = new VRS::SceneThing(beachScene);
@@ -303,15 +303,41 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadHeaven()
 	VRS::SO<VRS::Bumpmap> bumpmap = new VRS::Bumpmap(img1, light, -4.0);  
 	VRS::SO<VRS::Plane> plane = new VRS::Plane();
 	plane->setTextureTiling(7.0);
-	//groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, -bumpmapOffset)));
     groundPlane->append(bumpmap);
 	groundPlane->append(new VRS::ShapeMaterialGL(VRS::Color(0.6, 0.6, 0.6), VRS::Color(0.0), 128.0));
-	//groundPlane->append(new VRS::Disc(VRS::Vector(0.0, 0.0, 0.0), VRS::Vector(0.0, 1.0, 0.0), 200.0));
 	groundPlane->append(plane);
-	//groundPlane->append(new VRS::Translation(VRS::Vector(0.0, 0.0, bumpmapOffset)));
 	groundPlane->append(getFieldLines());
 
 	return heavenScene;
+}
+
+/**
+ * Returns a scene graph of a city by night with the blobbs playing on a miniature field on top of a concrete pillar.
+ */
+VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadCity()
+{
+	VRS::SO<VRS::SceneThing> cityScene = new VRS::SceneThing();
+	VRS::Vector extent = BV3D::ARENA_EXTENT;
+	double widthOffset = 2.0;
+	double depthOffset = 2.0;
+	VRS::Matrix vrsMatrix;
+
+	//background
+	VRS::SO<VRS::SceneThing> background = new VRS::SceneThing(cityScene);
+	background->append(getCityNightSkybox());
+
+	//ground plane
+	VRS::SO<VRS::SceneThing> groundBlock = new VRS::SceneThing(cityScene);
+	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "MetalBrushed.jpg");
+	
+	VRS::Matrix texMatrix = VRS::Matrix::scaling(VRS::Vector(4.0, 4.0, 4.0));
+	groundBlock->append(new VRS::ImageTexture2DGL(img1,	VRS::TextureGL::REPEAT, VRS::TextureGL::REPEAT, 
+		VRS::TextureGL::LINEAR, VRS::TextureGL::LINEAR, 1.0, texMatrix));
+	groundBlock->append(new VRS::Box(VRS::Vector((-extent[0]/2) - widthOffset, -extent[1], (-extent[2]/2) - depthOffset),
+			VRS::Vector((extent[0]/2) + widthOffset, 0.0, (extent[2]/2) + depthOffset)));
+	groundBlock->append(getFieldLines());
+
+	return cityScene;
 }
 
 /**
@@ -440,6 +466,25 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getZolsky9Skybox()
 	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "zolsky9/zolsky09_dn.jpg");
 	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "zolsky9/zolsky09_fr.jpg");
 	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "zolsky9/zolsky09_bk.jpg");
+	VRS::SO<VRS::ImageCubeMapTextureGL> cubemap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
+	VRS::SO<VRS::BackgroundGL> background = new VRS::BackgroundGL(cubemap);
+	VRS::SO<VRS::SceneThing> scene = new VRS::SceneThing();
+	scene->append(background);
+	return scene;
+}
+
+/**
+ *	512x512 skybox of a city square by night
+ */
+VRS::SO<VRS::SceneThing> BV3D::SceneLoader::getCityNightSkybox()
+{
+	VRS::SO<VRS::Array<VRS::SO<VRS::Image> > > cubemapImages = new VRS::Array<VRS::SO<VRS::Image> >(6);
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Right] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "arch_cubemap/arch_posx.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Left] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "arch_cubemap/arch_negx.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Top] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "arch_cubemap/arch_posy.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Bottom] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "arch_cubemap/arch_negy.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Front] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "arch_cubemap/arch_posz.jpg");
+	(*cubemapImages)[VRS::ImageCubeMapTextureGL::Back] = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "arch_cubemap/arch_negz.jpg");
 	VRS::SO<VRS::ImageCubeMapTextureGL> cubemap = new VRS::ImageCubeMapTextureGL(cubemapImages->newIterator());
 	VRS::SO<VRS::BackgroundGL> background = new VRS::BackgroundGL(cubemap);
 	VRS::SO<VRS::SceneThing> scene = new VRS::SceneThing();

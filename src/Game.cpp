@@ -163,6 +163,8 @@ void BV3D::Game::applyMenuSettings() {
 		mBackground = mSceneLoader->loadBeach();
 	else if(mMenu->getPlace()== BV3D::Menu::HEAVEN)
 		mBackground = mSceneLoader->loadHeaven();
+	else if(mMenu->getPlace() == BV3D::CITY)
+		mBackground = mSceneLoader->loadCity();
 	else
 		mBackground = mSceneLoader->loadArena();
 

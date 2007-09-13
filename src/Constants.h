@@ -15,7 +15,8 @@ namespace BV3D
 		enum SCENE {
 			BEACH,
 			ARENA,
-			HEAVEN
+			HEAVEN,
+			CITY
 		};
 
 		enum CAMERAPOSITION	{

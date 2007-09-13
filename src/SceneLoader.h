@@ -36,6 +36,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	loadBeach();
 		VRS::SO<VRS::SceneThing>	loadArena();
 		VRS::SO<VRS::SceneThing>	loadHeaven();
+		VRS::SO<VRS::SceneThing>	loadCity();
 
 	protected:
 		VRS::SO<VRS::Canvas>		mCanvas;
@@ -49,6 +50,7 @@ namespace BV3D
 		VRS::SO<VRS::SceneThing>	getZolsky6Skybox();
 		VRS::SO<VRS::SceneThing>	getZolsky8Skybox();
 		VRS::SO<VRS::SceneThing>	getZolsky9Skybox();
+		VRS::SO<VRS::SceneThing>	getCityNightSkybox();
 		VRS::SO<VRS::SceneThing>	getFieldLines();
 	};
 }
