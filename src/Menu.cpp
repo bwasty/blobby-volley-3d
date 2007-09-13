@@ -117,11 +117,11 @@ void BV3D::Menu::select(VRS::IntersectionInfo* info) {
 		mGame->playSoundTouch();
 		showMenu(GAME);}
 	else if(name.compare("P1Color")==0) {
-		mP1Color = (COLOR)((mP1Color+1) % MAX_COLORS);
+		do {mP1Color = (COLOR)((mP1Color+1) % MAX_COLORS);} while(mP1Color==mP2Color);
 		mGame->playSoundTouch();
 		showMenu(P1);}
 	else if(name.compare("P2Color")==0) {
-		mP2Color = (COLOR)((mP2Color+1) % MAX_COLORS);
+		do {mP2Color = (COLOR)((mP2Color+1) % MAX_COLORS);} while(mP1Color==mP2Color);
 		mGame->playSoundTouch();
 		showMenu(P2);}
 	else if(name.compare("P1Controls")==0) {
@@ -252,12 +252,7 @@ void BV3D::Menu::addText(const char* label, const char* command) {
 	mCurrentMenuScene->setLocalMatrix(matrix);
 }
 
-VRS::Color BV3D::Menu::getPlayer1Color() {
-	VRS::Color color = colors()[mP1Color];
-	return VRS::Color(color[0],color[1],color[2],BV3D::BLOBB_ALPHA);
-}
-
-VRS::Color BV3D::Menu::getPlayer2Color() {
-	VRS::Color color = colors()[mP2Color];
+VRS::Color BV3D::Menu::getColor(BV3D::TEAM team) {
+	VRS::Color color = colors()[(team) ? mP2Color : mP1Color];
 	return VRS::Color(color[0],color[1],color[2],BV3D::BLOBB_ALPHA);
 }

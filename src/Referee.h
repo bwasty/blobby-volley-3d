@@ -50,7 +50,7 @@ namespace BV3D
 		void setServingTeam(TEAM team) {mServingTeam = team;}
 		void setActive(bool b) {mActive = b;}
 		bool getActive() {return mActive;}
-		void setHUD(VRS::SO<HUD> hud) {mHud = hud;}
+		void setHUD(VRS::SO<HUD> hud);
 		void gameOver(TEAM winner);
 		bool isGameOver();
 

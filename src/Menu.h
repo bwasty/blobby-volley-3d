@@ -1,6 +1,7 @@
 #ifndef BV3D_MENU
 #define BV3D_MENU
 
+#include "Constants.h"
 #include <vrs/sharedobj.h>
 #include <vrs/color.h>
 
@@ -39,10 +40,8 @@ namespace BV3D
 		void showMainMenu(bool paused);
 
 	public:
-		CONTROLS getPlayer1Controls() {return mP1Controls;}
-		CONTROLS getPlayer2Controls() {return mP2Controls;}
-		VRS::Color getPlayer1Color();
-		VRS::Color getPlayer2Color();
+		CONTROLS getControls(BV3D::TEAM team) {return (team) ? mP2Controls : mP1Controls;}
+		VRS::Color getColor(BV3D::TEAM team);
 		RULES getRules() {return mRules;}
 		PLACE getPlace() {return mPlace;}
 

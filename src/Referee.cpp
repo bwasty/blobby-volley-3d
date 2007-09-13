@@ -117,6 +117,17 @@ void Referee::startNewGame()
 }
 
 /**
+ * associates a HUD with the Referee and refreshes the HUD display
+ * \param hud is the associated HUD
+ */
+void BV3D::Referee::setHUD(VRS::SO<HUD> hud)
+{
+	mHud = hud;
+	mHud->setScore(mScore[0],mScore[1],mServingTeam);
+}
+
+
+/**
  * Increases score of 'team' by 1
  */
 int Referee::increaseScore(TEAM team)

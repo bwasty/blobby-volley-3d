@@ -2,6 +2,7 @@
 #define BV3D_HUD
 
 #include <vrs/sharedobj.h>
+#include <vrs/color.h>
 
 namespace VRS {
 	template<class T> class SO;
@@ -15,10 +16,11 @@ namespace BV3D
 	class HUD : public VRS::SharedObj
 	{
 	public:
-		HUD();
+		HUD(VRS::Color colorPlayer1 = VRS::Color::red, VRS::Color colorPlayer2 = VRS::Color::green);
 		virtual ~HUD() {}
 		VRS::SO<VRS::SceneThing> getScene() {return mScene;}
 		void setScore(int scoreP1, int scoreP2, TEAM servingTeam);
+		void setColors(VRS::Color colorPlayer1, VRS::Color colorPlayer2);
 		void showWinner(TEAM winner);
 	private:
 		int		mScoreP1Index;
@@ -26,6 +28,8 @@ namespace BV3D
 		int		mServingIndex;
 		int		mWinnerIndex;
 		VRS::SO<VRS::SceneThing>	mScene;
+		VRS::Color	mP1Color;
+		VRS::Color	mP2Color;
 	};
 }
 

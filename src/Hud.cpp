@@ -12,7 +12,9 @@
 #include "Constants.h"
 #include <stdio.h>
 
-BV3D::HUD::HUD() {
+BV3D::HUD::HUD(VRS::Color colorPlayer1, VRS::Color colorPlayer2) {
+	setColors(colorPlayer1, colorPlayer2);
+
 	mScene =  new VRS::OverlayImageGL();
 	VRS::SO<VRS::OverlayImageGL> overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
 
@@ -20,6 +22,12 @@ BV3D::HUD::HUD() {
 	mScoreP2Index = -1;
 	mServingIndex = -1;
 	mWinnerIndex = -1;
+}
+
+void BV3D::HUD::setColors(VRS::Color colorPlayer1, VRS::Color colorPlayer2) {
+	// store colors internally without transparency
+	mP1Color = VRS::Color(colorPlayer1[0],colorPlayer1[1],colorPlayer1[2]);
+	mP2Color = VRS::Color(colorPlayer2[0],colorPlayer2[1],colorPlayer2[2]);
 }
 
 void BV3D::HUD::setScore(int scoreP1, int scoreP2, TEAM servingTeam) {
@@ -33,12 +41,12 @@ void BV3D::HUD::setScore(int scoreP1, int scoreP2, TEAM servingTeam) {
 	char buffer[5];
 	sprintf_s(buffer,4, "%d",scoreP1);
 	mScoreP1Index = overlay->addText(VRS::Font::searchFont("Arial Black (TrueType)", VRS::Font::TEXTURE, 150),
-		buffer,VRS::Vector(0.2,0.95),VRS::Vector(0.35,1.0),VRS::Text::LEFT,VRS::Text::TOP,VRS::Color(0.0,0.0,1.0));
+		buffer,VRS::Vector(0.2,0.95),VRS::Vector(0.35,1.0),VRS::Text::LEFT,VRS::Text::TOP,mP1Color);
 
 	// set up player 2 score
 	sprintf_s(buffer,4, "%d",scoreP2);
 	mScoreP2Index = overlay->addText(VRS::Font::searchFont("Arial Black (TrueType)", VRS::Font::TEXTURE, 150),
-		buffer,VRS::Vector(0.65,0.95),VRS::Vector(0.8,1.0),VRS::Text::LEFT,VRS::Text::TOP,VRS::Color(0.0,0.0,1.0));
+		buffer,VRS::Vector(0.65,0.95),VRS::Vector(0.8,1.0),VRS::Text::LEFT,VRS::Text::TOP,mP2Color);
 
 	// set up serving indicator
 	VRS::Vector servingMin, servingMax;

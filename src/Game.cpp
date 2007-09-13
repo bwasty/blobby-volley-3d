@@ -138,11 +138,11 @@ BV3D::Game::~Game() {
 }
 
 void BV3D::Game::applyMenuSettings() {
-	mBlobbArray->getElement(TEAM1)->setColor(mMenu->getPlayer1Color());
-	mBlobbArray->getElement(TEAM2)->setColor(mMenu->getPlayer2Color());
+	mBlobbArray->getElement(TEAM1)->setColor(mMenu->getColor(TEAM1));
+	mBlobbArray->getElement(TEAM2)->setColor(mMenu->getColor(TEAM2));
 
 	VRS::SO<Controls> controls = NULL;
-	switch(mMenu->getPlayer1Controls()) {
+	switch(mMenu->getControls(TEAM1)) {
 		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
 		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
 		case Menu::MOUSE:		controls = new MouseControls(); break;
@@ -154,7 +154,7 @@ void BV3D::Game::applyMenuSettings() {
 		mAI->disableAI(BV3D::TEAM1);
 
 	controls = NULL;
-	switch(mMenu->getPlayer2Controls()) {
+	switch(mMenu->getControls(TEAM2)) {
 		case Menu::KB_ARROWS:	controls = new KeyboardControls(); break;
 		case Menu::KB_WASDQ:	controls = new KeyboardControls(119,115,97,100,113); break;
 		case Menu::MOUSE:		controls = new MouseControls(); break;
@@ -191,7 +191,10 @@ void BV3D::Game::applyMenuSettings() {
 		newReferee->setServingTeam(mReferee->getServingTeam());
 	}
 	mReferee = newReferee;
-	mReferee->setHUD(mHud);
+
+	// store correct team colors in HUD
+	mHud->setColors(mMenu->getColor(TEAM1), mMenu->getColor(TEAM2));
+	mReferee->setHUD(mHud);	// associate HUD with referee and refresh HUD
 
 	// always put HUD at the very end of the scene graph to prevent it from getting covered!
 	if(mScene->contains(mHud->getScene()))
