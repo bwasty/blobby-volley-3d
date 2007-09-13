@@ -29,7 +29,7 @@ namespace BV3D
 			MAX_CAMERAS
 		};
 
-		static const VRS::Vector ARENA_EXTENT = VRS::Vector(16.0,20.0,7.0);
+		static const VRS::Vector ARENA_EXTENT = VRS::Vector(16.0,30.0,7.0);
 		static const double	NET_HEIGHT = 4.2;
 		static const double LINES_WIDTH = 0.2;
 		static const double BALL_RADIUS = 0.9;
