@@ -151,7 +151,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::NET_HEIGHT - height3ds, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)));
 	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	localNet->setLocalMatrix(netMatrix);
-	localNet->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "net1.3ds"));
+	localNet->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "net1.3ds"));
 
 	double poleRadius = 0.14;
 	mNet->append(new VRS::ShapeMaterialGL(VRS::Color(0.6,0.6,0.6,1.0)));

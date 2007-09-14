@@ -10,7 +10,7 @@
 /**
  * Loads a 3ds model with the given options and optimizes it
  */
-VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
+VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsObject(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
 {
 	mStaticLighting = useStaticLighting;
 	switch(readMode)		//setup 3dsReader according to readMode
@@ -36,6 +36,14 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsModel(const std::string &fi
 	}
 	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
 	return optimizeModel(VRS::ThreeDSReader::readObject(fileName));
+}
+
+VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsScene(const std::string &fileName)
+{
+	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);
+	VRS::ThreeDSReader::setTextureMode(VRS::ThreeDSReader::TRY_TEXTURES);
+	VRS::ThreeDSReader::setOptimizations(VRS::ThreeDSReader::EXCLUSIVE_OPENGL);
+	return optimizeModel(VRS::ThreeDSReader::readScene(fileName, "", false, false));
 }
 
 /**

@@ -163,9 +163,11 @@ void BV3D::Game::applyMenuSettings() {
 		mBackground = mSceneLoader->loadBeach();
 	else if(mMenu->getPlace()== BV3D::Menu::HEAVEN)
 		mBackground = mSceneLoader->loadHeaven();
-	else if(mMenu->getPlace() == BV3D::CITY)
+	else if(mMenu->getPlace() == BV3D::CITY){
 		mBackground = mSceneLoader->loadCity();
-	else
+		setCameraDistant(true);
+		switchCameraposition(mCurrentCameraPosition);
+	} else
 		mBackground = mSceneLoader->loadArena();
 
 	mScene->append(mBackground);
@@ -274,6 +276,7 @@ void BV3D::Game::processInput() {
 					break;
 				case VRS::Key::F8:
 					setCameraDistant(!isCameraDistant());
+					mNavigation->stopPath();
 					switchCameraposition(mCurrentCameraPosition);
 					break;
 				case VRS::Key::F9:
@@ -282,10 +285,12 @@ void BV3D::Game::processInput() {
 						mNavigation->setDuration(2.0);
 					else
 						mNavigation->setDuration(3.0);
+					mNavigation->stopPath();
 					switchCameraposition(mCurrentCameraPosition);
 					break;
 				case VRS::Key::F7:
 					setCameraHigher(!isCameraHigher());
+					mNavigation->stopPath();
 					switchCameraposition(mCurrentCameraPosition);
 					break;
 				case 112:	//'p' key
@@ -415,8 +420,10 @@ void BV3D::Game::playSoundWhistle() {
 /**
  * Initializes a camera animation to the specified cameraposition.
  * Animation style depends on weather setMovieStyleCamera is set to true.
- * In movie-style mode every time the camera moves, the game is paused, 
- * and the camera always takes the long way to a new camera position
+ *
+ * In movie-style mode every time the camera moves, the game is paused,
+ * and the camera always takes the long way to a new camera position.
+ * If you press the key for the current cameraposition again in movie mode, then it will rotate once around the whole field.
  */
 void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position) {
 	if (isCameraMovieStyle()){
@@ -448,7 +455,7 @@ void BV3D::Game::switchCameraposition(BV3D::CAMERAPOSITION position) {
 }
 
 /**
- * Returns the position vector of the given camera position, modified  
+ * Returns the position vector of the given camera position, modified
  * in case setCameraDistant and/or setCameraHigher were set to true.
  */
 VRS::Vector BV3D::Game::getPositionVector(BV3D::CAMERAPOSITION position) {
@@ -473,7 +480,7 @@ VRS::Vector BV3D::Game::getPositionVector(BV3D::CAMERAPOSITION position) {
 }
 
 /**
- * Returns the direction vector of the given camera position, modified 
+ * Returns the direction vector of the given camera position, modified
  * in case setCameraHigher was set to true.
  */
 VRS::Vector BV3D::Game::getDirectionVector(BV3D::CAMERAPOSITION position) {

@@ -75,7 +75,7 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 
 	//VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::NO_MATERIAL);
 	//mBlobb = VRS::ThreeDSReader::readObject(BV3D::MODELS_PATH + "blobb1.3ds");	// TODO: exception handling
-	mBlobb = mOptimizer->get3dsModel(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
+	mBlobb = mOptimizer->get3dsObject(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
 	mBlobbMaterial = new VRS::ShapeMaterialGL(VRS::Color(VRS::Color::blue), VRS::Color(0.5), 
 		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mBlobb->prepend(mBlobbMaterial);

@@ -81,7 +81,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	//palm trees
 	VRS::SO<VRS::SceneThing> palmModel = new VRS::SceneThing();
 	palmModel->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(scalPalm, scalPalm, scalPalm)));
-	palmModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "palmtrees1_mrealms.3ds"));
+	palmModel->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "palmtrees1_mrealms.3ds"));
 	VRS::SO<VRS::CullingSceneThing> palmScene = new VRS::CullingSceneThing(palmModel->boundingBox(mCanvas->engine()));
 	palmScene->append(palmModel);
 
@@ -111,7 +111,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	//yucca plants
 	VRS::SO<VRS::SceneThing> yuccaModel = new VRS::SceneThing();
 	yuccaModel->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(scalYucca2, scalYucca2, scalYucca2)));
-	yuccaModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "yucca_mrealms.3ds"));
+	yuccaModel->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "yucca_mrealms.3ds"));
 	VRS::SO<VRS::CullingSceneThing> yuccaScene = new VRS::CullingSceneThing(yuccaModel->boundingBox(mCanvas->engine()));
 	yuccaScene->append(yuccaModel);
 
@@ -126,7 +126,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	//yucca 2
 	VRS::SO<VRS::SceneThing> yucca2Model = new VRS::SceneThing();
 	yucca2Model->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(scalYucca2, scalYucca2, scalYucca2)));
-	yucca2Model->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "yucca2_mrealms.3ds"));
+	yucca2Model->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "yucca2_mrealms.3ds"));
 	VRS::SO<VRS::CullingSceneThing> yucca2Scene = new VRS::CullingSceneThing(yucca2Model->boundingBox(mCanvas->engine()));
 	yucca2Scene->append(yucca2Model);
 
@@ -139,7 +139,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	//garlic plant
 	VRS::SO<VRS::SceneThing> garlicModel = new VRS::SceneThing();
 	garlicModel->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(0.1, 0.1, 0.1)));
-	garlicModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "garlic_mrealms.3ds", true, BV3D::ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
+	garlicModel->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "garlic_mrealms.3ds", true, BV3D::ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
 	VRS::SO<VRS::CullingSceneThing> garlicScene = new VRS::CullingSceneThing(garlicModel->boundingBox(mCanvas->engine()));
 	garlicScene->append(garlicModel);
 
@@ -156,7 +156,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadBeach()
 	//beach hut
 	VRS::SO<VRS::SceneThing> beachHutModel = new VRS::SceneThing();
 	beachHutModel->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(0.03, 0.03, 0.03)));
-	beachHutModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "beach_hut_mrealms.3ds", true, BV3D::ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
+	beachHutModel->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "beach_hut_mrealms.3ds", true, BV3D::ModelOptimizer::ALL_AND_NO_OPTIMIZATIONS));
 	VRS::SO<VRS::CullingSceneThing> beachHutScene = new VRS::CullingSceneThing(beachHutModel->boundingBox(mCanvas->engine()));
 	beachHutScene->append(beachHutModel);
 
@@ -213,13 +213,13 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	//chainlink
 	VRS::SO<VRS::SceneThing> fenceModelBase = new VRS::SceneThing();
 	fenceModelBase->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(scalFenceBaseline, scalFenceHeight, scalFenceBaseline)));
-	fenceModelBase->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "chainlink_mrealms.3ds"));
+	fenceModelBase->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "chainlink_mrealms.3ds"));
 	VRS::SO<VRS::CullingSceneThing> fenceSceneBase = new VRS::CullingSceneThing(fenceModelBase->boundingBox(mCanvas->engine()));
 	fenceSceneBase->append(fenceModelBase);
 
 	VRS::SO<VRS::SceneThing> fenceModelSide = new VRS::SceneThing();
 	fenceModelSide->setLocalMatrix(VRS::Matrix::scaling(VRS::Vector(scalFenceSideline, scalFenceHeight, scalFenceSideline)));
-	fenceModelSide->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "chainlink_mrealms.3ds"));
+	fenceModelSide->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "chainlink_mrealms.3ds"));
 	VRS::SO<VRS::CullingSceneThing> fenceSceneSide = new VRS::CullingSceneThing(fenceModelSide->boundingBox(mCanvas->engine()));
 	fenceSceneSide->append(fenceModelSide);
 
@@ -258,7 +258,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadArena()
 	vrsMatrix = VRS::Matrix::scaling(VRS::Vector(scalStands, scalStands, scalStands));
 	standsModel->setLocalMatrix(vrsMatrix);
 	standsModel->append(new VRS::ShapeMaterialGL(VRS::Color(0.9, 0.9, 0.9)));
-	standsModel->append(mOptimizer->get3dsModel(BV3D::MODELS_PATH + "metal_stands_mrealms.3ds", true, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	standsModel->append(mOptimizer->get3dsObject(BV3D::MODELS_PATH + "metal_stands_mrealms.3ds", true, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 	VRS::SO<VRS::CullingSceneThing> standsScene = new VRS::CullingSceneThing(standsModel->boundingBox(mCanvas->engine()));
 	standsScene->append(standsModel);
 
@@ -318,8 +318,8 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadCity()
 {
 	VRS::SO<VRS::SceneThing> cityScene = new VRS::SceneThing();
 	VRS::Vector extent = BV3D::ARENA_EXTENT;
-	double widthOffset = 2.0;
-	double depthOffset = 2.0;
+	double widthOffset = 1.0;
+	double depthOffset = 1.5;
 	VRS::Matrix vrsMatrix;
 
 	//background
@@ -328,7 +328,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadCity()
 
 	//ground plane
 	VRS::SO<VRS::SceneThing> groundBlock = new VRS::SceneThing(cityScene);
-	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "MetalBrushed.jpg");
+	VRS::SO<VRS::Image> img1 = VRS_GuardedLoadObject(VRS::Image, BV3D::GRAFICS_PATH + "ConcreteSm.jpg");//"MetalBrushed.jpg");
 	
 	VRS::Matrix texMatrix = VRS::Matrix::scaling(VRS::Vector(4.0, 4.0, 4.0));
 	groundBlock->append(new VRS::ImageTexture2DGL(img1,	VRS::TextureGL::REPEAT, VRS::TextureGL::REPEAT, 
@@ -336,6 +336,17 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadCity()
 	groundBlock->append(new VRS::Box(VRS::Vector((-extent[0]/2) - widthOffset, -extent[1], (-extent[2]/2) - depthOffset),
 			VRS::Vector((extent[0]/2) + widthOffset, 0.0, (extent[2]/2) + depthOffset)));
 	groundBlock->append(getFieldLines());
+
+	//street sign
+	VRS::SO<VRS::SceneThing> streetSignModel = new VRS::SceneThing();
+	vrsMatrix = VRS::Matrix::scaling(VRS::Vector(0.3, 0.3, 0.3));
+	streetSignModel->setLocalMatrix(vrsMatrix);
+	streetSignModel->append(mOptimizer->get3dsScene(BV3D::MODELS_PATH + "D9_1_telephone_mrealms.3ds"));
+	VRS::SO<VRS::CullingSceneThing> streetSignScene = new VRS::CullingSceneThing(streetSignModel->boundingBox(mCanvas->engine()));
+	streetSignScene->append(streetSignModel);
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-4*extent[0], 0.0, 4*extent[0]));
+	streetSignScene->setLocalMatrix(vrsMatrix);
+	cityScene->append(streetSignScene);
 
 	return cityScene;
 }

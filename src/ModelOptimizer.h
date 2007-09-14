@@ -28,7 +28,8 @@ namespace BV3D
 				ALL_AND_NO_OPTIMIZATIONS
 		};
 
-		VRS::SO<VRS::SceneThing> get3dsModel(const std::string &fileName, bool useStaticLighting = true, ReadMode readMode=ONLY_MATERIAL);
+		VRS::SO<VRS::SceneThing> get3dsObject(const std::string &fileName, bool useStaticLighting = true, ReadMode readMode=ONLY_MATERIAL);
+		VRS::SO<VRS::SceneThing> get3dsScene(const std::string &fileName);
 		VRS::SO<VRS::SceneThing> getWavefrontModel(const std::string &fileName);
 
 	protected:

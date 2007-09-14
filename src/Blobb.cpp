@@ -37,11 +37,11 @@
 	mShapes = new VRS::Array<VRS::SO<VRS::SceneThing> >;
 	mShapes->clear();
 
-	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb2.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb3.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb4.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
-	mShapes->append(optimizer->get3dsModel(BV3D::MODELS_PATH + "blobb5.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "blobb2.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "blobb3.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "blobb4.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
+	mShapes->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "blobb5.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES));
 
 	mScene = new VRS::SceneThing();
 	mBlobbScene = new VRS::SceneThing();
