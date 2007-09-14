@@ -93,10 +93,12 @@
 The <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> class represents the box in which the Blobbs play <a class="el" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">Ball</a>. 
 <p>
 It is responsible for:<ul>
-<li>setting up valid bounds for the <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a></li><li>passing valid bounds for Blobbs and the <a class="el" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">Ball</a></li><li>creating the 3D shape - a topless box with transparent walls</li></ul>
+<li>creating the 3D shape - a topless box with transparent walls</li><li>holding the Newton world</li><li>dispatching information about relevant collisions</li></ul>
 <p>
-the <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> floor is centered at the origin the Net runs along the z-axis the individual fields run along the positive/negative x-axis the walls are transparent to see the play and still give some hint about <a class="el" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">Ball</a> collision the box is assumed to be topless, still the walls have a certain height that should prevent the ball from bouncing out 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00042">42</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<ul>
+<li>the <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> floor is centered at the origin</li><li>the Net runs along the z-axis</li><li>the individual fields run along the positive/negative x-axis</li><li>the walls are transparent to see the play and still give some hint about <a class="el" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">Ball</a> collision</li><li>the box is assumed to be topless, still the walls have a certain height that should prevent the ball from bouncing out </li></ul>
+
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00041">41</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="0893ebd9566eed8f68cab4b8b4fbcf75"></a><!-- doxytag: member="BV3D::Arena::Arena" ref="0893ebd9566eed8f68cab4b8b4fbcf75" args="(BV3D::Game *game)" -->
 <div class="memitem">
@@ -118,7 +120,7 @@ the <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class repr
 sets up an <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> with a predefined extent 
 <p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00025">25</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00030">BV3D::ARENA_EXTENT</a>, <a class="el" href="_arena_8cpp-source.html#l00209">createMaterials()</a>, and <a class="el" href="_arena_8cpp-source.html#l00060">setExtent()</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00023">BV3D::ARENA_EXTENT</a>, <a class="el" href="_arena_8cpp-source.html#l00207">createMaterials()</a>, and <a class="el" href="_arena_8cpp-source.html#l00060">setExtent()</a>.</p>
 
 </div>
 </div><p>
@@ -169,7 +171,7 @@ resizes the <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena cl
 
 <p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00060">60</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
 
-<p>References <a class="el" href="_constants_8h-source.html#l00030">BV3D::ARENA_EXTENT</a>, <a class="el" href="_constants_8h-source.html#l00040">BV3D::MODELS_PATH</a>, and <a class="el" href="_constants_8h-source.html#l00031">BV3D::NET_HEIGHT</a>.</p>
+<p>References <a class="el" href="_constants_8h-source.html#l00023">BV3D::ARENA_EXTENT</a>, <a class="el" href="_constants_8h-source.html#l00033">BV3D::MODELS_PATH</a>, and <a class="el" href="_constants_8h-source.html#l00024">BV3D::NET_HEIGHT</a>.</p>
 
 <p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00025">Arena()</a>.</p>
 
@@ -192,7 +194,7 @@ resizes the <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena cl
 
 <p>
 get the bounds of the whole arena 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00064">64</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00063">63</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -214,7 +216,7 @@ get the bounds of the whole arena
 
 <p>
 get the valid bounds for one of the blobbs 
-<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00195">195</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00193">193</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
 
 <p>References <a class="el" href="_constants_8h-source.html#l00008">BV3D::TEAM2</a>.</p>
 
@@ -237,7 +239,7 @@ get the valid bounds for one of the blobbs
 
 <p>
 get the local arena scene 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00074">74</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00073">73</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -264,7 +266,7 @@ perform physics simulation <dl compact><dt><b>Parameters:</b></dt><dd>
   </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00205">205</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00203">203</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -285,7 +287,7 @@ perform physics simulation <dl compact><dt><b>Parameters:</b></dt><dd>
 
 <p>
 return pointer to the Physics world 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00086">86</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00085">85</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -306,7 +308,7 @@ return pointer to the Physics world
 
 <p>
 create Newton material IDs 
-<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00209">209</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00207">207</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00025">Arena()</a>.</p>
 
@@ -329,9 +331,9 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00220">220</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8cpp-source.html#l00218">218</a> of file <a class="el" href="_arena_8cpp-source.html">Arena.cpp</a>.</p>
 
-<p>References <a class="el" href="_a_i_8cpp-source.html#l00049">BV3D::AI::AiCallback()</a>, <a class="el" href="_arena_8h-source.html#l00141">BV3D::CollisionData::arena</a>, <a class="el" href="_arena_8h-source.html#l00142">BV3D::CollisionData::ball</a>, <a class="el" href="_arena_8h-source.html#l00140">BV3D::CollisionData::game</a>, <a class="el" href="_arena_8h-source.html#l00138">BV3D::CollisionData::material1</a>, <a class="el" href="_arena_8h-source.html#l00139">BV3D::CollisionData::material2</a>, <a class="el" href="_arena_8h-source.html#l00143">BV3D::CollisionData::referee</a>, and <a class="el" href="_arena_8h-source.html#l00145">BV3D::CollisionData::world</a>.</p>
+<p>References <a class="el" href="_a_i_8cpp-source.html#l00050">BV3D::AI::AiCallback()</a>, <a class="el" href="_arena_8h-source.html#l00141">BV3D::CollisionData::arena</a>, <a class="el" href="_arena_8h-source.html#l00142">BV3D::CollisionData::ball</a>, <a class="el" href="_arena_8h-source.html#l00140">BV3D::CollisionData::game</a>, <a class="el" href="_arena_8h-source.html#l00138">BV3D::CollisionData::material1</a>, <a class="el" href="_arena_8h-source.html#l00139">BV3D::CollisionData::material2</a>, <a class="el" href="_arena_8h-source.html#l00143">BV3D::CollisionData::referee</a>, and <a class="el" href="_arena_8h-source.html#l00145">BV3D::CollisionData::world</a>.</p>
 
 </div>
 </div><p>
@@ -352,7 +354,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00098">98</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00097">97</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -373,7 +375,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00099">99</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00098">98</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -394,7 +396,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00100">100</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00099">99</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -415,7 +417,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00101">101</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00100">100</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -436,7 +438,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00102">102</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00101">101</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -457,7 +459,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00103">103</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00102">102</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -478,7 +480,7 @@ create Newton material IDs
 
 <p>
 
-<p>Definition at line <a class="el" href="_arena_8h-source.html#l00104">104</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
+<p>Definition at line <a class="el" href="_arena_8h-source.html#l00103">103</a> of file <a class="el" href="_arena_8h-source.html">Arena.h</a>.</p>
 
 </div>
 </div><p>
@@ -486,7 +488,7 @@ create Newton material IDs
 <li><a class="el" href="_arena_8h-source.html">Arena.h</a><li><a class="el" href="_arena_8cpp-source.html">Arena.cpp</a></ul>
 <!-- bottom line -->
 <address><small>
-  Generated on Fri Sep 14 01:38:12 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Fri Sep 14 16:59:33 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

@@ -13,7 +13,7 @@
 #include <vrs/opengl/shapematerialgl.h>
 #include <Newton.h>
 
-/*!
+/**
  \ctor
  \param arena specifies the arena in which the blobb is simulated
  */
@@ -114,7 +114,7 @@
 	setPosition(VRS::Vector(0.0,0.0,0.0));
 }
 
-/*!
+/**
  \dtor
  */
 BV3D::Blobb::~Blobb() {
@@ -127,7 +127,7 @@ BV3D::Blobb::~Blobb() {
 		NewtonDestroyBody(mArena->getWorld(), mBody);
 }
 
-/*!
+/**
  move blobb to specified position
  */
 void BV3D::Blobb::setPosition(VRS::Vector position) {

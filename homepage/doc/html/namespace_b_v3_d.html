@@ -52,7 +52,7 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The <a class="el" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> class represents the box in which the Blobbs play <a class="el" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">Ball</a>.  <a href="class_b_v3_d_1_1_arena.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_b_v3_d_1_1_collision_data.html">CollisionData</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Struct for aggregating all information needed to realize the gamelogic based on physical interaction callbacks. As the collision callbacks are static methods, the only way to connect them to the game logic is to store a pointer to user data (-&gt;<a class="el" href="struct_b_v3_d_1_1_collision_data.html" title="Struct for aggregating all information needed to realize the gamelogic based on physical...">CollisionData</a>) connected with a material pair. The user data can be queried in the callback.  <a href="struct_b_v3_d_1_1_collision_data.html#_details">More...</a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Struct for aggregating all information needed to realize the gamelogic based on physical interaction callbacks.  <a href="struct_b_v3_d_1_1_collision_data.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_ball.html">Ball</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Class for representing the ball and its physical body.  <a href="class_b_v3_d_1_1_ball.html#_details">More...</a><br></td></tr>
@@ -70,11 +70,13 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The <a class="el" href="class_b_v3_d_1_1_game.html" title="The Game class represents an instance of the BlobbyVolley3D game.">Game</a> class represents an instance of the BlobbyVolley3D game.  <a href="class_b_v3_d_1_1_game.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_h_u_d.html">HUD</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_b_v3_d_1_1_h_u_d.html" title="HUD represents the heads-up-display it is responsible for displaying the score, indicating...">HUD</a> represents the heads-up-display it is responsible for displaying the score, indicating the server and showing a win-message.  <a href="class_b_v3_d_1_1_h_u_d.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_keyboard_controls.html">KeyboardControls</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_b_v3_d_1_1_keyboard_controls.html" title="KeyboardControls is a sub-class of Controls for handling keyboard input for blobbs...">KeyboardControls</a> is a sub-class of <a class="el" href="class_b_v3_d_1_1_controls.html" title="Controls represents the abstract super class for handling user input for Blobbs.">Controls</a> for handling keyboard input for blobbs.  <a href="class_b_v3_d_1_1_keyboard_controls.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_menu.html">Menu</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_b_v3_d_1_1_menu.html" title="Menu implements the menu for Blobby Volley 3D.">Menu</a> implements the menu for Blobby Volley 3D.  <a href="class_b_v3_d_1_1_menu.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_v3_d_1_1_model_optimizer.html">ModelOptimizer</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Class for loading and optimizing external 3D-models, currently supporting .obj and .3ds files.  <a href="class_b_v3_d_1_1_model_optimizer.html#_details">More...</a><br></td></tr>
@@ -96,12 +98,6 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#be819f8b3335a1c1bab63feabab4d080">BV3D_ERROR</a> { <a class="el" href="namespace_b_v3_d.html#be819f8b3335a1c1bab63feabab4d080bee4089a7b6e67febf33644e98ad831b">NO_ERROR</a>, 
 <a class="el" href="namespace_b_v3_d.html#be819f8b3335a1c1bab63feabab4d080b13be40f866fea7f22f19ae680ed43e2">INVALID_PARAMETER</a>
- }</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda14">SCENE</a> { <a class="el" href="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda14c671209f3208b68371c0fadc6ef144cf">BEACH</a>, 
-<a class="el" href="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda142eb9eaaab0eeea9860c62dddfb94fdf6">ARENA</a>, 
-<a class="el" href="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda145575f43dee98538c58d2a5f50e3aba23">HEAVEN</a>, 
-<a class="el" href="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda14fc0d50591b9483dbb2831c2804e831e9">CITY</a>
  }</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#53f4ee54f3f131c1a40e95b154856362">CAMERAPOSITION</a> { <br>
@@ -147,6 +143,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">MAX_BALL_VELOCITY</a> = 20.0</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static const int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#b41d3a2581734901f3477d2eaa21bde3">MOUSE_MAX_DELTA</a> = 20</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7">SHADOW_HEIGHT</a> = 0.01</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static const double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">SHADOW_MAX_HEIGHT</a> = 20.0</td></tr>
@@ -158,10 +156,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static const float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_b_v3_d.html#59d912a9ff49cec1e135caba38788f59">BLOBB_SHAPE_DATA</a> [5][5]</td></tr>
 
 </table>
-<hr><a name="_details"></a><h2>Detailed Description</h2>
-<a class="el" href="class_b_v3_d_1_1_mouse_controls.html">BV3D::MouseControls</a> is a sub-class of <a class="el" href="class_b_v3_d_1_1_controls.html" title="Controls represents the abstract super class for handling user input for Blobbs.">BV3D::Controls</a> for handling mouse input for blobbs.<p>
-basic movement requests are implicitly bound to mouse movement (ie: mouse move to the right -&gt; move right). a jump button can be set to be any of the mouse buttons.<p>
-since mouse movement is an event, all events in a single frame are stored until they are evaluated by the <a class="el" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">Blobb</a>. that is, even if the mouse stopped moving long before the frame ended, the previous movement request will be stored. after the <a class="el" href="class_b_v3_d_1_1_blobb.html" title="Represents the players in BlobbyVolley3D.">Blobb</a> received the requests, the internal requests are cleared. this ensures that mouse input only affects the current frame. <hr><h2>Enumeration Type Documentation</h2>
+<hr><h2>Enumeration Type Documentation</h2>
 <a class="anchor" name="be819f8b3335a1c1bab63feabab4d080"></a><!-- doxytag: member="BV3D::BV3D_ERROR" ref="be819f8b3335a1c1bab63feabab4d080" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -214,35 +209,6 @@ since mouse movement is an event, all events in a single frame are stored until 
 </table>
 </dl>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00022">22</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="61e176fc2eb3da54600ee43e19ccda14"></a><!-- doxytag: member="BV3D::SCENE" ref="61e176fc2eb3da54600ee43e19ccda14" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="namespace_b_v3_d.html#61e176fc2eb3da54600ee43e19ccda14">BV3D::SCENE</a>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-<dl compact><dt><b>Enumerator: </b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" name="61e176fc2eb3da54600ee43e19ccda14c671209f3208b68371c0fadc6ef144cf"></a><!-- doxytag: member="BEACH" ref="61e176fc2eb3da54600ee43e19ccda14c671209f3208b68371c0fadc6ef144cf" args="" -->BEACH</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="61e176fc2eb3da54600ee43e19ccda142eb9eaaab0eeea9860c62dddfb94fdf6"></a><!-- doxytag: member="ARENA" ref="61e176fc2eb3da54600ee43e19ccda142eb9eaaab0eeea9860c62dddfb94fdf6" args="" -->ARENA</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="61e176fc2eb3da54600ee43e19ccda145575f43dee98538c58d2a5f50e3aba23"></a><!-- doxytag: member="HEAVEN" ref="61e176fc2eb3da54600ee43e19ccda145575f43dee98538c58d2a5f50e3aba23" args="" -->HEAVEN</em>&nbsp;</td><td>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" name="61e176fc2eb3da54600ee43e19ccda14fc0d50591b9483dbb2831c2804e831e9"></a><!-- doxytag: member="CITY" ref="61e176fc2eb3da54600ee43e19ccda14fc0d50591b9483dbb2831c2804e831e9" args="" -->CITY</em>&nbsp;</td><td>
-</td></tr>
-</table>
-</dl>
-
 <p>Definition at line <a class="el" href="_constants_8h-source.html#l00015">15</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 </div>
@@ -286,9 +252,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00030">30</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00023">23</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00042">BV3D::AI::aiServe()</a>, <a class="el" href="_arena_8cpp-source.html#l00025">BV3D::Arena::Arena()</a>, <a class="el" href="_a_i_8cpp-source.html#l00019">BV3D::AI::enableAI()</a>, <a class="el" href="_game_8cpp-source.html#l00036">BV3D::Game::Game()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00033">BV3D::SceneLoader::getFieldLines()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00175">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00055">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00317">BV3D::SceneLoader::loadCity()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00289">BV3D::SceneLoader::loadHeaven()</a>, <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>, and <a class="el" href="_game_8cpp-source.html#l00349">BV3D::Game::switchToGame()</a>.</p>
+<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00043">BV3D::AI::aiServe()</a>, <a class="el" href="_arena_8cpp-source.html#l00025">BV3D::Arena::Arena()</a>, <a class="el" href="_a_i_8cpp-source.html#l00020">BV3D::AI::enableAI()</a>, <a class="el" href="_game_8cpp-source.html#l00034">BV3D::Game::Game()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00033">BV3D::SceneLoader::getFieldLines()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00175">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00055">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00317">BV3D::SceneLoader::loadCity()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00289">BV3D::SceneLoader::loadHeaven()</a>, <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>, and <a class="el" href="_game_8cpp-source.html#l00344">BV3D::Game::switchToGame()</a>.</p>
 
 </div>
 </div><p>
@@ -305,7 +271,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00033">33</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00026">26</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00017">BV3D::Ball::Ball()</a>.</p>
 
@@ -324,9 +290,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00035">35</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00028">28</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_menu_8cpp-source.html#l00255">BV3D::Menu::getColor()</a>, and <a class="el" href="_menu_8cpp-source.html#l00139">BV3D::Menu::showMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_menu_8cpp-source.html#l00294">BV3D::Menu::getColor()</a>, and <a class="el" href="_menu_8cpp-source.html#l00164">BV3D::Menu::showMenu()</a>.</p>
 
 </div>
 </div><p>
@@ -343,7 +309,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00039">39</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00032">32</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>.</p>
 
@@ -362,9 +328,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00034">34</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00027">27</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00019">BV3D::AI::enableAI()</a>, and <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>.</p>
+<p>Referenced by <a class="el" href="_a_i_8cpp-source.html#l00020">BV3D::AI::enableAI()</a>, and <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>.</p>
 
 </div>
 </div><p>
@@ -381,7 +347,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00036">36</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00029">29</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00219">BV3D::Blobb::getMovement()</a>.</p>
 
@@ -400,7 +366,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00037">37</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00030">30</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>.</p>
 
@@ -419,7 +385,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00038">38</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00031">31</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00219">BV3D::Blobb::getMovement()</a>.</p>
 
@@ -444,7 +410,7 @@ since mouse movement is an event, all events in a single frame are stored until 
                         {0.65f+0.1f, 1.1f, 1.1f, 0.9f, 1.0f},
                         {0.5f+0.1f, 1.2f, 1.0f, 0.9f, 0.9f} }
 </pre></div>
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00056">56</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00050">50</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_blobb_8cpp-source.html#l00133">BV3D::Blobb::setPosition()</a>, and <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>.</p>
 
@@ -463,9 +429,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00041">41</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00034">34</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00403">BV3D::SceneLoader::getBrightDaySkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00479">BV3D::SceneLoader::getCityNightSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00384">BV3D::SceneLoader::getHotDesertSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00365">BV3D::SceneLoader::getIslandsSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00346">BV3D::SceneLoader::getWaterscapeSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00422">BV3D::SceneLoader::getZolsky6Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00441">BV3D::SceneLoader::getZolsky8Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00460">BV3D::SceneLoader::getZolsky9Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00175">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00055">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00317">BV3D::SceneLoader::loadCity()</a>, and <a class="el" href="_scene_loader_8cpp-source.html#l00289">BV3D::SceneLoader::loadHeaven()</a>.</p>
+<p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00414">BV3D::SceneLoader::getBrightDaySkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00490">BV3D::SceneLoader::getCityNightSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00395">BV3D::SceneLoader::getHotDesertSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00376">BV3D::SceneLoader::getIslandsSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00357">BV3D::SceneLoader::getWaterscapeSkybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00433">BV3D::SceneLoader::getZolsky6Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00452">BV3D::SceneLoader::getZolsky8Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00471">BV3D::SceneLoader::getZolsky9Skybox()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00175">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00055">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00317">BV3D::SceneLoader::loadCity()</a>, and <a class="el" href="_scene_loader_8cpp-source.html#l00289">BV3D::SceneLoader::loadHeaven()</a>.</p>
 
 </div>
 </div><p>
@@ -482,9 +448,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00050">50</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00044">44</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00095">BV3D::Ball::update()</a>.</p>
+<p>Referenced by <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00094">BV3D::Ball::update()</a>.</p>
 
 </div>
 </div><p>
@@ -501,7 +467,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00032">32</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00025">25</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_scene_loader_8cpp-source.html#l00033">BV3D::SceneLoader::getFieldLines()</a>.</p>
 
@@ -520,9 +486,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00044">44</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00037">37</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00036">BV3D::Game::Game()</a>, <a class="el" href="_game_8cpp-source.html#l00479">BV3D::Game::getDirectionVector()</a>, and <a class="el" href="_game_8cpp-source.html#l00454">BV3D::Game::getPositionVector()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00034">BV3D::Game::Game()</a>, <a class="el" href="_game_8cpp-source.html#l00476">BV3D::Game::getDirectionVector()</a>, and <a class="el" href="_game_8cpp-source.html#l00451">BV3D::Game::getPositionVector()</a>.</p>
 
 </div>
 </div><p>
@@ -539,9 +505,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00043">43</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00036">36</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00036">BV3D::Game::Game()</a>, and <a class="el" href="_game_8cpp-source.html#l00479">BV3D::Game::getDirectionVector()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00034">BV3D::Game::Game()</a>, and <a class="el" href="_game_8cpp-source.html#l00476">BV3D::Game::getDirectionVector()</a>.</p>
 
 </div>
 </div><p>
@@ -558,9 +524,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00045">45</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00038">38</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00095">BV3D::Ball::update()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00094">BV3D::Ball::update()</a>.</p>
 
 </div>
 </div><p>
@@ -577,7 +543,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00051">51</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00045">45</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_game_8cpp-source.html#l00204">BV3D::Game::update()</a>.</p>
 
@@ -596,9 +562,28 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00040">40</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00033">33</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00017">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00175">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00055">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_menu_8cpp-source.html#l00039">BV3D::Menu::Menu()</a>, and <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00017">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00175">BV3D::SceneLoader::loadArena()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00055">BV3D::SceneLoader::loadBeach()</a>, <a class="el" href="_scene_loader_8cpp-source.html#l00317">BV3D::SceneLoader::loadCity()</a>, <a class="el" href="_menu_8cpp-source.html#l00030">BV3D::Menu::Menu()</a>, and <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="b41d3a2581734901f3477d2eaa21bde3"></a><!-- doxytag: member="BV3D::MOUSE_MAX_DELTA" ref="b41d3a2581734901f3477d2eaa21bde3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int <a class="el" href="namespace_b_v3_d.html#b41d3a2581734901f3477d2eaa21bde3">BV3D::MOUSE_MAX_DELTA</a> = 20<code> [static]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00039">39</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+
+<p>Referenced by <a class="el" href="_mouse_controls_8cpp-source.html#l00011">BV3D::MouseControls::processInput()</a>.</p>
 
 </div>
 </div><p>
@@ -615,7 +600,7 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00031">31</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00024">24</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_arena_8cpp-source.html#l00060">BV3D::Arena::setExtent()</a>.</p>
 
@@ -634,9 +619,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00047">47</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00041">41</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00017">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_ball_8cpp-source.html#l00063">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00133">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00095">BV3D::Ball::update()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00017">BV3D::Ball::Ball()</a>, <a class="el" href="_blobb_8cpp-source.html#l00020">BV3D::Blobb::Blobb()</a>, <a class="el" href="_ball_8cpp-source.html#l00063">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00133">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00094">BV3D::Ball::update()</a>.</p>
 
 </div>
 </div><p>
@@ -653,9 +638,9 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00048">48</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00042">42</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00063">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00133">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00095">BV3D::Ball::update()</a>.</p>
+<p>Referenced by <a class="el" href="_ball_8cpp-source.html#l00063">BV3D::Ball::resetPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00133">BV3D::Blobb::setPosition()</a>, <a class="el" href="_blobb_8cpp-source.html#l00248">BV3D::Blobb::update()</a>, and <a class="el" href="_ball_8cpp-source.html#l00094">BV3D::Ball::update()</a>.</p>
 
 </div>
 </div><p>
@@ -672,15 +657,15 @@ since mouse movement is an event, all events in a single frame are stored until 
 
 <p>
 
-<p>Definition at line <a class="el" href="_constants_8h-source.html#l00042">42</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
+<p>Definition at line <a class="el" href="_constants_8h-source.html#l00035">35</a> of file <a class="el" href="_constants_8h-source.html">Constants.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00396">BV3D::Game::setupSound()</a>.</p>
+<p>Referenced by <a class="el" href="_game_8cpp-source.html#l00391">BV3D::Game::setupSound()</a>.</p>
 
 </div>
 </div><p>
 <!-- bottom line -->
 <address><small>
-  Generated on Fri Sep 14 01:38:12 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Fri Sep 14 16:59:33 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

@@ -1,23 +1,23 @@
 #include "Arena.h"
-#include <time.h>
-#include <vrs/opengl/shapematerialgl.h>
-#include <vrs/container/fixedsizeiterator.h>
-#include <vrs/polygonset.h>
-#include <vrs/sg/scenething.h>
-#include <vrs/facestyle.h>
-#include <vrs/cylinder.h>
-#include <vrs/cone.h>
-#include <vrs/translation.h>
-#include <vrs/box.h>
-#include <vrs/io/threedsreader.h>
-
-#include <Newton.h>
 #include "Ball.h"
 #include "Referee.h"
 #include "Game.h"
 #include "Blobb.h"
 #include "ModelOptimizer.h"
 #include "AI.h"
+
+#include <time.h>
+#include <vrs/facestyle.h>
+#include <vrs/cylinder.h>
+#include <vrs/cone.h>
+#include <vrs/translation.h>
+#include <vrs/box.h>
+#include <vrs/polygonset.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/container/fixedsizeiterator.h>
+#include <vrs/sg/scenething.h>
+
+#include <Newton.h>
 
 /**
  * sets up an Arena with a predefined extent
@@ -35,7 +35,7 @@ BV3D::Arena::Arena(BV3D::Game* game) {
 	mMaterial = new VRS::ShapeMaterialGL(VRS::Color(0.9,0.9,0.9,0.2));
 	mScene->append(mMaterial);
 
-	mScene->append(new VRS::FaceStyle(VRS::FaceStyle::Filled,VRS::FaceStyle::Culled));
+	mScene->append(new VRS::FaceStyle(VRS::FaceStyle::Filled, VRS::FaceStyle::Culled));
 
 	mWalls = new VRS::PolygonSet(VRS::PolygonSet::QuadStrip,mWallsVertices);
 	mScene->append(mWalls);
@@ -94,11 +94,9 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	matrix[12] = 0.0;
 	matrix[13] = (dFloat) -(wallDepth / 2);
 	matrix[14] = 0.0;
-	//collision[0] = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
 	NewtonCollision* floorCollision = NewtonCreateBox(mWorld, (dFloat)extent.get(0), wallDepth, (dFloat)extent.get(2), matrix);
 	mFloor = NewtonCreateBody(mWorld, floorCollision);
 	NewtonBodySetMaterialGroupID(mFloor, mFloorMaterialID);
-	//NewtonBodySetContinuousCollisionMode(mFloor, 0);
 	NewtonReleaseCollision(mWorld, floorCollision);
 
 	// create wall bounding the arena on the positive z axis
@@ -140,7 +138,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	/* net1.3ds
 		width: 12.0		height: 2.1		depth: 0.14
 	*/
-	VRS::SO<ModelOptimizer> optimizer = new ModelOptimizer();
+	VRS::SO<BV3D::ModelOptimizer> optimizer = new BV3D::ModelOptimizer();
 	double width3ds = 12.0;
 	double height3ds = 2.1;
 	VRS::SO<VRS::SceneThing> localNet = new VRS::SceneThing(mNet);
@@ -149,7 +147,7 @@ void BV3D::Arena::setExtent(VRS::Vector extent) {
 	VRS::Bounds netBoxBounds = VRS::Bounds(VRS::Vector(netDepth, BV3D::NET_HEIGHT/2+0.1, BV3D::ARENA_EXTENT[2]/2+0.1), VRS::Vector(-netDepth, BV3D::NET_HEIGHT-0.05, -(BV3D::ARENA_EXTENT[2]/2+0.1)));
 	VRS::Matrix netMatrix = VRS::Matrix::rotation(VRS::Vector(0.0, 1.0, 0.0), VRS::Vector(0.0, 0.0, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)), -90.0);
 	netMatrix = netMatrix * VRS::Matrix::translation(VRS::Vector(0.0, BV3D::NET_HEIGHT - height3ds, -(BV3D::ARENA_EXTENT[2]/2 + poleOffset)));
-	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+	netMatrix = netMatrix * VRS::Matrix::scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	localNet->setLocalMatrix(netMatrix);
 	localNet->append(optimizer->get3dsObject(BV3D::MODELS_PATH + "net1.3ds"));
 

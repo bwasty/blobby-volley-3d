@@ -41,62 +41,84 @@
 <a name="l00013"></a>00013 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00014"></a>00014 
 <a name="l00015"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#9b0a61243fec408aec0334e3d3536362">00015</a> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#9b0a61243fec408aec0334e3d3536362">BV3D::HUD::HUD</a>(VRS::Color colorPlayer1, VRS::Color colorPlayer2) {
-<a name="l00016"></a>00016         <a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">setColors</a>(colorPlayer1, colorPlayer2);
-<a name="l00017"></a>00017 
-<a name="l00018"></a>00018         mScene =  <span class="keyword">new</span> VRS::OverlayImageGL();
-<a name="l00019"></a>00019         VRS::SO&lt;VRS::OverlayImageGL&gt; overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
-<a name="l00020"></a>00020 
-<a name="l00021"></a>00021         mScoreP1Index = -1;
-<a name="l00022"></a>00022         mScoreP2Index = -1;
-<a name="l00023"></a>00023         mServingIndex = -1;
-<a name="l00024"></a>00024         mWinnerIndex = -1;
+<a name="l00016"></a>00016         <span class="comment">// set default indices</span>
+<a name="l00017"></a>00017         mScoreP1Index = -1;
+<a name="l00018"></a>00018         mScoreP2Index = -1;
+<a name="l00019"></a>00019         mServingIndex = -1;
+<a name="l00020"></a>00020         mWinnerIndex = -1;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022         mScene = <span class="keyword">new</span> VRS::OverlayImageGL();
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024         <a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">setColors</a>(colorPlayer1, colorPlayer2);
 <a name="l00025"></a>00025 }
 <a name="l00026"></a>00026 
-<a name="l00027"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">00027</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">BV3D::HUD::setColors</a>(VRS::Color colorPlayer1, VRS::Color colorPlayer2) {
-<a name="l00028"></a>00028         <span class="comment">// store colors internally without transparency</span>
-<a name="l00029"></a>00029         mP1Color = VRS::Color(colorPlayer1[0],colorPlayer1[1],colorPlayer1[2]);
-<a name="l00030"></a>00030         mP2Color = VRS::Color(colorPlayer2[0],colorPlayer2[1],colorPlayer2[2]);
-<a name="l00031"></a>00031 }
-<a name="l00032"></a>00032 
-<a name="l00033"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">00033</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">BV3D::HUD::setScore</a>(<span class="keywordtype">int</span> scoreP1, <span class="keywordtype">int</span> scoreP2, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> servingTeam) {
-<a name="l00034"></a>00034         VRS::SO&lt;VRS::OverlayImageGL&gt; overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
-<a name="l00035"></a>00035         <span class="keywordflow">if</span>(mScoreP1Index&gt;=0) overlay-&gt;removeOverlayItem(mScoreP1Index);
-<a name="l00036"></a>00036         <span class="keywordflow">if</span>(mScoreP2Index&gt;=0) overlay-&gt;removeOverlayItem(mScoreP2Index);
-<a name="l00037"></a>00037         <span class="keywordflow">if</span>(mServingIndex&gt;=0) overlay-&gt;removeOverlayItem(mServingIndex);
-<a name="l00038"></a>00038         <span class="keywordflow">if</span>(mWinnerIndex&gt;=0) overlay-&gt;removeOverlayItem(mWinnerIndex);
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040         <span class="comment">// set up player 1 score</span>
-<a name="l00041"></a>00041         <span class="keywordtype">char</span> buffer[5];
-<a name="l00042"></a>00042         sprintf_s(buffer,4, <span class="stringliteral">"%d"</span>,scoreP1);
-<a name="l00043"></a>00043         mScoreP1Index = overlay-&gt;addText(VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150),
-<a name="l00044"></a>00044                 buffer,VRS::Vector(0.2,0.95),VRS::Vector(0.35,1.0),VRS::Text::LEFT,VRS::Text::TOP,mP1Color);
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046         <span class="comment">// set up player 2 score</span>
-<a name="l00047"></a>00047         sprintf_s(buffer,4, <span class="stringliteral">"%d"</span>,scoreP2);
-<a name="l00048"></a>00048         mScoreP2Index = overlay-&gt;addText(VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150),
-<a name="l00049"></a>00049                 buffer,VRS::Vector(0.65,0.95),VRS::Vector(0.8,1.0),VRS::Text::LEFT,VRS::Text::TOP,mP2Color);
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051         <span class="comment">// set up serving indicator</span>
-<a name="l00052"></a>00052         VRS::Vector servingMin, servingMax;
-<a name="l00053"></a>00053         <span class="keywordflow">if</span>(servingTeam==<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">TEAM1</a>) {
-<a name="l00054"></a>00054                 servingMin = VRS::Vector(0.10,0.95); servingMax = VRS::Vector(0.15,1.0);}
-<a name="l00055"></a>00055         <span class="keywordflow">else</span> <span class="keywordflow">if</span>(servingTeam==<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">TEAM2</a>) {
-<a name="l00056"></a>00056                 servingMin = VRS::Vector(0.85,0.95); servingMax = VRS::Vector(0.9,1.0);}
-<a name="l00057"></a>00057         mServingIndex = overlay-&gt;addText(VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150),
-<a name="l00058"></a>00058                 <span class="stringliteral">"!"</span>,servingMin,servingMax,VRS::Text::LEFT,VRS::Text::TOP,VRS::Color(0.8,0.0,0.0));
-<a name="l00059"></a>00059 }
-<a name="l00060"></a>00060 
-<a name="l00061"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1">00061</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1">BV3D::HUD::showWinner</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> winner) {
-<a name="l00062"></a>00062         <span class="keywordtype">char</span> buffer[15];
-<a name="l00063"></a>00063         sprintf_s(buffer,15, <span class="stringliteral">"Player %d wins!"</span>,(<span class="keywordtype">int</span>)winner+1);
-<a name="l00064"></a>00064         VRS::SO&lt;VRS::OverlayImageGL&gt; overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
-<a name="l00065"></a>00065         <span class="keywordflow">if</span>(mWinnerIndex&gt;=0) overlay-&gt;removeOverlayItem(mWinnerIndex);
-<a name="l00066"></a>00066         mWinnerIndex = overlay-&gt;addText(VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150),
-<a name="l00067"></a>00067                 buffer,VRS::Vector(0.1,0.45),VRS::Vector(0.9,0.65),VRS::Text::LEFT,VRS::Text::CENTER_V,VRS::Color(0.0,0.0,1.0));
-<a name="l00068"></a>00068 }
+<a name="l00027"></a>00027 
+<a name="l00032"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">00032</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#643b1e67f67af31d12c1c0c8e39a7278">BV3D::HUD::setColors</a>(VRS::Color colorPlayer1, VRS::Color colorPlayer2) {
+<a name="l00033"></a>00033         <span class="comment">// store colors internally without transparency</span>
+<a name="l00034"></a>00034         mP1Color = VRS::Color(colorPlayer1[0],colorPlayer1[1],colorPlayer1[2]);
+<a name="l00035"></a>00035         mP2Color = VRS::Color(colorPlayer2[0],colorPlayer2[1],colorPlayer2[2]);
+<a name="l00036"></a>00036 }
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 
+<a name="l00045"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">00045</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">BV3D::HUD::setScore</a>(<span class="keywordtype">int</span> scoreP1, <span class="keywordtype">int</span> scoreP2, <a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> servingTeam) {
+<a name="l00046"></a>00046         VRS::SO&lt;VRS::OverlayImageGL&gt; overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048         <span class="comment">// remove current HUD items</span>
+<a name="l00049"></a>00049         <span class="keywordflow">if</span>(mScoreP1Index&gt;=0)
+<a name="l00050"></a>00050                 overlay-&gt;removeOverlayItem(mScoreP1Index);
+<a name="l00051"></a>00051         <span class="keywordflow">if</span>(mScoreP2Index&gt;=0)
+<a name="l00052"></a>00052                 overlay-&gt;removeOverlayItem(mScoreP2Index);
+<a name="l00053"></a>00053         <span class="keywordflow">if</span>(mServingIndex&gt;=0)
+<a name="l00054"></a>00054                 overlay-&gt;removeOverlayItem(mServingIndex);
+<a name="l00055"></a>00055         <span class="keywordflow">if</span>(mWinnerIndex&gt;=0)
+<a name="l00056"></a>00056                 overlay-&gt;removeOverlayItem(mWinnerIndex);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058         <span class="comment">// construct player 1 score string and add text to the overlay</span>
+<a name="l00059"></a>00059         <span class="keywordtype">char</span> buffer[5];
+<a name="l00060"></a>00060         sprintf_s(buffer,4, <span class="stringliteral">"%d"</span>,scoreP1);
+<a name="l00061"></a>00061         mScoreP1Index = overlay-&gt;addText(
+<a name="l00062"></a>00062                 VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150), buffer,
+<a name="l00063"></a>00063                 VRS::Vector(0.2,0.95),VRS::Vector(0.35,1.0),VRS::Text::LEFT,VRS::Text::TOP,mP1Color);
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065         <span class="comment">// construct player 2 score string and add text to the overlay</span>
+<a name="l00066"></a>00066         sprintf_s(buffer,4, <span class="stringliteral">"%d"</span>,scoreP2);
+<a name="l00067"></a>00067         mScoreP2Index = overlay-&gt;addText(
+<a name="l00068"></a>00068                 VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150), buffer,
+<a name="l00069"></a>00069                 VRS::Vector(0.65,0.95),VRS::Vector(0.8,1.0),VRS::Text::LEFT,VRS::Text::TOP,mP2Color);
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071         <span class="comment">// set up serving indicator</span>
+<a name="l00072"></a>00072         VRS::Vector servingMin, servingMax;     <span class="comment">// left-lower and right-upper corner for indicator</span>
+<a name="l00073"></a>00073         <span class="keywordflow">if</span>(servingTeam==<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33d09e85e6f59c08bc7b3a3d5bb0bf04af">TEAM1</a>) {        <span class="comment">// display indicator to the left of player 1 score</span>
+<a name="l00074"></a>00074                 servingMin = VRS::Vector(0.10,0.95); servingMax = VRS::Vector(0.15,1.0);
+<a name="l00075"></a>00075         }
+<a name="l00076"></a>00076         <span class="keywordflow">else</span> <span class="keywordflow">if</span>(servingTeam==<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b3345971865607150184ec749bad83a63bd">TEAM2</a>) {   <span class="comment">// display indicator to the left of player 2 score</span>
+<a name="l00077"></a>00077                 servingMin = VRS::Vector(0.85,0.95); servingMax = VRS::Vector(0.9,1.0);
+<a name="l00078"></a>00078         }
+<a name="l00079"></a>00079         mServingIndex = overlay-&gt;addText(
+<a name="l00080"></a>00080                 VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150), <span class="stringliteral">"!"</span>,
+<a name="l00081"></a>00081                 servingMin,servingMax, VRS::Text::LEFT, VRS::Text::TOP, VRS::Color(0.8,0.0,0.0));
+<a name="l00082"></a>00082 }
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 
+<a name="l00088"></a><a class="code" href="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1">00088</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_h_u_d.html#81e3c0577097ba175aa4b6aac97f5ed1">BV3D::HUD::showWinner</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">TEAM</a> winner) {
+<a name="l00089"></a>00089         <span class="comment">// construct message</span>
+<a name="l00090"></a>00090         <span class="keywordtype">char</span> buffer[15];
+<a name="l00091"></a>00091         sprintf_s(buffer,15, <span class="stringliteral">"Player %d wins!"</span>,(<span class="keywordtype">int</span>)winner+1);
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093         VRS::SO&lt;VRS::OverlayImageGL&gt; overlay = VRS_Cast(VRS::OverlayImageGL, mScene);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095         <span class="keywordflow">if</span>(mWinnerIndex&gt;=0)                                     <span class="comment">// remove previous message if necessary</span>
+<a name="l00096"></a>00096                 overlay-&gt;removeOverlayItem(mWinnerIndex);
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098         <span class="comment">// add message to overlay using winner color</span>
+<a name="l00099"></a>00099         mWinnerIndex = overlay-&gt;addText(
+<a name="l00100"></a>00100                 VRS::Font::searchFont(<span class="stringliteral">"Arial Black (TrueType)"</span>, VRS::Font::TEXTURE, 150), buffer,
+<a name="l00101"></a>00101                 VRS::Vector(0.1,0.45), VRS::Vector(0.9,0.65), VRS::Text::LEFT, VRS::Text::CENTER_V,
+<a name="l00102"></a>00102                 (winner) ? mP2Color : mP1Color);
+<a name="l00103"></a>00103 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Fri Sep 14 01:38:11 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Fri Sep 14 16:59:31 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

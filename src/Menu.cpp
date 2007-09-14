@@ -3,37 +3,31 @@
 #include "Constants.h"
 #include "ModelOptimizer.h"
 
-#include <vrs/sg/scenething.h>
 #include <vrs/camera.h>
-#include <vrs/perspective.h>
 #include <vrs/ambientlight.h>
 #include <vrs/pointlight.h>
-#include <vrs/opengl/transparencytechniquegl.h>
-#include <vrs/opengl/shadowtechniquegl.h>
 #include <vrs/shadowed.h>
 #include <vrs/shadowcaster.h>
-#include <vrs/vector.h>
-#include <vrs/opengl/shapematerialgl.h>
 #include <vrs/font.h>
 #include <vrs/text.h>
 #include <vrs/box.h>
 #include <vrs/translation.h>
 #include <vrs/scaling.h>
 #include <vrs/rotation.h>
-#include <vrs/io/filedataresource.h>
-#include <vrs/io/wavefrontreader.h>
-#include <vrs/io/threedsreader.h>
-#include <vrs/sg/pickingcallback.h>
 #include <vrs/methodcallback.h>
 #include <vrs/intersectioninfo.h>
+#include <vrs/opengl/transparencytechniquegl.h>
+#include <vrs/opengl/shadowtechniquegl.h>
+#include <vrs/opengl/shapematerialgl.h>
+#include <vrs/sg/scenething.h>
+#include <vrs/sg/pickingcallback.h>
 #include <stdio.h>
-
 
 /**
  * \ctor
  * \param game is the Game that is associated with the Menu
  */
-BV3D::Menu::Menu(VRS::SO<Game> game) {
+BV3D::Menu::Menu(VRS::SO<BV3D::Game> game) {
 	// set default values
 	mGame = game;
 	mOptimizer = new ModelOptimizer();
@@ -43,7 +37,7 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mMenuHitBoxMaterial = 0;
 
 	// init settings
-	mPlace = CITY;
+	mPlace = BEACH;
 	mRules = TIE_BREAK;
 	mFullscreen = OFF;
 	mP1Color = RED;
@@ -72,7 +66,7 @@ BV3D::Menu::Menu(VRS::SO<Game> game) {
 	mCurrentMenuScene = new VRS::SceneThing(mScene);	// just create an empty scene for the menu screens
 
 	// load Blobb model and set up subscene for the Blobb
-	mBlobb = mOptimizer->get3dsObject(BV3D::MODELS_PATH + "blobb1.3ds", false, ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
+	mBlobb = mOptimizer->get3dsObject(BV3D::MODELS_PATH + "blobb1.3ds", false, BV3D::ModelOptimizer::NO_MATERIAL_NO_TEXTURES);
 	mBlobbMaterial = new VRS::ShapeMaterialGL(VRS::Color(VRS::Color::blue), VRS::Color(0.5), 
 		4.0, VRS::ShapeMaterialGL::AmbientAndDiffuse, VRS::Color(1.0), VRS::Color(0.5), VRS::Color(0.0), true);
 	mBlobb->prepend(mBlobbMaterial);

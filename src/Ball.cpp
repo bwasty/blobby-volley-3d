@@ -85,8 +85,7 @@ VRS::Vector BV3D::Ball::getPosition() {
 }
 
 void BV3D::Ball::applyForceAndTorqueCallback(const NewtonBody* body) {
-	// TODO: use c++/vrs cast
-	BV3D::Ball* ball = (BV3D::Ball*)NewtonBodyGetUserData(body);
+	BV3D::Ball* ball = static_cast<BV3D::Ball*>(NewtonBodyGetUserData(body));
 
 	if (ball)
 		ball->update();

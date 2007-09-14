@@ -59,66 +59,66 @@
 <a name="l00024"></a>00024         <span class="keyword">class </span>Referee;
 <a name="l00025"></a>00025         <span class="keyword">class </span>Blobb;
 <a name="l00026"></a>00026 
-<a name="l00042"></a><a class="code" href="class_b_v3_d_1_1_arena.html">00042</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> : <span class="keyword">public</span> VRS::SharedObj {
-<a name="l00043"></a>00043         <span class="keyword">public</span>:
-<a name="l00047"></a>00047                 <a class="code" href="class_b_v3_d_1_1_arena.html#0893ebd9566eed8f68cab4b8b4fbcf75">Arena</a>(<a class="code" href="class_b_v3_d_1_1_game.html" title="The Game class represents an instance of the BlobbyVolley3D game.">BV3D::Game</a>* game);
-<a name="l00048"></a>00048 
-<a name="l00052"></a>00052                 <a class="code" href="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625">~Arena</a>();
-<a name="l00053"></a>00053 
-<a name="l00059"></a>00059                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">setExtent</a>(VRS::Vector extent);
-<a name="l00060"></a>00060 
-<a name="l00064"></a><a class="code" href="class_b_v3_d_1_1_arena.html#156404f78bb9842cdb8c88b7467eaf0d">00064</a>                 VRS::Bounds <a class="code" href="class_b_v3_d_1_1_arena.html#156404f78bb9842cdb8c88b7467eaf0d">getBounds</a>() {<span class="keywordflow">return</span> mBounds;}
-<a name="l00065"></a>00065 
-<a name="l00069"></a>00069                 VRS::Bounds <a class="code" href="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294">getTeamBounds</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team);
-<a name="l00070"></a>00070 
-<a name="l00074"></a><a class="code" href="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e">00074</a>                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e">getScene</a>() {<span class="keywordflow">return</span> mScene;}
-<a name="l00075"></a>00075 
-<a name="l00076"></a>00076                 <span class="comment">// Physics</span>
-<a name="l00081"></a>00081 <span class="comment"></span>                <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">updateWorld</a>(<span class="keywordtype">float</span> timestep);
-<a name="l00082"></a>00082 
-<a name="l00086"></a><a class="code" href="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139">00086</a>                 NewtonWorld* <a class="code" href="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139">getWorld</a>() {<span class="keywordflow">return</span> mWorld;}
-<a name="l00087"></a>00087 
-<a name="l00091"></a>00091                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">createMaterials</a>();
-<a name="l00092"></a>00092 
-<a name="l00093"></a>00093                 <span class="comment">/*</span>
-<a name="l00094"></a>00094 <span class="comment">                 * sets physical material properties (e.g. elasticity) and collision callbacks for specific material pairs</span>
-<a name="l00095"></a>00095 <span class="comment">                 */</span>
-<a name="l00096"></a>00096                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">setupMaterials</a>();
-<a name="l00097"></a>00097 
-<a name="l00098"></a><a class="code" href="class_b_v3_d_1_1_arena.html#1a73181cb5628c0ae6537b3017d4306a">00098</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#1a73181cb5628c0ae6537b3017d4306a">getBallMaterialID</a>() {<span class="keywordflow">return</span> mBallMaterialID;}
-<a name="l00099"></a><a class="code" href="class_b_v3_d_1_1_arena.html#bbf9812d04f32192e1514fbb8ee1d193">00099</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#bbf9812d04f32192e1514fbb8ee1d193">getBlobbMaterialID</a>() {<span class="keywordflow">return</span> mBlobbMaterialID;}
-<a name="l00100"></a><a class="code" href="class_b_v3_d_1_1_arena.html#52da5c69f71edc9b68107d637e6497cc">00100</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#52da5c69f71edc9b68107d637e6497cc">getWallMaterialID</a>() {<span class="keywordflow">return</span> mWallMaterialID;}
-<a name="l00101"></a><a class="code" href="class_b_v3_d_1_1_arena.html#e508d33592a64a20303b22f64c841576">00101</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#e508d33592a64a20303b22f64c841576">getFloorMaterialID</a>() {<span class="keywordflow">return</span> mFloorMaterialID;}
-<a name="l00102"></a><a class="code" href="class_b_v3_d_1_1_arena.html#1e55f71a1c69de52b9d299ae30482d69">00102</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#1e55f71a1c69de52b9d299ae30482d69">getNetMaterialID</a>() {<span class="keywordflow">return</span> mNetMaterialID;}
-<a name="l00103"></a><a class="code" href="class_b_v3_d_1_1_arena.html#5ce8c7a4e7ebb63d6d29af23c9ed9534">00103</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#5ce8c7a4e7ebb63d6d29af23c9ed9534">getInvisibleBarrierID</a>() {<span class="keywordflow">return</span> mInvisibleBarrierID;}
-<a name="l00104"></a><a class="code" href="class_b_v3_d_1_1_arena.html#d687770fd3f3dacc39df887e57778527">00104</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#d687770fd3f3dacc39df887e57778527">getAiTriggerID</a>(){<span class="keywordflow">return</span> mAiTriggerID;}
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106         <span class="keyword">private</span>:
-<a name="l00107"></a>00107                 VRS::SO&lt;VRS::SceneThing&gt;                mScene;                         <span class="comment">// local arena scene (walls)</span>
-<a name="l00108"></a>00108                 VRS::SO&lt;VRS::FixedSizeIterator&lt;VRS::Vector&gt; &gt;   mWallsVertices; <span class="comment">// vertices for walls</span>
-<a name="l00109"></a>00109                 VRS::SO&lt;VRS::ShapeMaterialGL&gt;   mMaterial;                      <span class="comment">// wall material</span>
-<a name="l00110"></a>00110                 VRS::SO&lt;VRS::PolygonSet&gt;                mWalls;                         <span class="comment">// walls shape</span>
-<a name="l00111"></a>00111                 VRS::Bounds                                             mBounds;                        <span class="comment">// bounds of the Arena box</span>
-<a name="l00112"></a>00112                 VRS::SO&lt;VRS::SceneThing&gt;                mNet;
-<a name="l00113"></a>00113                 VRS::SO&lt;BV3D::Game&gt;                             mGame;
-<a name="l00114"></a>00114 
-<a name="l00115"></a>00115                 <span class="comment">// Physics</span>
-<a name="l00116"></a>00116                 NewtonWorld*    mWorld;         <span class="comment">// physics world</span>
-<a name="l00117"></a>00117                 NewtonBody*             mBody;          <span class="comment">// physical arena walls</span>
-<a name="l00118"></a>00118                 NewtonBody*             mFloor;         <span class="comment">// physical arena floor</span>
-<a name="l00119"></a>00119 
-<a name="l00120"></a>00120                 <span class="keywordtype">int</span> mBallMaterialID;
-<a name="l00121"></a>00121                 <span class="keywordtype">int</span> mBlobbMaterialID;
-<a name="l00122"></a>00122                 <span class="keywordtype">int</span> mWallMaterialID;
-<a name="l00123"></a>00123                 <span class="keywordtype">int</span> mFloorMaterialID;
-<a name="l00124"></a>00124                 <span class="keywordtype">int</span> mNetMaterialID;
-<a name="l00125"></a>00125                 <span class="keywordtype">int</span> mInvisibleBarrierID;
-<a name="l00126"></a>00126                 <span class="keywordtype">int</span> mAiTriggerID;
-<a name="l00127"></a>00127 
-<a name="l00128"></a>00128                 <span class="keyword">static</span> <span class="keywordtype">int</span> blobbContactBeginCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonBody* body0, <span class="keyword">const</span> NewtonBody* body1);
-<a name="l00129"></a>00129                 <span class="keyword">static</span> <span class="keywordtype">int</span> contactProcessCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonContact* contact);
-<a name="l00130"></a>00130         };
-<a name="l00131"></a>00131 
+<a name="l00041"></a><a class="code" href="class_b_v3_d_1_1_arena.html">00041</a>         <span class="keyword">class </span><a class="code" href="class_b_v3_d_1_1_arena.html" title="The Arena class represents the box in which the Blobbs play Ball.">Arena</a> : <span class="keyword">public</span> VRS::SharedObj {
+<a name="l00042"></a>00042         <span class="keyword">public</span>:
+<a name="l00046"></a>00046                 <a class="code" href="class_b_v3_d_1_1_arena.html#0893ebd9566eed8f68cab4b8b4fbcf75">Arena</a>(<a class="code" href="class_b_v3_d_1_1_game.html" title="The Game class represents an instance of the BlobbyVolley3D game.">BV3D::Game</a>* game);
+<a name="l00047"></a>00047 
+<a name="l00051"></a>00051                 <a class="code" href="class_b_v3_d_1_1_arena.html#d77ae78a8af3d90d30cb66407e6aa625">~Arena</a>();
+<a name="l00052"></a>00052 
+<a name="l00058"></a>00058                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#6cfd472e33e825a1a079606061b86960">setExtent</a>(VRS::Vector extent);
+<a name="l00059"></a>00059 
+<a name="l00063"></a><a class="code" href="class_b_v3_d_1_1_arena.html#156404f78bb9842cdb8c88b7467eaf0d">00063</a>                 VRS::Bounds <a class="code" href="class_b_v3_d_1_1_arena.html#156404f78bb9842cdb8c88b7467eaf0d">getBounds</a>() {<span class="keywordflow">return</span> mBounds;}
+<a name="l00064"></a>00064 
+<a name="l00068"></a>00068                 VRS::Bounds <a class="code" href="class_b_v3_d_1_1_arena.html#05d78a2977c8cec463681bcd2b639294">getTeamBounds</a>(<a class="code" href="namespace_b_v3_d.html#710b8aa44c0c4f2ea6f76d9bce2d3b33">BV3D::TEAM</a> team);
+<a name="l00069"></a>00069 
+<a name="l00073"></a><a class="code" href="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e">00073</a>                 VRS::SO&lt;VRS::SceneThing&gt; <a class="code" href="class_b_v3_d_1_1_arena.html#4595e7e56f898bcc6d7fac7dde66d35e">getScene</a>() {<span class="keywordflow">return</span> mScene;}
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075                 <span class="comment">// Physics</span>
+<a name="l00080"></a>00080 <span class="comment"></span>                <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#ec7acf5822fa6e21d3e46082921e903d">updateWorld</a>(<span class="keywordtype">float</span> timestep);
+<a name="l00081"></a>00081 
+<a name="l00085"></a><a class="code" href="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139">00085</a>                 NewtonWorld* <a class="code" href="class_b_v3_d_1_1_arena.html#bab27b33f98532666e80d47287ceb139">getWorld</a>() {<span class="keywordflow">return</span> mWorld;}
+<a name="l00086"></a>00086 
+<a name="l00090"></a>00090                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#010d7b2283e8b192e9d69ef845ddda64">createMaterials</a>();
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092                 <span class="comment">/*</span>
+<a name="l00093"></a>00093 <span class="comment">                 * sets physical material properties (e.g. elasticity) and collision callbacks for specific material pairs</span>
+<a name="l00094"></a>00094 <span class="comment">                 */</span>
+<a name="l00095"></a>00095                 <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_arena.html#7e63a0380bd41f5bd8a91a2205f1a660">setupMaterials</a>();
+<a name="l00096"></a>00096 
+<a name="l00097"></a><a class="code" href="class_b_v3_d_1_1_arena.html#1a73181cb5628c0ae6537b3017d4306a">00097</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#1a73181cb5628c0ae6537b3017d4306a">getBallMaterialID</a>() {<span class="keywordflow">return</span> mBallMaterialID;}
+<a name="l00098"></a><a class="code" href="class_b_v3_d_1_1_arena.html#bbf9812d04f32192e1514fbb8ee1d193">00098</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#bbf9812d04f32192e1514fbb8ee1d193">getBlobbMaterialID</a>() {<span class="keywordflow">return</span> mBlobbMaterialID;}
+<a name="l00099"></a><a class="code" href="class_b_v3_d_1_1_arena.html#52da5c69f71edc9b68107d637e6497cc">00099</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#52da5c69f71edc9b68107d637e6497cc">getWallMaterialID</a>() {<span class="keywordflow">return</span> mWallMaterialID;}
+<a name="l00100"></a><a class="code" href="class_b_v3_d_1_1_arena.html#e508d33592a64a20303b22f64c841576">00100</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#e508d33592a64a20303b22f64c841576">getFloorMaterialID</a>() {<span class="keywordflow">return</span> mFloorMaterialID;}
+<a name="l00101"></a><a class="code" href="class_b_v3_d_1_1_arena.html#1e55f71a1c69de52b9d299ae30482d69">00101</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#1e55f71a1c69de52b9d299ae30482d69">getNetMaterialID</a>() {<span class="keywordflow">return</span> mNetMaterialID;}
+<a name="l00102"></a><a class="code" href="class_b_v3_d_1_1_arena.html#5ce8c7a4e7ebb63d6d29af23c9ed9534">00102</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#5ce8c7a4e7ebb63d6d29af23c9ed9534">getInvisibleBarrierID</a>() {<span class="keywordflow">return</span> mInvisibleBarrierID;}
+<a name="l00103"></a><a class="code" href="class_b_v3_d_1_1_arena.html#d687770fd3f3dacc39df887e57778527">00103</a>                 <span class="keywordtype">int</span> <a class="code" href="class_b_v3_d_1_1_arena.html#d687770fd3f3dacc39df887e57778527">getAiTriggerID</a>(){<span class="keywordflow">return</span> mAiTriggerID;}
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105         <span class="keyword">private</span>:
+<a name="l00106"></a>00106                 VRS::SO&lt;VRS::SceneThing&gt;                mScene;                         <span class="comment">// local arena scene (walls)</span>
+<a name="l00107"></a>00107                 VRS::SO&lt;VRS::FixedSizeIterator&lt;VRS::Vector&gt; &gt;   mWallsVertices; <span class="comment">// vertices for walls</span>
+<a name="l00108"></a>00108                 VRS::SO&lt;VRS::ShapeMaterialGL&gt;   mMaterial;                      <span class="comment">// wall material</span>
+<a name="l00109"></a>00109                 VRS::SO&lt;VRS::PolygonSet&gt;                mWalls;                         <span class="comment">// walls shape</span>
+<a name="l00110"></a>00110                 VRS::Bounds                                             mBounds;                        <span class="comment">// bounds of the Arena box</span>
+<a name="l00111"></a>00111                 VRS::SO&lt;VRS::SceneThing&gt;                mNet;
+<a name="l00112"></a>00112                 VRS::SO&lt;BV3D::Game&gt;                             mGame;
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114                 <span class="comment">// Physics</span>
+<a name="l00115"></a>00115                 NewtonWorld*    mWorld;         <span class="comment">// physics world</span>
+<a name="l00116"></a>00116                 NewtonBody*             mBody;          <span class="comment">// physical arena walls</span>
+<a name="l00117"></a>00117                 NewtonBody*             mFloor;         <span class="comment">// physical arena floor</span>
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119                 <span class="keywordtype">int</span> mBallMaterialID;
+<a name="l00120"></a>00120                 <span class="keywordtype">int</span> mBlobbMaterialID;
+<a name="l00121"></a>00121                 <span class="keywordtype">int</span> mWallMaterialID;
+<a name="l00122"></a>00122                 <span class="keywordtype">int</span> mFloorMaterialID;
+<a name="l00123"></a>00123                 <span class="keywordtype">int</span> mNetMaterialID;
+<a name="l00124"></a>00124                 <span class="keywordtype">int</span> mInvisibleBarrierID;
+<a name="l00125"></a>00125                 <span class="keywordtype">int</span> mAiTriggerID;
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127                 <span class="keyword">static</span> <span class="keywordtype">int</span> blobbContactBeginCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonBody* body0, <span class="keyword">const</span> NewtonBody* body1);
+<a name="l00128"></a>00128                 <span class="keyword">static</span> <span class="keywordtype">int</span> contactProcessCallback(<span class="keyword">const</span> NewtonMaterial* material, <span class="keyword">const</span> NewtonContact* contact);
+<a name="l00129"></a>00129         };
+<a name="l00130"></a>00130 
 <a name="l00137"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html">00137</a>         <span class="keyword">struct </span><a class="code" href="struct_b_v3_d_1_1_collision_data.html" title="Struct for aggregating all information needed to realize the gamelogic based on physical...">CollisionData</a> {
 <a name="l00138"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">00138</a>                 <span class="keywordtype">int</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html#24cbfa70aeb746ef955cd2dc0e76ff95">material1</a>;
 <a name="l00139"></a><a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">00139</a>                 <span class="keywordtype">int</span> <a class="code" href="struct_b_v3_d_1_1_collision_data.html#aa13584360cc9f398922664ea627140d">material2</a>;
@@ -135,7 +135,7 @@
 <a name="l00150"></a>00150 <span class="preprocessor">#endif  //BV3D_ARENA</span>
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Fri Sep 14 01:38:10 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Fri Sep 14 16:59:31 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

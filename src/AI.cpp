@@ -1,14 +1,15 @@
 #include "AI.h"
 #include "Game.h"
 #include "Blobb.h"
-#include <Newton.h>
 #include "Referee.h"
 #include "Ball.h"
 #include "Arena.h"
-#include <time.h>
 
-BV3D::AI::AI(BV3D::Game* game) {
-	srand((int)time(0)); // because AI uses random numbers to select between a number of possible reactions
+#include <time.h>
+#include <Newton.h>
+
+BV3D::AI::AI(VRS::SO<BV3D::Game> game) {
+	srand((int)time(0));	// because AI uses random numbers to select between a number of possible reactions
 	mGame = game;
 	mAiTriggerBody[0] = mAiTriggerBody[1] = NULL;
 }

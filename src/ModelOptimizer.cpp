@@ -8,7 +8,7 @@
 #include <vrs/cache.h>
 
 /**
- * Loads a 3ds model with the given options and optimizes it
+ * Loads the first 3ds object in the given file with the given options and optimizes it
  */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsObject(const std::string &fileName, bool useStaticLighting, ReadMode readMode)
 {
@@ -38,6 +38,9 @@ VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsObject(const std::string &f
 	return optimizeModel(VRS::ThreeDSReader::readObject(fileName));
 }
 
+/**
+ * Loads complete 3ds-scene out of the given file and optimizes it
+ */
 VRS::SO<VRS::SceneThing> BV3D::ModelOptimizer::get3dsScene(const std::string &fileName)
 {
 	VRS::ThreeDSReader::setMaterialMode(VRS::ThreeDSReader::ALL_BUT_CULLING_MATERIAL);

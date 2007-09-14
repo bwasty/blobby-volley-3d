@@ -98,10 +98,8 @@ namespace BV3D
 		bool								mUseMovieStyleCamera;
 		bool								mIsPaused;
 		bool								mIsCameraAnimating;
-		int									mIFramerate;		// frame counter to allow frame rate checking
 		int									mFrameCount;		// total frame count
-		double								mDLastSecond;		// auxiliary variable for frame rate checking
-		double								mDLastUpdateTime;	// auxiliary variable for frame stepping
+		double								mLastUpdateTime;	// auxiliary variable for frame stepping
 		BV3D::CAMERAPOSITION				mCurrentCameraPosition;
 		FMOD::System						*mFmodSystem;
 		FMOD::Sound							*soundTouch, *soundWhistle;

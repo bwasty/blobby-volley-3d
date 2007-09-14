@@ -58,7 +58,7 @@ namespace BV3D
 		enum FULLSCREEN {OFF,ON};
 
 	public:
-		Menu(VRS::SO<Game> game);
+		Menu(VRS::SO<BV3D::Game> game);
 
 		/**
 		 * \dtor
@@ -108,7 +108,7 @@ namespace BV3D
 		static const char** controls() {
 			static const char* controlz[] = {"Arrows+Space", "WASD+Q", "Mouse", "Computer"}; return controlz;}
 		/**<
-		 * places(), rules(), fullscreen(), colors() and controls() return references to static arrays of strings
+		 * places(), rules(), fullscreen() and controls() return references to static arrays of strings
 		 * holding the text for the menu items for the correspong options
 		 */
 
@@ -120,25 +120,25 @@ namespace BV3D
 				VRS::Color::yellow, VRS::Color::coral, VRS::Color::cyan}; return colorz;}
 
 	private:
-		bool		mGameIsPaused;		// indicates whether the game is over or just paused
-		PLACE		mPlace;				// holds the currently selected environment
-		RULES		mRules;				// holds the currently selected scoring rules type
-		FULLSCREEN	mFullscreen;		// indicates whether the game is run in fullscreen or not
-		COLOR		mP1Color, mP2Color;	// hold the currently selected colors for the Blobbs
+		bool		mGameIsPaused;				// indicates whether the game is over or just paused
+		PLACE		mPlace;						// holds the currently selected environment
+		RULES		mRules;						// holds the currently selected scoring rules type
+		FULLSCREEN	mFullscreen;				// indicates whether the game is run in fullscreen or not
+		COLOR		mP1Color, mP2Color;			// hold the currently selected colors for the Blobbs
 		CONTROLS	mP1Controls, mP2Controls;	// hold the currently selected controls for the Blobbs
 
 	private:
-		VRS::SO<Game>	mGame;							// the associated Game
-		VRS::SO<ModelOptimizer>		mOptimizer;			// the optimizer for external 3D models
-		VRS::SO<VRS::SceneThing>	mScene;				// the local menu scene
-		VRS::SO<VRS::SceneThing>	mCurrentMenuScene;	// a sub-scene holding just the menu items
-		VRS::SO<VRS::SceneThing>	mBallScene;			// a sub-scene holding just the ball in the background
-		VRS::SO<VRS::Font>			mFont;				// the Font used for the menu items
+		VRS::SO<BV3D::Game>				mGame;				// the associated Game
+		VRS::SO<ModelOptimizer>			mOptimizer;			// the optimizer for external 3D models
+		VRS::SO<VRS::SceneThing>		mScene;				// the local menu scene
+		VRS::SO<VRS::SceneThing>		mCurrentMenuScene;	// a sub-scene holding just the menu items
+		VRS::SO<VRS::SceneThing>		mBallScene;			// a sub-scene holding just the ball in the background
+		VRS::SO<VRS::Font>				mFont;				// the Font used for the menu items
 		VRS::SO<VRS::ShapeMaterialGL>	mMenuTextMaterial;	// material settings for the menu items
-		VRS::SO<VRS::ShapeMaterialGL>	mMenuHitBoxMaterial;	// material settings for the menu items hitboxes
-		VRS::SO<VRS::PointLight>	mLight;				// light to shine on the menu scene
-		VRS::SO<VRS::SceneThing>	mBlobb;				// sub-scene for the Blobb shown with the color menu item
-		VRS::SO<VRS::ShapeMaterialGL>	mBlobbMaterial;	// material settings for the Blobb
+		VRS::SO<VRS::ShapeMaterialGL>	mMenuHitBoxMaterial;// material settings for the menu items hitboxes
+		VRS::SO<VRS::PointLight>		mLight;				// light to shine on the menu scene
+		VRS::SO<VRS::SceneThing>		mBlobb;				// sub-scene for the Blobb shown with the color menu item
+		VRS::SO<VRS::ShapeMaterialGL>	mBlobbMaterial;		// material settings for the Blobb
 		VRS::SO<VRS::PickingCallback>	mPickingCallback;	// used to capture menu item activation (mouse clicks)
 	};
 }

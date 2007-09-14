@@ -120,61 +120,60 @@
 <a name="l00085"></a>00085 }
 <a name="l00086"></a>00086 
 <a name="l00087"></a><a class="code" href="class_b_v3_d_1_1_ball.html#a47dbb4bbfc3b12d800af6cbfaae5cc6">00087</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_ball.html#a47dbb4bbfc3b12d800af6cbfaae5cc6">BV3D::Ball::applyForceAndTorqueCallback</a>(<span class="keyword">const</span> NewtonBody* body) {
-<a name="l00088"></a>00088         <span class="comment">// TODO: use c++/vrs cast</span>
-<a name="l00089"></a>00089         <a class="code" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">BV3D::Ball</a>* ball = (<a class="code" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">BV3D::Ball</a>*)NewtonBodyGetUserData(body);
-<a name="l00090"></a>00090 
-<a name="l00091"></a>00091         <span class="keywordflow">if</span> (ball)
-<a name="l00092"></a>00092                 ball-&gt;<a class="code" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">update</a>();
-<a name="l00093"></a>00093 }
-<a name="l00094"></a>00094 
-<a name="l00095"></a><a class="code" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">00095</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">BV3D::Ball::update</a>() {
-<a name="l00096"></a>00096         dFloat Ixx, Iyy, Izz, mass;
-<a name="l00097"></a>00097 
-<a name="l00098"></a>00098         dFloat force[3];
-<a name="l00099"></a>00099         NewtonBodyGetForce(mBody, force);
-<a name="l00100"></a>00100 
-<a name="l00101"></a>00101         <span class="comment">// apply gravitational force</span>
-<a name="l00102"></a>00102         NewtonBodyGetMassMatrix(mBody, &amp;mass, &amp;Ixx, &amp;Iyy, &amp;Izz);
-<a name="l00103"></a>00103         dFloat gravitation[3] = {0.0f, (dFloat) (-<a class="code" href="namespace_b_v3_d.html#c87e9ad71c925515e61541745e38d0ae">BV3D::GRAVITY</a> * mass), 0.0f};
-<a name="l00104"></a>00104         dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
-<a name="l00105"></a>00105         NewtonBodySetForce(mBody, nullForce);
-<a name="l00106"></a>00106         NewtonBodyAddForce(mBody, gravitation);
-<a name="l00107"></a>00107 
-<a name="l00108"></a>00108         <span class="comment">// check for max speed and reduce if necessary</span>
-<a name="l00109"></a>00109         dFloat vel[3];
-<a name="l00110"></a>00110         NewtonBodyGetVelocity(mBody, vel);
-<a name="l00111"></a>00111         VRS::Vector v(vel[0], vel[1], vel[2]);
-<a name="l00112"></a>00112         <span class="keywordtype">double</span> length = v.abs();
-<a name="l00113"></a>00113         <span class="keywordflow">if</span> (length &gt; <a class="code" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">BV3D::MAX_BALL_VELOCITY</a>) {
-<a name="l00114"></a>00114                 v = v.normalized() * <a class="code" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">BV3D::MAX_BALL_VELOCITY</a>;
-<a name="l00115"></a>00115                 vel[0] = (dFloat)v[0];
-<a name="l00116"></a>00116                 vel[1] = (dFloat)v[1];
-<a name="l00117"></a>00117                 vel[2] = (dFloat)v[2];
-<a name="l00118"></a>00118                 NewtonBodySetVelocity(mBody, vel);
-<a name="l00119"></a>00119         }
-<a name="l00120"></a>00120 
-<a name="l00121"></a>00121         <span class="comment">// set up matrix for visual ball</span>
-<a name="l00122"></a>00122         dFloat newtonMatrix[16];
-<a name="l00123"></a>00123         NewtonBodyGetMatrix(mBody, newtonMatrix);
-<a name="l00124"></a>00124         <a class="code" href="namespace_v_r_s.html#3f4320f2f313cf5950437c4664af58b8">VRS::Matrix</a> vrsMatrix (
-<a name="l00125"></a>00125                 newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
-<a name="l00126"></a>00126                 newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
-<a name="l00127"></a>00127                 newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
-<a name="l00128"></a>00128                 newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
-<a name="l00129"></a>00129 
-<a name="l00130"></a>00130         <span class="comment">// apply matrix to visual ball</span>
-<a name="l00131"></a>00131         mBallScene-&gt;setLocalMatrix(vrsMatrix);
-<a name="l00132"></a>00132         <span class="keywordtype">double</span> scaling = (<a class="code" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">SHADOW_MAX_HEIGHT</a> - newtonMatrix[13]) / <a class="code" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">SHADOW_MAX_HEIGHT</a>;
-<a name="l00133"></a>00133         mShadowScene-&gt;setLocalMatrix(<a class="code" href="namespace_v_r_s.html#3f4320f2f313cf5950437c4664af58b8">VRS::Matrix</a>(
-<a name="l00134"></a>00134                 scaling, 0.0f, 0.0f, newtonMatrix[12],
-<a name="l00135"></a>00135                 0.0f, scaling, 0.0f, <a class="code" href="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7">SHADOW_HEIGHT</a>,
-<a name="l00136"></a>00136                 0.0f, 0.0f, scaling, newtonMatrix[14],
-<a name="l00137"></a>00137                 0.0f, 0.0f, 0.0f, 1.0f)
-<a name="l00138"></a>00138         );
-<a name="l00139"></a>00139 }
+<a name="l00088"></a>00088         <a class="code" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">BV3D::Ball</a>* ball = <span class="keyword">static_cast&lt;</span><a class="code" href="class_b_v3_d_1_1_ball.html" title="Class for representing the ball and its physical body.">BV3D::Ball</a>*<span class="keyword">&gt;</span>(NewtonBodyGetUserData(body));
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090         <span class="keywordflow">if</span> (ball)
+<a name="l00091"></a>00091                 ball-&gt;<a class="code" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">update</a>();
+<a name="l00092"></a>00092 }
+<a name="l00093"></a>00093 
+<a name="l00094"></a><a class="code" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">00094</a> <span class="keywordtype">void</span> <a class="code" href="class_b_v3_d_1_1_ball.html#2f5f5e6f1531e62ada9fbfb7ee1bb8d8">BV3D::Ball::update</a>() {
+<a name="l00095"></a>00095         dFloat Ixx, Iyy, Izz, mass;
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097         dFloat force[3];
+<a name="l00098"></a>00098         NewtonBodyGetForce(mBody, force);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100         <span class="comment">// apply gravitational force</span>
+<a name="l00101"></a>00101         NewtonBodyGetMassMatrix(mBody, &amp;mass, &amp;Ixx, &amp;Iyy, &amp;Izz);
+<a name="l00102"></a>00102         dFloat gravitation[3] = {0.0f, (dFloat) (-<a class="code" href="namespace_b_v3_d.html#c87e9ad71c925515e61541745e38d0ae">BV3D::GRAVITY</a> * mass), 0.0f};
+<a name="l00103"></a>00103         dFloat nullForce[3] = {0.0f, 0.0f, 0.0f};
+<a name="l00104"></a>00104         NewtonBodySetForce(mBody, nullForce);
+<a name="l00105"></a>00105         NewtonBodyAddForce(mBody, gravitation);
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107         <span class="comment">// check for max speed and reduce if necessary</span>
+<a name="l00108"></a>00108         dFloat vel[3];
+<a name="l00109"></a>00109         NewtonBodyGetVelocity(mBody, vel);
+<a name="l00110"></a>00110         VRS::Vector v(vel[0], vel[1], vel[2]);
+<a name="l00111"></a>00111         <span class="keywordtype">double</span> length = v.abs();
+<a name="l00112"></a>00112         <span class="keywordflow">if</span> (length &gt; <a class="code" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">BV3D::MAX_BALL_VELOCITY</a>) {
+<a name="l00113"></a>00113                 v = v.normalized() * <a class="code" href="namespace_b_v3_d.html#75b7eaf506c0ae2959d21ca8a5e6a759">BV3D::MAX_BALL_VELOCITY</a>;
+<a name="l00114"></a>00114                 vel[0] = (dFloat)v[0];
+<a name="l00115"></a>00115                 vel[1] = (dFloat)v[1];
+<a name="l00116"></a>00116                 vel[2] = (dFloat)v[2];
+<a name="l00117"></a>00117                 NewtonBodySetVelocity(mBody, vel);
+<a name="l00118"></a>00118         }
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120         <span class="comment">// set up matrix for visual ball</span>
+<a name="l00121"></a>00121         dFloat newtonMatrix[16];
+<a name="l00122"></a>00122         NewtonBodyGetMatrix(mBody, newtonMatrix);
+<a name="l00123"></a>00123         <a class="code" href="namespace_v_r_s.html#3f4320f2f313cf5950437c4664af58b8">VRS::Matrix</a> vrsMatrix (
+<a name="l00124"></a>00124                 newtonMatrix[0], newtonMatrix[4], newtonMatrix[8], newtonMatrix[12], 
+<a name="l00125"></a>00125                 newtonMatrix[1], newtonMatrix[5], newtonMatrix[9], newtonMatrix[13], 
+<a name="l00126"></a>00126                 newtonMatrix[2], newtonMatrix[6], newtonMatrix[10], newtonMatrix[14], 
+<a name="l00127"></a>00127                 newtonMatrix[3], newtonMatrix[7], newtonMatrix[11], newtonMatrix[15]);
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129         <span class="comment">// apply matrix to visual ball</span>
+<a name="l00130"></a>00130         mBallScene-&gt;setLocalMatrix(vrsMatrix);
+<a name="l00131"></a>00131         <span class="keywordtype">double</span> scaling = (<a class="code" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">SHADOW_MAX_HEIGHT</a> - newtonMatrix[13]) / <a class="code" href="namespace_b_v3_d.html#f7b5eeaf6fdd0df6dcd6937392822aa0">SHADOW_MAX_HEIGHT</a>;
+<a name="l00132"></a>00132         mShadowScene-&gt;setLocalMatrix(<a class="code" href="namespace_v_r_s.html#3f4320f2f313cf5950437c4664af58b8">VRS::Matrix</a>(
+<a name="l00133"></a>00133                 scaling, 0.0f, 0.0f, newtonMatrix[12],
+<a name="l00134"></a>00134                 0.0f, scaling, 0.0f, <a class="code" href="namespace_b_v3_d.html#3607012ec0f5a84dd7463f79a298e3a7">SHADOW_HEIGHT</a>,
+<a name="l00135"></a>00135                 0.0f, 0.0f, scaling, newtonMatrix[14],
+<a name="l00136"></a>00136                 0.0f, 0.0f, 0.0f, 1.0f)
+<a name="l00137"></a>00137         );
+<a name="l00138"></a>00138 }
 </pre></div><!-- bottom line -->
 <address><small>
-  Generated on Fri Sep 14 01:38:10 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Fri Sep 14 16:59:31 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

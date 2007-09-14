@@ -13,7 +13,7 @@ namespace BV3D
 	class Arena;
 	class Game;
 
-	/*!
+	/**
 		\brief Encapsulates almost all code related to the "AI".
 
 		Only the registration of the callback and the update of the material user data are left in Arena::setupMaterials()
@@ -21,7 +21,7 @@ namespace BV3D
 	class AI : public VRS::SharedObj
 	{
 	public:
-		AI(BV3D::Game* game);
+		AI(VRS::SO<BV3D::Game> game);
 		void enableAI(BV3D::TEAM team);
 		bool isAiControlled(BV3D::TEAM team) {return mAiTriggerBody[team==BV3D::TEAM1 ? 0 : 1] == NULL ? false : true;}
 		void disableAI(BV3D::TEAM team);

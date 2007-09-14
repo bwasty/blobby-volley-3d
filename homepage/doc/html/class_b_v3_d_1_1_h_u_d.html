@@ -43,7 +43,10 @@
 </div>
 <div class="nav">
 <a class="el" href="namespace_b_v3_d.html">BV3D</a>::<a class="el" href="class_b_v3_d_1_1_h_u_d.html">HUD</a></div>
-<h1>BV3D::HUD Class Reference</h1><!-- doxytag: class="BV3D::HUD" --><code>#include &lt;<a class="el" href="_hud_8h-source.html">Hud.h</a>&gt;</code>
+<h1>BV3D::HUD Class Reference</h1><!-- doxytag: class="BV3D::HUD" --><a class="el" href="class_b_v3_d_1_1_h_u_d.html" title="HUD represents the heads-up-display it is responsible for displaying the score, indicating...">HUD</a> represents the heads-up-display it is responsible for displaying the score, indicating the server and showing a win-message.  
+<a href="#_details">More...</a>
+<p>
+<code>#include &lt;<a class="el" href="_hud_8h-source.html">Hud.h</a>&gt;</code>
 <p>
 
 <p>
@@ -65,8 +68,8 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-
-<p>Definition at line <a class="el" href="_hud_8h-source.html#l00016">16</a> of file <a class="el" href="_hud_8h-source.html">Hud.h</a>.</p>
+<a class="el" href="class_b_v3_d_1_1_h_u_d.html" title="HUD represents the heads-up-display it is responsible for displaying the score, indicating...">HUD</a> represents the heads-up-display it is responsible for displaying the score, indicating the server and showing a win-message. 
+<p>Definition at line <a class="el" href="_hud_8h-source.html#l00020">20</a> of file <a class="el" href="_hud_8h-source.html">Hud.h</a>.</p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="9b0a61243fec408aec0334e3d3536362"></a><!-- doxytag: member="BV3D::HUD::HUD" ref="9b0a61243fec408aec0334e3d3536362" args="(VRS::Color colorPlayer1=VRS::Color::red, VRS::Color colorPlayer2=VRS::Color::green)" -->
 <div class="memitem">
@@ -95,10 +98,10 @@
 
 <p>
 <a class="el" href="_hud_8cpp.html">Hud.cpp</a><p>
-class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents the heads-up display for blobby volley 3d. its main task is to display the score during the game. it also show win-messages 
+class <a class="el" href="class_b_v3_d_1_1_h_u_d.html" title="HUD represents the heads-up-display it is responsible for displaying the score, indicating...">BV3D::HUD</a> represents the heads-up display for blobby volley 3d. its main task is to display the score during the game. it also show win-messages 
 <p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00015">15</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
 
-<p>References <a class="el" href="_hud_8cpp-source.html#l00027">setColors()</a>.</p>
+<p>References <a class="el" href="_hud_8cpp-source.html#l00032">setColors()</a>.</p>
 
 </div>
 </div><p>
@@ -119,7 +122,7 @@ class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents 
 
 <p>
 
-<p>Definition at line <a class="el" href="_hud_8h-source.html#l00020">20</a> of file <a class="el" href="_hud_8h-source.html">Hud.h</a>.</p>
+<p>Definition at line <a class="el" href="_hud_8h-source.html#l00028">28</a> of file <a class="el" href="_hud_8h-source.html">Hud.h</a>.</p>
 
 </div>
 </div><p>
@@ -140,8 +143,9 @@ class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents 
 <div class="memdoc">
 
 <p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>the hud scene </dd></dl>
 
-<p>Definition at line <a class="el" href="_hud_8h-source.html#l00021">21</a> of file <a class="el" href="_hud_8h-source.html">Hud.h</a>.</p>
+<p>Definition at line <a class="el" href="_hud_8h-source.html#l00033">33</a> of file <a class="el" href="_hud_8h-source.html">Hud.h</a>.</p>
 
 </div>
 </div><p>
@@ -177,8 +181,15 @@ class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents 
 <div class="memdoc">
 
 <p>
+displays the specified score in the <a class="el" href="class_b_v3_d_1_1_h_u_d.html" title="HUD represents the heads-up-display it is responsible for displaying the score, indicating...">HUD</a> and indicates the server <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scoreP1</em>&nbsp;</td><td>specifies the score to be displayed for player 1 </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>scoreP2</em>&nbsp;</td><td>specifies the score to be displayed for player 2 </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>servingTeam</em>&nbsp;</td><td>specifies the serving team to be indicated on display </td></tr>
+  </table>
+</dl>
 
-<p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00033">33</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00045">45</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
 
 <p>References <a class="el" href="_constants_8h-source.html#l00008">BV3D::TEAM1</a>, and <a class="el" href="_constants_8h-source.html#l00008">BV3D::TEAM2</a>.</p>
 
@@ -210,8 +221,8 @@ class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents 
 <div class="memdoc">
 
 <p>
-
-<p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00027">27</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
+set team colors for score display (to actually refresh the <a class="el" href="class_b_v3_d_1_1_h_u_d.html" title="HUD represents the heads-up-display it is responsible for displaying the score, indicating...">HUD</a> <a class="el" href="class_b_v3_d_1_1_h_u_d.html#ef0f2c120a6666700a2c11034ac04be6">setScore()</a> needs to be called) 
+<p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00032">32</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="_hud_8cpp-source.html#l00015">HUD()</a>.</p>
 
@@ -234,8 +245,8 @@ class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents 
 <div class="memdoc">
 
 <p>
-
-<p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00061">61</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
+display message informing about winner of the game 
+<p>Definition at line <a class="el" href="_hud_8cpp-source.html#l00088">88</a> of file <a class="el" href="_hud_8cpp-source.html">Hud.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -243,7 +254,7 @@ class <a class="el" href="class_b_v3_d_1_1_h_u_d.html">BV3D::HUD</a> represents 
 <li><a class="el" href="_hud_8h-source.html">Hud.h</a><li><a class="el" href="_hud_8cpp-source.html">Hud.cpp</a></ul>
 <!-- bottom line -->
 <address><small>
-  Generated on Fri Sep 14 01:38:12 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
+  Generated on Fri Sep 14 16:59:34 2007 by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.5.3
 </small></address>
 
 </body>

@@ -12,13 +12,6 @@ namespace BV3D
 			INVALID_PARAMETER
 		};
 
-		enum SCENE {
-			BEACH,
-			ARENA,
-			HEAVEN,
-			CITY
-		};
-
 		enum CAMERAPOSITION	{
 			CLASSIC_CAMERA,
 			TEAM1_BASECAMERA,

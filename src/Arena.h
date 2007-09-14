@@ -28,16 +28,15 @@ namespace BV3D {
 		\brief The Arena class represents the box in which the Blobbs play Ball.
 
 		It is responsible for:
-		- setting up valid bounds for the Arena
-		- passing valid bounds for Blobbs and the Ball
-		- creating the 3D shape - a topless box with transparent walls
+			- creating the 3D shape - a topless box with transparent walls
+			- holding the Newton world
+			- dispatching information about relevant collisions
 
-		the Arena floor is centered at the origin
-		the Net runs along the z-axis
-		the individual fields run along the positive/negative x-axis
-		the walls are transparent to see the play and still give some hint about Ball collision
-		the box is assumed to be topless, still the walls have a certain
-		height that should prevent the ball from bouncing out
+		- the Arena floor is centered at the origin
+		- the Net runs along the z-axis
+		- the individual fields run along the positive/negative x-axis
+		- the walls are transparent to see the play and still give some hint about Ball collision
+		- the box is assumed to be topless, still the walls have a certain height that should prevent the ball from bouncing out
 	*/
 	class Arena : public VRS::SharedObj {
 	public:
@@ -131,6 +130,7 @@ namespace BV3D {
 
 	/**
 	 * \brief Struct for aggregating all information needed to realize the gamelogic based on physical interaction callbacks.
+	 *
 	 * As the collision callbacks are static methods, the only way to connect them to the game logic is to store a pointer to user data (->CollisionData) connected 
 	 * with a material pair. The user data can be queried in the callback.
 	 */

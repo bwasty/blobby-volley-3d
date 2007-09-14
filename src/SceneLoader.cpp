@@ -344,7 +344,7 @@ VRS::SO<VRS::SceneThing> BV3D::SceneLoader::loadCity()
 	streetSignModel->append(mOptimizer->get3dsScene(BV3D::MODELS_PATH + "D9_1_telephone_mrealms.3ds"));
 	VRS::SO<VRS::CullingSceneThing> streetSignScene = new VRS::CullingSceneThing(streetSignModel->boundingBox(mCanvas->engine()));
 	streetSignScene->append(streetSignModel);
-	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-4*extent[0], 0.0, 4*extent[0]));
+	vrsMatrix = VRS::Matrix::translation(VRS::Vector(-2*extent[0], 0.0, 4*extent[0]));
 	streetSignScene->setLocalMatrix(vrsMatrix);
 	cityScene->append(streetSignScene);
 

@@ -23,7 +23,7 @@ namespace BV3D
 	class Arena;
 	class Controls;
 
-	/*!	\brief Represents the players in BlobbyVolley3D
+	/**	\brief Represents the players in BlobbyVolley3D
 
 		it is responsible for:
 		- creating(loading) and managing: the 3D shape of the Blobb

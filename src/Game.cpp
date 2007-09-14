@@ -31,10 +31,8 @@
 #include <vrs/sg/pickingcallback.h>
 
 
-
-
 BV3D::Game::Game() {
-	mDLastSecond = 0;
+	//mDLastSecond = 0;
 	mDelayedActionStart = 0;
 	mScheduleNewServe = false;
 	mPrevPosX = 0; mPrevPosY = 0; mPrevWidth = 0; mPrevHeight = 0;
@@ -163,7 +161,7 @@ void BV3D::Game::applyMenuSettings() {
 		mBackground = mSceneLoader->loadBeach();
 	else if(mMenu->getPlace()== BV3D::Menu::HEAVEN)
 		mBackground = mSceneLoader->loadHeaven();
-	else if(mMenu->getPlace() == BV3D::CITY){
+	else if(mMenu->getPlace() == BV3D::Menu::CITY){
 		mBackground = mSceneLoader->loadCity();
 		setCameraDistant(true);
 		switchCameraposition(mCurrentCameraPosition);
@@ -184,6 +182,7 @@ void BV3D::Game::applyMenuSettings() {
 		newReferee->setCurrentScore(BV3D::TEAM2, mReferee->getCurrentScore(BV3D::TEAM2));
 		newReferee->setCurrentContacts(BV3D::TEAM1, mReferee->getCurrentContacts(BV3D::TEAM1));
 		newReferee->setCurrentContacts(BV3D::TEAM2, mReferee->getCurrentContacts(BV3D::TEAM2));
+		newReferee->setActive(mReferee->getActive());
 		newReferee->setServingTeam(mReferee->getServingTeam());
 	}
 	mReferee = newReferee;
@@ -206,18 +205,11 @@ void BV3D::Game::applyMenuSettings() {
 void BV3D::Game::update() {
 	VRS::VRSTime time = mCanvas->clock()->time();
 	// test if current frame's time is over (0.7/MAX_FPS seems to be a good approximation)
-	if(double(time) - mDLastUpdateTime >= 0.7/BV3D::MAX_FPS) {
-		float timestep = (double)time - mDLastUpdateTime;
-		mDLastUpdateTime = double(time);
-
-		// count frames per second
-		mIFramerate++;
+	if(double(time) - mLastUpdateTime >= 0.7/BV3D::MAX_FPS) {
+		float timestep = (double)time - mLastUpdateTime;
+		mLastUpdateTime = double(time);
 		mFrameCount++;
-		if(mDLastUpdateTime - mDLastSecond >= 1.0) {
-			printf("framerate: %d\n",mIFramerate);
-			mDLastSecond = mDLastUpdateTime;
-			mIFramerate = 0;
-		}
+
 		//skip physics update if game is paused, currently in menu or a camera animation is active in movie-style mode
 		if(mCanvas->isSwitchedOn(mScene) && (!isPaused()) && (!(mNavigation->pathActive() && isCameraMovieStyle()))){	// simulate world only if root scene is visible
 			mArena->updateWorld(timestep);
@@ -238,7 +230,6 @@ void BV3D::Game::update() {
 			mBlobbArray->getElement(BV3D::TEAM1)->updateShape(mCanvas);
 			mBlobbArray->getElement(BV3D::TEAM2)->updateShape(mCanvas);
 		}
-		//mCanvas->redisplay();
 		mCbUpdate->nextRedraw(VRS::BehaviorNode::RedrawWindow);
 
 		mFmodSystem->update();
