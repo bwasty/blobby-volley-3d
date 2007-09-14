@@ -30,9 +30,9 @@ namespace BV3D
 		static const double BLOBB_MAX_JUMP_HEIGHT = 2.0;
 		static const double BLOBB_MOVEMENT_STEP_DISTANCE = 12.0;	// blobb step distance
 		static const double BLOBB_GRAVITY_MULTIPLIER = 3.5;			// the GRAVITY for the blobbs is stronger, because they should fall down faster than the ball
-		static const std::string MODELS_PATH = "../Modelle/models/";
-		static const std::string GRAFICS_PATH = "../Modelle/grafics/";
-		static const std::string SOUNDS_PATH = "../Sounds/";
+		static const std::string MODELS_PATH = "../data/models/";
+		static const std::string GRAFICS_PATH = "../data/grafics/";
+		static const std::string SOUNDS_PATH = "../data/sounds/";
 		static const VRS::Vector LOOK_TO = VRS::Vector(0.0, 4.0, 0.0);
 		static const VRS::Vector LOOK_FROM = VRS::Vector(0.0, 9.0, -16.0);
 		static const float MAX_BALL_VELOCITY = 20.0;
