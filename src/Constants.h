@@ -43,6 +43,7 @@ namespace BV3D
 		static const VRS::Vector LOOK_TO = VRS::Vector(0.0, 4.0, 0.0);
 		static const VRS::Vector LOOK_FROM = VRS::Vector(0.0, 9.0, -16.0);
 		static const float MAX_BALL_VELOCITY = 20.0;
+		static const int MOUSE_MAX_DELTA = 20;	// maximum accepted mouse movement in pixels (see MouseControls)
 
 		static const double SHADOW_HEIGHT = 0.01;
 		static const double SHADOW_MAX_HEIGHT = 20.0;

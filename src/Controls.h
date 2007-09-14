@@ -30,7 +30,7 @@ namespace BV3D
 		virtual ~Controls() {}
 
 		/**
-		 * is a callback method for processing InputEvent's
+		 * is a callback method for processing InputEvents
 		 * \param ie is the VRS::InputEvent to be processed
 		 */
 		virtual void processInput(VRS::SO<VRS::InputEvent> ie) = 0;

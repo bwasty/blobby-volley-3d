@@ -15,7 +15,8 @@ BV3D::KeyboardControls::KeyboardControls(int keyForward, int keyBackward, int ke
 
 
 /**
- * is a callback for processing InputEvent's (KeyEvent)
+ * is a callback for processing InputEvents (KeyEvent)
+ * \param ie is the VRS::InputEvent to be processed
  */
 void BV3D::KeyboardControls::processInput(VRS::SO<VRS::InputEvent> ie) {
 	VRS::SO<VRS::KeyEvent> ke = VRS_Cast(VRS::KeyEvent, ie);
