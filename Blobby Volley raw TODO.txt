@@ -1,6 +1,0 @@
-- get NxOgre running with basic objects
- - simplified shapes
- - debug rendering of shapes
-- basic controls (mouse & keyboard)
-- basic application logic (referee)
-- simple menu / score display
