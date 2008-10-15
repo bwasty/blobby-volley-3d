@@ -4,6 +4,7 @@
 
 void Application::setupScene() {
 	mSceneMgr = mRoot->createSceneManager(ST_GENERIC, "Default SceneManager");
+	setupPhysics(); // TODO: create scenemgr before and move to BaseApplicatin::go() !?!
 	mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 
     mCamera = mSceneMgr->createCamera("Camera");
@@ -62,11 +63,27 @@ void Application::setupScene() {
 	node->translate(Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0));
 	node->attachObject(ent);
 
+
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
     node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
-	node->translate(Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0));
+	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+2,6.0,0.0);
+	node->translate(position);
 	node->attachObject(ent);
+
+	NxOgre::NodeRenderableParams nrp;
+	nrp.setToDefault();
+	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
+	nrp.mIdentifier = node->getName();
+
+	NxOgre::Material* ballMaterial = mNxScene->createMaterial("ball_material");
+	ballMaterial->setRestitution(1.1);
+	NxOgre::ShapeParams sp;
+	sp.setToDefault();
+	sp.mMaterial = ballMaterial->getMaterialIndex();
+
+	NxOgre::Body *body = mNxScene->createBody("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, sp/*"material: ball_material"*/), position, nrp, "mass:10");
+
 
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh");
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
@@ -77,5 +94,10 @@ void Application::setupScene() {
 	node->translate(Vector3(0,BV3D::NET_HEIGHT,BV3D::ARENA_EXTENT[2]));
 	node->attachObject(ent);
 	node->attachObject(ent2);
+
+
+	//TODO:!! little NxOgre experiments
+	//NxOgre::Actor* actor = mNxScene->createActor("box", new NxOgre::Cube(1), Vector3(0,5,0), "mass:10");
+
 
 }

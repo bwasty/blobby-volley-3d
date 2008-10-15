@@ -27,6 +27,9 @@ BaseApplication::~BaseApplication() {
 
 	delete mListener;
     delete mRoot; // deletes also SceneManager, the RenderWindow and so on
+
+	//TODO:properly delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
+	//delete mNxWorld;
 }
 
 void BaseApplication::createRoot() {
@@ -83,6 +86,14 @@ void BaseApplication::createRenderWindow() {
 void BaseApplication::initializeResourceGroups() {
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+void BaseApplication::setupPhysics() {
+	mNxWorld = new NxOgre::World("time-controller:ogre, log:yes");
+	mNxScene = mNxWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); //TODO: several scenes for several arenas?
+
+	mNxWorld->createDebugRenderer(mSceneMgr); //TODO: make switchable via keyboard...?
+
 }
 
 void BaseApplication::setupInputSystem() {
