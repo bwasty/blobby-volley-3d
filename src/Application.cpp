@@ -53,9 +53,26 @@ void Application::setupScene() {
 	//TODO: blobbs, ball, net
 	ent = mSceneMgr->createEntity("Blobb1", "Blobb.mesh");
     SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	node->translate(Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0));
-	//node->scale(Vector3(0.02)); // TODO: only for test ninja
+	Vector3 blobb1_position = Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0);
+	node->translate(blobb1_position);
 	node->attachObject(ent);
+
+	NxOgre::NodeRenderableParams nrp;
+	nrp.setToDefault();
+	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
+	nrp.mIdentifier = node->getName();
+
+	//NxOgre::Material* ballMaterial = mNxScene->createMaterial("ball_material");
+	//ballMaterial->setRestitution(1.1);
+	//NxOgre::ShapeParams sp;
+	//sp.setToDefault();
+	//sp.mMaterial = ballMaterial->getMaterialIndex();
+
+	NxOgre::Resources::ResourceSystem::getSingleton()->addMeshAs("file://../../media/blobb.nxs", "blobb.nxs"); //TODO: workaround, -> ogre resource system??
+	mNxScene->createBody<NxOgre::Body>("blobb1", /*new NxOgre::TriangleMesh("blobb.nxs")*/
+		new NxOgre::TriangleMesh(NxOgre::Resources::ResourceSystem::getSingleton()->getMesh("blobb.nxs")), 
+		blobb1_position, nrp, "mass:10");
+
 
 	ent = mSceneMgr->createEntity("Blobb2", "Blobb.mesh");
 	ent->setMaterialName("blobb_green");
@@ -64,14 +81,14 @@ void Application::setupScene() {
 	node->attachObject(ent);
 
 
-	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
+	ent = mSceneMgr->createEntity("Ball", "Ball.mesh"); //TODO!: re-export ball centered
     node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
-	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+2,6.0,0.0);
+	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0);
 	node->translate(position);
 	node->attachObject(ent);
 
-	NxOgre::NodeRenderableParams nrp;
+	//NxOgre::NodeRenderableParams nrp;
 	nrp.setToDefault();
 	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
 	nrp.mIdentifier = node->getName();
@@ -82,7 +99,7 @@ void Application::setupScene() {
 	sp.setToDefault();
 	sp.mMaterial = ballMaterial->getMaterialIndex();
 
-	NxOgre::Body *body = mNxScene->createBody("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, sp/*"material: ball_material"*/), position, nrp, "mass:10");
+	NxOgre::Actor *actor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, /*sp*/"material: ball_material"), position, nrp, "mass:1");
 
 
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh");
