@@ -62,11 +62,10 @@ void Application::setupScene() {
 	//node->attachObject(ent);
 	new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2);
 
-
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
     SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
-	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+0.1,6.0,0.0);
+	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0);
 	node->translate(position);
 	node->attachObject(ent);
 
@@ -76,7 +75,7 @@ void Application::setupScene() {
 	nrp.mIdentifier = node->getName();
 
 	NxOgre::Material* ballMaterial = mNxScene->createMaterial("ball_material");
-	ballMaterial->setRestitution(1.1);
+	ballMaterial->setRestitution(1.3);
 	NxOgre::ShapeParams sp;
 	sp.setToDefault();
 	sp.mMaterial = ballMaterial->getMaterialIndex();

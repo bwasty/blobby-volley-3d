@@ -1,10 +1,10 @@
 #include "BaseApplication.h" //TODO: sort out includes...
 #include "Blobb.h"
 
-Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Vector3 position, BV3D::TEAM team) //TODO: add color param?
-		: mSceneMgr(sceneMgr), mTeam(team), mNxScene(nxScene) {
+Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, BV3D::TEAM team) //TODO: add color param?
+		: mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
 	//TODO: load mesh, create collision shapes
-			Entity* ent = mSceneMgr->createEntity(mTeam==BV3D::TEAM1 ? "Blobb1":"Blobb2", "Blobb.mesh"); //TODO: entity name...what when more than 2 blobbs?
+	Entity* ent = mSceneMgr->createEntity(mTeam==BV3D::TEAM1 ? "Blobb1":"Blobb2", "Blobb.mesh"); //TODO: entity name...what when more than 2 blobbs?
     SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//Vector3 blobb1_position = Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0);
 	node->translate(position);
@@ -15,8 +15,6 @@ Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Vector3 posit
 	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
 	nrp.mIdentifier = node->getName();
 
-
-	//TODO: replace with 2 spheres...
 	//NxOgre::Resources::ResourceSystem::getSingleton()->addMeshAs("file://../../media/blobb.nxs", "blobb.nxs"); //TODO: workaround, -> ogre resource system??
 	//mNxScene->createBody<NxOgre::Body>("blobb",
 	//	new NxOgre::TriangleMesh(NxOgre::Resources::ResourceSystem::getSingleton()->getMesh("blobb.nxs")), 
@@ -27,5 +25,23 @@ Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Vector3 posit
 	NxOgre::Sphere* upperSphere = new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]);
 	upperSphere->setLocalPose(NxOgre::Pose(0, 0.7, 0));
 	cs->add(upperSphere); //upper horizontal radius
-	mNxScene->createBody<NxOgre::Body>("blobb", cs, position, nrp, "mass:10");
+	NxOgre::Actor* actor = mNxScene->createBody<NxOgre::Body>("blobb", cs, position, nrp, "mass:10");
+
+	//TODO: create Joint
+	NxScene* realNxScene = mNxScene->getNxScene();
+	NxActor* realActor = actor->getNxActor();
+
+	NxD6JointDesc d6Desc;
+    d6Desc.actor[0] = realActor;    
+	d6Desc.actor[1] = 0;
+    //d6Desc.setGlobalAnchor(globalAnchor);//Important when DOFs are unlocked.    
+	//d6Desc.setGlobalAxis(globalAxis);//Joint configuration.    
+
+	// lock all rotational axes, so that Blobb doesn't topple over
+	d6Desc.twistMotion = NX_D6JOINT_MOTION_LOCKED;    
+	d6Desc.swing1Motion = NX_D6JOINT_MOTION_LOCKED;    
+	d6Desc.swing2Motion = NX_D6JOINT_MOTION_LOCKED;    
+
+    d6Desc.projectionMode = NX_JPM_NONE; //TODO: needed?
+    NxD6Joint* d6Joint=(NxD6Joint*)realNxScene->createJoint(d6Desc);
 }
