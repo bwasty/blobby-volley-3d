@@ -66,7 +66,7 @@ void Application::setupScene() {
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
     SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
-	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0);
+	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+0.1,6.0,0.0);
 	node->translate(position);
 	node->attachObject(ent);
 

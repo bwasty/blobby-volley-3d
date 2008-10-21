@@ -15,8 +15,17 @@ Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Vector3 posit
 	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
 	nrp.mIdentifier = node->getName();
 
-	NxOgre::Resources::ResourceSystem::getSingleton()->addMeshAs("file://../../media/blobb.nxs", "blobb.nxs"); //TODO: workaround, -> ogre resource system??
-	mNxScene->createBody<NxOgre::Body>("blobb",
-		new NxOgre::TriangleMesh(NxOgre::Resources::ResourceSystem::getSingleton()->getMesh("blobb.nxs")), 
-		position, nrp, "mass:10");
+
+	//TODO: replace with 2 spheres...
+	//NxOgre::Resources::ResourceSystem::getSingleton()->addMeshAs("file://../../media/blobb.nxs", "blobb.nxs"); //TODO: workaround, -> ogre resource system??
+	//mNxScene->createBody<NxOgre::Body>("blobb",
+	//	new NxOgre::TriangleMesh(NxOgre::Resources::ResourceSystem::getSingleton()->getMesh("blobb.nxs")), 
+	//	position, nrp, "mass:10");
+
+	NxOgre::CompoundShape* cs = new NxOgre::CompoundShape();
+	cs->add(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
+	NxOgre::Sphere* upperSphere = new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]);
+	upperSphere->setLocalPose(NxOgre::Pose(0, 0.7, 0));
+	cs->add(upperSphere); //upper horizontal radius
+	mNxScene->createBody<NxOgre::Body>("blobb", cs, position, nrp, "mass:10");
 }
