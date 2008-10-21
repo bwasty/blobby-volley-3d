@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Blobb.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Controls.cpp"
 				>
 			</File>
@@ -210,6 +214,10 @@
 			</File>
 			<File
 				RelativePath=".\include\BaseApplication.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Blobb.h"
 				>
 			</File>
 			<File
