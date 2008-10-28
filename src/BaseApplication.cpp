@@ -26,10 +26,13 @@ BaseApplication::~BaseApplication() {
     delete mSystem;
 
 	delete mListener;
+
+	// delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
+	delete mNxWorld;
+
     delete mRoot; // deletes also SceneManager, the RenderWindow and so on
 
-	//TODO:properly delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
-	//delete mNxWorld;
+
 }
 
 void BaseApplication::createRoot() {
@@ -92,13 +95,14 @@ void BaseApplication::setupPhysics() {
 	mNxWorld = new NxOgre::World("time-controller:ogre, log:yes");
 	mNxScene = mNxWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); //TODO: several scenes for several arenas?
 
-	mNxWorld->createDebugRenderer(mSceneMgr); //TODO: make switchable via keyboard...?
+	//mNxWorld->createDebugRenderer(mSceneMgr); //TODO:!make switchable via keyboard...?
+	//mNxWorld->getPhysXDriver()->createDebuggerConnection();
 
 }
 
 void BaseApplication::setupInputSystem() {
 
-	//TODO: this already done by ExampleFrameListener, remove that later?
+	//TODO: this already done by ExampleFrameListener, remove that later!
 	//size_t windowHnd = 0;
  //   std::ostringstream windowHndStr;
  //   OIS::ParamList pl;

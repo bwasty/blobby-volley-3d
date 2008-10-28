@@ -51,11 +51,11 @@ void Application::setupScene() {
 	//light->setDiffuseColour(1.0, 1.0, 1.0);
  //   light->setSpecularColour(1.0, 1.0, 1.0);
 
-	//TODO: blobbs, ball, net
+	// blobbs, ball, net
 	new Blobb(mSceneMgr, mNxScene, Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM1);
 
 	//ent = mSceneMgr->createEntity("Blobb2", "Blobb.mesh");
-	//TODO: how to set color per blobb?
+	//TODO:!how to set color per blobb?
 	//ent->setMaterialName("blobb_green"); 
  //   SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->translate(Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0));
@@ -81,7 +81,6 @@ void Application::setupScene() {
 	sp.mMaterial = ballMaterial->getMaterialIndex();
 
 	NxOgre::Actor *actor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, /*sp*/"material: ball_material"), position, nrp, "mass:1");
-
 
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh");
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
