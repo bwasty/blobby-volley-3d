@@ -2,7 +2,6 @@
 #include "Blobb.h"
 
 #include "Constants.h"
-//#include "DotSceneLoader.h"
 
 void Application::setupScene() {
 	mSceneMgr = mRoot->createSceneManager(ST_GENERIC, "Default SceneManager");
@@ -92,21 +91,5 @@ void Application::setupScene() {
 	node->translate(Vector3(0,BV3D::NET_HEIGHT,BV3D::ARENA_EXTENT[2]));
 	node->attachObject(ent);
 	node->attachObject(ent2);
-
-	//TODO!!: remove, test for FNC
-	//ent = mSceneMgr->createEntity("skyscrp","building11_skyscrp.mesh");
-	//Entity* ent5 = mSceneMgr->createEntity("skyscrp2","sky_scra16_skyscrp.mesh");
-	node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	//node->attachObject(ent);
-	//node->attachObject(ent5);
-	node->rotate(Vector3(1.0,0,0), Radian(Degree(-90.0)));
-	node->translate(Vector3(0,-22,0));
-
-	for(int i=0; i<580; ++i) {
-		Entity* cityEnt = mSceneMgr->createEntity(BV3D::CityMeshes[i],BV3D::CityMeshes[i]);
-		node->attachObject(cityEnt);
-	}
-
-	//parseDotScene("citymodel.scene","General",mSceneMgr);
 
 }
