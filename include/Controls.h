@@ -7,17 +7,6 @@
 
 class ExampleFrameListener;
 
-//class ExitListener : public FrameListener
-//{
-//public:
-//    ExitListener(OIS::Keyboard *keyboard);
-//
-//    bool frameStarted(const FrameEvent& evt);
-//
-//private:
-//    OIS::Keyboard *mKeyboard;
-//};
-
 class ControlsListener : public ExampleFrameListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
@@ -42,6 +31,7 @@ protected:
 
     bool mContinue;        // Whether to continue rendering or not
     Vector3 mDirection;     // Value to move in the correct direction
+
 };
 
 
