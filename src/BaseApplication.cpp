@@ -22,8 +22,8 @@ BaseApplication::~BaseApplication() {
     //OIS::InputManager::destroyInputSystem(mInputManager); //TODO: same as above
 
 	//CEGUI
-	delete mRenderer;
-    delete mSystem;
+	//delete mRenderer;
+    //delete mSystem;
 
 	delete mListener;
 

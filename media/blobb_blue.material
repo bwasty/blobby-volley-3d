@@ -1,16 +1,37 @@
+vertex_program camTexShader
+{
+	source simpleCamTex.vert
+	syntax vp40
+}
+
 material Material
 {
 	receive_shadows on
 	technique
 	{
+		//pass
+		//{
+		//	ambient 0.000000 0.000000 1.000000 0.701841
+		//	diffuse 0.000000 0.000000 1.000000 0.701841
+		//	specular 0.000000 0.000000 0.000000 0.701841 12.500000
+		//	emissive 0.000000 0.000000 0.000000 0.701841
+		//	scene_blend alpha_blend
+		//	depth_write off
+		//}
+		
 		pass
 		{
-			ambient 0.000000 0.000000 1.000000 0.701841
-			diffuse 0.000000 0.000000 1.000000 0.701841
-			specular 0.000000 0.000000 0.000000 0.701841 12.500000
-			emissive 0.000000 0.000000 0.000000 0.701841
-			scene_blend alpha_blend
-			depth_write off
+			texture_unit
+			{
+				texture_alias cameraTex
+				texture matschbild4.png
+			}
+			
+			vertex_program_ref camTexShader
+			{
+				param_named cameraTex
+			}
 		}
-	}
+			
+			
 }
