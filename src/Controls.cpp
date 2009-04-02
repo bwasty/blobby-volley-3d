@@ -2,6 +2,7 @@
 #include "Controls.h"
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
+//TODO!!!: copy all useful stuff from ExampleFrameListener (keys, stats, overlay, constructor, member variables)
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr)
     : ExampleFrameListener(win, cam, true, true)
 {

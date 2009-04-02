@@ -11,7 +11,7 @@ void BaseApplication::go() {
     initializeResourceGroups();
     setupScene();
     setupInputSystem();
-    setupCEGUI();
+    //setupCEGUI(); TODO!: out because of problem in release mode
     createFrameListener();
     startRenderLoop();
 }
@@ -22,8 +22,8 @@ BaseApplication::~BaseApplication() {
     //OIS::InputManager::destroyInputSystem(mInputManager); //TODO: same as above
 
 	//CEGUI
-	delete mRenderer;
-    delete mSystem;
+	//delete mRenderer;
+    //delete mSystem;
 
 	delete mListener;
 
@@ -131,7 +131,7 @@ void BaseApplication::setupCEGUI() {
 
     // CEGUI setup
     mRenderer = new CEGUI::OgreCEGUIRenderer(win, Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mgr);
-    mSystem = new CEGUI::System(mRenderer);
+   // mSystem = new CEGUI::System(mRenderer); TODO!: problem in release mode
 }
 
 void BaseApplication::createFrameListener() {
