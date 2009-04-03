@@ -1,11 +1,44 @@
 //#include "ExampleApplication.h"
 #include "Controls.h"
+#include "Application.h"
+#include "Blobb.h"
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 //TODO!!!: copy all useful stuff from ExampleFrameListener (keys, stats, overlay, constructor, member variables)
-ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr)
-    : ExampleFrameListener(win, cam, true, true)
+ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
+    : mCamera(cam), mWindow(win), mStatsOn(true), mApp(app)
 {
+	//TODO!: copy needed parts from ExampleFrameListener constructor
+	using namespace OIS;
+
+	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
+
+	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+	ParamList pl;
+	size_t windowHnd = 0;
+	std::ostringstream windowHndStr;
+
+	win->getCustomAttribute("WINDOW", &windowHnd);
+	windowHndStr << windowHnd;
+	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+
+	mInputManager = InputManager::createInputSystem( pl );
+
+	//Create all devices (We only catch joystick exceptions here, as, most people have Key/Mouse)
+	mKeyboard = static_cast<Keyboard*>(mInputManager->createInputObject( OISKeyboard, true ));
+	mMouse = static_cast<Mouse*>(mInputManager->createInputObject( OISMouse, true ));
+
+	//Set initial mouse clipping size
+	windowResized(mWindow);
+
+	showDebugOverlay(true);
+
+	//Register as a Window listener
+	WindowEventUtilities::addWindowEventListener(mWindow, this);
+
+	// end copy from ExampleFrameListener
+
+
     // Populate the camera and scene manager containers
     //mCamNode = cam->getParentSceneNode();
     mSceneMgr = sceneMgr;
@@ -35,6 +68,11 @@ bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
     return mContinue;
 }
 
+bool ControlsListener::frameEnded(const Ogre::FrameEvent &evt) {
+	updateStats();
+	return true;
+}
+
 // MouseListener
 bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 {
@@ -45,11 +83,16 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 		mCamera->yaw(Degree(-mRotate * e.state.X.rel));
         mCamera->pitch(Degree(-mRotate * e.state.Y.rel));
     }
+	else /*if (e.state.buttonDown(OIS::MB_Left))*/ {
+		mApp->getBlobb1()->move(Vector2(-e.state.X.rel, -e.state.Y.rel)*10);
+	}
     return true;
 }
 
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
+	if (id == OIS::MouseButtonID::MB_Left)
+		mApp->getBlobb1()->jump(1900);
 	return true;
 }
 
@@ -135,3 +178,79 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 }
 
 
+void ControlsListener::updateStats(void)
+{
+	static String currFps = "Current FPS: ";
+	static String avgFps = "Average FPS: ";
+	static String bestFps = "Best FPS: ";
+	static String worstFps = "Worst FPS: ";
+	static String tris = "Triangle Count: ";
+	static String batches = "Batch Count: ";
+
+	// update stats when necessary
+	try {
+		OverlayElement* guiAvg = OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
+		OverlayElement* guiCurr = OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
+		OverlayElement* guiBest = OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
+		OverlayElement* guiWorst = OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
+
+		const RenderTarget::FrameStats& stats = mWindow->getStatistics();
+		guiAvg->setCaption(avgFps + StringConverter::toString(stats.avgFPS));
+		guiCurr->setCaption(currFps + StringConverter::toString(stats.lastFPS));
+		guiBest->setCaption(bestFps + StringConverter::toString(stats.bestFPS)
+			+" "+StringConverter::toString(stats.bestFrameTime)+" ms");
+		guiWorst->setCaption(worstFps + StringConverter::toString(stats.worstFPS)
+			+" "+StringConverter::toString(stats.worstFrameTime)+" ms");
+
+		OverlayElement* guiTris = OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
+		guiTris->setCaption(tris + StringConverter::toString(stats.triangleCount));
+
+		OverlayElement* guiBatches = OverlayManager::getSingleton().getOverlayElement("Core/NumBatches");
+		guiBatches->setCaption(batches + StringConverter::toString(stats.batchCount));
+
+		OverlayElement* guiDbg = OverlayManager::getSingleton().getOverlayElement("Core/DebugText");
+		guiDbg->setCaption(mDebugText);
+	}
+	catch(...) { /* ignore */ }
+}
+
+
+//Adjust mouse clipping area
+void ControlsListener::windowResized(RenderWindow* rw)
+{
+	unsigned int width, height, depth;
+	int left, top;
+	rw->getMetrics(width, height, depth, left, top);
+
+	const OIS::MouseState &ms = mMouse->getMouseState();
+	ms.width = width;
+	ms.height = height;
+}
+
+//Unattach OIS before window shutdown (very important under Linux)
+void ControlsListener::windowClosed(RenderWindow* rw)
+{
+	//Only close for window that created OIS (the main window in these demos)
+	if( rw == mWindow )
+	{
+		if( mInputManager )
+		{
+			mInputManager->destroyInputObject( mMouse );
+			mInputManager->destroyInputObject( mKeyboard );
+
+			OIS::InputManager::destroyInputSystem(mInputManager);
+			mInputManager = 0;
+		}
+	}
+}
+
+void ControlsListener::showDebugOverlay(bool show)
+{
+	if (mDebugOverlay)
+	{
+		if (show)
+			mDebugOverlay->show();
+		else
+			mDebugOverlay->hide();
+	}
+}

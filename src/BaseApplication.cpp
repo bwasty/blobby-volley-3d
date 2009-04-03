@@ -10,7 +10,7 @@ void BaseApplication::go() {
     createRenderWindow();
     initializeResourceGroups();
     setupScene();
-    setupInputSystem();
+    //setupInputSystem();
     //setupCEGUI(); TODO!: out because of problem in release mode
     createFrameListener();
     startRenderLoop();
@@ -102,7 +102,7 @@ void BaseApplication::setupPhysics() {
 
 void BaseApplication::setupInputSystem() {
 
-	//TODO: this already done by ExampleFrameListener, remove that later!
+	//TODO: currently done by ControlsListener, remove that later?
 	//size_t windowHnd = 0;
  //   std::ostringstream windowHndStr;
  //   OIS::ParamList pl;
@@ -136,8 +136,8 @@ void BaseApplication::setupCEGUI() {
 
 void BaseApplication::createFrameListener() {
 	//mListener = new ExitListener(mKeyboard);
-	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr);
-    mRoot->addFrameListener(mListener);
+	//mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr);
+ //   mRoot->addFrameListener(mListener);
 }
 
 void BaseApplication::startRenderLoop() {

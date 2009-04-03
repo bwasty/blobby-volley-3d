@@ -1,10 +1,21 @@
-#ifndef BV3D_APPLICATION
-#define BV3D_APPLICATION
+#pragma once
 
 #include "BaseApplication.h"
 
+class Blobb;
+
 class Application : public BaseApplication {
+protected:
+	void createFrameListener(); //TODO: make virtual?
 	void setupScene();
+	
+public:
+	Blobb* getBlobb1() { return mBlobb1; }
+	Blobb* getBlobb2() { return mBlobb2; }
+
+private:
+	Blobb* mBlobb1;
+	Blobb* mBlobb2;
 };
 
-#endif // #ifndef BV3D_APPLICATION
+#pragma once

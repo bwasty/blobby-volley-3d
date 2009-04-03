@@ -25,11 +25,11 @@ Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 positio
 	NxOgre::Sphere* upperSphere = new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]);
 	upperSphere->setLocalPose(NxOgre::Pose(0, 0.7, 0));
 	cs->add(upperSphere); //upper horizontal radius
-	NxOgre::Actor* actor = mNxScene->createBody<NxOgre::Body>("blobb", cs, position, nrp, "mass:10");
+	mActor = mNxScene->createBody<NxOgre::Body>("blobb", cs, position, nrp, "mass:10");
 
 	// create Joint
 	NxScene* realNxScene = mNxScene->getNxScene();
-	NxActor* realActor = actor->getNxActor();
+	NxActor* realActor = mActor->getNxActor();
 
 	NxD6JointDesc d6Desc;
     d6Desc.actor[0] = realActor;    
@@ -44,4 +44,12 @@ Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 positio
 
     d6Desc.projectionMode = NX_JPM_NONE; //TODO: needed?
     mD6Joint=(NxD6Joint*)realNxScene->createJoint(d6Desc);
+}
+
+void Blobb::move(Ogre::Vector2 direction) {
+	mActor->addForce(direction.x, 0, direction.y);
+}
+
+void Blobb::jump(float height) {
+	mActor->addForce(0, height, 0);
 }

@@ -1,5 +1,4 @@
-#ifndef BV3D_BASEAPPLICATION
-#define BV3D_BASEAPPLICATION
+#pragma once
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
@@ -40,8 +39,8 @@ protected:
     virtual void setupScene()=0;
     void setupInputSystem();
     void setupCEGUI();
-    void createFrameListener();
+    virtual void createFrameListener();
     void startRenderLoop();
 };
 
-#endif // #ifndef BV3D_BASEAPPLICATION
+#pragma once

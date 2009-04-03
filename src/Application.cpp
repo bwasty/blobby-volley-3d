@@ -1,7 +1,14 @@
 #include "Application.h"
 #include "Blobb.h"
+#include "Controls.h"
 
 #include "Constants.h"
+
+
+void Application::createFrameListener() {
+	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr, this);
+    mRoot->addFrameListener(mListener);
+}
 
 void Application::setupScene() {
 	mSceneMgr = mRoot->createSceneManager(ST_GENERIC, "Default SceneManager");
@@ -52,7 +59,7 @@ void Application::setupScene() {
  //   light->setSpecularColour(1.0, 1.0, 1.0);
 
 	// blobbs, ball, net
-	new Blobb(mSceneMgr, mNxScene, Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM1);
+	mBlobb1 = new Blobb(mSceneMgr, mNxScene, Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM1);
 
 	//ent = mSceneMgr->createEntity("Blobb2", "Blobb.mesh");
 	//TODO:!how to set color per blobb?
@@ -60,7 +67,7 @@ void Application::setupScene() {
  //   SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->translate(Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0));
 	//node->attachObject(ent);
-	new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2);
+	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2);
 
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
     SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();

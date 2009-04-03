@@ -1,7 +1,5 @@
-#ifndef BV3D_CONSTANTS
-#define BV3D_CONSTANTS
+#pragma once
 
-//#include <vrs/vector.h>
 #include <Ogre.h> //TODO: remove
 
 namespace BV3D
@@ -56,4 +54,3 @@ namespace BV3D
 			{0.5f+0.1f, 1.2f, 1.0f, 0.9f, 0.9f} };
 };
 
-#endif	// BV3D_CONSTANTS
