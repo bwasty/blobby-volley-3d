@@ -12,6 +12,7 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 	using namespace OIS;
 
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
+	mDebugOverlay->remove2D(mDebugOverlay->getChild("Core/LogoPanel"));
 
 	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
 	ParamList pl;
@@ -92,7 +93,7 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
 	if (id == OIS::MouseButtonID::MB_Left)
-		mApp->getBlobb1()->jump(1900);
+		mApp->getBlobb1()->jump(2800);
 	return true;
 }
 

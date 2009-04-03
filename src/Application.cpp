@@ -48,7 +48,7 @@ void Application::setupScene() {
 	Light *light = mSceneMgr->createLight("Light1");
     light->setType(Light::LT_DIRECTIONAL);
     //light->setPosition(Vector3(-BV3D::ARENA_EXTENT[0]/2, BV3D::ARENA_EXTENT[1]/2, -BV3D::ARENA_EXTENT[2]/2));
-	light->setDirection(-Vector3::UNIT_Y+Vector3::UNIT_X);
+	light->setDirection(-Vector3::UNIT_Y+Vector3::UNIT_X*0.2);
 	light->setDiffuseColour(1.0, 1.0, 1.0);
     light->setSpecularColour(1.0, 1.0, 1.0);
 
@@ -88,15 +88,37 @@ void Application::setupScene() {
 	sp.mMaterial = ballMaterial->getMaterialIndex();
 
 	NxOgre::Actor *actor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, /*sp*/"material: ball_material"), position, nrp, "mass:1");
+	actor->putToSleep();
 
-	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh");
+	// create net
+	/* net1.3ds
+		width: 12.0		height: 2.1		depth: 0.14
+	*/
+	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO!: fix netz-befestigungen (unsichtbar von bestimmten seiten -> culling/normals?)
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
     node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
 	//node->translate(Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0));
 	node->rotate(Vector3::UNIT_Y, Radian(Degree(90)));
-	node->translate(Vector3(0,BV3D::NET_HEIGHT,BV3D::ARENA_EXTENT[2]));
+	node->translate(Vector3(0, BV3D::NET_HEIGHT, 6)); //TODO!!: something wrong with z translation from constants -> scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	node->attachObject(ent);
 	node->attachObject(ent2);
+
+	// TODO!!: try prefab shapes for flag poles
+	ent = mSceneMgr->createEntity("net pole 1", SceneManager::PT_CUBE);
+	ent2 = mSceneMgr->createEntity("net pole 2", SceneManager::PT_CUBE);
+	SceneNode* scaleNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	SceneNode* poleNode1 = scaleNode->createChildSceneNode();
+	poleNode1->attachObject(ent);
+	SceneNode* poleNode2 = scaleNode->createChildSceneNode();
+	poleNode2->attachObject(ent2);
+
+	//scaleNode->attachObject(ent);
+	scaleNode->scale(Vector3(0.002));
+	scaleNode->scale(1, 44, 1);
+	scaleNode->translate(0.0, 2.0, 0); // TODO: look in Constants.h...
+
+	poleNode1->translate(0,0,6, SceneNode::TS_WORLD); //TODO: why TS_WORLD??
+	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
 
 }
