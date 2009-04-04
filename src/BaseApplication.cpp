@@ -31,8 +31,6 @@ BaseApplication::~BaseApplication() {
 	delete mNxWorld;
 
     delete mRoot; // deletes also SceneManager, the RenderWindow and so on
-
-
 }
 
 void BaseApplication::createRoot() {

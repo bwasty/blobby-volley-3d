@@ -85,7 +85,15 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
         mCamera->pitch(Degree(-mRotate * e.state.Y.rel));
     }
 	else /*if (e.state.buttonDown(OIS::MB_Left))*/ {
-		mApp->getBlobb1()->move(Vector2(-e.state.X.rel, -e.state.Y.rel)*10);
+		// move blobb taking into account camera direction
+		Vector3 mouseMovement(-e.state.X.rel, 0, -e.state.Y.rel); // ground is xz-plane
+		Vector3 camDir = mCamera->getDirection();
+		camDir.y = 0; // only interested in xz-plane, not sure if this makes a difference though
+		Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
+		mouseMovement = rotation * mouseMovement;
+		mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
+		
+		mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); //TODO: signature of Blobb->move()
 	}
     return true;
 }

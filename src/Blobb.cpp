@@ -51,5 +51,6 @@ void Blobb::move(Ogre::Vector2 direction) {
 }
 
 void Blobb::jump(float height) {
+	//TODO!: prevent Blobb from jumping when already in the air
 	mActor->addForce(0, height, 0);
 }
