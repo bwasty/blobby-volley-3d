@@ -69,6 +69,7 @@ void Application::setupScene() {
 	//node->attachObject(ent);
 	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2);
 
+	// create ball
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
     SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
@@ -96,15 +97,15 @@ void Application::setupScene() {
 	*/
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO!: fix netz-befestigungen (unsichtbar von bestimmten seiten -> culling/normals?)
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
-    node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    SceneNode* netNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
 	//node->translate(Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0));
-	node->rotate(Vector3::UNIT_Y, Radian(Degree(90)));
-	node->translate(Vector3(0, BV3D::NET_HEIGHT, 6)); //TODO!!: something wrong with z translation from constants -> scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
-	node->attachObject(ent);
-	node->attachObject(ent2);
+	netNode->rotate(Vector3::UNIT_Y, Radian(Degree(90)));
+	netNode->translate(Vector3(0, BV3D::NET_HEIGHT, 6)); //TODO: something wrong with z translation from constants -> scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+	netNode->attachObject(ent);
+	netNode->attachObject(ent2);
 
-	// TODO!!: try prefab shapes for flag poles
+	// try prefab shapes for flag poles
 	ent = mSceneMgr->createEntity("net pole 1", SceneManager::PT_CUBE);
 	ent2 = mSceneMgr->createEntity("net pole 2", SceneManager::PT_CUBE);
 	SceneNode* scaleNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -120,5 +121,20 @@ void Application::setupScene() {
 
 	poleNode1->translate(0,0,6, SceneNode::TS_WORLD); //TODO: why TS_WORLD??
 	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
+
+
+	// TODO: create physical net and "cage"
+	netNode->_updateBounds();
+	AxisAlignedBox bb = netNode->_getWorldAABB();
+	Vector3 physNetSize = bb.getSize();
+	physNetSize.y = BV3D::NET_HEIGHT + 2.1; //2.1 is the height of the net model
+	NxOgre::ActorParams ap;
+	ap.setToDefault();
+	ap.mMass = 0.0;
+	mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
+	
+	//TODO!!!: problem cube is solid, create cage-walls separately...
+	mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
+
 
 }

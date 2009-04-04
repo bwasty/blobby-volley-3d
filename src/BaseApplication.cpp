@@ -93,7 +93,7 @@ void BaseApplication::setupPhysics() {
 	mNxWorld = new NxOgre::World("time-controller:ogre, log:yes");
 	mNxScene = mNxWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); //TODO: several scenes for several arenas?
 
-	//mNxWorld->createDebugRenderer(mSceneMgr); //TODO:!make switchable via keyboard...?
+	mNxWorld->createDebugRenderer(mSceneMgr); //TODO:!!make switchable via keyboard...?
 	//mNxWorld->getPhysXDriver()->createDebuggerConnection();
 
 }
