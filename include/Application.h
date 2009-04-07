@@ -4,6 +4,10 @@
 
 class Blobb;
 
+namespace NxOgre {
+	class NxActor;
+}
+
 class Application : public BaseApplication {
 protected:
 	void createFrameListener(); //TODO: make virtual?
@@ -12,6 +16,8 @@ protected:
 public:
 	Blobb* getBlobb1() { return mBlobb1; }
 	Blobb* getBlobb2() { return mBlobb2; }
+
+	NxOgre::Actor* mBallActor;
 
 private:
 	Blobb* mBlobb1;

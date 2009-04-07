@@ -52,26 +52,13 @@ void Application::setupScene() {
 	light->setDiffuseColour(1.0, 1.0, 1.0);
     light->setSpecularColour(1.0, 1.0, 1.0);
 
-	//light = mSceneMgr->createLight("Light2");
- //   light->setType(Light::LT_POINT);
- //   light->setPosition(Vector3(BV3D::ARENA_EXTENT[0]/2, BV3D::ARENA_EXTENT[1]/4, -BV3D::ARENA_EXTENT[2]/2));
-	//light->setDiffuseColour(1.0, 1.0, 1.0);
- //   light->setSpecularColour(1.0, 1.0, 1.0);
-
-	// blobbs, ball, net
+	// blobbs
 	mBlobb1 = new Blobb(mSceneMgr, mNxScene, Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM1);
-
-	//ent = mSceneMgr->createEntity("Blobb2", "Blobb.mesh");
-	//TODO:!how to set color per blobb?
-	//ent->setMaterialName("blobb_green"); 
- //   SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	//node->translate(Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0));
-	//node->attachObject(ent);
 	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
-    SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("BallNode");
 	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
 	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0);
 	node->translate(position);
@@ -88,8 +75,8 @@ void Application::setupScene() {
 	sp.setToDefault();
 	sp.mMaterial = ballMaterial->getMaterialIndex();
 
-	NxOgre::Actor *actor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, /*sp*/"material: ball_material"), position, nrp, "mass:1");
-	actor->putToSleep();
+	mBallActor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, /*sp*/"material: ball_material"), position, nrp, "mass:1");
+	mBallActor->putToSleep();
 
 	// create net
 	/* net1.3ds
@@ -123,7 +110,7 @@ void Application::setupScene() {
 	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
 
 
-	// TODO: create physical net and "cage"
+	// TODO!!: create physical net and "cage"
 	netNode->_updateBounds();
 	AxisAlignedBox bb = netNode->_getWorldAABB();
 	Vector3 physNetSize = bb.getSize();

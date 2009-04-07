@@ -194,6 +194,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 			case 1 : mCamera->setPolygonMode(PM_WIREFRAME); break;
 			case 2 : mCamera->setPolygonMode(PM_POINTS); break;
 		}
+		break;
 	case OIS::KC_F:
 		mStatsOn = !mStatsOn;
 		showDebugOverlay(mStatsOn);
@@ -208,6 +209,11 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 			mApp->getNxWorld()->destroyDebugRenderer();
 		mIsPhysicsVisualDebuggerOn = !mIsPhysicsVisualDebuggerOn;
 		break;
+	case OIS::KC_1:
+		//mSceneMgr->getSceneNode("BallNode")->setPosition(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0));
+		mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0)));
+		mApp->mBallActor->putToSleep();
+		break;		
     } // switch
     return true;
 }
