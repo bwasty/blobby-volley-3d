@@ -6,7 +6,7 @@
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 //TODO!: copy all useful stuff from ExampleFrameListener (keys, stats, overlay, constructor, member variables)
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
-    : mCamera(cam), mWindow(win), mStatsOn(true), mApp(app)
+    : mCamera(cam), mWindow(win), mStatsOn(true), mApp(app), mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false)
 {
 	//TODO!: copy needed parts from ExampleFrameListener constructor
 	using namespace OIS;
@@ -94,14 +94,19 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 		mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
 		
 		mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); //TODO: signature of Blobb->move()
+		if (mControlBothBlobbs)
+			mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
 	}
     return true;
 }
 
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
-	if (id == OIS::MouseButtonID::MB_Left)
-		mApp->getBlobb1()->jump(2800);
+	if (id == OIS::MB_Left) {
+		mApp->getBlobb1()->jump(2400);
+		if (mControlBothBlobbs)
+			mApp->getBlobb2()->jump(2400);
+	}
 	return true;
 }
 
@@ -182,6 +187,27 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
     case OIS::KC_Q:
         mDirection.y -= mMove;
         break;
+	case OIS::KC_R:
+		mSceneDetailIndex = (mSceneDetailIndex+1)%3 ;
+		switch(mSceneDetailIndex) {
+			case 0 : mCamera->setPolygonMode(PM_SOLID); break;
+			case 1 : mCamera->setPolygonMode(PM_WIREFRAME); break;
+			case 2 : mCamera->setPolygonMode(PM_POINTS); break;
+		}
+	case OIS::KC_F:
+		mStatsOn = !mStatsOn;
+		showDebugOverlay(mStatsOn);
+		break;
+	case OIS::KC_B:
+		mControlBothBlobbs = !mControlBothBlobbs;
+		break;
+	case OIS::KC_P:
+		if (!mIsPhysicsVisualDebuggerOn)
+			mApp->getNxWorld()->createDebugRenderer(mSceneMgr);
+		else
+			mApp->getNxWorld()->destroyDebugRenderer();
+		mIsPhysicsVisualDebuggerOn = !mIsPhysicsVisualDebuggerOn;
+		break;
     } // switch
     return true;
 }

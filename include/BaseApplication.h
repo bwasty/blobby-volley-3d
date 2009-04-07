@@ -18,6 +18,8 @@ public:
     void go();
     ~BaseApplication();
 
+	NxOgre::World* getNxWorld() { return mNxWorld; }
+
 protected:
     Root *mRoot;
     OIS::Keyboard *mKeyboard;

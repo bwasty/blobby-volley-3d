@@ -67,7 +67,7 @@ void Application::setupScene() {
  //   SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->translate(Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0));
 	//node->attachObject(ent);
-	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2);
+	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
@@ -134,7 +134,7 @@ void Application::setupScene() {
 	mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
 	
 	//TODO!!!: problem cube is solid, create cage-walls separately...
-	mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
+	//mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
 
 
 }

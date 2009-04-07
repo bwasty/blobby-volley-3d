@@ -1,7 +1,3 @@
-- get NxOgre (PhysX) running with basic objects
- - simplified shapes
- - debug rendering of shapes
-- basic controls (mouse & keyboard)
 - basic application logic (referee)
 - complete net, arena borders
 - simple menu / score display

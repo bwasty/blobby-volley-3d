@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Constants.h"
+#include <OgreColourValue.h>
 
 namespace Ogre {
 	class SceneManager;
@@ -20,7 +21,7 @@ private:
 	NxD6Joint* mD6Joint; /** prevents the blobb from toppling (locks rotational axes */
 
 public:
-	Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Vector3 position, BV3D::TEAM team);
+	Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
 	~Blobb() {
 		// mNxScene handles this usually for PhysX objects, but the joint is created manually (see constructor)
 		delete mD6Joint; 

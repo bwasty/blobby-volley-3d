@@ -55,6 +55,11 @@ protected:
 	Overlay* mDebugOverlay;
 	std::string mDebugText;
 
+	int mSceneDetailIndex ; // for switching to wireframe / point rendering
+
+	int mControlBothBlobbs; // to make development easier: control both blobbs with same mouse
+
+	bool mIsPhysicsVisualDebuggerOn;
 };
 
 
