@@ -3,6 +3,9 @@
 #include "Application.h"
 #include "Blobb.h"
 
+#include "MyGUI.h"
+
+
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 //TODO!: copy all useful stuff from ExampleFrameListener (keys, stats, overlay, constructor, member variables)
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
@@ -55,6 +58,16 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
     mKeyboard->setEventCallback(this);
 
     mDirection = Vector3::ZERO;
+
+	// setup MyGUI
+	mGUI = new MyGUI::Gui();
+	mGUI->initialise(mWindow);
+}
+
+bool ControlsListener::frameStarted(const FrameEvent &evt) {
+	mGUI->injectFrameEntered(evt.timeSinceLastFrame);
+
+	return mContinue;
 }
 
 bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
@@ -77,6 +90,8 @@ bool ControlsListener::frameEnded(const Ogre::FrameEvent &evt) {
 // MouseListener
 bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 {
+	mGUI->injectMouseMove(e);
+
     if (e.state.buttonDown(OIS::MB_Right))
     {
         //mCamNode->yaw(Degree(-mRotate * e.state.X.rel), Node::TS_WORLD);
@@ -102,6 +117,8 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
+	mGUI->injectMousePress(e, id);
+
 	if (id == OIS::MB_Left) {
 		mApp->getBlobb1()->jump(2400);
 		if (mControlBothBlobbs)
@@ -110,11 +127,17 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 	return true;
 }
 
-bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id) { return true; }
+bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id) { 
+	mGUI->injectMouseRelease(e, id);
+
+	return true; 
+}
 
 // KeyListener
 bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 {
+	mGUI->injectKeyPress(e);
+
     switch (e.key)
     {
     case OIS::KC_ESCAPE: 
@@ -156,6 +179,8 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 
 bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 {
+	mGUI->injectKeyRelease(e);
+
     switch (e.key)
     {
     case OIS::KC_UP:

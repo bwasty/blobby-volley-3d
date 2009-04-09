@@ -7,11 +7,16 @@
 //class ExampleFrameListener;
 class Application;
 
+namespace MyGUI {
+	class Gui;
+}
+
 class ControlsListener : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
 	ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app);
 
+	bool frameStarted(const FrameEvent &evt);
     bool frameRenderingQueued(const FrameEvent &evt);
 	bool frameEnded(const FrameEvent &evt);
 
@@ -60,6 +65,8 @@ protected:
 	int mControlBothBlobbs; // to make development easier: control both blobbs with same mouse
 
 	bool mIsPhysicsVisualDebuggerOn;
+
+	MyGUI::Gui * mGUI;
 };
 
 

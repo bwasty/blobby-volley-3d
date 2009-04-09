@@ -123,14 +123,14 @@ void BaseApplication::setupInputSystem() {
  //   }
 }
 
-void BaseApplication::setupCEGUI() {
-	SceneManager *mgr = mRoot->getSceneManager("Default SceneManager");
-    RenderWindow *win = mRoot->getAutoCreatedWindow();
-
-    // CEGUI setup
-    mRenderer = new CEGUI::OgreCEGUIRenderer(win, Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mgr);
-   // mSystem = new CEGUI::System(mRenderer); TODO!: problem in release mode
-}
+//void BaseApplication::setupCEGUI() {
+//	SceneManager *mgr = mRoot->getSceneManager("Default SceneManager");
+//    RenderWindow *win = mRoot->getAutoCreatedWindow();
+//
+//    // CEGUI setup
+//    mRenderer = new CEGUI::OgreCEGUIRenderer(win, Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mgr);
+//   // mSystem = new CEGUI::System(mRenderer); TODO!: problem in release mode
+//}
 
 void BaseApplication::createFrameListener() {
 	//mListener = new ExitListener(mKeyboard);

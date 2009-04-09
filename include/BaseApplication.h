@@ -40,7 +40,7 @@ protected:
 	void setupPhysics();
     virtual void setupScene()=0;
     void setupInputSystem();
-    void setupCEGUI();
+    //void setupCEGUI();
     virtual void createFrameListener();
     void startRenderLoop();
 };
