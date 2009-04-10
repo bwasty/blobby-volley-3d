@@ -9,9 +9,10 @@
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 //TODO!: copy all useful stuff from ExampleFrameListener (keys, stats, overlay, constructor, member variables)
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
-    : mCamera(cam), mWindow(win), mStatsOn(true), mApp(app), mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false)
+	: mCamera(cam), mWindow(win), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
+	  mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(true), mContinue(true)
 {
-	//TODO!: copy needed parts from ExampleFrameListener constructor
+	//copied needed parts from ExampleFrameListener constructor
 	using namespace OIS;
 
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
@@ -28,7 +29,7 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 
 	mInputManager = InputManager::createInputSystem( pl );
 
-	//Create all devices (We only catch joystick exceptions here, as, most people have Key/Mouse)
+	//Create all devices
 	mKeyboard = static_cast<Keyboard*>(mInputManager->createInputObject( OISKeyboard, true ));
 	mMouse = static_cast<Mouse*>(mInputManager->createInputObject( OISMouse, true ));
 
@@ -42,26 +43,40 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 
 	// end copy from ExampleFrameListener
 
-
-    // Populate the camera and scene manager containers
-    //mCamNode = cam->getParentSceneNode();
-    mSceneMgr = sceneMgr;
-
     // set the rotation and move speed
     mRotate = 0.10;
     mMove = 10;
 
-    // continue rendering
-    mContinue = true;
-
     mMouse->setEventCallback(this);
     mKeyboard->setEventCallback(this);
 
-    mDirection = Vector3::ZERO;
-
-	// setup MyGUI
+	// setup MyGUI TODO: right place to setup MyGUI?
 	mGUI = new MyGUI::Gui();
 	mGUI->initialise(mWindow);
+	//mGUI->hidePointer();
+
+	// MyGUI help tooltip TODO: extra function for gui creation
+	//TODO!: size, pin help tooltip on click?
+	Ogre::UTFString _text("Controls for Blobby Volley 3D:\n\
+SPACE         switch between GUI and play mode\n\
+W,A,S,D,Q,E   Move camera (Alternative: Cursors)\n\
+P             Toggle PhysX Debug Renderer\n\
+B			  Toggle control of both blobbs\n\
+1			  Reset ball\n\
+F			  Toggle display of frame stats\n\
+R			  Cycle Rendering Modes: normal, wireframe, point");
+	MyGUI::EditPtr text = nullptr;
+	MyGUI::WidgetPtr panel = mGUI->createWidget<MyGUI::Widget>("PanelSmall", mGUI->getViewWidth(), -128, 400, 178, MyGUI::Align::Default, "Statistic");
+	text = panel->createWidget<MyGUI::Edit>("WordWrapSimple", 10, 10, 380, 158, MyGUI::Align::Default);
+	//text->setTextColour(MyGUI::Colour(0, 1, 0, 1));
+	MyGUI::StaticImagePtr image = panel->createWidget<MyGUI::StaticImage>(MyGUI::WidgetStyle::Popup, "StaticImage", MyGUI::IntCoord(mGUI->getViewWidth()-48, 0, 48, 48), MyGUI::Align::Default, "Back");
+	image->setItemResource("pic_CoreMessageIcon");
+	image->setItemGroup("Icons");
+	image->setItemName("Quest");
+
+	MyGUI::ControllerEdgeHide * controller = new MyGUI::ControllerEdgeHide(0.5);
+	MyGUI::ControllerManager::getInstance().addItem(panel, controller);
+	text->setCaption(_text);
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
@@ -100,17 +115,19 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
         mCamera->pitch(Degree(-mRotate * e.state.Y.rel));
     }
 	else /*if (e.state.buttonDown(OIS::MB_Left))*/ {
-		// move blobb taking into account camera direction
-		Vector3 mouseMovement(-e.state.X.rel, 0, -e.state.Y.rel); // ground is xz-plane
-		Vector3 camDir = mCamera->getDirection();
-		camDir.y = 0; // only interested in xz-plane, not sure if this makes a difference though
-		Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
-		mouseMovement = rotation * mouseMovement;
-		mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
-		
-		mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); //TODO: signature of Blobb->move()
-		if (mControlBothBlobbs)
-			mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
+		if (!mGuiMode) {
+			// move blobb taking into account camera direction
+			Vector3 mouseMovement(-e.state.X.rel, 0, -e.state.Y.rel); // ground is xz-plane
+			Vector3 camDir = mCamera->getDirection();
+			camDir.y = 0; // only interested in xz-plane, not sure if this makes a difference though
+			Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
+			mouseMovement = rotation * mouseMovement;
+			mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
+			
+			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); //TODO: signature of Blobb->move()
+			if (mControlBothBlobbs)
+				mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
+		}
 	}
     return true;
 }
@@ -119,10 +136,12 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 {
 	mGUI->injectMousePress(e, id);
 
-	if (id == OIS::MB_Left) {
-		mApp->getBlobb1()->jump(2400);
-		if (mControlBothBlobbs)
-			mApp->getBlobb2()->jump(2400);
+	if (!mGuiMode) {
+		if (id == OIS::MB_Left) {
+			mApp->getBlobb1()->jump(2400);
+			if (mControlBothBlobbs)
+				mApp->getBlobb2()->jump(2400);
+		}
 	}
 	return true;
 }
@@ -239,6 +258,10 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0)));
 		mApp->mBallActor->putToSleep();
 		break;		
+	case OIS::KC_SPACE:
+		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer(); //TODO!!: hidePointer not enough -> don't inject events into mygui when not in gui mode?
+		mGuiMode = !mGuiMode;
+		break;
     } // switch
     return true;
 }

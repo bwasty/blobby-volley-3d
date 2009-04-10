@@ -67,6 +67,7 @@ protected:
 	bool mIsPhysicsVisualDebuggerOn;
 
 	MyGUI::Gui * mGUI;
+	bool mGuiMode; // when true mouse pointer is displayed and blobbs can't be controlled
 };
 
 

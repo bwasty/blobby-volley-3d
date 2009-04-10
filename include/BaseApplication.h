@@ -2,8 +2,8 @@
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
-#include <CEGUI/CEGUI.h>
-#include <OgreCEGUIRenderer.h> //TODO: comes from OgreSDK/samples/include...what to do?
+//#include <CEGUI/CEGUI.h>
+//#include <OgreCEGUIRenderer.h> //TODO: comes from OgreSDK/samples/include...what to do?
 #include <NxOgre.h> // TODO: move to CPP?
 
 using namespace Ogre;
@@ -24,8 +24,8 @@ protected:
     Root *mRoot;
     OIS::Keyboard *mKeyboard;
     OIS::InputManager *mInputManager;
-    CEGUI::OgreCEGUIRenderer *mRenderer;
-    CEGUI::System *mSystem;
+    //CEGUI::OgreCEGUIRenderer *mRenderer;
+    //CEGUI::System *mSystem;
     ControlsListener *mListener;
 	Camera *mCamera;
 	SceneManager *mSceneMgr;
