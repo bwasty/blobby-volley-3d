@@ -4,6 +4,7 @@
 
 #include "Constants.h"
 
+//TODO!: project settings -> NXOGRE_DIR -> local url to Folder....
 
 void Application::createFrameListener() {
 	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr, this);
