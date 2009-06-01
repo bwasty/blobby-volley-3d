@@ -1,4 +1,3 @@
-//#include "ExampleApplication.h"
 #include "Controls.h"
 #include "Application.h"
 #include "Blobb.h"

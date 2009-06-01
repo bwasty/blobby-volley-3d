@@ -11,7 +11,6 @@ void BaseApplication::go() {
     initializeResourceGroups();
     setupScene();
     //setupInputSystem();
-    //setupCEGUI(); TODO!: out because of problem in release mode
     createFrameListener();
     startRenderLoop();
 }
@@ -21,16 +20,12 @@ BaseApplication::~BaseApplication() {
 	//mInputManager->destroyInputObject(mKeyboard); //TODO: causes problem, maybe because of ExampleFrameListener?
     //OIS::InputManager::destroyInputSystem(mInputManager); //TODO: same as above
 
-	//CEGUI
-	//delete mRenderer;
-    //delete mSystem;
-
 	delete mListener;
 
 	// delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
 	delete mNxWorld;
 
-    delete mRoot; // deletes also SceneManager, the RenderWindow and so on
+    //delete mRoot; // deletes also SceneManager, the RenderWindow and so on TODO: Problem: access violation on shutdown of D3D9 renderer
 }
 
 void BaseApplication::createRoot() {
@@ -122,15 +117,6 @@ void BaseApplication::setupInputSystem() {
  //       throw Exception(42, e.eText, "Application::setupInputSystem");
  //   }
 }
-
-//void BaseApplication::setupCEGUI() {
-//	SceneManager *mgr = mRoot->getSceneManager("Default SceneManager");
-//    RenderWindow *win = mRoot->getAutoCreatedWindow();
-//
-//    // CEGUI setup
-//    mRenderer = new CEGUI::OgreCEGUIRenderer(win, Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mgr);
-//   // mSystem = new CEGUI::System(mRenderer); TODO!: problem in release mode
-//}
 
 void BaseApplication::createFrameListener() {
 	//mListener = new ExitListener(mKeyboard);

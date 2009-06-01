@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib OIS_d.lib CEGUIBase_d.lib OgreGUIRenderer_d.lib NxOgre_d.lib PhysXLoader.lib NxCooking.lib NxCharacter.lib MyGUI_d.lib"
+				AdditionalDependencies="OgreMain_d.lib OIS_d.lib NxOgre_d.lib PhysXLoader.lib MyGUI_d.lib"
 				OutputFile=".\bin\debug\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Debug&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;&quot;$(NXOGRE_DIR)\lib&quot;;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\debug"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OIS.lib CEGUIBase.lib OgreGUIRenderer.lib NxOgre.lib PhysXLoader.lib NxCooking.lib NxCharacter.lib MyGUI.lib"
+				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre.lib PhysXLoader.lib MyGUI.lib"
 				OutputFile=".\bin\release\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Release&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;&quot;$(NXOGRE_DIR)\lib&quot;;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\release"
