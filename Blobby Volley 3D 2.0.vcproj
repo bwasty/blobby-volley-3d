@@ -40,10 +40,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;&quot;$(OGRE_SRC)\OgreMain\include&quot;;&quot;$(OGRE_SRC)\Samples\Common\include&quot;;&quot;$(OGRE_SRC)\Samples\Common\CEGUIRenderer\include&quot;;&quot;$(OGRE_SRC)\Dependencies\include\&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(NXOGRE_DIR)\include&quot;;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\include;.\Dependencies\MyGUI2.2.2_source\Common\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				MinimalRebuild="true"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -119,8 +120,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".\include;&quot;$(OGRE_SRC)\OgreMain\include&quot;;&quot;$(OGRE_SRC)\Samples\Common\include&quot;;&quot;$(OGRE_SRC)\Samples\Common\CEGUIRenderer\include&quot;;&quot;$(OGRE_SRC)\Dependencies\include\&quot;;&quot;$(PHYSX_DIR)\SDKs\Physics\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Foundation\include&quot;;&quot;$(PHYSX_DIR)\SDKs\Cooking\include&quot;;&quot;$(PHYSX_DIR)\SDKs\NxCharacter\include&quot;;&quot;$(PHYSX_DIR)\SDKs\PhysXLoader\include&quot;;&quot;$(NXOGRE_DIR)\include&quot;;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\include;.\Dependencies\MyGUI2.2.2_source\Common\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				MinimalRebuild="false"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

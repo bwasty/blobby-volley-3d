@@ -80,7 +80,7 @@ R			  Cycle Rendering Modes: normal, wireframe, point");
 
 
 	// create console
-	//demo::Console* console = new demo::Console();
+	Console* console = new Console();
 	//console->setVisible(true);
 }
 
