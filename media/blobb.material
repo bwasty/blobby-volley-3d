@@ -5,13 +5,14 @@ material blobb_material
 	{
 		pass
 		{
+			//shading phong
 			//TODO: alpha was 0.701841, make opaque for now
 			ambient 0.000000 0.00000 1.00000 1.00000
 			diffuse 0.000000 0.000000 1.000000 1.00000
 			specular 1.000000 1.000000 1.000000 1.00000 25.00000
 			emissive 0.000000 0.000000 0.000000 1.00000
-			scene_blend alpha_blend
-			depth_write off
+			//scene_blend alpha_blend
+			//depth_write off
 		}
 	}
 }

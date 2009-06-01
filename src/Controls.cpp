@@ -3,6 +3,7 @@
 #include "Blobb.h"
 
 #include "MyGUI.h"
+#include "Console.h"
 
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
@@ -76,6 +77,11 @@ R			  Cycle Rendering Modes: normal, wireframe, point");
 	MyGUI::ControllerEdgeHide * controller = new MyGUI::ControllerEdgeHide(0.5);
 	MyGUI::ControllerManager::getInstance().addItem(panel, controller);
 	text->setCaption(_text);
+
+
+	// create console
+	//demo::Console* console = new demo::Console();
+	//console->setVisible(true);
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
