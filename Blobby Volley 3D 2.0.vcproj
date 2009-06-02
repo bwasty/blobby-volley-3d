@@ -238,6 +238,10 @@
 				RelativePath=".\include\Controls.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\OgreImprovedConfigFile.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

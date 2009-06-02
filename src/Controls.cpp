@@ -372,12 +372,9 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 		//TODO!: need LogListener to get log into console
 	}
 	else if (key == "config") {
-		mConsole->addToConsole(mApp->mConfigFile.getSetting("Test"));
-		mConsole->addToConsole(mApp->mConfigFile.getSetting("Otherthing"));
-		//ConfigFile::SectionIterator it = mApp->mConfigFile->getSettingsIterator();
-		//for(;it.hasMoreElements(); it.moveNext()) {
-		//	std::map<String, SettingsMultiMap*> map = it.getNext();
-		//	map.
-		//}
+		mConsole->addToConsole(mApp->mConfig.getSetting("Test"));
+		mConsole->addToConsole(mApp->mConfig.getSetting("Otherthing"));
+		mApp->mConfig.setSetting((Ogre::String)"MyNewSetting", (Ogre::String)"42"); //NOTE: literal Strings are interpreted as booleans!! cast to Ogre::String always
+		mApp->mConfig.save();
 	}
 }

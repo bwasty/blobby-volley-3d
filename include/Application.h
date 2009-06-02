@@ -8,9 +8,11 @@ namespace NxOgre {
 	class NxActor;
 }
 
-namespace Ogre {
-	class ConfigFile;
-}
+//TODO: why doesn't this work?
+//namespace Ogre {
+//	class ImprovedConfigFile;
+//}
+#include "OgreImprovedConfigFile.h"
 
 class Application : public BaseApplication {
 protected:
@@ -24,7 +26,7 @@ public:
 
 	NxOgre::Actor* mBallActor;
 
-	Ogre::ConfigFile mConfigFile;
+	Ogre::ImprovedConfigFile mConfig;
 
 private:
 	Blobb* mBlobb1;
