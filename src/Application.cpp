@@ -8,6 +8,15 @@
 Application::Application() : mConfig() {
 	const String pathToConfig = "../BV3D.cfg"; // TODO: working directory-independent solution?
 	mConfig.load(pathToConfig, "=\t:", true);
+
+	/* dump of current default config
+	ARENA_EXTENT=16.0 30.0 7.0
+	BALL_RADIUS=0.9;
+	LOOK_FROM=0.0 9.0 -16.0
+	LOOK_TO=0.0 4.0 0.0
+	NET_HEIGHT=4.2;
+	*/
+
 }
 
 
@@ -31,8 +40,8 @@ void Application::setupScene() {
 	vp->setBackgroundColour(ColourValue(0.1,0.1,0.1));
 
 	// camera position and orientation
-	mCamera->setPosition(BV3D::LOOK_FROM);
-	mCamera->lookAt(BV3D::LOOK_TO);
+	mCamera->setPosition(mConfig.getSettingVector3("LOOK_FROM"));
+	mCamera->lookAt(mConfig.getSettingVector3("LOOK_TO"));
 
 	// floor plane
 	Plane plane(Vector3::UNIT_Y, 0);
@@ -59,14 +68,16 @@ void Application::setupScene() {
     light->setSpecularColour(1.0, 1.0, 1.0);
 
 	// blobbs
-	mBlobb1 = new Blobb(mSceneMgr, mNxScene, Vector3(-BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM1);
-	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(BV3D::ARENA_EXTENT[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
+	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
+	mBlobb1 = new Blobb(mSceneMgr, mNxScene, Vector3(-arenaExtent[0]/2,1.0,0.0), BV3D::TEAM1);
+	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
+	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
 	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
     SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("BallNode");
-	node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
-	Vector3 position = Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0);
+	node->scale(Vector3(ballRadius / 1.7));
+	Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
 	node->translate(position);
 	node->attachObject(ent);
 
@@ -81,20 +92,21 @@ void Application::setupScene() {
 	sp.setToDefault();
 	sp.mMaterial = ballMaterial->getMaterialIndex();
 
-	mBallActor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(BV3D::BALL_RADIUS, /*sp*/"material: ball_material"), position, nrp, "mass:1");
+	mBallActor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(ballRadius, /*sp*/"material: ball_material"), position, nrp, "mass:1");
 	mBallActor->putToSleep();
 
 	// create net
 	/* net1.3ds
 		width: 12.0		height: 2.1		depth: 0.14
 	*/
+	Real netHeight = mConfig.getSettingReal("NET_HEIGHT");
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO!: fix netz-befestigungen (unsichtbar von bestimmten seiten -> culling/normals?)
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
     SceneNode* netNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
 	//node->translate(Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0));
 	netNode->rotate(Vector3::UNIT_Y, Radian(Degree(90)));
-	netNode->translate(Vector3(0, BV3D::NET_HEIGHT, 6)); //TODO: something wrong with z translation from constants -> scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+	netNode->translate(Vector3(0, netHeight, 6)); //TODO: something wrong with z translation from constants -> scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	netNode->attachObject(ent);
 	netNode->attachObject(ent2);
 
@@ -120,14 +132,14 @@ void Application::setupScene() {
 	netNode->_updateBounds();
 	AxisAlignedBox bb = netNode->_getWorldAABB();
 	Vector3 physNetSize = bb.getSize();
-	physNetSize.y = BV3D::NET_HEIGHT + 2.1; //2.1 is the height of the net model
+	physNetSize.y = netHeight + 2.1; //2.1 is half? the height of the net model
 	NxOgre::ActorParams ap;
 	ap.setToDefault();
 	ap.mMass = 0.0;
-	mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
+	mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 	
 	//TODO!!!: problem cube is solid, create cage-walls separately...
-	//mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (BV3D::NET_HEIGHT+2.1)/2, 0.0)), ap);
+	//mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 
 
 }

@@ -272,7 +272,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		break;
 	case OIS::KC_1:
 		//mSceneMgr->getSceneNode("BallNode")->setPosition(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0));
-		mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0)));
+		mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0)));
 		mApp->mBallActor->putToSleep();
 		break;		
 	case OIS::KC_SPACE:
@@ -372,9 +372,9 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 		//TODO!: need LogListener to get log into console
 	}
 	else if (key == "config") {
-		mConsole->addToConsole(mApp->mConfig.getSetting("Test"));
-		mConsole->addToConsole(mApp->mConfig.getSetting("Otherthing"));
-		mApp->mConfig.setSetting((Ogre::String)"MyNewSetting", (Ogre::String)"42"); //NOTE: literal Strings are interpreted as booleans!! cast to Ogre::String always
-		mApp->mConfig.save();
+		//mConsole->addToConsole(mApp->mConfig.getSetting("Test"));
+		//mConsole->addToConsole(mApp->mConfig.getSetting("Otherthing"));
+		//mApp->mConfig.setSetting("MyNewSetting", Vector3(1.2, 2.3, 4.2)); //NOTE: literal Strings are interpreted as booleans!! cast to Ogre::String always
+		//mApp->mConfig.save();
 	}
 }
