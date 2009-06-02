@@ -6,6 +6,7 @@
 
 //class ExampleFrameListener;
 class Application;
+class Console;
 
 namespace MyGUI {
 	class Gui;
@@ -34,6 +35,8 @@ public:
 
 	void windowResized(RenderWindow* rw);
 	void windowClosed(RenderWindow* rw);
+
+	void consoleCommand(const Ogre::UTFString & _key, const Ogre::UTFString & _value);
 
 protected:
 	Application* mApp;
@@ -68,6 +71,8 @@ protected:
 
 	MyGUI::Gui * mGUI;
 	bool mGuiMode; // when true mouse pointer is displayed and blobbs can't be controlled
+
+	Console* mConsole;
 };
 
 

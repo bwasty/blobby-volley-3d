@@ -7,10 +7,9 @@
 
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
-//TODO!: copy all useful stuff from ExampleFrameListener (keys, stats, overlay, constructor, member variables)
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
 	: mCamera(cam), mWindow(win), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
-	  mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(true), mContinue(true)
+	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinue(true), mDebugText("Press SPACE to enter GUI mode")
 {
 	//copied needed parts from ExampleFrameListener constructor
 	using namespace OIS;
@@ -53,7 +52,7 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 	// setup MyGUI TODO: right place to setup MyGUI?
 	mGUI = new MyGUI::Gui();
 	mGUI->initialise(mWindow);
-	//mGUI->hidePointer();
+	mGUI->hidePointer();
 
 	// MyGUI help tooltip TODO: extra function for gui creation
 	//TODO!: size, pin help tooltip on click?
@@ -64,7 +63,8 @@ P             Toggle PhysX Debug Renderer\n\
 B			  Toggle control of both blobbs\n\
 1			  Reset ball\n\
 F			  Toggle display of frame stats\n\
-R			  Cycle Rendering Modes: normal, wireframe, point");
+R			  Cycle Rendering Modes: normal, wireframe, point\n\
+^			  Toggle Console");
 	MyGUI::EditPtr text = nullptr;
 	MyGUI::WidgetPtr panel = mGUI->createWidget<MyGUI::Widget>("PanelSmall", mGUI->getViewWidth(), -128, 400, 178, MyGUI::Align::Default, "Statistic");
 	text = panel->createWidget<MyGUI::Edit>("WordWrapSimple", 10, 10, 380, 158, MyGUI::Align::Default);
@@ -80,8 +80,11 @@ R			  Cycle Rendering Modes: normal, wireframe, point");
 
 
 	// create console
-	Console* console = new Console();
-	//console->setVisible(true);
+	mConsole = new Console();
+	//mConsole->setVisible(false);
+
+	mConsole->registerConsoleDelegate("ogre_log", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
@@ -110,7 +113,8 @@ bool ControlsListener::frameEnded(const Ogre::FrameEvent &evt) {
 // MouseListener
 bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 {
-	mGUI->injectMouseMove(e);
+	if (mGuiMode)
+		mGUI->injectMouseMove(e);
 
     if (e.state.buttonDown(OIS::MB_Right))
     {
@@ -139,9 +143,9 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
-	mGUI->injectMousePress(e, id);
-
-	if (!mGuiMode) {
+	if (mGuiMode)
+		mGUI->injectMousePress(e, id);
+	else {
 		if (id == OIS::MB_Left) {
 			mApp->getBlobb1()->jump(2400);
 			if (mControlBothBlobbs)
@@ -160,7 +164,9 @@ bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonI
 // KeyListener
 bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 {
-	mGUI->injectKeyPress(e);
+	bool processed = mGUI->injectKeyPress(e);
+	if (processed) 
+		return true;
 
     switch (e.key)
     {
@@ -197,13 +203,18 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
     case OIS::KC_Q:
         mDirection.y += mMove;
         break;
+	case OIS::KC_GRAVE:
+		mConsole->setVisible(!mConsole->isVisible());
+		break;
     }
     return true;
 }
 
 bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 {
-	mGUI->injectKeyRelease(e);
+	bool processed = mGUI->injectKeyRelease(e);
+	if (processed) 
+		return true;
 
     switch (e.key)
     {
@@ -264,8 +275,9 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		mApp->mBallActor->putToSleep();
 		break;		
 	case OIS::KC_SPACE:
-		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer(); //TODO!!: hidePointer not enough -> don't inject events into mygui when not in gui mode?
+		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer();
 		mGuiMode = !mGuiMode;
+		mDebugText = "";
 		break;
     } // switch
     return true;
@@ -346,5 +358,16 @@ void ControlsListener::showDebugOverlay(bool show)
 			mDebugOverlay->show();
 		else
 			mDebugOverlay->hide();
+	}
+}
+
+void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & value) {
+	//mConsole->addToConsole(key + "," + value);
+    //mConsole->addToConsole("1", "2", "3");
+	if (key == "clear")
+		mConsole->clearConsole();
+	else if (key == "ogre_log") {
+		//LogManager::getSingleton().getDefaultLog()->
+		//TODO!: need LogListener to get log into console
 	}
 }
