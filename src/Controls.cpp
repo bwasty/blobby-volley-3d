@@ -85,6 +85,7 @@ R			  Cycle Rendering Modes: normal, wireframe, point\n\
 
 	mConsole->registerConsoleDelegate("ogre_log", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
@@ -369,5 +370,14 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 	else if (key == "ogre_log") {
 		//LogManager::getSingleton().getDefaultLog()->
 		//TODO!: need LogListener to get log into console
+	}
+	else if (key == "config") {
+		mConsole->addToConsole(mApp->mConfigFile.getSetting("Test"));
+		mConsole->addToConsole(mApp->mConfigFile.getSetting("Otherthing"));
+		//ConfigFile::SectionIterator it = mApp->mConfigFile->getSettingsIterator();
+		//for(;it.hasMoreElements(); it.moveNext()) {
+		//	std::map<String, SettingsMultiMap*> map = it.getNext();
+		//	map.
+		//}
 	}
 }

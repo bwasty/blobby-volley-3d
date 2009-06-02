@@ -5,6 +5,10 @@
 #include "Constants.h"
 
 //TODO!: project settings -> NXOGRE_DIR -> local url to Folder....
+Application::Application() :mConfigFile() {
+	mConfigFile.loadDirect("C:/Users/BennyWasty/Documents/proggen/Blobby Volley 3D 2.0/media/BV3D.cfg"); //TODO!!!: make work with relative path
+}
+
 
 void Application::createFrameListener() {
 	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr, this);
