@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Blobb.h"
 
-#include "MyGUI.h"
+//#include "MyGUI.h"
 #include "Console.h"
 
 

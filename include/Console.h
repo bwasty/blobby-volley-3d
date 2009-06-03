@@ -9,7 +9,7 @@
 #ifndef __CONSOLE_H__
 #define __CONSOLE_H__
 
-#include <MyGUI.h>
+//#include <MyGUI.h>
 #include "BaseLayout/BaseLayout.h"
 
 

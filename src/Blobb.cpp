@@ -1,8 +1,11 @@
-#include "BaseApplication.h" //TODO: sort out includes...
 #include "Blobb.h"
 #include <OgreSceneManager.h>
 #include <OgreEntity.h>
 #include <OgreSubEntity.h>
+
+#include <NxOgre.h>
+
+using namespace Ogre;
 
 Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour)
 		: mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {

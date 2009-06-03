@@ -8,8 +8,8 @@
 */
 //#include "precompiled.h"
 //#include <vector>
-#include <Ogre.h>
-#include <OIS/OIS.h>
+//#include <Ogre.h>
+//#include <OIS/OIS.h>
 #include "Console.h"
 
 
