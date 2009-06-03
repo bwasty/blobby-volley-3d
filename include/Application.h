@@ -8,10 +8,6 @@ namespace NxOgre {
 	class NxActor;
 }
 
-//TODO: why doesn't this work?
-//namespace Ogre {
-//	class ImprovedConfigFile;
-//}
 #include "OgreImprovedConfigFile.h"
 
 class Application : public BaseApplication {

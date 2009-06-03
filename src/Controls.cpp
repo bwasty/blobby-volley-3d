@@ -83,9 +83,11 @@ R			  Cycle Rendering Modes: normal, wireframe, point\n\
 	mConsole = new Console();
 	//mConsole->setVisible(false);
 
-	mConsole->registerConsoleDelegate("ogre_log", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("config_all", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("config_save", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
@@ -363,20 +365,35 @@ void ControlsListener::showDebugOverlay(bool show)
 }
 
 void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & value) {
-	// TODO!!!: implement changing and saving any config value, make run-time changable
-
 	//mConsole->addToConsole(key + "," + value);
     //mConsole->addToConsole("1", "2", "3");
 	if (key == "clear")
 		mConsole->clearConsole();
-	else if (key == "ogre_log") {
-		//LogManager::getSingleton().getDefaultLog()->
-		//TODO!: need LogListener to get log into console
-	}
 	else if (key == "config") {
-		//mConsole->addToConsole(mApp->mConfig.getSetting("Test"));
-		//mConsole->addToConsole(mApp->mConfig.getSetting("Otherthing"));
 		//mApp->mConfig.setSetting("MyNewSetting", Vector3(1.2, 2.3, 4.2)); //NOTE: literal Strings are interpreted as booleans!! cast to Ogre::String always
-		//mApp->mConfig.save();
+
+		std::vector<String> values = StringUtil::split(value, " ", 1);
+		if (values.size() == 1) { // only a setting name -> print the value of the setting
+			String setting = mApp->mConfig.getSetting(values[0]);
+			if (setting.size() == 0)
+				mConsole->addToConsole(mConsole->getConsoleStringError() + "No such setting!");
+			else
+				mConsole->addToConsole(values[0] + ": " + setting);
+		}
+		else { // setting name + new value -> save new value
+			mApp->mConfig.setSetting(values[0], values[1]);
+			mConsole->addToConsole(mConsole->getConsoleStringSuccess()+" "+values[0] + ": "+values[1]);
+		}
+	}
+	else if (key == "config_all") {
+		ImprovedConfigFile::SettingsIterator sit = mApp->mConfig.getSettingsIterator();
+		while (sit.hasMoreElements()) {
+			mConsole->addToConsole(sit.peekNextKey() + " = "+sit.peekNextValue());
+			sit.moveNext();
+		}
+	}
+	else if (key == "config_save") {
+		//TODO: save config - give filename/do backup??
+		mApp->mConfig.save();
 	}
 }
