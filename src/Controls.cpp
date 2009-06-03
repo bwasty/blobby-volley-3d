@@ -105,6 +105,9 @@ bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
 
     //mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
 	mCamera->moveRelative(mDirection * evt.timeSinceLastFrame); // TODO: does it the same as above?
+
+	mApp->mNxTimeController->advance(1.0f/60.0f);
+
     return mContinue;
 }
 

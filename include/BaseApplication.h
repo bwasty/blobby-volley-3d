@@ -2,16 +2,26 @@
 
 //#include <Ogre.h>
 //#include <OIS/OIS.h>
-#include <NxOgre.h> // TODO: move to CPP?
+//#include <NxOgre.h> // TODO: move to CPP?
 
-using namespace Ogre;
+//namespace Ogre {
+//	class Root;
+//	class Camera;
+//	class SceneManager;
+//}
 
-class ControlsListener;
+//class ControlsListener;
 
-namespace OIS {
-	class Keyboard;
-	class InputManager;
-}
+//namespace OIS {
+//	class Keyboard;
+//	class InputManager;
+//}
+
+//namespace NxOgre {
+//	class World;
+//	class TimeController;
+//	class Scene;
+//}
 
 // Basic initialisation of Ogre, Plugins and additional libraries. Mostly independent from the concrete application and taken from Tutorials/Demos. 
 // Subclasses should at least override setupScene() for setting up the visual scene...
@@ -22,16 +32,18 @@ public:
     ~BaseApplication();
 
 	NxOgre::World* getNxWorld() { return mNxWorld; }
+	NxOgre::TimeController* mNxTimeController;
 
 protected:
-    Root *mRoot;
+	Ogre::Root *mRoot;
     OIS::Keyboard *mKeyboard;
     OIS::InputManager *mInputManager;
     ControlsListener *mListener;
-	Camera *mCamera;
-	SceneManager *mSceneMgr;
+	Ogre::Camera *mCamera;
+	Ogre::SceneManager *mSceneMgr;
 	NxOgre::World* mNxWorld;
 	NxOgre::Scene* mNxScene;
+	OGRE3DRenderSystem* mNxRenderSystem;
 
     void createRoot();
     void defineResources();

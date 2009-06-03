@@ -1,8 +1,11 @@
-#include "BaseApplication.h"
 #include "Controls.h"
 #include <OgreRoot.h>
 #include <OgreConfigFile.h>
 #include <OgreTextureManager.h>
+#include <NxOgre.h>
+#include <OGRE3DRenderSystem.h>
+
+#include "BaseApplication.h"
 
 using namespace Ogre;
 
@@ -26,7 +29,8 @@ BaseApplication::~BaseApplication() {
 	delete mListener;
 
 	// delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
-	delete mNxWorld;
+	//delete mNxWorld;
+	NxOgre::World::destroyWorld();
 
     //delete mRoot; // deletes also SceneManager, the RenderWindow and so on TODO: Problem: access violation on shutdown of D3D9 renderer
 }
@@ -88,8 +92,15 @@ void BaseApplication::initializeResourceGroups() {
 }
 
 void BaseApplication::setupPhysics() {
-	mNxWorld = new NxOgre::World("time-controller:ogre, log:yes");
-	mNxScene = mNxWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); //TODO: several scenes for several arenas?
+	//mNxWorld = new NxOgre::World("time-controller:ogre, log:yes");
+	//mNxScene = mNxWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); //TODO: several scenes for several arenas?
+
+	mNxWorld = NxOgre::World::createWorld();
+	NxOgre::SceneDescription description;
+	description.mGravity.y = -9.81f; // -9.81 m/s
+	mNxScene = mNxWorld->createScene(description);
+	
+	mNxTimeController = NxOgre::TimeController::getSingleton();
 
 	//mNxWorld->createDebugRenderer(mSceneMgr); //TODO:!!make switchable via keyboard...?
 	//mNxWorld->getPhysXDriver()->createDebuggerConnection();

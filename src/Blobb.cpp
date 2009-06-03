@@ -9,6 +9,7 @@ using namespace Ogre;
 
 Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour)
 		: mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
+	// old code for bleeding
 	// load mesh, create collision shapes
 	Entity* ent = mSceneMgr->createEntity(mTeam==BV3D::TEAM1 ? "Blobb1":"Blobb2", "Blobb.mesh"); //TODO: entity name...what when more than 2 blobbs?
     SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -27,11 +28,6 @@ Blobb::Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 positio
 	nrp.setToDefault();
 	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
 	nrp.mIdentifier = node->getName();
-
-	//NxOgre::Resources::ResourceSystem::getSingleton()->addMeshAs("file://../../media/blobb.nxs", "blobb.nxs");
-	//mNxScene->createBody<NxOgre::Body>("blobb",
-	//	new NxOgre::TriangleMesh(NxOgre::Resources::ResourceSystem::getSingleton()->getMesh("blobb.nxs")), 
-	//	position, nrp, "mass:10");
 
 	NxOgre::CompoundShape* cs = new NxOgre::CompoundShape();
 	cs->add(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius

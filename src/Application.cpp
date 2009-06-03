@@ -61,6 +61,10 @@ void Application::setupScene() {
 	ent->setMaterialName("sand_yellow");
     ent->setCastShadows(false);
 
+	// physical ground plane
+	mNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)), NxOgre::Matrix44(NxOgre::Matrix44::T_Identity));
+
+
 	// Sky 
 	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 4, 8, 5000, true);
 	
