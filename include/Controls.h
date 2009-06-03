@@ -1,6 +1,12 @@
 #pragma once
 
-#include "BaseApplication.h" //TODO: include only needed files?
+//#include "BaseApplication.h" //TODO: include only needed files?
+#include <OgreWindowEventUtilities.h>
+#include <OgreUTFString.h>
+#include <OIS\OISMouse.h>
+#include <OIS\OISKeyboard.h>
+#include <OgreFrameListener.h>
+#include <OgreVector3.h>
 
 //#include "ExampleFrameListener.h"
 
@@ -8,18 +14,25 @@
 class Application;
 class Console;
 
+namespace Ogre {
+	class RenderWindow;
+	class SceneManager;
+	class Camera;
+}
+
 namespace MyGUI {
 	class Gui;
 }
 
+
 class ControlsListener : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-	ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app);
+	ControlsListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::SceneManager *sceneMgr, Application* app);
 
-	bool frameStarted(const FrameEvent &evt);
-    bool frameRenderingQueued(const FrameEvent &evt);
-	bool frameEnded(const FrameEvent &evt);
+	bool frameStarted(const Ogre::FrameEvent &evt);
+    bool frameRenderingQueued(const Ogre::FrameEvent &evt);
+	bool frameEnded(const Ogre::FrameEvent &evt);
 
     // MouseListener
     bool mouseMoved(const OIS::MouseEvent &e);
@@ -33,34 +46,34 @@ public:
 	void showDebugOverlay(bool show);
 	void updateStats();
 
-	void windowResized(RenderWindow* rw);
-	void windowClosed(RenderWindow* rw);
+	void windowResized(Ogre::RenderWindow* rw);
+	void windowClosed(Ogre::RenderWindow* rw);
 
 	void consoleCommand(const Ogre::UTFString & _key, const Ogre::UTFString & _value);
 
 protected:
 	Application* mApp;
 
-	Camera* mCamera;
+	Ogre::Camera* mCamera;
 
-	RenderWindow* mWindow;
+	Ogre::RenderWindow* mWindow;
 
 	//OIS Input devices
 	OIS::InputManager* mInputManager;
 	OIS::Mouse*    mMouse;
 	OIS::Keyboard* mKeyboard;
 
-    Real mRotate;          // The rotate constant
-    Real mMove;            // The movement constant
+    Ogre::Real mRotate;          // The rotate constant
+    Ogre::Real mMove;            // The movement constant
 
-    SceneManager *mSceneMgr;   // The current SceneManager
-    SceneNode *mCamNode;   // The SceneNode the camera is currently attached to
+    Ogre::SceneManager *mSceneMgr;   // The current SceneManager
+    Ogre::SceneNode *mCamNode;   // The SceneNode the camera is currently attached to
 
     bool mContinue;        // Whether to continue rendering or not
-    Vector3 mDirection;     // Value to move in the correct direction
+    Ogre::Vector3 mDirection;     // Value to move in the correct direction
 
 	bool mStatsOn;
-	Overlay* mDebugOverlay;
+	Ogre::Overlay* mDebugOverlay;
 	std::string mDebugText;
 
 	int mSceneDetailIndex ; // for switching to wireframe / point rendering

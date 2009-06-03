@@ -1,12 +1,17 @@
 #pragma once
 
-#include <Ogre.h>
-#include <OIS/OIS.h>
+//#include <Ogre.h>
+//#include <OIS/OIS.h>
 #include <NxOgre.h> // TODO: move to CPP?
 
 using namespace Ogre;
 
 class ControlsListener;
+
+namespace OIS {
+	class Keyboard;
+	class InputManager;
+}
 
 // Basic initialisation of Ogre, Plugins and additional libraries. Mostly independent from the concrete application and taken from Tutorials/Demos. 
 // Subclasses should at least override setupScene() for setting up the visual scene...

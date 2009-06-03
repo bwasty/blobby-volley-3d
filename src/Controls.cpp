@@ -363,6 +363,8 @@ void ControlsListener::showDebugOverlay(bool show)
 }
 
 void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & value) {
+	// TODO!!!: implement changing and saving any config value, make run-time changable
+
 	//mConsole->addToConsole(key + "," + value);
     //mConsole->addToConsole("1", "2", "3");
 	if (key == "clear")

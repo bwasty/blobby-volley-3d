@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <Ogre.h> //TODO: remove
 #include <OgreVector3.h>
 
 namespace BV3D

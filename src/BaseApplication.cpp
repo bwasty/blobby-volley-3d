@@ -1,5 +1,8 @@
 #include "BaseApplication.h"
 #include "Controls.h"
+#include <OgreRoot.h>
+#include <OgreConfigFile.h>
+#include <OgreTextureManager.h>
 
 using namespace Ogre;
 

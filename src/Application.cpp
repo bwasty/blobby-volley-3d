@@ -3,6 +3,13 @@
 #include "Controls.h"
 
 #include "Constants.h"
+#include <OgrePrerequisites.h>
+#include <OgreViewport.h>
+#include <OgreLight.h>
+#include <OgreRoot.h>
+#include <OgreEntity.h>
+#include <OgreRenderWindow.h>
+#include <OgreMeshManager.h>
 
 //TODO!: project settings -> NXOGRE_DIR -> local url to Folder....
 Application::Application() : mConfig() {
@@ -100,7 +107,7 @@ void Application::setupScene() {
 		width: 12.0		height: 2.1		depth: 0.14
 	*/
 	Real netHeight = mConfig.getSettingReal("NET_HEIGHT");
-	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO!: fix netz-befestigungen (unsichtbar von bestimmten seiten -> culling/normals?)
+	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO: fix netz-befestigungen in Blender (some triangles face to the wrong side)
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
     SceneNode* netNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
