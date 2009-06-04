@@ -1,7 +1,3 @@
-#include "Application.h"
-#include "Blobb.h"
-#include "Controls.h"
-
 #include "Constants.h"
 #include <OgrePrerequisites.h>
 #include <OgreViewport.h>
@@ -10,6 +6,10 @@
 #include <OgreEntity.h>
 #include <OgreRenderWindow.h>
 #include <OgreMeshManager.h>
+
+#include "Blobb.h"
+#include "Controls.h"
+#include "Application.h"
 
 //TODO!: project settings -> NXOGRE_DIR -> local url to Folder....
 Application::Application() : mConfig() {
@@ -80,8 +80,8 @@ void Application::setupScene() {
 
 	// blobbs
 	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
-	mBlobb1 = new Blobb(mSceneMgr, mNxScene, Vector3(-arenaExtent[0]/2,1.0,0.0), BV3D::TEAM1);
-	mBlobb2 = new Blobb(mSceneMgr, mNxScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
+	mBlobb1 = new Blobb(this, mSceneMgr, mNxScene, Vector3(-arenaExtent[0]/2,1.0,0.0), BV3D::TEAM1);
+	mBlobb2 = new Blobb(this, mSceneMgr, mNxScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
 	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");

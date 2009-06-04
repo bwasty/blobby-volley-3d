@@ -10,18 +10,20 @@
 //	class SceneManager;
 //}
 
-//class ControlsListener;
+class ControlsListener;
 
-//namespace OIS {
-//	class Keyboard;
-//	class InputManager;
-//}
+namespace OIS {
+	class Keyboard;
+	class InputManager;
+}
 
 //namespace NxOgre {
 //	class World;
 //	class TimeController;
 //	class Scene;
 //}
+
+class OGRE3DRenderSystem;
 
 // Basic initialisation of Ogre, Plugins and additional libraries. Mostly independent from the concrete application and taken from Tutorials/Demos. 
 // Subclasses should at least override setupScene() for setting up the visual scene...
@@ -33,6 +35,7 @@ public:
 
 	NxOgre::World* getNxWorld() { return mNxWorld; }
 	NxOgre::TimeController* mNxTimeController;
+	OGRE3DRenderSystem* mNxRenderSystem;
 
 protected:
 	Ogre::Root *mRoot;
@@ -43,7 +46,7 @@ protected:
 	Ogre::SceneManager *mSceneMgr;
 	NxOgre::World* mNxWorld;
 	NxOgre::Scene* mNxScene;
-	OGRE3DRenderSystem* mNxRenderSystem;
+	
 
     void createRoot();
     void defineResources();

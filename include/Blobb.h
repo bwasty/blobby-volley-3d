@@ -13,8 +13,11 @@ namespace NxOgre {
 }
 class NxD6Joint;
 
+class Application;
+
 class Blobb {
 private:
+	Application* mApp;
 	Ogre::SceneManager* mSceneMgr;
 	NxOgre::Scene* mNxScene;
 	BV3D::TEAM mTeam;
@@ -22,7 +25,7 @@ private:
 	NxD6Joint* mD6Joint; /** prevents the blobb from toppling (locks rotational axes */
 
 public:
-	Blobb(Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Ogre::Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
+	Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Ogre::Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
 	~Blobb() {
 		// mNxScene handles this usually for PhysX objects, but the joint is created manually (see constructor)
 		delete mD6Joint; 

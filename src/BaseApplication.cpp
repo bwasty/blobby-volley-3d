@@ -98,7 +98,8 @@ void BaseApplication::setupPhysics() {
 	mNxWorld = NxOgre::World::createWorld();
 	NxOgre::SceneDescription description;
 	description.mGravity.y = -9.81f; // -9.81 m/s
-	mNxScene = mNxWorld->createScene(description);
+	mNxScene = mNxWorld->createScene(description); //TODO!: NxScene needed to be publicly available? mNxRenderSystem should be enough
+	mNxRenderSystem = new OGRE3DRenderSystem(mNxScene);
 	
 	mNxTimeController = NxOgre::TimeController::getSingleton();
 
