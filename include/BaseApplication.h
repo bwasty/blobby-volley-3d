@@ -4,11 +4,11 @@
 //#include <OIS/OIS.h>
 //#include <NxOgre.h> // TODO: move to CPP?
 
-//namespace Ogre {
-//	class Root;
-//	class Camera;
-//	class SceneManager;
-//}
+namespace Ogre {
+	class Root;
+	class Camera;
+	class SceneManager;
+}
 
 class ControlsListener;
 
@@ -17,11 +17,11 @@ namespace OIS {
 	class InputManager;
 }
 
-//namespace NxOgre {
-//	class World;
-//	class TimeController;
-//	class Scene;
-//}
+namespace NxOgre {
+	class World;
+	class TimeController;
+	class Scene;
+}
 
 class OGRE3DRenderSystem;
 

@@ -1,9 +1,9 @@
-#include "Controls.h"
 #include "Application.h"
 #include "Blobb.h"
 
-//#include "MyGUI.h"
 #include "Console.h"
+
+#include "Controls.h"
 
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source

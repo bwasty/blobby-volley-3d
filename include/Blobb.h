@@ -11,7 +11,7 @@ namespace NxOgre {
 	class Scene;
 	class Actor;
 }
-class NxD6Joint;
+//class NxD6Joint;
 
 class Application;
 
@@ -21,7 +21,8 @@ private:
 	Ogre::SceneManager* mSceneMgr;
 	NxOgre::Scene* mNxScene;
 	BV3D::TEAM mTeam;
-	NxOgre::Actor* mActor; /** the physical actor for the blobb */
+	//NxOgre::Actor* mActor; /** the physical actor for the blobb */
+	OGRE3DBody* mBody;
 	NxD6Joint* mD6Joint; /** prevents the blobb from toppling (locks rotational axes */
 
 public:

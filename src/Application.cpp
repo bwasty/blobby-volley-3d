@@ -7,9 +7,15 @@
 #include <OgreRenderWindow.h>
 #include <OgreMeshManager.h>
 
+#include <NxOgre.h>
+#include <OGRE3DRenderSystem.h>
+#include "OGRE3DBody.h"
+
 #include "Blobb.h"
 #include "Controls.h"
 #include "Application.h"
+
+using namespace Ogre;
 
 //TODO!: project settings -> NXOGRE_DIR -> local url to Folder....
 Application::Application() : mConfig() {
@@ -61,8 +67,8 @@ void Application::setupScene() {
 	ent->setMaterialName("sand_yellow");
     ent->setCastShadows(false);
 
-	// physical ground plane
-	mNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)), NxOgre::Matrix44(NxOgre::Matrix44::T_Identity));
+	//TODO!!: physical ground plane
+	//mNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)), NxOgre::Matrix44(NxOgre::Matrix44::T_Identity));
 
 
 	// Sky 
@@ -84,27 +90,41 @@ void Application::setupScene() {
 	mBlobb2 = new Blobb(this, mSceneMgr, mNxScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
+	//TODO!!!: convert PhysX ball and net to Bloody Mess
 	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
-	ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
-    SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("BallNode");
-	node->scale(Vector3(ballRadius / 1.7));
+
+	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius/1.7); // TODO!: enough below or necessary here too?
+	NxOgre::Material* ball_mat = mNxScene->createMaterial();
+	ball_mat->setRestitution(1.3);
+	ballSphere->setMaterial(ball_mat->getIdentifier());
 	Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
-	node->translate(position);
-	node->attachObject(ent);
+	OGRE3DBody* ballBody = mNxRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
+	ballBody->setMass(1);
+	ballBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
+	ballBody->putToSleep();
 
-	NxOgre::NodeRenderableParams nrp;
-	nrp.setToDefault();
-	nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
-	nrp.mIdentifier = node->getName();
 
-	NxOgre::Material* ballMaterial = mNxScene->createMaterial("ball_material");
-	ballMaterial->setRestitution(1.3);
-	NxOgre::ShapeParams sp;
-	sp.setToDefault();
-	sp.mMaterial = ballMaterial->getMaterialIndex();
+	//old Bleeding code
+	//ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
+ //   SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("BallNode");
+	//node->scale(Vector3(ballRadius / 1.7));
+	////Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
+	//node->translate(position);
+	//node->attachObject(ent);
 
-	mBallActor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(ballRadius, /*sp*/"material: ball_material"), position, nrp, "mass:1");
-	mBallActor->putToSleep();
+	//NxOgre::NodeRenderableParams nrp;
+	//nrp.setToDefault();
+	//nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
+	//nrp.mIdentifier = node->getName();
+
+	//NxOgre::Material* ballMaterial = mNxScene->createMaterial("ball_material");
+	//ballMaterial->setRestitution(1.3);
+	//NxOgre::ShapeParams sp;
+	//sp.setToDefault();
+	//sp.mMaterial = ballMaterial->getMaterialIndex();
+
+	//mBallActor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(ballRadius, /*sp*/"material: ball_material"), position, nrp, "mass:1");
+	//mBallActor->putToSleep();
 
 	// create net
 	/* net1.3ds
@@ -144,12 +164,18 @@ void Application::setupScene() {
 	AxisAlignedBox bb = netNode->_getWorldAABB();
 	Vector3 physNetSize = bb.getSize();
 	physNetSize.y = netHeight + 2.1; //2.1 is half? the height of the net model
-	NxOgre::ActorParams ap;
-	ap.setToDefault();
-	ap.mMass = 0.0;
-	mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 	
-	//TODO!!!: problem cube is solid, create cage-walls separately...
+	NxOgre::Actor* actor = mNxScene->createActor(new NxOgre::Box(physNetSize.x, physNetSize.x, physNetSize.z));
+	actor->setMass(0);
+
+	// old bleeding code
+	//NxOgre::ActorParams ap;
+	//ap.setToDefault();
+	//ap.mMass = 0.0;
+	//mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
+	
+
+	//TODO!!: problem cube is solid, create cage-walls separately...
 	//mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 
 

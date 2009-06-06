@@ -1,14 +1,15 @@
 #pragma once
 
 #include "BaseApplication.h"
+#include "OgreImprovedConfigFile.h"
 
 class Blobb;
 
-namespace NxOgre {
-	class NxActor;
-}
+//namespace NxOgre {
+//	class NxActor;
+//}
 
-#include "OgreImprovedConfigFile.h"
+
 
 class Application : public BaseApplication {
 protected:
@@ -20,7 +21,7 @@ public:
 	Blobb* getBlobb1() { return mBlobb1; }
 	Blobb* getBlobb2() { return mBlobb2; }
 
-	NxOgre::Actor* mBallActor;
+	//NxOgre::Actor* mBallActor;
 
 	Ogre::ImprovedConfigFile mConfig;
 

@@ -3,31 +3,29 @@
 #include <OgreSubEntity.h>
 
 #include <NxOgre.h>
-
-#include "Application.h"
-
-#include "Blobb.h"
 //#include "OGRE3DCommon.h"
 #include <OGRE3DBody.h>
 #include <OGRE3DRenderSystem.h>
 #include "NxScene.h"
 #include "NxD6JointDesc.h"
 
+#include "Application.h"
+#include "Blobb.h"
+
 using namespace Ogre;
 
 Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour)
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
-	//TODO!!!: port code below to Bloody Mess
 	// create the 2 compound spheres
 	NxOgre::Shapes blobbSpheres;
 	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //TODO!!: define and set material for shapes, make dynamically changeable
 	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]));
 	NxOgre::RigidBodyDescription rbd;
 	rbd.mMass = 10.0;
-	OGRE3DBody* body = mApp->mNxRenderSystem->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh", rbd);
+	mBody = mApp->mNxRenderSystem->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh", rbd);
 
 	//set colour - have to clone material
-	Entity* ent = body->getEntity();
+	Entity* ent = mBody->getEntity();
 	MaterialPtr mat = ent->getSubEntity(0)->getMaterial();
 	mat = mat->clone(ent->getName());
 	ent->setMaterial(mat);
@@ -37,7 +35,7 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 
 	// create Joint
 	NxScene* realNxScene = mApp->mNxRenderSystem->getScene()->getScene();
-	NxActor* realActor = body->getNxActor();
+	NxActor* realActor = mBody->getNxActor();
 
 	NxD6JointDesc d6Desc;
 	   d6Desc.actor[0] = realActor;    
@@ -101,12 +99,12 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 }
 
 void Blobb::move(Ogre::Vector2 direction) {
-	//TODO!!!: Bloody Mess
 	//mActor->addForce(direction.x, 0, direction.y);
+	mBody->addForce(NxOgre::Real3(direction.x, 0, direction.y));
 }
 
 void Blobb::jump(float height) {
 	//TODO!: prevent Blobb from jumping when already in the air
-	//TODO!!!: Bloody Mess
 	//mActor->addForce(0, height, 0);
+	mBody->addForce(NxOgre::Real3(0, height, 0));
 }
