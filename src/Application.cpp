@@ -10,14 +10,15 @@
 #include <NxOgre.h>
 #include <OGRE3DRenderSystem.h>
 #include "OGRE3DBody.h"
+#include <OGRE3DRenderable.h>
 
 #include "Blobb.h"
 #include "Controls.h"
 #include "Application.h"
 
+
 using namespace Ogre;
 
-//TODO!: project settings -> NXOGRE_DIR -> local url to Folder....
 Application::Application() : mConfig() {
 	const String pathToConfig = "../BV3D.cfg"; // TODO: working directory-independent solution?
 	mConfig.load(pathToConfig, "=\t:", true);
@@ -56,6 +57,13 @@ void Application::setupScene() {
 	mCamera->setPosition(mConfig.getSettingVector3("LOOK_FROM"));
 	mCamera->lookAt(mConfig.getSettingVector3("LOOK_TO"));
 
+	// PhysX debug renderer
+	mVisualDebuggerRenderable = new OGRE3DRenderable(NxOgre::Enums::RenderableType_VisualDebugger);
+	mVisualDebugger->setRenderable(mVisualDebuggerRenderable);
+	mVisualDebuggerNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	mVisualDebuggerNode->attachObject(mVisualDebuggerRenderable);
+	mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
+
 	// floor plane
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane("ground",
@@ -67,8 +75,8 @@ void Application::setupScene() {
 	ent->setMaterialName("sand_yellow");
     ent->setCastShadows(false);
 
-	//TODO!!: physical ground plane
-	//mNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)), NxOgre::Matrix44(NxOgre::Matrix44::T_Identity));
+	// physical ground plane
+	mNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)));
 
 
 	// Sky 
@@ -90,7 +98,6 @@ void Application::setupScene() {
 	mBlobb2 = new Blobb(this, mSceneMgr, mNxScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
-	//TODO!!!: convert PhysX ball and net to Bloody Mess
 	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
 
 	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius/1.7); // TODO!: enough below or necessary here too?
@@ -98,10 +105,10 @@ void Application::setupScene() {
 	ball_mat->setRestitution(1.3);
 	ballSphere->setMaterial(ball_mat->getIdentifier());
 	Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
-	OGRE3DBody* ballBody = mNxRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
-	ballBody->setMass(1);
-	ballBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
-	ballBody->putToSleep();
+	mBallBody = mNxRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
+	mBallBody->setMass(1);
+	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
+	mBallBody->putToSleep();
 
 
 	//old Bleeding code
@@ -167,12 +174,6 @@ void Application::setupScene() {
 	
 	NxOgre::Actor* actor = mNxScene->createActor(new NxOgre::Box(physNetSize.x, physNetSize.x, physNetSize.z));
 	actor->setMass(0);
-
-	// old bleeding code
-	//NxOgre::ActorParams ap;
-	//ap.setToDefault();
-	//ap.mMass = 0.0;
-	//mNxScene->createActor("netShape", new NxOgre::Cube(physNetSize), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 	
 
 	//TODO!!: problem cube is solid, create cage-walls separately...

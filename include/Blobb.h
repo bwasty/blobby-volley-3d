@@ -11,7 +11,8 @@ namespace NxOgre {
 	class Scene;
 	class Actor;
 }
-//class NxD6Joint;
+class NxD6Joint;
+class OGRE3DBody;
 
 class Application;
 
@@ -28,8 +29,8 @@ private:
 public:
 	Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Ogre::Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
 	~Blobb() {
-		// mNxScene handles this usually for PhysX objects, but the joint is created manually (see constructor)
-		delete mD6Joint; 
+		// mNxScene handles this usually for PhysX objects, but the joint is created manually (see constructor) //TODO: deletion of D6Joint?
+		//delete mD6Joint; 
 	}
 
 	void move(Ogre::Vector2 direction);

@@ -8,6 +8,7 @@ namespace Ogre {
 	class Root;
 	class Camera;
 	class SceneManager;
+	class SceneNode;
 }
 
 class ControlsListener;
@@ -21,9 +22,11 @@ namespace NxOgre {
 	class World;
 	class TimeController;
 	class Scene;
+	class VisualDebugger;
 }
 
 class OGRE3DRenderSystem;
+class OGRE3DRenderable;
 
 // Basic initialisation of Ogre, Plugins and additional libraries. Mostly independent from the concrete application and taken from Tutorials/Demos. 
 // Subclasses should at least override setupScene() for setting up the visual scene...
@@ -34,8 +37,10 @@ public:
     ~BaseApplication();
 
 	NxOgre::World* getNxWorld() { return mNxWorld; }
+	//TODO: review public members
 	NxOgre::TimeController* mNxTimeController;
 	OGRE3DRenderSystem* mNxRenderSystem;
+	NxOgre::VisualDebugger*	mVisualDebugger;
 
 protected:
 	Ogre::Root *mRoot;
@@ -46,6 +51,8 @@ protected:
 	Ogre::SceneManager *mSceneMgr;
 	NxOgre::World* mNxWorld;
 	NxOgre::Scene* mNxScene;
+	OGRE3DRenderable*		mVisualDebuggerRenderable;
+	Ogre::SceneNode*		mVisualDebuggerNode;
 	
 
     void createRoot();

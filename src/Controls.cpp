@@ -1,10 +1,16 @@
+#include <OgreRenderWindow.h>
+#include <OgreCamera.h>
+#include <OgreSceneManager.h>
+
+#include <NxOgre.h>
+#include <OGRE3DBody.h>
+
 #include "Application.h"
 #include "Blobb.h"
-
 #include "Console.h"
-
 #include "Controls.h"
 
+using namespace Ogre;
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
@@ -222,6 +228,8 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 	if (processed) 
 		return true;
 
+	Vector3 p;
+
     switch (e.key)
     {
     case OIS::KC_UP:
@@ -270,15 +278,19 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		break;
 	case OIS::KC_P:
 		if (!mIsPhysicsVisualDebuggerOn)
-			mApp->getNxWorld()->createDebugRenderer(mSceneMgr);
+			mApp->mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowAll);
 		else
-			mApp->getNxWorld()->destroyDebugRenderer();
+			mApp->mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
 		mIsPhysicsVisualDebuggerOn = !mIsPhysicsVisualDebuggerOn;
 		break;
 	case OIS::KC_1:
 		//mSceneMgr->getSceneNode("BallNode")->setPosition(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0));
-		mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0)));
-		mApp->mBallActor->putToSleep();
+		
+		//mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0))); //TODO!!!: save ballBody as member in App
+		//mApp->mBallActor->putToSleep();
+		p = Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0);
+		mApp->mBallBody->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
+		mApp->mBallBody->putToSleep();
 		break;		
 	case OIS::KC_SPACE:
 		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer();

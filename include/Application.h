@@ -5,9 +5,7 @@
 
 class Blobb;
 
-//namespace NxOgre {
-//	class NxActor;
-//}
+class OGRE3DBody;
 
 
 
@@ -22,6 +20,7 @@ public:
 	Blobb* getBlobb2() { return mBlobb2; }
 
 	//NxOgre::Actor* mBallActor;
+	OGRE3DBody* mBallBody;
 
 	Ogre::ImprovedConfigFile mConfig;
 

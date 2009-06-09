@@ -1,3 +1,4 @@
+#include <OgreException.h>
 #include "Application.h"
 
 #if OGRE_PLATFORM == PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -14,7 +15,7 @@ int main(int argc, char **argv)
         Application app;
         app.go();
     }
-    catch(Exception& e)
+	catch(Ogre::Exception& e)
     {
 #if OGRE_PLATFORM == PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         MessageBoxA(NULL, e.getFullDescription().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
