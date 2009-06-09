@@ -100,10 +100,10 @@ void Application::setupScene() {
 	// create ball
 	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
 
-	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius/1.7); // TODO!: enough below or necessary here too?
-	NxOgre::Material* ball_mat = mNxScene->createMaterial();
-	ball_mat->setRestitution(1.3);
-	ballSphere->setMaterial(ball_mat->getIdentifier());
+	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
+	//NxOgre::Material* ball_mat = mNxScene->createMaterial();
+	//ball_mat->setRestitution(1.3);
+	//ballSphere->setMaterial(ball_mat->getIdentifier()); //TODO!!!: doesn't work, null pointer, NxOgre bug?
 	Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
 	mBallBody = mNxRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
 	mBallBody->setMass(1);
