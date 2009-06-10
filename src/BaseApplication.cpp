@@ -29,7 +29,7 @@ BaseApplication::~BaseApplication() {
 	delete mListener;
 
 	// delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
-	//delete mNxWorld;
+	//delete mPhysicsWorld;
 	NxOgre::World::destroyWorld();
 
     //delete mRoot; // deletes also SceneManager, the RenderWindow and so on TODO: Problem: access violation on shutdown of D3D9 renderer
@@ -92,21 +92,27 @@ void BaseApplication::initializeResourceGroups() {
 }
 
 void BaseApplication::setupPhysics() {
-	//mNxWorld = new NxOgre::World("time-controller:ogre, log:yes");
-	//mNxScene = mNxWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); //TODO: several scenes for several arenas?
+	//mPhysicsWorld = new NxOgre::World("time-controller:ogre, log:yes");
+	//mPhysicsScene = mPhysicsWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); 
 
-	mNxWorld = NxOgre::World::createWorld();
+	mPhysicsWorld = NxOgre::World::createWorld();
 	NxOgre::SceneDescription description;
 	description.mGravity.y = -9.81f; // -9.81 m/s
-	mNxScene = mNxWorld->createScene(description); //TODO!: NxScene needs to be publicly available? mNxRenderSystem should be enough
-	mNxRenderSystem = new OGRE3DRenderSystem(mNxScene);
+	//TODO: several scenes for several arenas?
+	mPhysicsScene = mPhysicsWorld->createScene(description); //TODO!: NxScene needs to be publicly available? mPhysicsRenderSystem should be enough
+	mPhysicsRenderSystem = new OGRE3DRenderSystem(mPhysicsScene);
 	
-	mNxTimeController = NxOgre::TimeController::getSingleton();
+	mPhysicsTimeController = NxOgre::TimeController::getSingleton();
 
-	mVisualDebugger = mNxWorld->getVisualDebugger();
+	mVisualDebugger = mPhysicsWorld->getVisualDebugger();
 
-	//mNxWorld->createDebugRenderer(mSceneMgr);
-	//mNxWorld->getPhysXDriver()->createDebuggerConnection();
+	//TODO!!!:tmp: change default material
+	mPhysicsScene->getMaterial(0)->setRestitution(0.5);
+	mPhysicsScene->getMaterial(0)->setDynamicFriction(0.5);
+	mPhysicsScene->getMaterial(0)->setStaticFriction(0.5);
+
+	//mPhysicsWorld->createDebugRenderer(mSceneMgr);
+	//mPhysicsWorld->getPhysXDriver()->createDebuggerConnection();
 
 }
 

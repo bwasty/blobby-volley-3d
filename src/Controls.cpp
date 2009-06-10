@@ -61,7 +61,7 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 	mGUI->hidePointer();
 
 	// MyGUI help tooltip TODO: extra function for gui creation
-	//TODO!: size, pin help tooltip on click?
+	//TODO: HelpWidget: pin help tooltip on click?
 	Ogre::UTFString _text("Controls for Blobby Volley 3D:\n\
 SPACE         switch between GUI and play mode\n\
 W,A,S,D,Q,E   Move camera (Alternative: Cursors)\n\
@@ -110,9 +110,12 @@ bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
         mKeyboard->capture();
 
     //mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
-	mCamera->moveRelative(mDirection * evt.timeSinceLastFrame); // TODO: does it the same as above?
+	mCamera->moveRelative(mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
 
-	mApp->mNxTimeController->advance(1.0f/60.0f);
+	mApp->getPhysicsTimeController()->advance(evt.timeSinceLastFrame);//1.0f/60.0f);
+	mApp->mVisualDebugger->draw();
+	mApp->mVisualDebuggerNode->needUpdate();
+
 
     return mContinue;
 }
@@ -159,9 +162,10 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			mApp->getBlobb1()->jump(2400);
+			float force = 10000;
+			mApp->getBlobb1()->jump(force);
 			if (mControlBothBlobbs)
-				mApp->getBlobb2()->jump(2400);
+				mApp->getBlobb2()->jump(force);
 		}
 	}
 	return true;
@@ -288,9 +292,9 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		
 		//mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0))); //TODO!!!: save ballBody as member in App
 		//mApp->mBallActor->putToSleep();
-		p = Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0);
-		mApp->mBallBody->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
-		mApp->mBallBody->putToSleep();
+		p = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0);
+		mApp->getBallBody()->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
+		mApp->getBallBody()->putToSleep();
 		break;		
 	case OIS::KC_SPACE:
 		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer();
@@ -389,19 +393,19 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 
 		std::vector<String> values = StringUtil::split(value, " ", 1);
 		if (values.size() == 1) { // only a setting name -> print the value of the setting
-			String setting = mApp->mConfig.getSetting(values[0]);
+			String setting = mApp->getConfig().getSetting(values[0]);
 			if (setting.size() == 0)
 				mConsole->addToConsole(mConsole->getConsoleStringError() + "No such setting!");
 			else
 				mConsole->addToConsole(values[0] + ": " + setting);
 		}
 		else { // setting name + new value -> save new value
-			mApp->mConfig.setSetting(values[0], values[1]);
+			mApp->getConfig().setSetting(values[0], values[1]);
 			mConsole->addToConsole(mConsole->getConsoleStringSuccess()+" "+values[0] + ": "+values[1]);
 		}
 	}
 	else if (key == "config_all") {
-		ImprovedConfigFile::SettingsIterator sit = mApp->mConfig.getSettingsIterator();
+		ImprovedConfigFile::SettingsIterator sit = mApp->getConfig().getSettingsIterator();
 		while (sit.hasMoreElements()) {
 			mConsole->addToConsole(sit.peekNextKey() + " = "+sit.peekNextValue());
 			sit.moveNext();
@@ -409,6 +413,6 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 	}
 	else if (key == "config_save") {
 		//TODO: save config - give filename/do backup??
-		mApp->mConfig.save();
+		mApp->getConfig().save();
 	}
 }

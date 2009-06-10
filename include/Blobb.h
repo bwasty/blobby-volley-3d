@@ -22,9 +22,8 @@ private:
 	Ogre::SceneManager* mSceneMgr;
 	NxOgre::Scene* mNxScene;
 	BV3D::TEAM mTeam;
-	//NxOgre::Actor* mActor; /** the physical actor for the blobb */
 	OGRE3DBody* mBody;
-	NxD6Joint* mD6Joint; /** prevents the blobb from toppling (locks rotational axes */
+	NxD6Joint* mD6Joint; /** prevents the blobb from toppling (locks rotational axes) */
 
 public:
 	Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Ogre::Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
@@ -34,5 +33,5 @@ public:
 	}
 
 	void move(Ogre::Vector2 direction);
-	void jump(float height);
+	void jump(float force);
 };

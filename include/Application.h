@@ -10,23 +10,26 @@ class OGRE3DBody;
 
 
 class Application : public BaseApplication {
-protected:
-	void createFrameListener(); //TODO: make virtual?
-	void setupScene();
-	
 public:
 	Application();
 	Blobb* getBlobb1() { return mBlobb1; }
 	Blobb* getBlobb2() { return mBlobb2; }
 
-	//NxOgre::Actor* mBallActor;
+	
+	OGRE3DBody* getBallBody() const { return mBallBody; }
+	
+	Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
+
+private:
+	void createFrameListener(); //TODO: make virtual?
+	void setupScene();
+
+	Blobb* mBlobb1;
+	Blobb* mBlobb2;
+
 	OGRE3DBody* mBallBody;
 
 	Ogre::ImprovedConfigFile mConfig;
-
-private:
-	Blobb* mBlobb1;
-	Blobb* mBlobb2;
 };
 
 #pragma once

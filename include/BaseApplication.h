@@ -32,15 +32,20 @@ class OGRE3DRenderable;
 // Subclasses should at least override setupScene() for setting up the visual scene...
 class BaseApplication
 {
+protected:
+	BaseApplication() {};
 public:
     void go();
     ~BaseApplication();
 
-	NxOgre::World* getNxWorld() { return mNxWorld; }
-	//TODO: review public members
-	NxOgre::TimeController* mNxTimeController;
-	OGRE3DRenderSystem* mNxRenderSystem;
+	NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
+	NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }
+	OGRE3DRenderSystem* getPhysicsRenderSystem() const { return mPhysicsRenderSystem; }
+	
+	//TODO!: review public members
 	NxOgre::VisualDebugger*	mVisualDebugger;
+	OGRE3DRenderable*		mVisualDebuggerRenderable;
+	Ogre::SceneNode*		mVisualDebuggerNode;
 
 protected:
 	Ogre::Root *mRoot;
@@ -49,10 +54,11 @@ protected:
     ControlsListener *mListener;
 	Ogre::Camera *mCamera;
 	Ogre::SceneManager *mSceneMgr;
-	NxOgre::World* mNxWorld;
-	NxOgre::Scene* mNxScene;
-	OGRE3DRenderable*		mVisualDebuggerRenderable;
-	Ogre::SceneNode*		mVisualDebuggerNode;
+
+	NxOgre::World* mPhysicsWorld;
+	NxOgre::TimeController* mPhysicsTimeController;
+	NxOgre::Scene* mPhysicsScene;
+	OGRE3DRenderSystem* mPhysicsRenderSystem;
 	
 
     void createRoot();

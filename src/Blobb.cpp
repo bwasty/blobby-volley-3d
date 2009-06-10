@@ -18,11 +18,14 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
 	// create the 2 compound spheres
 	NxOgre::Shapes blobbSpheres;
-	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //TODO!!: define and set material for shapes, make dynamically changeable
-	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]));
+	//TODO!!: define and set material for shapes, make dynamically changeable
+	//TODO!!!: sphere's don't work correctly, see visual debugger
+	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
+	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
+	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Real3(0, 0.7, 0)));
 	NxOgre::RigidBodyDescription rbd;
 	rbd.mMass = 10.0;
-	mBody = mApp->mNxRenderSystem->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh", rbd);
+	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh", rbd);
 
 	//set colour - have to clone material
 	Entity* ent = mBody->getEntity();
@@ -32,9 +35,8 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	mat->getTechnique(0)->getPass(0)->setAmbient(colour);
 	mat->getTechnique(0)->getPass(0)->setDiffuse(colour);
 
-
 	// create Joint
-	NxScene* realNxScene = mApp->mNxRenderSystem->getScene()->getScene();
+	NxScene* realNxScene = mApp->getPhysicsRenderSystem()->getScene()->getScene();
 	NxActor* realActor = mBody->getNxActor();
 
 	NxD6JointDesc d6Desc;
@@ -103,8 +105,8 @@ void Blobb::move(Ogre::Vector2 direction) {
 	mBody->addForce(NxOgre::Real3(direction.x, 0, direction.y));
 }
 
-void Blobb::jump(float height) {
+void Blobb::jump(float force) {
 	//TODO!: prevent Blobb from jumping when already in the air
 	//mActor->addForce(0, height, 0);
-	mBody->addForce(NxOgre::Real3(0, height, 0));
+	mBody->addForce(NxOgre::Real3(0, force, 0));
 }

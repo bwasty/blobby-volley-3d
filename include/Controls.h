@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "BaseApplication.h" //TODO: include only needed files?
 #include <OgreWindowEventUtilities.h>
 #include <OgreUTFString.h>
 #include <OIS\OISMouse.h>
@@ -8,9 +7,6 @@
 #include <OgreFrameListener.h>
 #include <OgreVector3.h>
 
-//#include "ExampleFrameListener.h"
-
-//class ExampleFrameListener;
 class Application;
 class Console;
 

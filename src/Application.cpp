@@ -76,7 +76,7 @@ void Application::setupScene() {
     ent->setCastShadows(false);
 
 	// physical ground plane
-	mNxScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)));
+	mPhysicsScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)));
 
 
 	// Sky 
@@ -94,18 +94,19 @@ void Application::setupScene() {
 
 	// blobbs
 	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
-	mBlobb1 = new Blobb(this, mSceneMgr, mNxScene, Vector3(-arenaExtent[0]/2,1.0,0.0), BV3D::TEAM1);
-	mBlobb2 = new Blobb(this, mSceneMgr, mNxScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
+	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(-arenaExtent[0]/2,1.0,0.0), BV3D::TEAM1);
+	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
 	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
 
 	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
-	//NxOgre::Material* ball_mat = mNxScene->createMaterial();
+	//TODO!!!:PhysX material creation seems to fail
+	//NxOgre::Material* ball_mat = mPhysicsScene->createMaterial();
 	//ball_mat->setRestitution(1.3);
 	//ballSphere->setMaterial(ball_mat->getIdentifier()); //TODO!!!: doesn't work, null pointer, NxOgre bug?
 	Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
-	mBallBody = mNxRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
+	mBallBody = mPhysicsRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
 	mBallBody->setMass(1);
 	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
 	mBallBody->putToSleep();
@@ -124,13 +125,13 @@ void Application::setupScene() {
 	//nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
 	//nrp.mIdentifier = node->getName();
 
-	//NxOgre::Material* ballMaterial = mNxScene->createMaterial("ball_material");
+	//NxOgre::Material* ballMaterial = mPhysicsScene->createMaterial("ball_material");
 	//ballMaterial->setRestitution(1.3);
 	//NxOgre::ShapeParams sp;
 	//sp.setToDefault();
 	//sp.mMaterial = ballMaterial->getMaterialIndex();
 
-	//mBallActor = mNxScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(ballRadius, /*sp*/"material: ball_material"), position, nrp, "mass:1");
+	//mBallActor = mPhysicsScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(ballRadius, /*sp*/"material: ball_material"), position, nrp, "mass:1");
 	//mBallActor->putToSleep();
 
 	// create net
@@ -166,18 +167,20 @@ void Application::setupScene() {
 	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
 
 
-	// TODO!!: create physical net and "cage"
+	// compute size for physical net
 	netNode->_updateBounds();
 	AxisAlignedBox bb = netNode->_getWorldAABB();
+	//TODO!: proper netsize -> free space below net
 	Vector3 physNetSize = bb.getSize();
 	physNetSize.y = netHeight + 2.1; //2.1 is half? the height of the net model
 	
-	NxOgre::Actor* actor = mNxScene->createActor(new NxOgre::Box(physNetSize.x, physNetSize.x, physNetSize.z));
-	actor->setMass(0);
+	Vector3 p(0.0, (netHeight+2.1)/2, 0.0);
+	mPhysicsScene->createSceneGeometry(new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z), NxOgre::Matrix44(NxOgre::Real3(p.x, p.y, p.z))); 
 	
 
-	//TODO!!: problem cube is solid, create cage-walls separately...
-	//mNxScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
+	// TODO!!: create physical "cage"
+	//TODO!!: problem cube is solid, create cage-walls separately from PlaneGeometrys...
+	//mPhysicsScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 
 
 }
