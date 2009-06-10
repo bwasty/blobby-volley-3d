@@ -94,8 +94,8 @@ void Application::setupScene() {
 
 	// blobbs
 	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
-	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(-arenaExtent[0]/2,1.0,0.0), BV3D::TEAM1);
-	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/2,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
+	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(-arenaExtent[0]/4,1.0,0.0), BV3D::TEAM1);
+	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/4,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
 
 	// create ball
 	Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
@@ -105,7 +105,7 @@ void Application::setupScene() {
 	//NxOgre::Material* ball_mat = mPhysicsScene->createMaterial();
 	//ball_mat->setRestitution(1.3);
 	//ballSphere->setMaterial(ball_mat->getIdentifier()); //TODO!!!: doesn't work, null pointer, NxOgre bug?
-	Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
+	Vector3 position = Vector3(-arenaExtent[0]/4,6.0,0.0);
 	mBallBody = mPhysicsRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
 	mBallBody->setMass(1);
 	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
@@ -182,5 +182,14 @@ void Application::setupScene() {
 	//TODO!!: problem cube is solid, create cage-walls separately from PlaneGeometrys...
 	//mPhysicsScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 
+	NxOgre::Shapes wallPlanes;
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(1,0,0)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(-1,0,0)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,1)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,-1)));
 
+	mPhysicsScene->createSceneGeometry(wallPlanes[0]); //TODO!!: fix Shapes thing
+	mPhysicsScene->createSceneGeometry(wallPlanes[1]);
+	mPhysicsScene->createSceneGeometry(wallPlanes[2]);
+	mPhysicsScene->createSceneGeometry(wallPlanes[3]);
 }

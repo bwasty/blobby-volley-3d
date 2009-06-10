@@ -292,7 +292,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		
 		//mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0))); //TODO!!!: save ballBody as member in App
 		//mApp->mBallActor->putToSleep();
-		p = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0);
+		p = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT")[0]/4,6.0,0.0);
 		mApp->getBallBody()->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
 		mApp->getBallBody()->putToSleep();
 		break;		
