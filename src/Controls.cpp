@@ -91,8 +91,9 @@ R			  Cycle Rendering Modes: normal, wireframe, point\n\
 
 	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	mConsole->registerConsoleDelegate("config_all", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	//mConsole->registerConsoleDelegate("config_all", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("config_save", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("config_load", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 }
 
@@ -113,9 +114,8 @@ bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
 	mCamera->moveRelative(mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
 
 	mApp->getPhysicsTimeController()->advance(evt.timeSinceLastFrame);//1.0f/60.0f);
-	mApp->mVisualDebugger->draw();
-	mApp->mVisualDebuggerNode->needUpdate();
-
+	mApp->getVisualDebugger()->draw();
+	mApp->getVisualDebuggerNode()->needUpdate();
 
     return mContinue;
 }
@@ -146,9 +146,11 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 			camDir.y = 0; // only interested in xz-plane, not sure if this makes a difference though
 			Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
 			mouseMovement = rotation * mouseMovement;
+
+			//TODO!: make configurable - Blobb move force
 			mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
 			
-			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); //TODO: signature of Blobb->move()
+			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); 
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
 		}
@@ -162,7 +164,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			float force = 10000;
+			float force = 10000; // TODO!: make configurable - Blobb jump force
 			mApp->getBlobb1()->jump(force);
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->jump(force);
@@ -282,9 +284,9 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		break;
 	case OIS::KC_P:
 		if (!mIsPhysicsVisualDebuggerOn)
-			mApp->mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowAll);
+			mApp->getVisualDebugger()->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowAll);
 		else
-			mApp->mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
+			mApp->getVisualDebugger()->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
 		mIsPhysicsVisualDebuggerOn = !mIsPhysicsVisualDebuggerOn;
 		break;
 	case OIS::KC_1:
@@ -390,6 +392,13 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 		mConsole->clearConsole();
 	else if (key == "config") {
 		//mApp->mConfig.setSetting("MyNewSetting", Vector3(1.2, 2.3, 4.2)); //NOTE: literal Strings are interpreted as booleans!! cast to Ogre::String always
+		if (value.size() == 0) { // show all values
+			ImprovedConfigFile::SettingsIterator sit = mApp->getConfig().getSettingsIterator();
+			while (sit.hasMoreElements()) {
+				mConsole->addToConsole(sit.peekNextKey() + " = "+sit.peekNextValue());
+				sit.moveNext();
+			}
+		}
 
 		std::vector<String> values = StringUtil::split(value, " ", 1);
 		if (values.size() == 1) { // only a setting name -> print the value of the setting
@@ -404,15 +413,14 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 			mConsole->addToConsole(mConsole->getConsoleStringSuccess()+" "+values[0] + ": "+values[1]);
 		}
 	}
-	else if (key == "config_all") {
-		ImprovedConfigFile::SettingsIterator sit = mApp->getConfig().getSettingsIterator();
-		while (sit.hasMoreElements()) {
-			mConsole->addToConsole(sit.peekNextKey() + " = "+sit.peekNextValue());
-			sit.moveNext();
-		}
-	}
 	else if (key == "config_save") {
-		//TODO: save config - give filename/do backup??
+		//TODO!: save config - give filename
 		mApp->getConfig().save();
+	}
+	else if (key == "config_load") { //TODO!: Console - implement reloading config file
+
+	}
+	else (key == "help") { //TODO!: Console - write help string
+
 	}
 }

@@ -64,6 +64,8 @@ void Application::setupScene() {
 	mVisualDebuggerNode->attachObject(mVisualDebuggerRenderable);
 	mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
 
+
+	//TODO!: split setupScene() -> new method fillScene()
 	// floor plane
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane("ground",
@@ -161,7 +163,7 @@ void Application::setupScene() {
 	//scaleNode->attachObject(ent);
 	scaleNode->scale(Vector3(0.002));
 	scaleNode->scale(1, 44, 1);
-	scaleNode->translate(0.0, 2.0, 0); // TODO: look in Constants.h...
+	scaleNode->translate(0.0, 2.0, 0); // TODO!: make configurable - net size/position
 
 	poleNode1->translate(0,0,6, SceneNode::TS_WORLD); //TODO: why TS_WORLD??
 	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
@@ -176,12 +178,9 @@ void Application::setupScene() {
 	
 	Vector3 p(0.0, (netHeight+2.1)/2, 0.0);
 	mPhysicsScene->createSceneGeometry(new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z), NxOgre::Matrix44(NxOgre::Real3(p.x, p.y, p.z))); 
-	
 
-	// TODO!!: create physical "cage"
-	//TODO!!: problem cube is solid, create cage-walls separately from PlaneGeometrys...
-	//mPhysicsScene->createActor("cageShape", new NxOgre::Cube(BV3D::ARENA_EXTENT), NxOgre::Pose(Vector3(0.0, (netHeight+2.1)/2, 0.0)), ap);
 
+	// create physical "cage"
 	NxOgre::Shapes wallPlanes;
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(1,0,0)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(-1,0,0)));

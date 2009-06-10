@@ -21,7 +21,7 @@ public:
 	Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
 
 private:
-	void createFrameListener(); //TODO: make virtual?
+	void createFrameListener(); //TODO: make virtual createFrameListener()?
 	void setupScene();
 
 	Blobb* mBlobb1;

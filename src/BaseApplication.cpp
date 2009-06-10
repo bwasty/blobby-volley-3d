@@ -62,7 +62,7 @@ void BaseApplication::setupRenderSystem() {
 	//note: I would recommend that if you catch an exception during Ogre's startup that you 
 	//      delete the ogre.cfg file in the catch block. It is possible that the settings they 
 	//      have chosen in the config dialog has caused a problem and they need to change them.
-	if (!mRoot->restoreConfig() && !mRoot->showConfigDialog())
+	if (!mRoot->restoreConfig() && !mRoot->showConfigDialog()) //TODO!: make configurable - show RenderSystem dialog + load cfg even if displayed
        throw Exception(52, "User canceled the config dialog!", "Application::setupRenderSystem()");
 
 	//alternative to config file/dialog:
@@ -75,7 +75,7 @@ void BaseApplication::setupRenderSystem() {
 }
     
 void BaseApplication::createRenderWindow() {
-	mRoot->initialise(true, "Tutorial Render Window");
+	mRoot->initialise(true, "Blobby Volley 3D 2.0");
 
 	//Win32 alternative:
 	// Do not add this to the application
@@ -92,33 +92,26 @@ void BaseApplication::initializeResourceGroups() {
 }
 
 void BaseApplication::setupPhysics() {
-	//mPhysicsWorld = new NxOgre::World("time-controller:ogre, log:yes");
-	//mPhysicsScene = mPhysicsWorld->createScene("NxOgreScene", mSceneMgr, "gravity:yes, floor:yes, renderer:ogre"); 
-
 	mPhysicsWorld = NxOgre::World::createWorld();
 	NxOgre::SceneDescription description;
 	description.mGravity.y = -9.81f; // -9.81 m/s
-	//TODO: several scenes for several arenas?
-	mPhysicsScene = mPhysicsWorld->createScene(description); //TODO!: NxScene needs to be publicly available? mPhysicsRenderSystem should be enough
+	//TODO: several PhysX scenes for several arenas?
+	mPhysicsScene = mPhysicsWorld->createScene(description);
 	mPhysicsRenderSystem = new OGRE3DRenderSystem(mPhysicsScene);
 	
 	mPhysicsTimeController = NxOgre::TimeController::getSingleton();
 
 	mVisualDebugger = mPhysicsWorld->getVisualDebugger();
 
-	//TODO!!!:tmp: change default material
+	//TODO: make configurable - default PhysX material
 	mPhysicsScene->getMaterial(0)->setRestitution(0.5);
 	mPhysicsScene->getMaterial(0)->setDynamicFriction(0.5);
 	mPhysicsScene->getMaterial(0)->setStaticFriction(0.5);
-
-	//mPhysicsWorld->createDebugRenderer(mSceneMgr);
-	//mPhysicsWorld->getPhysXDriver()->createDebuggerConnection();
-
 }
 
 void BaseApplication::setupInputSystem() {
 
-	//TODO: currently done by ControlsListener, remove that later?
+	//TODO: setupInputSystem - currently done by ControlsListener, remove that later?
 	//size_t windowHnd = 0;
  //   std::ostringstream windowHndStr;
  //   OIS::ParamList pl;
@@ -142,9 +135,6 @@ void BaseApplication::setupInputSystem() {
 }
 
 void BaseApplication::createFrameListener() {
-	//mListener = new ExitListener(mKeyboard);
-	//mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr);
- //   mRoot->addFrameListener(mListener);
 }
 
 void BaseApplication::startRenderLoop() {

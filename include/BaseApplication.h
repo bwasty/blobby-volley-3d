@@ -41,11 +41,11 @@ public:
 	NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
 	NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }
 	OGRE3DRenderSystem* getPhysicsRenderSystem() const { return mPhysicsRenderSystem; }
+	NxOgre::VisualDebugger* getVisualDebugger() const { return mVisualDebugger; }
+	Ogre::SceneNode* getVisualDebuggerNode() const { return mVisualDebuggerNode; }
 	
 	//TODO!: review public members
-	NxOgre::VisualDebugger*	mVisualDebugger;
-	OGRE3DRenderable*		mVisualDebuggerRenderable;
-	Ogre::SceneNode*		mVisualDebuggerNode;
+
 
 protected:
 	Ogre::Root *mRoot;
@@ -59,7 +59,11 @@ protected:
 	NxOgre::TimeController* mPhysicsTimeController;
 	NxOgre::Scene* mPhysicsScene;
 	OGRE3DRenderSystem* mPhysicsRenderSystem;
+	NxOgre::VisualDebugger*	mVisualDebugger;
 	
+	OGRE3DRenderable*		mVisualDebuggerRenderable;
+	Ogre::SceneNode*		mVisualDebuggerNode;
+
 
     void createRoot();
     void defineResources();
