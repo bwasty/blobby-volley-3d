@@ -1,8 +1,5 @@
 #pragma once
-
-//#include <Ogre.h>
-//#include <OIS/OIS.h>
-//#include <NxOgre.h> // TODO: move to CPP?
+#include "OgreImprovedConfigFile.h"
 
 namespace Ogre {
 	class Root;
@@ -28,26 +25,26 @@ namespace NxOgre {
 class OGRE3DRenderSystem;
 class OGRE3DRenderable;
 
-// Basic initialisation of Ogre, Plugins and additional libraries. Mostly independent from the concrete application and taken from Tutorials/Demos. 
-// Subclasses should at least override setupScene() for setting up the visual scene...
+// Basic initialisation of Ogre, Plugins and additional libraries. Mostly independent from the concrete application and originally taken from Tutorials/Demos. 
+// Subclasses should at least override fillScene() for setting up the visual scene...
 class BaseApplication
 {
 protected:
-	BaseApplication() {};
+	BaseApplication();
 public:
-    void go();
+    virtual void go();
     ~BaseApplication();
 
+	Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
 	NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
 	NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }
 	OGRE3DRenderSystem* getPhysicsRenderSystem() const { return mPhysicsRenderSystem; }
 	NxOgre::VisualDebugger* getVisualDebugger() const { return mVisualDebugger; }
 	Ogre::SceneNode* getVisualDebuggerNode() const { return mVisualDebuggerNode; }
-	
-	//TODO!: review public members
-
 
 protected:
+	Ogre::ImprovedConfigFile mConfig;
+
 	Ogre::Root *mRoot;
     OIS::Keyboard *mKeyboard;
     OIS::InputManager *mInputManager;
@@ -64,14 +61,14 @@ protected:
 	OGRE3DRenderable*		mVisualDebuggerRenderable;
 	Ogre::SceneNode*		mVisualDebuggerNode;
 
-
     void createRoot();
     void defineResources();
     void setupRenderSystem();
     void createRenderWindow();
     void initializeResourceGroups();
+    void setupScene();
 	void setupPhysics();
-    virtual void setupScene()=0;
+	virtual void fillScene() {};
     void setupInputSystem();
     virtual void createFrameListener();
     void startRenderLoop();

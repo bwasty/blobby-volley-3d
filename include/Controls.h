@@ -65,8 +65,9 @@ protected:
     Ogre::SceneManager *mSceneMgr;   // The current SceneManager
     Ogre::SceneNode *mCamNode;   // The SceneNode the camera is currently attached to
 
-    bool mContinue;        // Whether to continue rendering or not
+    bool mContinueRendering;        // Whether to continue rendering or not
     Ogre::Vector3 mDirection;     // Value to move in the correct direction
+								//TODO!: mDirection: better name/description
 
 	bool mStatsOn;
 	Ogre::Overlay* mDebugOverlay;

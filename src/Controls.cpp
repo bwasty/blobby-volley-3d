@@ -7,6 +7,7 @@
 
 #include "Application.h"
 #include "Blobb.h"
+#include "Ball.h"
 #include "Console.h"
 #include "Controls.h"
 
@@ -15,8 +16,10 @@ using namespace Ogre;
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
 	: mCamera(cam), mWindow(win), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
-	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinue(true), mDebugText("Press SPACE to enter GUI mode")
+	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), mDebugText("Press SPACE to enter GUI mode")
 {
+	//TODO!: refactor: move OIS and MyGUI init to BaseApplication
+	//TODO!: split Controls into FrameListener, GUI? Custom RenderLoop?
 	//copied needed parts from ExampleFrameListener constructor
 	using namespace OIS;
 
@@ -46,7 +49,7 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 	//Register as a Window listener
 	WindowEventUtilities::addWindowEventListener(mWindow, this);
 
-	// end copy from ExampleFrameListener
+	////// end copy from ExampleFrameListener
 
     // set the rotation and move speed
     mRotate = 0.10;
@@ -89,18 +92,17 @@ R			  Cycle Rendering Modes: normal, wireframe, point\n\
 	mConsole = new Console();
 	//mConsole->setVisible(false);
 
-	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	//mConsole->registerConsoleDelegate("config_all", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("config_save", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 	mConsole->registerConsoleDelegate("config_load", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
+	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
 	mGUI->injectFrameEntered(evt.timeSinceLastFrame);
 
-	return mContinue;
+	return mContinueRendering;
 }
 
 bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
@@ -117,7 +119,7 @@ bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
 	mApp->getVisualDebugger()->draw();
 	mApp->getVisualDebuggerNode()->needUpdate();
 
-    return mContinue;
+    return mContinueRendering;
 }
 
 bool ControlsListener::frameEnded(const Ogre::FrameEvent &evt) {
@@ -133,8 +135,6 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 
     if (e.state.buttonDown(OIS::MB_Right))
     {
-        //mCamNode->yaw(Degree(-mRotate * e.state.X.rel), Node::TS_WORLD);
-        //mCamNode->pitch(Degree(-mRotate * e.state.Y.rel), Node::TS_LOCAL);
 		mCamera->yaw(Degree(-mRotate * e.state.X.rel));
         mCamera->pitch(Degree(-mRotate * e.state.Y.rel));
     }
@@ -147,7 +147,7 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 			Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
 			mouseMovement = rotation * mouseMovement;
 
-			//TODO!: make configurable - Blobb move force
+			//TODO!!: make configurable - Blobb move force
 			mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
 			
 			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); 
@@ -164,7 +164,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			float force = 10000; // TODO!: make configurable - Blobb jump force
+			float force = 10000; // TODO!!: make configurable - Blobb jump force
 			mApp->getBlobb1()->jump(force);
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->jump(force);
@@ -189,7 +189,7 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
     switch (e.key)
     {
     case OIS::KC_ESCAPE: 
-        mContinue = false;
+        mContinueRendering = false;
         break;
 
     case OIS::KC_UP:
@@ -290,13 +290,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		mIsPhysicsVisualDebuggerOn = !mIsPhysicsVisualDebuggerOn;
 		break;
 	case OIS::KC_1:
-		//mSceneMgr->getSceneNode("BallNode")->setPosition(Vector3(-BV3D::ARENA_EXTENT[0]/2+0.4,6.0,0.0));
-		
-		//mApp->mBallActor->setGlobalPose(NxOgre::Pose(Vector3(-mApp->mConfig.getSettingVector3("ARENA_EXTENT")[0]/2+0.4,6.0,0.0))); //TODO!!!: save ballBody as member in App
-		//mApp->mBallActor->putToSleep();
-		p = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT")[0]/4,6.0,0.0);
-		mApp->getBallBody()->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
-		mApp->getBallBody()->putToSleep();
+		mApp->getBall()->reset();
 		break;		
 	case OIS::KC_SPACE:
 		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer();
@@ -399,28 +393,36 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 				sit.moveNext();
 			}
 		}
-
-		std::vector<String> values = StringUtil::split(value, " ", 1);
-		if (values.size() == 1) { // only a setting name -> print the value of the setting
-			String setting = mApp->getConfig().getSetting(values[0]);
-			if (setting.size() == 0)
-				mConsole->addToConsole(mConsole->getConsoleStringError() + "No such setting!");
-			else
-				mConsole->addToConsole(values[0] + ": " + setting);
-		}
-		else { // setting name + new value -> save new value
-			mApp->getConfig().setSetting(values[0], values[1]);
-			mConsole->addToConsole(mConsole->getConsoleStringSuccess()+" "+values[0] + ": "+values[1]);
+		else {
+			std::vector<String> values = StringUtil::split(value, " ", 1);
+			if (values.size() == 1) { // only a setting name -> print the value of the setting
+				String setting = mApp->getConfig().getSetting(values[0]);
+				if (setting.size() == 0)
+					mConsole->addToConsole(mConsole->getConsoleStringError() + "No such setting!");
+				else
+					mConsole->addToConsole(values[0] + ": " + setting);
+			}
+			else { // setting name + new value -> save new value
+				mApp->getConfig().setSetting(values[0], values[1]);
+				mConsole->addToConsole(mConsole->getConsoleStringSuccess()+" "+values[0] + ": "+values[1]);
+			}
 		}
 	}
 	else if (key == "config_save") {
-		//TODO!: save config - give filename
+		//TODO!!: save config - give filename
 		mApp->getConfig().save();
 	}
-	else if (key == "config_load") { //TODO!: Console - implement reloading config file
-
+	else if (key == "config_load") { //TODO!!: Console - implement reloading config file, more commands for applying (only certain?) commands
+		mApp->getConfig();
 	}
-	else (key == "help") { //TODO!: Console - write help string
-
+	else if (key == "help") {
+		mConsole->addToConsole("Commands:\nconfig [[<setting>] <value>]\n\
+\t\tno arguments: show all settings\n\
+\t\t\<setting> given: show value of given setting\n\
+\t\t<setting> and <value> given: set new value.\n\
+\t\tIf several values (e.g. Vector3): space-separated list.\n\
+config_save [<filename>]\n\t\tdefault file: ../BV3D.cfg\n\
+config_load [<filename>]\n\t\tdefault file: ../BV3D.cfg\n\
+clear\n\t\tclear console");
 	}
 }

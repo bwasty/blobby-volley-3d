@@ -1,9 +1,10 @@
 #pragma once
 
 #include "BaseApplication.h"
-#include "OgreImprovedConfigFile.h"
+//#include "OgreImprovedConfigFile.h"
 
 class Blobb;
+class Ball;
 
 class OGRE3DBody;
 
@@ -11,25 +12,23 @@ class OGRE3DBody;
 
 class Application : public BaseApplication {
 public:
-	Application();
+	//Application();
 	Blobb* getBlobb1() { return mBlobb1; }
 	Blobb* getBlobb2() { return mBlobb2; }
 
 	
-	OGRE3DBody* getBallBody() const { return mBallBody; }
+	Ball* getBall() const { return mBall; }
 	
-	Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
 
 private:
 	void createFrameListener(); //TODO: make virtual createFrameListener()?
 	void setupScene();
+	void fillScene();
 
 	Blobb* mBlobb1;
 	Blobb* mBlobb2;
 
-	OGRE3DBody* mBallBody;
-
-	Ogre::ImprovedConfigFile mConfig;
+	Ball* mBall;
 };
 
 #pragma once

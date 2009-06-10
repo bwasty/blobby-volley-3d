@@ -3,7 +3,6 @@
 #include <OgreSubEntity.h>
 
 #include <NxOgre.h>
-//#include "OGRE3DCommon.h"
 #include <OGRE3DBody.h>
 #include <OGRE3DRenderSystem.h>
 #include "NxScene.h"
@@ -19,7 +18,7 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	// create the 2 compound spheres
 	NxOgre::Shapes blobbSpheres;
 	//TODO!!: define and set material for shapes, make dynamically changeable
-	//TODO!!!: sphere's don't work correctly, see visual debugger
+	//TODO!!!!: sphere's don't work correctly, see visual debugger
 	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
 	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
 	blobbSpheres[0]->setLocalPose(NxOgre::Matrix44(NxOgre::Real3(0, 0.7, 0)));

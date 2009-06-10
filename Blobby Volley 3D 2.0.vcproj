@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Ball.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\BaseApplication.cpp"
 				>
 			</File>
@@ -217,6 +221,10 @@
 			>
 			<File
 				RelativePath=".\include\Application.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Ball.h"
 				>
 			</File>
 			<File

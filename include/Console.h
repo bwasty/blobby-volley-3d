@@ -6,8 +6,7 @@
 
 	Added to Blobby Volley 3D - 06/2009 (Benjamin Wasty)
 */
-#ifndef __CONSOLE_H__
-#define __CONSOLE_H__
+#pragma once
 
 //#include <MyGUI.h>
 #include "BaseLayout/BaseLayout.h"
@@ -112,5 +111,3 @@ private:
 
 	static Console * m_instance;
 };
-
-#endif // __CONSOLE_H__

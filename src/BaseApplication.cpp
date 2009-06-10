@@ -3,11 +3,26 @@
 #include <OgreConfigFile.h>
 #include <OgreTextureManager.h>
 #include <NxOgre.h>
-#include <OGRE3DRenderSystem.h>
+#include <OGRE3DRenderSystem.h> //TODO: Problem: OGRE3DRenderSystem.h includes Ogre.h
+#include <OGRE3DRenderable.h>
 
 #include "BaseApplication.h"
 
 using namespace Ogre;
+
+BaseApplication::BaseApplication() : mConfig() {
+	const String pathToConfig = "../BV3D.cfg"; // TODO: working directory-independent solution?
+	mConfig.load(pathToConfig, "=\t:", true);
+
+	/* dump of current default config
+	ARENA_EXTENT=16.0 30.0 7.0
+	BALL_RADIUS=0.9;
+	LOOK_FROM=0.0 9.0 -16.0
+	LOOK_TO=0.0 4.0 0.0
+	NET_HEIGHT=4.2;
+	*/
+
+}
 
 void BaseApplication::go() {
     createRoot();
@@ -16,6 +31,8 @@ void BaseApplication::go() {
     createRenderWindow();
     initializeResourceGroups();
     setupScene();
+	setupPhysics();
+	fillScene();
     //setupInputSystem();
     createFrameListener();
     startRenderLoop();
@@ -62,7 +79,7 @@ void BaseApplication::setupRenderSystem() {
 	//note: I would recommend that if you catch an exception during Ogre's startup that you 
 	//      delete the ogre.cfg file in the catch block. It is possible that the settings they 
 	//      have chosen in the config dialog has caused a problem and they need to change them.
-	if (!mRoot->restoreConfig() && !mRoot->showConfigDialog()) //TODO!: make configurable - show RenderSystem dialog + load cfg even if displayed
+	if (!mRoot->restoreConfig() && !mRoot->showConfigDialog()) //TODO!!: make configurable - show RenderSystem dialog + load cfg even if displayed
        throw Exception(52, "User canceled the config dialog!", "Application::setupRenderSystem()");
 
 	//alternative to config file/dialog:
@@ -91,6 +108,26 @@ void BaseApplication::initializeResourceGroups() {
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
+void BaseApplication::setupScene() {
+	mSceneMgr = mRoot->createSceneManager(ST_GENERIC, "Default SceneManager");
+	mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+
+	mCamera = mSceneMgr->createCamera("Camera");
+	mCamera->setNearClipDistance(1.0);
+
+	Viewport *vp = mRoot->getAutoCreatedWindow()->addViewport(mCamera);
+	// Alter the camera aspect ratio to match the viewport
+	mCamera->setAspectRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
+
+	vp->setBackgroundColour(ColourValue(0.1,0.1,0.1));
+
+	// camera position and orientation
+	mCamera->setPosition(mConfig.getSettingVector3("LOOK_FROM"));
+	mCamera->lookAt(mConfig.getSettingVector3("LOOK_TO"));
+}
+
+
+
 void BaseApplication::setupPhysics() {
 	mPhysicsWorld = NxOgre::World::createWorld();
 	NxOgre::SceneDescription description;
@@ -102,6 +139,11 @@ void BaseApplication::setupPhysics() {
 	mPhysicsTimeController = NxOgre::TimeController::getSingleton();
 
 	mVisualDebugger = mPhysicsWorld->getVisualDebugger();
+	mVisualDebuggerRenderable = new OGRE3DRenderable(NxOgre::Enums::RenderableType_VisualDebugger);
+	mVisualDebugger->setRenderable(mVisualDebuggerRenderable);
+	mVisualDebuggerNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	mVisualDebuggerNode->attachObject(mVisualDebuggerRenderable);
+	mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
 
 	//TODO: make configurable - default PhysX material
 	mPhysicsScene->getMaterial(0)->setRestitution(0.5);
