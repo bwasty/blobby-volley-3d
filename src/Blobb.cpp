@@ -13,14 +13,14 @@
 
 using namespace Ogre;
 
-Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, BV3D::TEAM team, Ogre::ColourValue colour)
+Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, TEAM team, Ogre::ColourValue colour)
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
 	// create the 2 compound spheres
 	NxOgre::Shapes blobbSpheres;
 	//TODO!!: define and set material for shapes, make dynamically changeable
 	//TODO!!!!: sphere's don't work correctly, see visual debugger
-	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
-	blobbSpheres.insert(new NxOgre::Sphere(BV3D::BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
+	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
+	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
 	blobbSpheres[0]->setLocalPose(NxOgre::Matrix44(NxOgre::Real3(0, 0.7, 0)));
 	NxOgre::RigidBodyDescription rbd;
 	rbd.mMass = 10.0;

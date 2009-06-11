@@ -56,47 +56,11 @@ void Application::fillScene()
 
 	// blobbs
 	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
-	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(-arenaExtent[0]/4,1.0,0.0), BV3D::TEAM1);
-	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/4,1.0,0.0), BV3D::TEAM2, ColourValue::Green);
+	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(-arenaExtent[0]/4,1.0,0.0), TEAM1);
+	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
 
-	////TODO!!: refactor Ball into own class
-	//// create ball
-	//Real ballRadius = mConfig.getSettingReal("BALL_RADIUS");
-
-	//NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
-	////TODO!!!:PhysX material creation seems to fail
-	////NxOgre::Material* ball_mat = mPhysicsScene->createMaterial();
-	////ball_mat->setRestitution(1.3);
-	////ballSphere->setMaterial(ball_mat->getIdentifier()); //TODO!!!: doesn't work, null pointer, NxOgre bug?
-	//Vector3 position = Vector3(-arenaExtent[0]/4,6.0,0.0);
-	//mBallBody = mPhysicsRenderSystem->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
-	//mBallBody->setMass(1);
-	//mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
-	//mBallBody->putToSleep();
+	//ball
 	mBall = new Ball(this, Vector3(-arenaExtent[0]/4,6.0,0.0));
-
-
-	//old Bleeding code
-	//ent = mSceneMgr->createEntity("Ball", "Ball.mesh");
-	//   SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("BallNode");
-	//node->scale(Vector3(ballRadius / 1.7));
-	////Vector3 position = Vector3(-arenaExtent[0]/2+0.4,6.0,0.0);
-	//node->translate(position);
-	//node->attachObject(ent);
-
-	//NxOgre::NodeRenderableParams nrp;
-	//nrp.setToDefault();
-	//nrp.mIdentifierUsage = NxOgre::NodeRenderableParams::IU_Use;
-	//nrp.mIdentifier = node->getName();
-
-	//NxOgre::Material* ballMaterial = mPhysicsScene->createMaterial("ball_material");
-	//ballMaterial->setRestitution(1.3);
-	//NxOgre::ShapeParams sp;
-	//sp.setToDefault();
-	//sp.mMaterial = ballMaterial->getMaterialIndex();
-
-	//mBallActor = mPhysicsScene->createBody<NxOgre::Body>("ball_body", new NxOgre::Sphere(ballRadius, /*sp*/"material: ball_material"), position, nrp, "mass:1");
-	//mBallActor->putToSleep();
 
 	// create net
 	/* net1.3ds
@@ -106,10 +70,10 @@ void Application::fillScene()
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO!: fix netz-befestigungen in Blender (some triangles face to the wrong side)
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
 	SceneNode* netNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	//node->scale(Vector3(BV3D::BALL_RADIUS / 1.7));
-	//node->translate(Vector3(-BV3D::ARENA_EXTENT[0]/2,6.0,0.0));
+	//node->scale(Vector3(BALL_RADIUS / 1.7));
+	//node->translate(Vector3(-ARENA_EXTENT[0]/2,6.0,0.0));
 	netNode->rotate(Vector3::UNIT_Y, Radian(Degree(90)));
-	netNode->translate(Vector3(0, netHeight, 6)); //TODO: something wrong with z translation from constants -> scaling(VRS::Vector((BV3D::ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
+	netNode->translate(Vector3(0, netHeight, 6)); //TODO: something wrong with z translation from constants -> scaling(VRS::Vector((ARENA_EXTENT[2] + (2*poleOffset))/width3ds, 1.0, 1.0));
 	netNode->attachObject(ent);
 	netNode->attachObject(ent2);
 

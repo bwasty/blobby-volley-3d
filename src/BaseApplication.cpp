@@ -6,13 +6,14 @@
 #include <OGRE3DRenderSystem.h> //TODO: Problem: OGRE3DRenderSystem.h includes Ogre.h
 #include <OGRE3DRenderable.h>
 
+#include "Constants.h"
 #include "BaseApplication.h"
 
 using namespace Ogre;
 
 BaseApplication::BaseApplication() : mConfig() {
-	const String pathToConfig = "../BV3D.cfg"; // TODO: working directory-independent solution?
-	mConfig.load(pathToConfig, "=\t:", true);
+	//const String pathToConfig = "../BV3D.cfg"; 
+	mConfig.load(PATH_TO_CONFIG, "=\t:", true);
 
 	/* dump of current default config
 	ARENA_EXTENT=16.0 30.0 7.0

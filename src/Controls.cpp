@@ -380,8 +380,6 @@ void ControlsListener::showDebugOverlay(bool show)
 }
 
 void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & value) {
-	//mConsole->addToConsole(key + "," + value);
-    //mConsole->addToConsole("1", "2", "3");
 	if (key == "clear")
 		mConsole->clearConsole();
 	else if (key == "config") {
@@ -409,20 +407,26 @@ void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::U
 		}
 	}
 	else if (key == "config_save") {
-		//TODO!!: save config - give filename
-		mApp->getConfig().save();
+		mApp->getConfig().save(value); // if no value given, then it's saved to the originally loaded file
+		mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
 	}
-	else if (key == "config_load") { //TODO!!: Console - implement reloading config file, more commands for applying (only certain?) commands
-		mApp->getConfig();
+	else if (key == "config_load") { //TODO!!: Console -  more commands for applying reloaded config (only certain settings?) commands
+		try {
+			mApp->getConfig().load(value, "=\t:", true);
+			mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
+		}
+		catch (FileNotFoundException e) {
+			mConsole->addToConsole(mConsole->getConsoleStringError() + e.getDescription(), key, value);
+		}
 	}
 	else if (key == "help") {
 		mConsole->addToConsole("Commands:\nconfig [[<setting>] <value>]\n\
 \t\tno arguments: show all settings\n\
-\t\t\<setting> given: show value of given setting\n\
+\t\t<setting> given: show value of given setting\n\
 \t\t<setting> and <value> given: set new value.\n\
 \t\tIf several values (e.g. Vector3): space-separated list.\n\
-config_save [<filename>]\n\t\tdefault file: ../BV3D.cfg\n\
-config_load [<filename>]\n\t\tdefault file: ../BV3D.cfg\n\
+config_save [<filename>]\n\t\tdefault file: "+PATH_TO_CONFIG+"\n\
+config_load [<filename>]\n\t\tdefault file: "+PATH_TO_CONFIG+"\n\
 clear\n\t\tclear console");
 	}
 }

@@ -1,5 +1,6 @@
 //improved Ogre::ConfigFile thomas {AT} thomasfischer {DOT} biz 3/2008
 // added to Blobby Volley 3D: 2009/06/02, source: http://www.ogre3d.org/forums/viewtopic.php?p=276810#p276810
+// changes: - added filename parameter to save() -> can save to other file
 #pragma once
 
 #include <OgrePrerequisites.h>
@@ -17,7 +18,7 @@ namespace Ogre
 class ImprovedConfigFile : public ConfigFile
 {
 public:
-   ImprovedConfigFile() : separators(), filename()
+   ImprovedConfigFile() : mSeparators(), mFilename()
    {
       ConfigFile::ConfigFile();
    }
@@ -29,22 +30,26 @@ public:
    // note: saving is only supported for direct loaded files atm!
    void load(const String& filename, const String& separators, bool trimWhitespace)
     {
-      this->separators = separators;
-      this->filename = filename;
+      this->mSeparators = separators;
+      this->mFilename = filename;
       ConfigFile::load(filename, separators, trimWhitespace);
     }
    
-   bool ImprovedConfigFile::save()
+   /** save to file. If no filename given (or empty string), the loaded file is overwritten (if loaded with above method) */
+   bool save(String filename="")
    {
-      if(!filename.length())
+      if (filename.size() > 0)
+		mFilename = filename;
+
+      if(!mFilename.length())
       {
          OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "Saving of the configuration File is only allowed when the configuration was not loaded using the resource system!", "ImprovedConfigFile::save");
          return false;
       }
-      FILE *f = fopen(filename.c_str(), "w");
+      FILE *f = fopen(mFilename.c_str(), "w");
       if(!f)
       {
-         OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Cannot open File '"+filename+"' for writing.", "ImprovedConfigFile::save");
+         OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Cannot open File '"+mFilename+"' for writing.", "ImprovedConfigFile::save");
          return false;
       }
 
@@ -56,7 +61,7 @@ public:
          SettingsMultiMap::iterator setIt;
          for(setIt = secIt->second->begin(); setIt!=secIt->second->end(); setIt++)
          {
-            fprintf(f, "%s%c%s\n", setIt->first.c_str(), separators[0], setIt->second.c_str());
+            fprintf(f, "%s%c%s\n", setIt->first.c_str(), mSeparators[0], setIt->second.c_str());
          }
          
       }
@@ -121,8 +126,8 @@ public:
    void setSetting(String key, StringVector value, String section = StringUtil::BLANK) { setSetting(key, StringConverter::toString(value), section); }
 
 protected:
-   String separators;
-   String filename;
+   String mSeparators;
+   String mFilename;
 };
 
 };
