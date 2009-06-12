@@ -26,17 +26,17 @@ BaseApplication::BaseApplication() : mConfig() {
 }
 
 void BaseApplication::go() {
-    createRoot();
+    mRoot = new Root(); // 3 optional params: plugins.cfg, config.cfg, logfile
     defineResources();
     setupRenderSystem();
-    createRenderWindow();
+    mRoot->initialise(true, "Blobby Volley 3D 2.0"); // creates RenderWindow
     initializeResourceGroups();
     setupScene();
 	setupPhysics();
 	fillScene();
     //setupInputSystem();
     createFrameListener();
-    startRenderLoop();
+    mRoot->startRendering();
 }
 
 BaseApplication::~BaseApplication() {
@@ -53,10 +53,6 @@ BaseApplication::~BaseApplication() {
     //delete mRoot; // deletes also SceneManager, the RenderWindow and so on TODO: Problem: access violation on shutdown of D3D9 renderer
 }
 
-void BaseApplication::createRoot() {
-	mRoot = new Root(); // 3 optional params: plugins.cfg, config.cfg, logfile
-}
-    
 void BaseApplication::defineResources() {
 	String secName, typeName, archName;
     ConfigFile cf;
@@ -80,8 +76,13 @@ void BaseApplication::setupRenderSystem() {
 	//note: I would recommend that if you catch an exception during Ogre's startup that you 
 	//      delete the ogre.cfg file in the catch block. It is possible that the settings they 
 	//      have chosen in the config dialog has caused a problem and they need to change them.
-	if (!mRoot->restoreConfig() && !mRoot->showConfigDialog()) //TODO!!: make configurable - show RenderSystem dialog + load cfg even if displayed
-       throw Exception(52, "User canceled the config dialog!", "Application::setupRenderSystem()");
+	//if (!mRoot->restoreConfig() && !mRoot->showConfigDialog())
+ //      throw Exception(52, "User canceled the config dialog!", "Application::setupRenderSystem()");
+	if (!mRoot->restoreConfig() || mConfig.getSettingBool("showConfigDialog")) {
+		if (!mRoot->showConfigDialog())
+			throw Exception(52, "User canceled the config dialog!", "Application::setupRenderSystem()");
+	}
+
 
 	//alternative to config file/dialog:
 	// Do not add this to the application
@@ -92,18 +93,6 @@ void BaseApplication::setupRenderSystem() {
     //rs->setConfigOption("Video Mode", "800 x 600 @ 32-bit colour");
 }
     
-void BaseApplication::createRenderWindow() {
-	mRoot->initialise(true, "Blobby Volley 3D 2.0");
-
-	//Win32 alternative:
-	// Do not add this to the application
-   //mRoot->initialise(false);
-   //HWND hWnd = 0;  // Get the hWnd of the application!
-   //NameValuePairList misc;
-   //misc["externalWindowHandle"] = StringConverter::toString((int)hWnd);
-   //RenderWindow *win = mRoot->createRenderWindow("Main RenderWindow", 800, 600, false, &misc);
-}
-
 void BaseApplication::initializeResourceGroups() {
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
     ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -147,7 +136,7 @@ void BaseApplication::setupPhysics() {
 	mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
 
 	//TODO: make configurable - default PhysX material
-	mPhysicsScene->getMaterial(0)->setRestitution(0.5);
+	mPhysicsScene->getMaterial(0)->setRestitution(0.1);
 	mPhysicsScene->getMaterial(0)->setDynamicFriction(0.5);
 	mPhysicsScene->getMaterial(0)->setStaticFriction(0.5);
 }
@@ -179,15 +168,3 @@ void BaseApplication::setupInputSystem() {
 
 void BaseApplication::createFrameListener() {
 }
-
-void BaseApplication::startRenderLoop() {
-	mRoot->startRendering();
-
-	// Do not add this to the application
-   //while (mRoot->renderOneFrame())
-   //{
-   //    // Do some things here, like sleep for x milliseconds or perform other actions.
-   //}
-}
-
-

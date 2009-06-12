@@ -61,17 +61,14 @@ protected:
 	OGRE3DRenderable*		mVisualDebuggerRenderable;
 	Ogre::SceneNode*		mVisualDebuggerNode;
 
-    void createRoot();
     void defineResources();
     void setupRenderSystem();
-    void createRenderWindow();
     void initializeResourceGroups();
     void setupScene();
 	void setupPhysics();
 	virtual void fillScene() {};
     void setupInputSystem();
     virtual void createFrameListener();
-    void startRenderLoop();
 };
 
 #pragma once

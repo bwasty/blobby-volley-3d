@@ -33,5 +33,5 @@ public:
 	}
 
 	void move(Ogre::Vector2 direction);
-	void jump(float force);
+	void jump(int force);
 };

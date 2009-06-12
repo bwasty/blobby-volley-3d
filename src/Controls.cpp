@@ -18,16 +18,18 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 	: mCamera(cam), mWindow(win), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
 	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), mDebugText("Press SPACE to enter GUI mode")
 {
-	//TODO!: refactor: move OIS and MyGUI init to BaseApplication
-	//TODO!: split Controls into FrameListener, GUI? Custom RenderLoop?
+	//TODO!!!: refactor Controls: move OIS init to BaseApplication, 
+	//TODO!!!: refactor Controls: make GUI class (MyGUI...) -> init from BaseApp
+	//TODO!!!: refactor Controls: make BaseApp WindowEventListener instead
+	//TODO!!!: refactor Controls: make FrameListener class (leaving Controls really only for controls)
 	//copied needed parts from ExampleFrameListener constructor
-	using namespace OIS;
+	//using namespace OIS;
 
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
 	mDebugOverlay->remove2D(mDebugOverlay->getChild("Core/LogoPanel"));
 
 	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
-	ParamList pl;
+	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
 
@@ -35,11 +37,11 @@ ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager 
 	windowHndStr << windowHnd;
 	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-	mInputManager = InputManager::createInputSystem( pl );
+	mInputManager = OIS::InputManager::createInputSystem( pl );
 
 	//Create all devices
-	mKeyboard = static_cast<Keyboard*>(mInputManager->createInputObject( OISKeyboard, true ));
-	mMouse = static_cast<Mouse*>(mInputManager->createInputObject( OISMouse, true ));
+	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
+	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
 
 	//Set initial mouse clipping size
 	windowResized(mWindow);
@@ -73,7 +75,8 @@ B			  Toggle control of both blobbs\n\
 1			  Reset ball\n\
 F			  Toggle display of frame stats\n\
 R			  Cycle Rendering Modes: normal, wireframe, point\n\
-^			  Toggle Console");
+^			  Toggle Console\n\
+ESC			 Quit");
 	MyGUI::EditPtr text = nullptr;
 	MyGUI::WidgetPtr panel = mGUI->createWidget<MyGUI::Widget>("PanelSmall", mGUI->getViewWidth(), -128, 400, 178, MyGUI::Align::Default, "Statistic");
 	text = panel->createWidget<MyGUI::Edit>("WordWrapSimple", 10, 10, 380, 158, MyGUI::Align::Default);
@@ -100,14 +103,14 @@ R			  Cycle Rendering Modes: normal, wireframe, point\n\
 }
 
 bool ControlsListener::frameStarted(const FrameEvent &evt) {
-	mGUI->injectFrameEntered(evt.timeSinceLastFrame);
-
-	return mContinueRendering;
+	return true;;
 }
 
 bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
 {
-    if(mMouse)
+	mGUI->injectFrameEntered(evt.timeSinceLastFrame);
+
+    if(mMouse) // TODO: if(mMouse/mKeyboard): can leave check out?
         mMouse->capture();
     if(mKeyboard) 
         mKeyboard->capture();
@@ -123,7 +126,8 @@ bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
 }
 
 bool ControlsListener::frameEnded(const Ogre::FrameEvent &evt) {
-	updateStats();
+	if (mStatsOn)
+		updateStats();
 	return true;
 }
 
@@ -147,8 +151,8 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 			Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
 			mouseMovement = rotation * mouseMovement;
 
-			//TODO!!: make configurable - Blobb move force
-			mouseMovement *= 15; // length of vector determines how big the force is (-> how far blobb is moved)
+			static int factor = mApp->getConfig().getSettingInt("BlobbMovementPerMouseMovement"); // TODO!: config value: move to member for dynamic change
+			mouseMovement *= factor; // length of vector determines how big the force is (-> how far blobb is moved)
 			
 			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); 
 			if (mControlBothBlobbs)
@@ -164,7 +168,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			float force = 10000; // TODO!!: make configurable - Blobb jump force
+			static float force = mApp->getConfig().getSettingInt("BlobbJumpForce"); // TODO!: config value: move to member for dynamic change
 			mApp->getBlobb1()->jump(force);
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->jump(force);

@@ -57,7 +57,7 @@ void Blobb::move(Ogre::Vector2 direction) {
 	mBody->addForce(NxOgre::Real3(direction.x, 0, direction.y));
 }
 
-void Blobb::jump(float force) {
-	if (mBody->getGlobalPosition().y < 1.1) //TODO: Blobb::jump - height criterion too weak?
+void Blobb::jump(int force) {
+	if (mBody->getGlobalPosition().y < 1.1) //TODO!!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
 		mBody->addForce(NxOgre::Real3(0, force, 0));
 }

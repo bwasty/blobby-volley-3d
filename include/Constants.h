@@ -41,4 +41,4 @@ static const float BLOBB_SHAPE_DATA[5][5] = {
 	{0.65f+0.1f, 1.1f, 1.1f, 0.9f, 1.0f},
 	{0.5f+0.1f, 1.2f, 1.0f, 0.9f, 0.9f} };
 
-static const Ogre::String PATH_TO_CONFIG = "../BV3D.cfg"; // TODO!: PATH_TO_CONFIG - working directory-independent solution?
+static const Ogre::String PATH_TO_CONFIG = "../BV3D.cfg"; // TODO: PATH_TO_CONFIG - working directory-independent solution?

@@ -86,10 +86,9 @@ void Application::fillScene()
 	SceneNode* poleNode2 = scaleNode->createChildSceneNode();
 	poleNode2->attachObject(ent2);
 
-	//scaleNode->attachObject(ent);
 	scaleNode->scale(Vector3(0.002));
 	scaleNode->scale(1, 44, 1);
-	scaleNode->translate(0.0, 2.0, 0); // TODO!!: make configurable - net size/position
+	scaleNode->translate(0.0, 2.0, 0); // TODO!: make configurable - net size/position
 
 	poleNode1->translate(0,0,6, SceneNode::TS_WORLD); //TODO: why TS_WORLD??
 	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
@@ -114,7 +113,11 @@ void Application::fillScene()
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,1)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,-1)));
 
-	mPhysicsScene->createSceneGeometry(wallPlanes[0]); //TODO!!!: fix Shapes thing
+	// doesn't work - only last inserted plane (wallPlanes[3]) is simulated
+	//mPhysicsScene->createSceneGeometry(wallPlanes);
+
+	// works fine
+	mPhysicsScene->createSceneGeometry(wallPlanes[0]); //TODO!: fix Shapes thing
 	mPhysicsScene->createSceneGeometry(wallPlanes[1]);
 	mPhysicsScene->createSceneGeometry(wallPlanes[2]);
 	mPhysicsScene->createSceneGeometry(wallPlanes[3]);

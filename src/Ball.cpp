@@ -14,9 +14,9 @@ Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app), mStartPosition
 	Real ballRadius = mApp->getConfig().getSettingReal("BALL_RADIUS");
 
 	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
-	//TODO!!!:PhysX material creation seems to fail
-	//NxOgre::Material* ball_mat = mPhysicsScene->createMaterial();
-	//ball_mat->setRestitution(1.3);
+	////TODO!!!:PhysX material creation seems to fail
+	//NxOgre::Material* ball_mat = mApp->getPhysicsRenderSystem()->getScene()->createMaterial();
+	//ball_mat->setRestitution(2.0);
 	//ballSphere->setMaterial(ball_mat->getIdentifier()); //TODO!!!: doesn't work, null pointer, NxOgre bug?
 	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
 	mBallBody->setMass(1);
