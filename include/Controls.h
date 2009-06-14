@@ -21,10 +21,10 @@ namespace MyGUI {
 }
 
 
-class ControlsListener : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::MouseListener, public OIS::KeyListener
+class ControlsListener : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-	ControlsListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::SceneManager *sceneMgr, Application* app);
+	ControlsListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::SceneManager *sceneMgr, Application* app, OIS::Keyboard* keyboard, OIS::Mouse* mouse);
 
 	bool frameStarted(const Ogre::FrameEvent &evt);
     bool frameRenderingQueued(const Ogre::FrameEvent &evt);
@@ -42,9 +42,6 @@ public:
 	void showDebugOverlay(bool show);
 	void updateStats();
 
-	void windowResized(Ogre::RenderWindow* rw);
-	void windowClosed(Ogre::RenderWindow* rw);
-
 	void consoleCommand(const Ogre::UTFString & _key, const Ogre::UTFString & _value);
 
 protected:
@@ -55,7 +52,7 @@ protected:
 	Ogre::RenderWindow* mWindow;
 
 	//OIS Input devices
-	OIS::InputManager* mInputManager;
+	//OIS::InputManager* mInputManager;
 	OIS::Mouse*    mMouse;
 	OIS::Keyboard* mKeyboard;
 

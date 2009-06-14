@@ -14,44 +14,18 @@
 using namespace Ogre;
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
-ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app)
+ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app, OIS::Keyboard* keyboard, OIS::Mouse* mouse)
 	: mCamera(cam), mWindow(win), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
-	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), mDebugText("Press SPACE to enter GUI mode")
+	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), mDebugText("Press SPACE to enter GUI mode"),
+	mKeyboard(keyboard), mMouse(mouse)
 {
-	//TODO!!!: refactor Controls: move OIS init to BaseApplication, 
 	//TODO!!!: refactor Controls: make GUI class (MyGUI...) -> init from BaseApp
-	//TODO!!!: refactor Controls: make BaseApp WindowEventListener instead
-	//TODO!!!: refactor Controls: make FrameListener class (leaving Controls really only for controls)
-	//copied needed parts from ExampleFrameListener constructor
-	//using namespace OIS;
+	//TODO!!!: refactor Controls: make Application FrameListener instead (leaving Controls really only for controls)
 
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
 	mDebugOverlay->remove2D(mDebugOverlay->getChild("Core/LogoPanel"));
 
-	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
-	OIS::ParamList pl;
-	size_t windowHnd = 0;
-	std::ostringstream windowHndStr;
-
-	win->getCustomAttribute("WINDOW", &windowHnd);
-	windowHndStr << windowHnd;
-	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
-
-	mInputManager = OIS::InputManager::createInputSystem( pl );
-
-	//Create all devices
-	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
-	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
-
-	//Set initial mouse clipping size
-	windowResized(mWindow);
-
 	showDebugOverlay(true);
-
-	//Register as a Window listener
-	WindowEventUtilities::addWindowEventListener(mWindow, this);
-
-	////// end copy from ExampleFrameListener
 
     // set the rotation and move speed
     mRotate = 0.10;
@@ -151,7 +125,7 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 			Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
 			mouseMovement = rotation * mouseMovement;
 
-			static int factor = mApp->getConfig().getSettingInt("BlobbMovementPerMouseMovement"); // TODO!: config value: move to member for dynamic change
+			static int factor = mApp->getConfig().getSettingInt("BlobbMovementPerMouseMovement"); // TODO!!: config value: move to member for dynamic change + change function
 			mouseMovement *= factor; // length of vector determines how big the force is (-> how far blobb is moved)
 			
 			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); 
@@ -168,7 +142,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			static float force = mApp->getConfig().getSettingInt("BlobbJumpForce"); // TODO!: config value: move to member for dynamic change
+			static float force = mApp->getConfig().getSettingInt("BlobbJumpForce"); // TODO!!: config value: move to member for dynamic change + change function
 			mApp->getBlobb1()->jump(force);
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->jump(force);
@@ -342,35 +316,6 @@ void ControlsListener::updateStats(void)
 	catch(...) { /* ignore */ }
 }
 
-
-//Adjust mouse clipping area
-void ControlsListener::windowResized(RenderWindow* rw)
-{
-	unsigned int width, height, depth;
-	int left, top;
-	rw->getMetrics(width, height, depth, left, top);
-
-	const OIS::MouseState &ms = mMouse->getMouseState();
-	ms.width = width;
-	ms.height = height;
-}
-
-//Unattach OIS before window shutdown (very important under Linux)
-void ControlsListener::windowClosed(RenderWindow* rw)
-{
-	//Only close for window that created OIS (the main window in these demos)
-	if( rw == mWindow )
-	{
-		if( mInputManager )
-		{
-			mInputManager->destroyInputObject( mMouse );
-			mInputManager->destroyInputObject( mKeyboard );
-
-			OIS::InputManager::destroyInputSystem(mInputManager);
-			mInputManager = 0;
-		}
-	}
-}
 
 void ControlsListener::showDebugOverlay(bool show)
 {

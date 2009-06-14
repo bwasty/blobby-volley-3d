@@ -8,6 +8,7 @@
 
 #include "Constants.h"
 #include "BaseApplication.h"
+#include <OIS\OISInputManager.h>
 
 using namespace Ogre;
 
@@ -29,12 +30,12 @@ void BaseApplication::go() {
     mRoot = new Root(); // 3 optional params: plugins.cfg, config.cfg, logfile
     defineResources();
     setupRenderSystem();
-    mRoot->initialise(true, "Blobby Volley 3D 2.0"); // creates RenderWindow
+    mWindow = mRoot->initialise(true, "Blobby Volley 3D 2.0"); // creates RenderWindow
     initializeResourceGroups();
     setupScene();
 	setupPhysics();
 	fillScene();
-    //setupInputSystem();
+    setupInputSystem();
     createFrameListener();
     mRoot->startRendering();
 }
@@ -105,7 +106,7 @@ void BaseApplication::setupScene() {
 	mCamera = mSceneMgr->createCamera("Camera");
 	mCamera->setNearClipDistance(1.0);
 
-	Viewport *vp = mRoot->getAutoCreatedWindow()->addViewport(mCamera);
+	Viewport *vp = mWindow->addViewport(mCamera);
 	// Alter the camera aspect ratio to match the viewport
 	mCamera->setAspectRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 
@@ -142,18 +143,6 @@ void BaseApplication::setupPhysics() {
 }
 
 void BaseApplication::setupInputSystem() {
-
-	//TODO: setupInputSystem - currently done by ControlsListener, remove that later?
-	//size_t windowHnd = 0;
- //   std::ostringstream windowHndStr;
- //   OIS::ParamList pl;
- //   RenderWindow *win = mRoot->getAutoCreatedWindow();
-
- //   win->getCustomAttribute("WINDOW", &windowHnd);
- //   windowHndStr << windowHnd;
- //   pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
- //   mInputManager = OIS::InputManager::createInputSystem(pl);
-
 	//try
  //   {
  //       mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, false /* buffered input */));
@@ -164,7 +153,54 @@ void BaseApplication::setupInputSystem() {
  //   {
  //       throw Exception(42, e.eText, "Application::setupInputSystem");
  //   }
+
+	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+	OIS::ParamList pl;
+	size_t windowHnd = 0;
+	std::ostringstream windowHndStr;
+
+	mWindow->getCustomAttribute("WINDOW", &windowHnd);
+	windowHndStr << windowHnd;
+	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+
+	mInputManager = OIS::InputManager::createInputSystem( pl );
+
+	//Create all devices
+	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
+	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
+
+	//Set initial mouse clipping size
+	windowResized(mWindow);
+
+	//Register as a Window listener
+	WindowEventUtilities::addWindowEventListener(mWindow, this);
 }
 
-void BaseApplication::createFrameListener() {
+//Adjust mouse clipping area
+void BaseApplication::windowResized(RenderWindow* rw)
+{
+	unsigned int width, height, depth;
+	int left, top;
+	rw->getMetrics(width, height, depth, left, top);
+
+	const OIS::MouseState &ms = mMouse->getMouseState();
+	ms.width = width;
+	ms.height = height;
+}
+
+//Unattach OIS before window shutdown (very important under Linux)
+void BaseApplication::windowClosed(RenderWindow* rw)
+{
+	//Only close for window that created OIS (the main window in these demos)
+	if( rw == mWindow )
+	{
+		if( mInputManager )
+		{
+			mInputManager->destroyInputObject( mMouse );
+			mInputManager->destroyInputObject( mKeyboard );
+
+			OIS::InputManager::destroyInputSystem(mInputManager);
+			mInputManager = 0;
+		}
+	}
 }

@@ -19,12 +19,10 @@
 
 using namespace Ogre;
 
-
 void Application::createFrameListener() {
-	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr, this);
-    mRoot->addFrameListener(mListener);
+	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr, this, mKeyboard, mMouse);
+	mRoot->addFrameListener(mListener);
 }
-
 
 void Application::fillScene()
 {
