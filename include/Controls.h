@@ -8,7 +8,7 @@
 #include <OgreVector3.h>
 
 class Application;
-class Console;
+class GUI;
 
 namespace Ogre {
 	class RenderWindow;
@@ -16,19 +16,11 @@ namespace Ogre {
 	class Camera;
 }
 
-namespace MyGUI {
-	class Gui;
-}
 
-
-class ControlsListener : public Ogre::FrameListener, public OIS::MouseListener, public OIS::KeyListener
+class ControlsListener : public OIS::MouseListener, public OIS::KeyListener
 {
 public:
-	ControlsListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::SceneManager *sceneMgr, Application* app, OIS::Keyboard* keyboard, OIS::Mouse* mouse);
-
-	bool frameStarted(const Ogre::FrameEvent &evt);
-    bool frameRenderingQueued(const Ogre::FrameEvent &evt);
-	bool frameEnded(const Ogre::FrameEvent &evt);
+	ControlsListener(Application* app, Ogre::Camera* cam, Ogre::SceneManager *sceneMgr, OIS::Keyboard* keyboard, OIS::Mouse* mouse, GUI* gui);
 
     // MouseListener
     bool mouseMoved(const OIS::MouseEvent &e);
@@ -39,22 +31,19 @@ public:
     bool keyPressed(const OIS::KeyEvent &e);
     bool keyReleased(const OIS::KeyEvent &e);
 
-	void showDebugOverlay(bool show);
-	void updateStats();
-
-	void consoleCommand(const Ogre::UTFString & _key, const Ogre::UTFString & _value);
+	Ogre::Vector3 mDirection;     // Value to move in the correct direction
+								//TODO!!: mDirection: better name/description//refactor
 
 protected:
 	Application* mApp;
 
 	Ogre::Camera* mCamera;
 
-	Ogre::RenderWindow* mWindow;
-
 	//OIS Input devices
-	//OIS::InputManager* mInputManager;
 	OIS::Mouse*    mMouse;
 	OIS::Keyboard* mKeyboard;
+
+	GUI* mGUI;
 
     Ogre::Real mRotate;          // The rotate constant
     Ogre::Real mMove;            // The movement constant
@@ -63,12 +52,9 @@ protected:
     Ogre::SceneNode *mCamNode;   // The SceneNode the camera is currently attached to
 
     bool mContinueRendering;        // Whether to continue rendering or not
-    Ogre::Vector3 mDirection;     // Value to move in the correct direction
-								//TODO!: mDirection: better name/description
+
 
 	bool mStatsOn;
-	Ogre::Overlay* mDebugOverlay;
-	std::string mDebugText;
 
 	int mSceneDetailIndex ; // for switching to wireframe / point rendering
 
@@ -76,10 +62,7 @@ protected:
 
 	bool mIsPhysicsVisualDebuggerOn;
 
-	MyGUI::Gui * mGUI;
 	bool mGuiMode; // when true mouse pointer is displayed and blobbs can't be controlled
-
-	Console* mConsole;
 };
 
 

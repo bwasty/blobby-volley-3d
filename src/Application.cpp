@@ -11,17 +11,25 @@
 #include <OGRE3DRenderSystem.h>
 #include "OGRE3DBody.h"
 
+#include <MyGUI.h>
+
 #include "Blobb.h"
 #include "Ball.h"
 #include "Controls.h"
+#include "GUI.h"
 #include "Application.h"
 
 
 using namespace Ogre;
 
+void Application::setupInputSystem() {
+	BaseApplication::setupInputSystem();
+}
+
 void Application::createFrameListener() {
-	mListener = new ControlsListener(mRoot->getAutoCreatedWindow(), mCamera, mSceneMgr, this, mKeyboard, mMouse);
-	mRoot->addFrameListener(mListener);
+	mRoot->addFrameListener(this);
+
+	mControls = new ControlsListener(this, mCamera, mSceneMgr, mKeyboard, mMouse, mGUI); //TODO!!: creation of ControlsListener: bad place, but must be after GUI init
 }
 
 void Application::fillScene()
@@ -120,3 +128,38 @@ void Application::fillScene()
 	mPhysicsScene->createSceneGeometry(wallPlanes[2]);
 	mPhysicsScene->createSceneGeometry(wallPlanes[3]);
 }
+
+bool Application::frameRenderingQueued(const FrameEvent &evt)
+{
+	mGUI->getMyGui()->injectFrameEntered(evt.timeSinceLastFrame);
+
+	if(mMouse) // TODO: if(mMouse/mKeyboard): can leave check out?
+		mMouse->capture();
+	if(mKeyboard) 
+		mKeyboard->capture();
+
+	//mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
+	mCamera->moveRelative(mControls->mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
+
+	mPhysicsTimeController->advance(evt.timeSinceLastFrame);//1.0f/60.0f);
+	mVisualDebugger->draw();
+	mVisualDebuggerNode->needUpdate();
+
+	//TODO!!: what about mContinueRendering
+	return true;//mContinueRendering; 
+}
+
+bool Application::frameEnded(const Ogre::FrameEvent &evt) {
+	//TODO!!: mStatsOn?
+	//if (mStatsOn)
+		mGUI->updateStats();
+	return true;
+}
+
+Application::~Application() {
+	delete mControls;
+}
+
+
+
+

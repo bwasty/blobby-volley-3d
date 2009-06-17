@@ -7,6 +7,7 @@
 #include <OGRE3DRenderable.h>
 
 #include "Constants.h"
+#include "GUI.h"
 #include "BaseApplication.h"
 #include <OIS\OISInputManager.h>
 
@@ -36,7 +37,11 @@ void BaseApplication::go() {
 	setupPhysics();
 	fillScene();
     setupInputSystem();
+
+	mGUI = new GUI(this, mWindow);
+
     createFrameListener();
+
     mRoot->startRendering();
 }
 
@@ -45,7 +50,7 @@ BaseApplication::~BaseApplication() {
 	//mInputManager->destroyInputObject(mKeyboard); //TODO: causes problem, maybe because of ExampleFrameListener?
     //OIS::InputManager::destroyInputSystem(mInputManager); //TODO: same as above
 
-	delete mListener;
+	//delete mControls;
 
 	// delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
 	//delete mPhysicsWorld;

@@ -10,6 +10,7 @@ namespace Ogre {
 }
 
 class ControlsListener;
+class GUI;
 
 namespace OIS {
 	class Keyboard;
@@ -35,14 +36,14 @@ protected:
 	BaseApplication();
 public:
     virtual void go();
-    ~BaseApplication();
+    virtual ~BaseApplication();
 
-	Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
-	NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
-	NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }
-	OGRE3DRenderSystem* getPhysicsRenderSystem() const { return mPhysicsRenderSystem; }
-	NxOgre::VisualDebugger* getVisualDebugger() const { return mVisualDebugger; }
-	Ogre::SceneNode* getVisualDebuggerNode() const { return mVisualDebuggerNode; }
+	inline Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
+	inline NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
+	inline NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }
+	inline OGRE3DRenderSystem* getPhysicsRenderSystem() const { return mPhysicsRenderSystem; }
+	inline NxOgre::VisualDebugger* getVisualDebugger() const { return mVisualDebugger; }
+	inline Ogre::SceneNode* getVisualDebuggerNode() const { return mVisualDebuggerNode; }
 
 	// WindowEventListener
 	void windowResized(Ogre::RenderWindow* rw);
@@ -52,7 +53,6 @@ protected:
 	Ogre::ImprovedConfigFile mConfig;
 
 	Ogre::Root *mRoot;
-    ControlsListener *mListener;
 	Ogre::Camera *mCamera;
 	Ogre::SceneManager *mSceneMgr;
 	Ogre::RenderWindow* mWindow;
@@ -71,14 +71,16 @@ protected:
 	OIS::Mouse*    mMouse;
 	OIS::Keyboard* mKeyboard;
 
+	GUI* mGUI;
+
     void defineResources();
     void setupRenderSystem();
     void initializeResourceGroups();
     void setupScene();
 	void setupPhysics();
-	virtual void fillScene() {};
-    void setupInputSystem();
-    virtual void createFrameListener()=0;
+	virtual void fillScene()=0;
+    virtual void setupInputSystem();
+	virtual void createFrameListener()=0;
 };
 
 #pragma once

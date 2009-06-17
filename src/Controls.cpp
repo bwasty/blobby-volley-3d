@@ -9,107 +9,30 @@
 #include "Blobb.h"
 #include "Ball.h"
 #include "Console.h"
+#include "GUI.h"
 #include "Controls.h"
 
 using namespace Ogre;
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
-ControlsListener::ControlsListener(RenderWindow* win, Camera* cam, SceneManager *sceneMgr, Application* app, OIS::Keyboard* keyboard, OIS::Mouse* mouse)
-	: mCamera(cam), mWindow(win), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
-	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), mDebugText("Press SPACE to enter GUI mode"),
+ControlsListener::ControlsListener(Application* app, Camera* cam, SceneManager *sceneMgr, OIS::Keyboard* keyboard, OIS::Mouse* mouse, GUI* gui)
+	: mCamera(cam), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
+	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), 
 	mKeyboard(keyboard), mMouse(mouse)
 {
-	//TODO!!!: refactor Controls: make GUI class (MyGUI...) -> init from BaseApp
-	//TODO!!!: refactor Controls: make Application FrameListener instead (leaving Controls really only for controls)
-
-	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
-	mDebugOverlay->remove2D(mDebugOverlay->getChild("Core/LogoPanel"));
-
-	showDebugOverlay(true);
-
     // set the rotation and move speed
     mRotate = 0.10;
     mMove = 10;
 
     mMouse->setEventCallback(this);
     mKeyboard->setEventCallback(this);
-
-	// setup MyGUI TODO: right place to setup MyGUI?
-	mGUI = new MyGUI::Gui();
-	mGUI->initialise(mWindow);
-	mGUI->hidePointer();
-
-	// MyGUI help tooltip TODO: extra function for gui creation
-	//TODO: HelpWidget: pin help tooltip on click?
-	Ogre::UTFString _text("Controls for Blobby Volley 3D:\n\
-SPACE         switch between GUI and play mode\n\
-W,A,S,D,Q,E   Move camera (Alternative: Cursors)\n\
-P             Toggle PhysX Debug Renderer\n\
-B			  Toggle control of both blobbs\n\
-1			  Reset ball\n\
-F			  Toggle display of frame stats\n\
-R			  Cycle Rendering Modes: normal, wireframe, point\n\
-^			  Toggle Console\n\
-ESC			 Quit");
-	MyGUI::EditPtr text = nullptr;
-	MyGUI::WidgetPtr panel = mGUI->createWidget<MyGUI::Widget>("PanelSmall", mGUI->getViewWidth(), -128, 400, 178, MyGUI::Align::Default, "Statistic");
-	text = panel->createWidget<MyGUI::Edit>("WordWrapSimple", 10, 10, 380, 158, MyGUI::Align::Default);
-	//text->setTextColour(MyGUI::Colour(0, 1, 0, 1));
-	MyGUI::StaticImagePtr image = panel->createWidget<MyGUI::StaticImage>(MyGUI::WidgetStyle::Popup, "StaticImage", MyGUI::IntCoord(mGUI->getViewWidth()-48, 0, 48, 48), MyGUI::Align::Default, "Back");
-	image->setItemResource("pic_CoreMessageIcon");
-	image->setItemGroup("Icons");
-	image->setItemName("Quest");
-
-	MyGUI::ControllerEdgeHide * controller = new MyGUI::ControllerEdgeHide(0.5);
-	MyGUI::ControllerManager::getInstance().addItem(panel, controller);
-	text->setCaption(_text);
-
-
-	// create console
-	mConsole = new Console();
-	//mConsole->setVisible(false);
-
-	mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	mConsole->registerConsoleDelegate("config_save", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	mConsole->registerConsoleDelegate("config_load", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &ControlsListener::consoleCommand));
-}
-
-bool ControlsListener::frameStarted(const FrameEvent &evt) {
-	return true;;
-}
-
-bool ControlsListener::frameRenderingQueued(const FrameEvent &evt)
-{
-	mGUI->injectFrameEntered(evt.timeSinceLastFrame);
-
-    if(mMouse) // TODO: if(mMouse/mKeyboard): can leave check out?
-        mMouse->capture();
-    if(mKeyboard) 
-        mKeyboard->capture();
-
-    //mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
-	mCamera->moveRelative(mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
-
-	mApp->getPhysicsTimeController()->advance(evt.timeSinceLastFrame);//1.0f/60.0f);
-	mApp->getVisualDebugger()->draw();
-	mApp->getVisualDebuggerNode()->needUpdate();
-
-    return mContinueRendering;
-}
-
-bool ControlsListener::frameEnded(const Ogre::FrameEvent &evt) {
-	if (mStatsOn)
-		updateStats();
-	return true;
 }
 
 // MouseListener
 bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 {
 	if (mGuiMode)
-		mGUI->injectMouseMove(e);
+		mGUI->getMyGui()->injectMouseMove(e);
 
     if (e.state.buttonDown(OIS::MB_Right))
     {
@@ -139,7 +62,7 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
 	if (mGuiMode)
-		mGUI->injectMousePress(e, id);
+		mGUI->getMyGui()->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
 			static float force = mApp->getConfig().getSettingInt("BlobbJumpForce"); // TODO!!: config value: move to member for dynamic change + change function
@@ -152,7 +75,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 }
 
 bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id) { 
-	mGUI->injectMouseRelease(e, id);
+	mGUI->getMyGui()->injectMouseRelease(e, id);
 
 	return true; 
 }
@@ -160,7 +83,7 @@ bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonI
 // KeyListener
 bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 {
-	bool processed = mGUI->injectKeyPress(e);
+	bool processed = mGUI->getMyGui()->injectKeyPress(e);
 	if (processed) 
 		return true;
 
@@ -200,7 +123,7 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
         mDirection.y += mMove;
         break;
 	case OIS::KC_GRAVE:
-		mConsole->setVisible(!mConsole->isVisible());
+		mGUI->getConsole()->setVisible(!mGUI->getConsole()->isVisible());
 		break;
     }
     return true;
@@ -208,7 +131,7 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 
 bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 {
-	bool processed = mGUI->injectKeyRelease(e);
+	bool processed = mGUI->getMyGui()->injectKeyRelease(e);
 	if (processed) 
 		return true;
 
@@ -255,7 +178,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		break;
 	case OIS::KC_F:
 		mStatsOn = !mStatsOn;
-		showDebugOverlay(mStatsOn);
+		mGUI->showDebugOverlay(mStatsOn);
 		break;
 	case OIS::KC_B:
 		mControlBothBlobbs = !mControlBothBlobbs;
@@ -271,111 +194,11 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		mApp->getBall()->reset();
 		break;		
 	case OIS::KC_SPACE:
-		mGuiMode ? mGUI->hidePointer() : mGUI->showPointer();
+		mGuiMode ? mGUI->getMyGui()->hidePointer() : mGUI->getMyGui()->showPointer();
 		mGuiMode = !mGuiMode;
-		mDebugText = "";
+		mGUI->setDebugText("");
 		break;
     } // switch
     return true;
 }
 
-
-void ControlsListener::updateStats(void)
-{
-	static String currFps = "Current FPS: ";
-	static String avgFps = "Average FPS: ";
-	static String bestFps = "Best FPS: ";
-	static String worstFps = "Worst FPS: ";
-	static String tris = "Triangle Count: ";
-	static String batches = "Batch Count: ";
-
-	// update stats when necessary
-	try {
-		OverlayElement* guiAvg = OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
-		OverlayElement* guiCurr = OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
-		OverlayElement* guiBest = OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
-		OverlayElement* guiWorst = OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
-
-		const RenderTarget::FrameStats& stats = mWindow->getStatistics();
-		guiAvg->setCaption(avgFps + StringConverter::toString(stats.avgFPS));
-		guiCurr->setCaption(currFps + StringConverter::toString(stats.lastFPS));
-		guiBest->setCaption(bestFps + StringConverter::toString(stats.bestFPS)
-			+" "+StringConverter::toString(stats.bestFrameTime)+" ms");
-		guiWorst->setCaption(worstFps + StringConverter::toString(stats.worstFPS)
-			+" "+StringConverter::toString(stats.worstFrameTime)+" ms");
-
-		OverlayElement* guiTris = OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
-		guiTris->setCaption(tris + StringConverter::toString(stats.triangleCount));
-
-		OverlayElement* guiBatches = OverlayManager::getSingleton().getOverlayElement("Core/NumBatches");
-		guiBatches->setCaption(batches + StringConverter::toString(stats.batchCount));
-
-		OverlayElement* guiDbg = OverlayManager::getSingleton().getOverlayElement("Core/DebugText");
-		guiDbg->setCaption(mDebugText);
-	}
-	catch(...) { /* ignore */ }
-}
-
-
-void ControlsListener::showDebugOverlay(bool show)
-{
-	if (mDebugOverlay)
-	{
-		if (show)
-			mDebugOverlay->show();
-		else
-			mDebugOverlay->hide();
-	}
-}
-
-void ControlsListener::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & value) {
-	if (key == "clear")
-		mConsole->clearConsole();
-	else if (key == "config") {
-		//mApp->mConfig.setSetting("MyNewSetting", Vector3(1.2, 2.3, 4.2)); //NOTE: literal Strings are interpreted as booleans!! cast to Ogre::String always
-		if (value.size() == 0) { // show all values
-			ImprovedConfigFile::SettingsIterator sit = mApp->getConfig().getSettingsIterator();
-			while (sit.hasMoreElements()) {
-				mConsole->addToConsole(sit.peekNextKey() + " = "+sit.peekNextValue());
-				sit.moveNext();
-			}
-		}
-		else {
-			std::vector<String> values = StringUtil::split(value, " ", 1);
-			if (values.size() == 1) { // only a setting name -> print the value of the setting
-				String setting = mApp->getConfig().getSetting(values[0]);
-				if (setting.size() == 0)
-					mConsole->addToConsole(mConsole->getConsoleStringError() + "No such setting!");
-				else
-					mConsole->addToConsole(values[0] + ": " + setting);
-			}
-			else { // setting name + new value -> save new value
-				mApp->getConfig().setSetting(values[0], values[1]);
-				mConsole->addToConsole(mConsole->getConsoleStringSuccess()+" "+values[0] + ": "+values[1]);
-			}
-		}
-	}
-	else if (key == "config_save") {
-		mApp->getConfig().save(value); // if no value given, then it's saved to the originally loaded file
-		mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
-	}
-	else if (key == "config_load") { //TODO!!: Console -  more commands for applying reloaded config (only certain settings?) commands
-		try {
-			mApp->getConfig().load(value, "=\t:", true);
-			mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
-		}
-		catch (FileNotFoundException e) {
-			mConsole->addToConsole(mConsole->getConsoleStringError() + e.getDescription(), key, value);
-		}
-	}
-	else if (key == "help") {
-		mConsole->addToConsole("Commands:\nconfig [[<setting>] <value>]\n\
-\t\tno arguments: show all settings\n\
-\t\t<setting> given: show value of given setting\n\
-\t\t<setting> and <value> given: set new value.\n\
-\t\tIf several values (e.g. Vector3): space-separated list.\n\
-config_save [<filename>]\n\t\tdefault file: "+PATH_TO_CONFIG+"\n\
-config_load [<filename>]\n\t\tdefault file: "+PATH_TO_CONFIG+"\n\
-clear\n\t\tclear console");
-	}
-}
