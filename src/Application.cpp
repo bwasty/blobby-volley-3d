@@ -133,10 +133,10 @@ bool Application::frameRenderingQueued(const FrameEvent &evt)
 {
 	mGUI->getMyGui()->injectFrameEntered(evt.timeSinceLastFrame);
 
-	if(mMouse) // TODO: if(mMouse/mKeyboard): can leave check out?
-		mMouse->capture();
-	if(mKeyboard) 
-		mKeyboard->capture();
+	//if(mMouse) 
+	mMouse->capture();
+	//if(mKeyboard) 
+	mKeyboard->capture();
 
 	//mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
 	mCamera->moveRelative(mControls->mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
@@ -145,13 +145,11 @@ bool Application::frameRenderingQueued(const FrameEvent &evt)
 	mVisualDebugger->draw();
 	mVisualDebuggerNode->needUpdate();
 
-	//TODO!!: what about mContinueRendering
-	return true;//mContinueRendering; 
+	return mControls->mContinueRendering;
 }
 
 bool Application::frameEnded(const Ogre::FrameEvent &evt) {
-	//TODO!!: mStatsOn?
-	//if (mStatsOn)
+	if (mControls->mStatsOn)
 		mGUI->updateStats();
 	return true;
 }

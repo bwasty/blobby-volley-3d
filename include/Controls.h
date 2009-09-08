@@ -34,6 +34,10 @@ public:
 	Ogre::Vector3 mDirection;     // Value to move in the correct direction
 								//TODO!!: mDirection: better name/description//refactor
 
+	bool mContinueRendering;        // Whether to continue rendering or not
+
+	bool mStatsOn;
+
 protected:
 	Application* mApp;
 
@@ -50,11 +54,7 @@ protected:
 
     Ogre::SceneManager *mSceneMgr;   // The current SceneManager
     Ogre::SceneNode *mCamNode;   // The SceneNode the camera is currently attached to
-
-    bool mContinueRendering;        // Whether to continue rendering or not
-
-
-	bool mStatsOn;
+	
 
 	int mSceneDetailIndex ; // for switching to wireframe / point rendering
 

@@ -18,7 +18,7 @@ using namespace Ogre;
 ControlsListener::ControlsListener(Application* app, Camera* cam, SceneManager *sceneMgr, OIS::Keyboard* keyboard, OIS::Mouse* mouse, GUI* gui)
 	: mCamera(cam), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
 	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), 
-	mKeyboard(keyboard), mMouse(mouse)
+	mKeyboard(keyboard), mMouse(mouse), mGUI(gui)
 {
     // set the rotation and move speed
     mRotate = 0.10;

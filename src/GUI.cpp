@@ -30,8 +30,8 @@ GUI::GUI(BaseApplication* app, RenderWindow* window) : mApp(app), mWindow(window
 						  ^			  Toggle Console\n\
 						  ESC			 Quit");
 	MyGUI::EditPtr text = nullptr;
-	MyGUI::WidgetPtr panel = mMyGUI->createWidget<MyGUI::Widget>("PanelSmall", mMyGUI->getViewWidth(), -128, 400, 178, MyGUI::Align::Default, "Statistic");
-	text = panel->createWidget<MyGUI::Edit>("WordWrapSimple", 10, 10, 380, 158, MyGUI::Align::Default);
+	MyGUI::WidgetPtr panel = mMyGUI->createWidget<MyGUI::Widget>("PanelSmall", mMyGUI->getViewWidth(), -128, 500, 200, MyGUI::Align::Default, "Statistic");
+	text = panel->createWidget<MyGUI::Edit>("WordWrapSimple", 10, 10, 500, 240, MyGUI::Align::Default);
 	//text->setTextColour(MyGUI::Colour(0, 1, 0, 1));
 	MyGUI::StaticImagePtr image = panel->createWidget<MyGUI::StaticImage>(MyGUI::WidgetStyle::Popup, "StaticImage", MyGUI::IntCoord(mMyGUI->getViewWidth()-48, 0, 48, 48), MyGUI::Align::Default, "Back");
 	image->setItemResource("pic_CoreMessageIcon");
