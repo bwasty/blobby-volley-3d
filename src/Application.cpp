@@ -1,5 +1,10 @@
+// TODO!!!: need simulation speed variable (+config)?
+// TODO!!!: blobb+ball masses configurable?
+// TODO!!!: Game logic -> contact callbacks, display labels or so
+
 #include "Constants.h"
 #include <OgrePrerequisites.h>
+
 #include <OgreViewport.h>
 #include <OgreLight.h>
 #include <OgreRoot.h>
@@ -112,21 +117,14 @@ void Application::fillScene()
 
 
 	// create physical "cage" (walls)
-	//TODO!: visual representation of Walls (transparent/shadows/splatting)
+	//TODO!!: visual representation of Walls (transparent/shadows/splatting)
 	NxOgre::Shapes wallPlanes;
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(1,0,0)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(-1,0,0)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,1)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,-1)));
 
-	// doesn't work - only last inserted plane (wallPlanes[3]) is simulated
-	//mPhysicsScene->createSceneGeometry(wallPlanes);
-
-	// works fine
-	mPhysicsScene->createSceneGeometry(wallPlanes[0]); //TODO!: fix Shapes thing
-	mPhysicsScene->createSceneGeometry(wallPlanes[1]);
-	mPhysicsScene->createSceneGeometry(wallPlanes[2]);
-	mPhysicsScene->createSceneGeometry(wallPlanes[3]);
+	mPhysicsScene->createSceneGeometry(wallPlanes);
 }
 
 bool Application::frameRenderingQueued(const FrameEvent &evt)

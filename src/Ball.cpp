@@ -19,7 +19,7 @@ Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app), mStartPosition
 	//ball_mat->setRestitution(2.0);
 	//ballSphere->setMaterial(ball_mat->getIdentifier()); //TODO!!!: doesn't work, null pointer, NxOgre bug?
 	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
-	mBallBody->setMass(1);
+	mBallBody->setMass(0.1);
 	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
 	mBallBody->putToSleep();
 }

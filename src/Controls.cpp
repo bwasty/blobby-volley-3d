@@ -65,7 +65,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->getMyGui()->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			static float force = mApp->getConfig().getSettingInt("BlobbJumpForce"); // TODO!!: config value: move to member for dynamic change + change function
+			static float force = mApp->getConfig().getSettingInt("BlobbJumpForce"); // TODO!: config value: move to member for dynamic change + change function
 			mApp->getBlobb1()->jump(force);
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->jump(force);
