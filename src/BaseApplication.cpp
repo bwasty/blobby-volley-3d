@@ -38,7 +38,7 @@ void BaseApplication::go() {
 	fillScene();
     setupInputSystem();
 
-	mGUI = new GUI(this, mWindow);
+	mGUI = new GUI((Application*)this, mWindow); //TODO!: dirty cast
 
     createFrameListener();
 
@@ -128,7 +128,7 @@ void BaseApplication::setupPhysics() {
 	mPhysicsWorld = NxOgre::World::createWorld();
 	NxOgre::SceneDescription description;
 	// TODO!!: Gravity configurable?
-	description.mGravity.y = -17.81f; // m/s
+	description.mGravity.y = -14.81f; // m/s
 	//TODO: several PhysX scenes for several arenas?
 	mPhysicsScene = mPhysicsWorld->createScene(description);
 	mPhysicsRenderSystem = new OGRE3DRenderSystem(mPhysicsScene);
@@ -142,10 +142,10 @@ void BaseApplication::setupPhysics() {
 	mVisualDebuggerNode->attachObject(mVisualDebuggerRenderable);
 	mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
 
-	//TODO: make configurable - default PhysX material
-	mPhysicsScene->getMaterial(0)->setRestitution(0.1);
-	mPhysicsScene->getMaterial(0)->setDynamicFriction(0.5);
-	mPhysicsScene->getMaterial(0)->setStaticFriction(0.5);
+	////change default PhysX material
+	//mPhysicsScene->getMaterial(0)->setRestitution(0.1);
+	//mPhysicsScene->getMaterial(0)->setDynamicFriction(0.5);
+	//mPhysicsScene->getMaterial(0)->setStaticFriction(0.5);
 }
 
 void BaseApplication::setupInputSystem() {

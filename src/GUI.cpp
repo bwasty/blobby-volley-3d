@@ -5,7 +5,7 @@
 
 using namespace Ogre;
 
-GUI::GUI(BaseApplication* app, RenderWindow* window) : mApp(app), mWindow(window), mDebugText("Press SPACE to enter GUI mode") {
+GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), mDebugText("Press SPACE to enter GUI mode") {
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
 	mDebugOverlay->remove2D(mDebugOverlay->getChild("Core/LogoPanel"));
 
@@ -91,9 +91,12 @@ void GUI::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & va
 		mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
 	}
 	else if (key == "config_load") { //TODO!!: Console -  more commands for applying reloaded config (only certain settings?) commands
+		//TODO!!!!: reload physics materials (done) and possibly more....
 		try {
-			mApp->getConfig().load(value, "=\t:", true);
+			mApp->getConfig().load(value.length()==0 ? PATH_TO_CONFIG : value, "=\t:", true);
 			mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
+
+			mApp->loadPhysicsMaterials();
 		}
 		catch (FileNotFoundException e) {
 			mConsole->addToConsole(mConsole->getConsoleStringError() + e.getDescription(), key, value);

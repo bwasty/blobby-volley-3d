@@ -11,7 +11,7 @@ class BaseApplication;
 
 class GUI {
 public:
-	GUI(BaseApplication* app, Ogre::RenderWindow* window);
+	GUI(Application* app, Ogre::RenderWindow* window);
 	~GUI();
 
 	inline MyGUI::Gui* getMyGui() { return mMyGUI; }
@@ -23,7 +23,7 @@ public:
 
 	//void injectFrameEntered(Ogre::Real timeSinceLastFrame);
 private:
-	BaseApplication* mApp;
+	Application* mApp;
 	Ogre::RenderWindow* mWindow;
 	MyGUI::Gui* mMyGUI;
 

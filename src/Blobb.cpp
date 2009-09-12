@@ -15,12 +15,15 @@ using namespace Ogre;
 
 Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, TEAM team, Ogre::ColourValue colour)
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
-	// create the 2 compound spheres
+	// create the 2 compound spheres that make up the physical blobb
 	NxOgre::Shapes blobbSpheres;
-	//TODO!!!!: define and set material for shapes, make dynamically changeable
 	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
 	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
 	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Real3(0, 0.7, 0)));
+
+	blobbSpheres[0]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
+	blobbSpheres[1]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
+
 	NxOgre::RigidBodyDescription rbd;
 	rbd.mMass = 10.0;
 	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh", rbd);
@@ -32,8 +35,6 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	ent->setMaterial(mat);
 	mat->getTechnique(0)->getPass(0)->setAmbient(colour);
 	mat->getTechnique(0)->getPass(0)->setDiffuse(colour);
-
-	//ent->setVisible(false); //TODO!!!: tmp debug
 
 	// create Joint
 	NxScene* realNxScene = mApp->getPhysicsRenderSystem()->getScene()->getScene();

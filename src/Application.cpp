@@ -1,5 +1,4 @@
-// TODO!!!: need simulation speed variable (+config)?
-// TODO!!!: blobb+ball masses configurable?
+// TODO!!!: blobb+ball masses, jump force, dynamically configurable?
 // TODO!!!: Game logic -> contact callbacks, display labels or so
 
 #include "Constants.h"
@@ -39,6 +38,14 @@ void Application::createFrameListener() {
 
 void Application::fillScene()
 {
+	// create physical materials
+	mFloorPhysicsMaterial = mPhysicsScene->createMaterial();
+	mWallPhysicsMaterial = mPhysicsScene->createMaterial();
+	mBlobbPhysicsMaterial = mPhysicsScene->createMaterial();
+	mBallPhysicsMaterial = mPhysicsScene->createMaterial();
+	mNetPhysicsMaterial = mPhysicsScene->createMaterial();
+	loadPhysicsMaterials();
+
 	// floor plane
 	Plane plane(Vector3::UNIT_Y, 0);
 	MeshManager::getSingleton().createPlane("ground",
@@ -51,7 +58,9 @@ void Application::fillScene()
 	ent->setCastShadows(false);
 
 	// physical ground plane
-	mPhysicsScene->createSceneGeometry(new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0)));
+	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0));
+	pplane->setMaterial(mFloorPhysicsMaterial->getIdentifier());
+	mPhysicsScene->createSceneGeometry(pplane);
 
 	// Sky 
 	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 4, 8, 5000, true);
@@ -113,7 +122,9 @@ void Application::fillScene()
 	physNetSize.y = netHeight + 2.1; //2.1 is half? the height of the net model
 
 	Vector3 p(0.0, (netHeight+2.1)/2, 0.0);
-	mPhysicsScene->createSceneGeometry(new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z), NxOgre::Matrix44(NxOgre::Real3(p.x, p.y, p.z))); 
+	NxOgre::Box* pbox = new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z);
+	pbox->setMaterial(mNetPhysicsMaterial->getIdentifier());
+	mPhysicsScene->createSceneGeometry(pbox, NxOgre::Matrix44(NxOgre::Real3(p.x, p.y, p.z))); 
 
 
 	// create physical "cage" (walls)
@@ -123,6 +134,8 @@ void Application::fillScene()
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(-1,0,0)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,1)));
 	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,-1)));
+
+	for(int i=0; i<4; ++i) wallPlanes[i]->setMaterial(mWallPhysicsMaterial->getIdentifier());
 
 	mPhysicsScene->createSceneGeometry(wallPlanes);
 }
@@ -139,6 +152,7 @@ bool Application::frameRenderingQueued(const FrameEvent &evt)
 	//mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
 	mCamera->moveRelative(mControls->mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
 
+	// TODO!!!: need simulation speed variable (+ dynconfig)?
 	mPhysicsTimeController->advance(evt.timeSinceLastFrame);//1.0f/60.0f);
 	mVisualDebugger->draw();
 	mVisualDebuggerNode->needUpdate();
@@ -154,6 +168,28 @@ bool Application::frameEnded(const Ogre::FrameEvent &evt) {
 
 Application::~Application() {
 	delete mControls;
+}
+
+void Application::loadPhysicsMaterials() {
+	mFloorPhysicsMaterial->setDynamicFriction(mConfig.getSettingReal("floorDynamicFriction"));
+	mFloorPhysicsMaterial->setStaticFriction(mConfig.getSettingReal("floorStaticFriction"));
+	mFloorPhysicsMaterial->setRestitution(mConfig.getSettingReal("floorRestitution"));
+
+	mWallPhysicsMaterial->setDynamicFriction(mConfig.getSettingReal("wallDynamicFriction"));
+	mWallPhysicsMaterial->setStaticFriction(mConfig.getSettingReal("wallStaticFriction"));
+	mWallPhysicsMaterial->setRestitution(mConfig.getSettingReal("wallRestitution"));
+
+	mBlobbPhysicsMaterial->setDynamicFriction(mConfig.getSettingReal("blobbDynamicFriction"));
+	mBlobbPhysicsMaterial->setStaticFriction(mConfig.getSettingReal("blobbStaticFriction"));
+	mBlobbPhysicsMaterial->setRestitution(mConfig.getSettingReal("blobbRestitution"));
+
+	mBallPhysicsMaterial->setDynamicFriction(mConfig.getSettingReal("ballDynamicFriction"));
+	mBallPhysicsMaterial->setStaticFriction(mConfig.getSettingReal("ballStaticFriction"));
+	mBallPhysicsMaterial->setRestitution(mConfig.getSettingReal("ballRestitution"));
+
+	mNetPhysicsMaterial->setDynamicFriction(mConfig.getSettingReal("netDynamicFriction"));
+	mNetPhysicsMaterial->setStaticFriction(mConfig.getSettingReal("netStaticFriction"));
+	mNetPhysicsMaterial->setRestitution(mConfig.getSettingReal("netRestitution"));
 }
 
 

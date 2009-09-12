@@ -9,6 +9,10 @@ class Ball;
 
 class OGRE3DBody;
 
+namespace NxOgre {
+	class Material;
+}
+
 
 
 class Application : public BaseApplication, public Ogre::FrameListener {
@@ -24,7 +28,16 @@ public:
 	//bool frameStarted(const Ogre::FrameEvent &evt);
 	bool frameRenderingQueued(const Ogre::FrameEvent &evt);
 	bool frameEnded(const Ogre::FrameEvent &evt);
-	
+
+	// Physics Materials, setup in fillScene()
+	NxOgre::Material* mFloorPhysicsMaterial;
+	NxOgre::Material* mWallPhysicsMaterial;
+	NxOgre::Material* mBlobbPhysicsMaterial;
+	NxOgre::Material* mBallPhysicsMaterial;
+	NxOgre::Material* mNetPhysicsMaterial;
+
+	// sets the material properties from the currently loaded config file
+	void loadPhysicsMaterials(); 
 
 private:
 	void setupInputSystem();
