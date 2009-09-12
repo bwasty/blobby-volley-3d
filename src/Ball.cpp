@@ -15,10 +15,14 @@ Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app), mStartPosition
 
 	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
 	ballSphere->setMaterial(mApp->mBallPhysicsMaterial->getIdentifier());
-	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Real3(position.x, position.y, position.z), "Ball.mesh");
-	mBallBody->setMass(0.1);
+	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Real3(), "Ball.mesh");
+	loadSettings();
 	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
-	mBallBody->putToSleep();
+	reset();
+}
+
+void Ball::loadSettings() {
+	mBallBody->setMass(mApp->getConfig().getSettingReal("ballMass")); 
 }
 
 void Ball::reset() {

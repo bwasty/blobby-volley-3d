@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Console.h"
 #include "Gui.h"
+#include "Ball.h"
+#include "Blobb.h"
 
 using namespace Ogre;
 
@@ -90,13 +92,16 @@ void GUI::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & va
 		mApp->getConfig().save(value); // if no value given, then it's saved to the originally loaded file
 		mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
 	}
-	else if (key == "config_load") { //TODO!!: Console -  more commands for applying reloaded config (only certain settings?) commands
-		//TODO!!!!: reload physics materials (done) and possibly more....
+	else if (key == "config_load") {
 		try {
 			mApp->getConfig().load(value.length()==0 ? PATH_TO_CONFIG : value, "=\t:", true);
 			mConsole->addToConsole(mConsole->getConsoleStringSuccess(), key, value);
 
-			mApp->loadPhysicsMaterials();
+			// TODO!!: make all settings dynamically changeable or document in good place which are not
+			mApp->loadSettings();
+			mApp->getBall()->loadSettings();
+			mApp->getBlobb1()->loadSettings();
+			mApp->getBlobb2()->loadSettings();
 		}
 		catch (FileNotFoundException e) {
 			mConsole->addToConsole(mConsole->getConsoleStringError() + e.getDescription(), key, value);

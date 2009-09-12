@@ -126,11 +126,8 @@ void BaseApplication::setupScene() {
 
 void BaseApplication::setupPhysics() {
 	mPhysicsWorld = NxOgre::World::createWorld();
-	NxOgre::SceneDescription description;
-	// TODO!!: Gravity configurable?
-	description.mGravity.y = -14.81f; // m/s
 	//TODO: several PhysX scenes for several arenas?
-	mPhysicsScene = mPhysicsWorld->createScene(description);
+	mPhysicsScene = mPhysicsWorld->createScene();
 	mPhysicsRenderSystem = new OGRE3DRenderSystem(mPhysicsScene);
 	
 	mPhysicsTimeController = NxOgre::TimeController::getSingleton();

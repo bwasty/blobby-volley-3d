@@ -24,9 +24,8 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	blobbSpheres[0]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 	blobbSpheres[1]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 
-	NxOgre::RigidBodyDescription rbd;
-	rbd.mMass = 10.0;
-	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh", rbd);
+	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh");
+	loadSettings(); // sets mass
 
 	//set colour - have to clone material
 	Entity* ent = mBody->getEntity();
@@ -55,11 +54,15 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	mD6Joint=(NxD6Joint*)realNxScene->createJoint(d6Desc);
 }
 
+void Blobb::loadSettings() {
+	mBody->setMass(mApp->getConfig().getSettingReal("blobbMass"));
+}
+
 void Blobb::move(Ogre::Vector2 direction) {
 	mBody->addForce(NxOgre::Real3(direction.x, 0, direction.y));
 }
 
-void Blobb::jump(int force) {
+void Blobb::jump() {
 	if (mBody->getGlobalPosition().y < 1.1) //TODO!!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
-		mBody->addForce(NxOgre::Real3(0, force, 0));
+		mBody->addForce(NxOgre::Real3(0, mApp->getConfig().getSettingInt("BlobbJumpForce"), 0));
 }

@@ -1,4 +1,3 @@
-// TODO!!!: blobb+ball masses, jump force, dynamically configurable?
 // TODO!!!: Game logic -> contact callbacks, display labels or so
 
 #include "Constants.h"
@@ -44,7 +43,8 @@ void Application::fillScene()
 	mBlobbPhysicsMaterial = mPhysicsScene->createMaterial();
 	mBallPhysicsMaterial = mPhysicsScene->createMaterial();
 	mNetPhysicsMaterial = mPhysicsScene->createMaterial();
-	loadPhysicsMaterials();
+
+	loadSettings();
 
 	// floor plane
 	Plane plane(Vector3::UNIT_Y, 0);
@@ -152,8 +152,7 @@ bool Application::frameRenderingQueued(const FrameEvent &evt)
 	//mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
 	mCamera->moveRelative(mControls->mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
 
-	// TODO!!!: need simulation speed variable (+ dynconfig)?
-	mPhysicsTimeController->advance(evt.timeSinceLastFrame);//1.0f/60.0f);
+	mPhysicsTimeController->advance(evt.timeSinceLastFrame*mSimulationSpeed);//1.0f/60.0f);
 	mVisualDebugger->draw();
 	mVisualDebuggerNode->needUpdate();
 
@@ -170,7 +169,12 @@ Application::~Application() {
 	delete mControls;
 }
 
-void Application::loadPhysicsMaterials() {
+void Application::loadSettings() {
+	mPhysicsScene->setGravity(NxOgre::Vec3(0, getConfig().getSettingReal("gravity"), 0));
+
+	mSimulationSpeed = getConfig().getSettingReal("simulationSpeed");
+
+	// load all the physX material settings
 	mFloorPhysicsMaterial->setDynamicFriction(mConfig.getSettingReal("floorDynamicFriction"));
 	mFloorPhysicsMaterial->setStaticFriction(mConfig.getSettingReal("floorStaticFriction"));
 	mFloorPhysicsMaterial->setRestitution(mConfig.getSettingReal("floorRestitution"));

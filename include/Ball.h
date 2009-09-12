@@ -11,6 +11,9 @@ public:
 	/** resets the ball to the initial position (startPosition) (for serve) */
 	void reset();
 
+	/** loads settings from global config. for initial setup and dynamic changing of settings */
+	void loadSettings();
+
 private:
 	Application* mApp;
 	OGRE3DBody* mBallBody;

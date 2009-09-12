@@ -36,8 +36,8 @@ public:
 	NxOgre::Material* mBallPhysicsMaterial;
 	NxOgre::Material* mNetPhysicsMaterial;
 
-	// sets the material properties from the currently loaded config file
-	void loadPhysicsMaterials(); 
+	/** loads settings from global config. for initial setup and dynamic changing of settings */
+	void loadSettings();
 
 private:
 	void setupInputSystem();
@@ -51,6 +51,9 @@ private:
 	Ball* mBall;
 
 	ControlsListener *mControls;
+
+	/** modifier for the physics timestep (1.0 = real time) */
+	float mSimulationSpeed;
 };
 
 #pragma once

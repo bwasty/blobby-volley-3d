@@ -27,11 +27,15 @@ private:
 
 public:
 	Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Ogre::Vector3 position, TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
+	
+	/** loads settings from global config. for initial setup and dynamic changing of settings */
+	void loadSettings();
+
 	~Blobb() {
 		// mNxScene handles this usually for PhysX objects, but the joint is created manually (see constructor) //TODO: deletion of D6Joint?
 		//delete mD6Joint; 
 	}
 
 	void move(Ogre::Vector2 direction);
-	void jump(int force);
+	void jump();
 };
