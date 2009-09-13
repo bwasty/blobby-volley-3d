@@ -1,5 +1,5 @@
 // TODO!!!: Game logic -> contact callbacks (-> file CollisionCallback(s).h/cpp or Application.cpp or GameLogic with class(es) derived from NxOgre::Callback overriding onContact (const ContactPair &), display labels or so
-
+// TODO!!: FileWatcher instead of manual config load?
 #include "Constants.h"
 #include <OgrePrerequisites.h>
 

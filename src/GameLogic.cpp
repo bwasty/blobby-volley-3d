@@ -25,3 +25,19 @@ void GameLogic::onContact(const NxOgre::ContactPair& contactPair) {
 	//else if (otherObject ==  static_cast<const NxOgre::SceneGeometry*>(mApp->getWallsSceneGeometry()) )
 	//	mApp->addToConsole("Ball collided with Wall");
 }
+
+//TODO!!!: GameLogic:Score() - rename to error() and check for old/new rules (who's serving if old...)??
+//TODO!!!!: check Beachvolleyball rules - 21 points, 16x8m...
+void GameLogic::score(TEAM team) {
+	int& scoringTeamScore = (team == TEAM1) ? mScoreTeam1 : mScoreTeam2;
+	int& otherTeamScore = (team == TEAM1) ? mScoreTeam2 : mScoreTeam1;
+
+	++scoringTeamScore;
+
+	int winningScore = mApp->getConfig().getSettingInt("winningScore");
+	if (scoringTeamScore >= winningScore && (scoringTeamScore - otherTeamScore >= 2)) {
+		//TODO!!: end game
+		mApp->addToConsole("Game Over");
+	}
+
+}
