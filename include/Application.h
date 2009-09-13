@@ -6,13 +6,14 @@
 
 class Blobb;
 class Ball;
+class GameLogic;
 
 class OGRE3DBody;
 
 namespace NxOgre {
 	class Material;
+	class SceneGeometry;
 }
-
 
 
 class Application : public BaseApplication, public Ogre::FrameListener {
@@ -39,11 +40,21 @@ public:
 	/** loads settings from global config. for initial setup and dynamic changing of settings */
 	void loadSettings();
 
+	const NxOgre::SceneGeometry* getFloorSceneGeometry() { return mFloorSceneGeometry; }
+	const NxOgre::SceneGeometry* getWallsSceneGeometry() { return mWallsSceneGeometry; }
+
+	void addToConsole(Ogre::String);
+
+	GameLogic* mGameLogic;
+
 private:
 	void setupInputSystem();
 	void createFrameListener(); //TODO: make virtual createFrameListener()?
 	//void setupScene();
 	void fillScene();
+
+	NxOgre::SceneGeometry* mFloorSceneGeometry;
+	NxOgre::SceneGeometry* mWallsSceneGeometry;
 
 	Blobb* mBlobb1;
 	Blobb* mBlobb2;

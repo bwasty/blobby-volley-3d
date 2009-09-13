@@ -1,4 +1,4 @@
-// TODO!!!: Game logic -> contact callbacks, display labels or so
+// TODO!!!: Game logic -> contact callbacks (-> file CollisionCallback(s).h/cpp or Application.cpp or GameLogic with class(es) derived from NxOgre::Callback overriding onContact (const ContactPair &), display labels or so
 
 #include "Constants.h"
 #include <OgrePrerequisites.h>
@@ -21,6 +21,8 @@
 #include "Controls.h"
 #include "GUI.h"
 #include "Application.h"
+#include "Console.h"
+#include "GameLogic.h"
 
 
 using namespace Ogre;
@@ -37,6 +39,8 @@ void Application::createFrameListener() {
 
 void Application::fillScene()
 {
+	mGameLogic = new GameLogic(this); //TODO! right place?
+	
 	// create physical materials
 	mFloorPhysicsMaterial = mPhysicsScene->createMaterial();
 	mWallPhysicsMaterial = mPhysicsScene->createMaterial();
@@ -60,7 +64,7 @@ void Application::fillScene()
 	// physical ground plane
 	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0));
 	pplane->setMaterial(mFloorPhysicsMaterial->getIdentifier());
-	mPhysicsScene->createSceneGeometry(pplane);
+	mFloorSceneGeometry = mPhysicsScene->createSceneGeometry(pplane);
 
 	// Sky 
 	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 4, 8, 5000, true);
@@ -137,7 +141,7 @@ void Application::fillScene()
 
 	for(int i=0; i<4; ++i) wallPlanes[i]->setMaterial(mWallPhysicsMaterial->getIdentifier());
 
-	mPhysicsScene->createSceneGeometry(wallPlanes);
+	mWallsSceneGeometry = mPhysicsScene->createSceneGeometry(wallPlanes);
 }
 
 bool Application::frameRenderingQueued(const FrameEvent &evt)
@@ -167,6 +171,10 @@ bool Application::frameEnded(const Ogre::FrameEvent &evt) {
 
 Application::~Application() {
 	delete mControls;
+	delete mGameLogic;
+	delete mBall;
+	delete mBlobb1;
+	delete mBlobb2;
 }
 
 void Application::loadSettings() {
@@ -196,6 +204,9 @@ void Application::loadSettings() {
 	mNetPhysicsMaterial->setRestitution(mConfig.getSettingReal("netRestitution"));
 }
 
+void Application::addToConsole(Ogre::String string) {
+	mGUI->getConsole()->addToConsole(string);
+}
 
 
 

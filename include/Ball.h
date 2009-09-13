@@ -14,6 +14,9 @@ public:
 	/** loads settings from global config. for initial setup and dynamic changing of settings */
 	void loadSettings();
 
+	const OGRE3DBody* getBody() { return mBallBody; }
+	//Ogre::Vector3 getPosition();
+
 private:
 	Application* mApp;
 	OGRE3DBody* mBallBody;

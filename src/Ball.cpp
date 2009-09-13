@@ -6,6 +6,7 @@
 
 #include "Application.h"
 #include "Ball.h"
+#include "GameLogic.h"
 
 
 using namespace Ogre;
@@ -18,6 +19,10 @@ Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app), mStartPosition
 	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Real3(), "Ball.mesh");
 	loadSettings();
 	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
+
+	// register collision callback
+	mBallBody->setContactCallback(mApp->mGameLogic);
+
 	reset();
 }
 
@@ -30,3 +35,7 @@ void Ball::reset() {
 	mBallBody->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
 	mBallBody->putToSleep();
 }
+
+//Ogre::Vector3 Ball::getPosition() {
+//	return mBallBody->getGlobalPosition();
+//}

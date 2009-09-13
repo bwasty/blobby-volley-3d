@@ -38,4 +38,5 @@ public:
 
 	void move(Ogre::Vector2 direction);
 	void jump();
+	const OGRE3DBody* getBody() { return mBody; }
 };
