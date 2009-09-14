@@ -1,7 +1,7 @@
 #pragma once
 
 #include <OgreVector3.h>
-#include <OgrePrerequisites.h>
+#include <OgrePrerequisites.h> // TODO!!: need #include <OgrePrerequisites.h> in Constants?
 
 
 enum TEAM { TEAM1, TEAM2 };

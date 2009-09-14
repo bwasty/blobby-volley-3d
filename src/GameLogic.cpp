@@ -11,6 +11,9 @@
 using namespace Ogre;
 
 void GameLogic::onContact(const NxOgre::ContactPair& contactPair) {
+	if (!mBallInGame)
+		return;
+
 	NxOgre::RigidBody* otherObject;
 	if (contactPair.mFirst == static_cast<const NxOgre::RigidBody*>(mApp->getBall()->getBody()) ) //TODO!!: upcast necessary? -> effective c++
 		otherObject = contactPair.mSecond;
@@ -19,11 +22,11 @@ void GameLogic::onContact(const NxOgre::ContactPair& contactPair) {
 	else
 		mApp->addToConsole("Error: GameLogic::onContact() - neither object in contactPair is the ball");
 
-	if (otherObject ==  static_cast<const NxOgre::RigidBody*>(mApp->getBlobb1()->getBody()) )
+	if (otherObject ==  static_cast<const NxOgre::RigidBody*>(mApp->getBlobb1()->getBody()))
 		ballContact(TEAM1);
-	else if (otherObject ==  static_cast<const NxOgre::RigidBody*>(mApp->getBlobb2()->getBody()) )
+	else if (otherObject ==  static_cast<const NxOgre::RigidBody*>(mApp->getBlobb2()->getBody()))
 		ballContact(TEAM2);
-	else if (otherObject ==  static_cast<const NxOgre::SceneGeometry*>(mApp->getFloorSceneGeometry()) && mGameRunning ) 
+	else if (otherObject ==  static_cast<const NxOgre::SceneGeometry*>(mApp->getFloorSceneGeometry())) 
 		hitFloor();
 }
 
@@ -35,7 +38,7 @@ void GameLogic::score(TEAM team) {
 	++scoringTeamScore;
 	mApp->addToConsole(StringConverter::toString(mScoreTeam1).append(":").append(StringConverter::toString(mScoreTeam2)));
 
-	int winningScore = mApp->getConfig().getSettingInt("winningScore");
+	int winningScore =  mApp->getConfig().getSettingInt(mRules==OLD_RULES ? "winningScoreOldRules" : "winningScoreNewRules");
 	if (scoringTeamScore >= winningScore && (scoringTeamScore - otherTeamScore >= 2)) {
 		//TODO!!!: end game (display winning message, menu? free movement?
 		mApp->addToConsole("Game Over");
@@ -52,9 +55,21 @@ bool GameLogic::canScore(TEAM team) {
 	return false;
 }
 
-//TODO!!!: ballContact() - add timer to discard quick consecutive contacts
 void GameLogic::ballContact(TEAM team) {
+	// PhysX often generates multiple ContactReports for conceptually one touch; therefore ignore all contacts for a short while after a contact
+	if (mTimerActive) {
+		if (mBlobbContactTimer.getMilliseconds() < 100)
+			return;
+		else
+			mTimerActive = false;
+	}
+	else {
+		mTimerActive = true;
+		mBlobbContactTimer.reset();
+	}
+
 	mApp->addToConsole("Blobb hits ball");
+
 	if (team = mCurrentlyOnBall) {
 		if (++mCurrentContacts > mApp->getConfig().getSettingInt("maxBallContacts") && canScore(team)) {
 			score(team);
@@ -81,8 +96,8 @@ void GameLogic::hitFloor() {
 }
 
 void GameLogic::prepareNewServe(TEAM team) {
-	//TODO!!!: implement newServe(TEAM team) - reset ball to right position after time, set mGameRunning to true again somewhere
+	//TODO!!!: implement newServe(TEAM team) - reset ball to right position after time, set mBallInGame to true again somewhere
 	mCurrentlyServing = mCurrentlyOnBall = team;
 	mCurrentContacts = 0;
-	mGameRunning = false;
+	mBallInGame = false;
 }

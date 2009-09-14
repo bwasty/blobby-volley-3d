@@ -6,16 +6,21 @@ public:
 	enum RULES {OLD_RULES, NEW_RULES};
 
 	GameLogic(Application* app) : mApp(app), mScoreTeam1(0), mScoreTeam2(0), mCurrentlyServing(TEAM1), mCurrentlyOnBall(TEAM1),
-								  mCurrentContacts(0), mRules(NEW_RULES), mGameRunning(true) {}; // TODO!!!: make rules changeable (configurable?)
+		mCurrentContacts(0), mRules(NEW_RULES), mBallInGame(true), mBlobbContactTimer(Ogre::Timer()), mTimerActive(false) {}; // TODO!!!: make rules changeable (configurable?)
+	
+	/** inherited from NxOgre::Callback */
 	void onContact(const NxOgre::ContactPair& );
 
 	/** increased team's score and checks team has won */
 	void score(TEAM team);
 
+	/** determines if team can score - when the OLD_RULES are used a team can only score when it serves */
 	bool canScore(TEAM team);
 
+	/** counts how often a team touches the ball while it's on their side - if the count is above the limit, the other team gets a point */
 	void ballContact(TEAM team);
 
+	/** ball hits floor - score for the "other" team if they canScore() */ 
 	void hitFloor();
 
 	void prepareNewServe(TEAM team);
@@ -35,7 +40,10 @@ private:
 
 	RULES mRules;
 
-	/** the game "runs" from the serve until the ball hits the ground. 
-	Until the ball is reset for the next serve the game is not "running" and ground touches are ignored */
-	bool mGameRunning;
+	/** the ball is in the game from the serve until it hits the ground. 
+	Blobb/floor contacts are ignored when false */
+	bool mBallInGame;
+
+	Ogre::Timer mBlobbContactTimer;
+	bool mTimerActive;
 };
