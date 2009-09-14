@@ -1,4 +1,4 @@
-// TODO!!!: Game logic -> contact callbacks (-> file CollisionCallback(s).h/cpp or Application.cpp or GameLogic with class(es) derived from NxOgre::Callback overriding onContact (const ContactPair &), display labels or so
+// TODO!!!: Game logic, display labels or so
 // TODO!!: FileWatcher instead of manual config load?
 #include "Constants.h"
 #include <OgrePrerequisites.h>
@@ -39,7 +39,7 @@ void Application::createFrameListener() {
 
 void Application::fillScene()
 {
-	mGameLogic = new GameLogic(this); //TODO! right place?
+	mGameLogic = new GameLogic(this); //TODO!: right place?
 	
 	// create physical materials
 	mFloorPhysicsMaterial = mPhysicsScene->createMaterial();
