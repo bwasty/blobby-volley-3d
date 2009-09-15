@@ -53,6 +53,7 @@ private:
 	//void setupScene();
 	void fillScene();
 
+	//TODO!!: Application.h - check which pointer members can be converted to local members
 	NxOgre::SceneGeometry* mFloorSceneGeometry;
 	NxOgre::SceneGeometry* mWallsSceneGeometry;
 

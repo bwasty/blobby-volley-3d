@@ -84,7 +84,7 @@ void Application::fillScene()
 	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
 
 	//ball
-	mBall = new Ball(this, Vector3(-arenaExtent[0]/4,6.0,0.0));
+	mBall = new Ball(this, Vector3(-arenaExtent[0]/4,6.0,0.0)); // TODO!!: eliminate ball position computation (already done in GameLogic)
 
 	// create net
 	/* net1.3ds
@@ -159,6 +159,8 @@ bool Application::frameRenderingQueued(const FrameEvent &evt)
 	mPhysicsTimeController->advance(evt.timeSinceLastFrame*mSimulationSpeed);//1.0f/60.0f);
 	mVisualDebugger->draw();
 	mVisualDebuggerNode->needUpdate();
+
+	mGameLogic->update();
 
 	return mControls->mContinueRendering;
 }

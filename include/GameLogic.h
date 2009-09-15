@@ -5,8 +5,7 @@ class GameLogic : public NxOgre::Callback {
 public:
 	enum RULES {OLD_RULES, NEW_RULES};
 
-	GameLogic(Application* app) : mApp(app), mScoreTeam1(0), mScoreTeam2(0), mCurrentlyServing(TEAM1), mCurrentlyOnBall(TEAM1),
-		mCurrentContacts(0), mRules(NEW_RULES), mBallInGame(true), mBlobbContactTimer(Ogre::Timer()), mTimerActive(false) {}; // TODO!!!: make rules changeable (configurable?)
+	GameLogic(Application* app);
 	
 	/** inherited from NxOgre::Callback */
 	void onContact(const NxOgre::ContactPair& );
@@ -24,6 +23,9 @@ public:
 	void hitFloor();
 
 	void prepareNewServe(TEAM team);
+
+	/** to be called once per frame from "main loop" */
+	void update();
 
 	
 private:
@@ -45,5 +47,13 @@ private:
 	bool mBallInGame;
 
 	Ogre::Timer mBlobbContactTimer;
-	bool mTimerActive;
+	bool mBlobbContactTimerActive;
+
+	Ogre::Timer mDelayedNewServeTimer;
+	bool mDelayedNewServeTimerActive;
+
+	Ogre::Vector3 mServePointTeam1;
+	Ogre::Vector3 mServePointTeam2;
+
+	bool mBallInGameNextFrame;
 };

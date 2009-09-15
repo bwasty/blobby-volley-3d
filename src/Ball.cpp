@@ -11,7 +11,7 @@
 
 using namespace Ogre;
 
-Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app), mStartPosition(position) {
+Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app) {
 	Real ballRadius = mApp->getConfig().getSettingReal("BALL_RADIUS");
 
 	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
@@ -23,16 +23,15 @@ Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app), mStartPosition
 	// register collision callback
 	mBallBody->setContactCallback(mApp->mGameLogic);
 
-	reset();
+	reset(position);
 }
 
 void Ball::loadSettings() {
 	mBallBody->setMass(mApp->getConfig().getSettingReal("ballMass")); 
 }
 
-void Ball::reset() {
-	Vector3& p = mStartPosition;
-	mBallBody->setGlobalPosition(NxOgre::Real3(p.x, p.y, p.z));
+void Ball::reset(Vector3 position) {
+	mBallBody->setGlobalPosition(NxOgre::Vec3(position));
 	mBallBody->putToSleep();
 }
 

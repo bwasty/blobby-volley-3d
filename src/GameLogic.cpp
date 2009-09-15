@@ -10,6 +10,16 @@
 
 using namespace Ogre;
 
+// TODO!!!: GameLogic - make rules changeable (configurable?)
+GameLogic::GameLogic(Application* app) : mApp(app), mScoreTeam1(0), mScoreTeam2(0), mCurrentlyServing(TEAM1), mCurrentlyOnBall(TEAM1),
+										 mCurrentContacts(0), mRules(NEW_RULES), mBallInGame(true), mBlobbContactTimer(Ogre::Timer()), mBlobbContactTimerActive(false),
+								         mDelayedNewServeTimer(Ogre::Timer()), mDelayedNewServeTimerActive(false), mBallInGameNextFrame(false)
+{
+	mServePointTeam1 = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT").x/4,6.0,0.0);
+	mServePointTeam2 = mServePointTeam1 * Vector3(-1,1,1);
+};
+
+
 void GameLogic::onContact(const NxOgre::ContactPair& contactPair) {
 	if (!mBallInGame)
 		return;
@@ -32,6 +42,7 @@ void GameLogic::onContact(const NxOgre::ContactPair& contactPair) {
 
 
 void GameLogic::score(TEAM team) {
+	//mApp->addToConsole("score() called");
 	int& scoringTeamScore = (team == TEAM1) ? mScoreTeam1 : mScoreTeam2;
 	int& otherTeamScore = (team == TEAM1) ? mScoreTeam2 : mScoreTeam1;
 
@@ -57,14 +68,14 @@ bool GameLogic::canScore(TEAM team) {
 
 void GameLogic::ballContact(TEAM team) {
 	// PhysX often generates multiple ContactReports for conceptually one touch; therefore ignore all contacts for a short while after a contact
-	if (mTimerActive) {
+	if (mBlobbContactTimerActive) {
 		if (mBlobbContactTimer.getMilliseconds() < 100)
 			return;
 		else
-			mTimerActive = false;
+			mBlobbContactTimerActive = false;
 	}
 	else {
-		mTimerActive = true;
+		mBlobbContactTimerActive = true;
 		mBlobbContactTimer.reset();
 	}
 
@@ -92,12 +103,26 @@ void GameLogic::hitFloor() {
 
 	if (canScore(scoringTeam))
 		score(scoringTeam);
-
 }
 
 void GameLogic::prepareNewServe(TEAM team) {
-	//TODO!!!: implement newServe(TEAM team) - reset ball to right position after time, set mBallInGame to true again somewhere
 	mCurrentlyServing = mCurrentlyOnBall = team;
 	mCurrentContacts = 0;
 	mBallInGame = false;
+
+	// activate Timer
+	mDelayedNewServeTimer.reset();
+	mDelayedNewServeTimerActive = true;
+}
+
+void GameLogic::update() {
+	if (mDelayedNewServeTimerActive && mDelayedNewServeTimer.getMilliseconds() >= 3000) {
+		mApp->getBall()->reset(mCurrentlyServing==TEAM1 ? mServePointTeam1 : mServePointTeam2);
+		mDelayedNewServeTimerActive = false;
+		mBallInGameNextFrame = true;
+	}
+	else if (mBallInGameNextFrame) {
+		mBallInGame = true;
+		mBallInGameNextFrame = false;
+	}
 }

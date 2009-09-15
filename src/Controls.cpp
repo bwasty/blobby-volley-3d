@@ -190,7 +190,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		mIsPhysicsVisualDebuggerOn = !mIsPhysicsVisualDebuggerOn;
 		break;
 	case OIS::KC_1:
-		mApp->getBall()->reset();
+		//mApp->getBall()->reset();
 		break;		
 	case OIS::KC_SPACE:
 		mGuiMode ? mGUI->getMyGui()->hidePointer() : mGUI->getMyGui()->showPointer();
