@@ -62,7 +62,7 @@ void Application::fillScene()
 	ent->setCastShadows(false);
 
 	// physical ground plane
-	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry(0, NxOgre::Real3(0, 1, 0));
+	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry(0, NxOgre::Vec3(0, 1, 0));
 	pplane->setMaterial(mFloorPhysicsMaterial->getIdentifier());
 	mFloorSceneGeometry = mPhysicsScene->createSceneGeometry(pplane);
 
@@ -128,16 +128,16 @@ void Application::fillScene()
 	Vector3 p(0.0, (netHeight+2.1)/2, 0.0);
 	NxOgre::Box* pbox = new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z);
 	pbox->setMaterial(mNetPhysicsMaterial->getIdentifier());
-	mPhysicsScene->createSceneGeometry(pbox, NxOgre::Matrix44(NxOgre::Real3(p.x, p.y, p.z))); 
+	mPhysicsScene->createSceneGeometry(pbox, NxOgre::Matrix44(NxOgre::Vec3(p.x, p.y, p.z))); 
 
 
 	// create physical "cage" (walls)
 	//TODO!!: visual representation of Walls (transparent/shadows/splatting)
 	NxOgre::Shapes wallPlanes;
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(1,0,0)));
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Real3(-1,0,0)));
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,1)));
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Real3(0,0,-1)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Vec3(1,0,0)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Vec3(-1,0,0)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Vec3(0,0,1)));
+	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Vec3(0,0,-1)));
 
 	for(int i=0; i<4; ++i) wallPlanes[i]->setMaterial(mWallPhysicsMaterial->getIdentifier());
 

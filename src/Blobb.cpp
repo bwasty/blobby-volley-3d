@@ -19,12 +19,12 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	NxOgre::Shapes blobbSpheres;
 	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
 	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
-	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Real3(0, 0.7, 0)));
+	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Vec3(0, 0.7, 0)));
 
 	blobbSpheres[0]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 	blobbSpheres[1]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 
-	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Real3(position.x, position.y, position.z), "Blobb.mesh");
+	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Vec3(position.x, position.y, position.z), "Blobb.mesh");
 	loadSettings(); // sets mass
 
 	//set colour - have to clone material
@@ -59,10 +59,10 @@ void Blobb::loadSettings() {
 }
 
 void Blobb::move(Ogre::Vector2 direction) {
-	mBody->addForce(NxOgre::Real3(direction.x, 0, direction.y));
+	mBody->addForce(NxOgre::Vec3(direction.x, 0, direction.y));
 }
 
 void Blobb::jump() {
 	if (mBody->getGlobalPosition().y < 1.1) //TODO!!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
-		mBody->addForce(NxOgre::Real3(0, mApp->getConfig().getSettingInt("BlobbJumpForce"), 0));
+		mBody->addForce(NxOgre::Vec3(0, mApp->getConfig().getSettingInt("BlobbJumpForce"), 0));
 }

@@ -55,5 +55,4 @@ private:
 	Ogre::Vector3 mServePointTeam1;
 	Ogre::Vector3 mServePointTeam2;
 
-	bool mBallInGameNextFrame;
 };

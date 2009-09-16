@@ -13,7 +13,7 @@ using namespace Ogre;
 // TODO!!!: GameLogic - make rules changeable (configurable?)
 GameLogic::GameLogic(Application* app) : mApp(app), mScoreTeam1(0), mScoreTeam2(0), mCurrentlyServing(TEAM1), mCurrentlyOnBall(TEAM1),
 										 mCurrentContacts(0), mRules(NEW_RULES), mBallInGame(true), mBlobbContactTimer(Ogre::Timer()), mBlobbContactTimerActive(false),
-								         mDelayedNewServeTimer(Ogre::Timer()), mDelayedNewServeTimerActive(false), mBallInGameNextFrame(false)
+								         mDelayedNewServeTimer(Ogre::Timer()), mDelayedNewServeTimerActive(false)
 {
 	mServePointTeam1 = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT").x/4,6.0,0.0);
 	mServePointTeam2 = mServePointTeam1 * Vector3(-1,1,1);
@@ -47,12 +47,13 @@ void GameLogic::score(TEAM team) {
 	int& otherTeamScore = (team == TEAM1) ? mScoreTeam2 : mScoreTeam1;
 
 	++scoringTeamScore;
-	mApp->addToConsole(StringConverter::toString(mScoreTeam1).append(":").append(StringConverter::toString(mScoreTeam2)));
+	mApp->addToConsole(StringConverter::toString(mScoreTeam2).append(":").append(StringConverter::toString(mScoreTeam1)));
 
 	int winningScore =  mApp->getConfig().getSettingInt(mRules==OLD_RULES ? "winningScoreOldRules" : "winningScoreNewRules");
 	if (scoringTeamScore >= winningScore && (scoringTeamScore - otherTeamScore >= 2)) {
 		//TODO!!!: end game (display winning message, menu? free movement?
 		mApp->addToConsole("Game Over");
+		mBallInGame = false;
 		return;
 	}
 
@@ -68,8 +69,8 @@ bool GameLogic::canScore(TEAM team) {
 
 void GameLogic::ballContact(TEAM team) {
 	// PhysX often generates multiple ContactReports for conceptually one touch; therefore ignore all contacts for a short while after a contact
-	if (mBlobbContactTimerActive) {
-		if (mBlobbContactTimer.getMilliseconds() < 100)
+	if (mBlobbContactTimerActive && team==mCurrentlyOnBall) {
+		if (mBlobbContactTimer.getMilliseconds() < 500)
 			return;
 		else
 			mBlobbContactTimerActive = false;
@@ -79,16 +80,16 @@ void GameLogic::ballContact(TEAM team) {
 		mBlobbContactTimer.reset();
 	}
 
-	mApp->addToConsole("Blobb hits ball");
+	mApp->addToConsole(team == TEAM1 ? "Blobb1 hits ball" : "Blobb2 hits ball");
 
-	if (team = mCurrentlyOnBall) {
+	if (team == mCurrentlyOnBall) {
 		if (++mCurrentContacts > mApp->getConfig().getSettingInt("maxBallContacts") && canScore(team)) {
-			score(team);
+			score(team==TEAM1 ? TEAM2 : TEAM1);
 		}
 	}
 	else {
 		mCurrentlyOnBall = team;
-		mCurrentContacts = 0;
+		mCurrentContacts = 1;
 	}
 }
 
@@ -119,10 +120,6 @@ void GameLogic::update() {
 	if (mDelayedNewServeTimerActive && mDelayedNewServeTimer.getMilliseconds() >= 3000) {
 		mApp->getBall()->reset(mCurrentlyServing==TEAM1 ? mServePointTeam1 : mServePointTeam2);
 		mDelayedNewServeTimerActive = false;
-		mBallInGameNextFrame = true;
-	}
-	else if (mBallInGameNextFrame) {
 		mBallInGame = true;
-		mBallInGameNextFrame = false;
 	}
 }

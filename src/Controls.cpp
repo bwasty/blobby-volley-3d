@@ -51,9 +51,11 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 			static int factor = mApp->getConfig().getSettingInt("BlobbMovementPerMouseMovement"); // TODO!!: config value: move to member for dynamic change + change function
 			mouseMovement *= factor; // length of vector determines how big the force is (-> how far blobb is moved)
 			
-			mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z)); 
-			if (mControlBothBlobbs)
+			 
+			if (mControlBothBlobbs) // TODO!!!: mControlBothBlobbs - meaning changed to switch blobb
 				mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
+			else
+				mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z));
 		}
 	}
     return true;
@@ -65,9 +67,11 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->getMyGui()->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			mApp->getBlobb1()->jump();
+			// TODO!!!: mControlBothBlobbs - meaning changed to switch blobb
 			if (mControlBothBlobbs)
 				mApp->getBlobb2()->jump();
+			else
+				mApp->getBlobb1()->jump();
 		}
 	}
 	return true;

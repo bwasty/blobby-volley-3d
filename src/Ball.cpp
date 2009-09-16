@@ -12,17 +12,7 @@
 using namespace Ogre;
 
 Ball::Ball(Application *app, Ogre::Vector3 position) : mApp(app) {
-	Real ballRadius = mApp->getConfig().getSettingReal("BALL_RADIUS");
-
-	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
-	ballSphere->setMaterial(mApp->mBallPhysicsMaterial->getIdentifier());
-	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Real3(), "Ball.mesh");
-	loadSettings();
-	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
-
-	// register collision callback
-	mBallBody->setContactCallback(mApp->mGameLogic);
-
+	mBallBody = 0; // make sure it's 0, because otherwise reset() tries to destroy it
 	reset(position);
 }
 
@@ -31,7 +21,20 @@ void Ball::loadSettings() {
 }
 
 void Ball::reset(Vector3 position) {
-	mBallBody->setGlobalPosition(NxOgre::Vec3(position));
+	if (mBallBody)
+		mApp->getPhysicsRenderSystem()->destroyBody(mBallBody);
+
+	Real ballRadius = mApp->getConfig().getSettingReal("BALL_RADIUS");
+
+	NxOgre::Sphere* ballSphere = new NxOgre::Sphere(ballRadius);
+	ballSphere->setMaterial(mApp->mBallPhysicsMaterial->getIdentifier());
+	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Vec3(position), "Ball.mesh");
+	loadSettings();
+	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
+
+	// register collision callback
+	mBallBody->setContactCallback(mApp->mGameLogic);
+
 	mBallBody->putToSleep();
 }
 
