@@ -6,10 +6,12 @@
 #include "Application.h"
 #include "Ball.h"
 #include "Blobb.h"
+#include "GUI.h"
 #include "GameLogic.h"
 
 using namespace Ogre;
 
+//TODO!!!: test old ruleas
 // TODO!!!: GameLogic - make rules changeable (configurable?)
 GameLogic::GameLogic(Application* app) : mApp(app), mScoreTeam1(0), mScoreTeam2(0), mCurrentlyServing(TEAM1), mCurrentlyOnBall(TEAM1),
 										 mCurrentContacts(0), mRules(NEW_RULES), mBallInGame(true), mBlobbContactTimer(Ogre::Timer()), mBlobbContactTimerActive(false),
@@ -47,7 +49,8 @@ void GameLogic::score(TEAM team) {
 	int& otherTeamScore = (team == TEAM1) ? mScoreTeam2 : mScoreTeam1;
 
 	++scoringTeamScore;
-	mApp->addToConsole(StringConverter::toString(mScoreTeam2).append(":").append(StringConverter::toString(mScoreTeam1)));
+	//mApp->addToConsole(StringConverter::toString(mScoreTeam2).append(":").append(StringConverter::toString(mScoreTeam1)));
+	mApp->getGUI()->updateScoreDisplay(mScoreTeam1, mScoreTeam2, team); // TODO!!!: update score display: handle change of serve without score (old rules)
 
 	int winningScore =  mApp->getConfig().getSettingInt(mRules==OLD_RULES ? "winningScoreOldRules" : "winningScoreNewRules");
 	if (scoringTeamScore >= winningScore && (scoringTeamScore - otherTeamScore >= 2)) {

@@ -1,9 +1,9 @@
 #include "Constants.h"
 #include "Application.h"
 #include "Console.h"
-#include "Gui.h"
 #include "Ball.h"
 #include "Blobb.h"
+#include "Gui.h"
 
 using namespace Ogre;
 
@@ -44,6 +44,9 @@ GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), m
 	MyGUI::ControllerManager::getInstance().addItem(panel, controller);
 	text->setCaption(_text);
 
+	// create StaticText to show score
+	mScoreDisplay = mMyGUI->createWidget<MyGUI::StaticText>("StaticText" , mMyGUI->getViewWidth()/2-20, 0, 200, 100, MyGUI::Align::Default, "Main");
+	mScoreDisplay->setCaption("0 : 0!");
 
 	// create console
 	mConsole = new Console();
@@ -170,3 +173,14 @@ void GUI::updateStats(void)
 //void GUI::injectFrameEntered(Real timeSinceLastFrame) {
 //	mMyGUI->injectFrameEntered(timeSinceLastFrame);
 //}
+
+void GUI::updateScoreDisplay(int scoreTeam1, int scoreTeam2, TEAM nowServing) {
+	String score;
+	if (nowServing == TEAM2)
+		score.append("!");
+	score.append(StringConverter::toString(scoreTeam2)).append(":").append(StringConverter::toString(scoreTeam1));
+	if (nowServing == TEAM1)
+		score.append("!");
+
+	mScoreDisplay->setCaption(score);
+}

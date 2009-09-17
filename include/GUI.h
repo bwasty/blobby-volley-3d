@@ -1,5 +1,5 @@
 #include <OgrePrerequisites.h>
-
+#include <MyGUI_Widget.h>
 
 namespace MyGUI {
 	class Gui;
@@ -21,6 +21,8 @@ public:
 	void showDebugOverlay(bool show);
 	void updateStats();
 
+	void updateScoreDisplay(int scoreTeam1, int scoreTeam2, TEAM nowServing);
+
 	//void injectFrameEntered(Ogre::Real timeSinceLastFrame);
 private:
 	Application* mApp;
@@ -31,4 +33,6 @@ private:
 	std::string mDebugText;
 
 	Console* mConsole;
+
+	MyGUI::WidgetPtr mScoreDisplay;
 };

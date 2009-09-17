@@ -45,6 +45,8 @@ public:
 	inline NxOgre::VisualDebugger* getVisualDebugger() const { return mVisualDebugger; }
 	inline Ogre::SceneNode* getVisualDebuggerNode() const { return mVisualDebuggerNode; }
 
+	inline GUI* getGUI() { return mGUI; }
+
 
 
 	// WindowEventListener
