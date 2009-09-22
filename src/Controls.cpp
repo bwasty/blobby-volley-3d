@@ -10,6 +10,8 @@
 #include "Ball.h"
 #include "Console.h"
 #include "GUI.h"
+#include "GameLogic.h"
+
 #include "Controls.h"
 
 using namespace Ogre;
@@ -127,6 +129,9 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
         break;
 	case OIS::KC_GRAVE:
 		mGUI->getConsole()->setVisible(!mGUI->getConsole()->isVisible());
+		break;
+	case OIS::KC_RETURN:
+		mApp->mGameLogic->newGame();
 		break;
     }
     return true;

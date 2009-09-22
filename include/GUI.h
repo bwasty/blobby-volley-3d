@@ -23,14 +23,15 @@ public:
 
 	void updateScoreDisplay(int scoreTeam1, int scoreTeam2, TEAM nowServing);
 
-	//void injectFrameEntered(Ogre::Real timeSinceLastFrame);
+	std::string mDebugText;
+
 private:
 	Application* mApp;
 	Ogre::RenderWindow* mWindow;
 	MyGUI::Gui* mMyGUI;
 
 	Ogre::Overlay* mDebugOverlay;
-	std::string mDebugText;
+	
 
 	Console* mConsole;
 

@@ -10,11 +10,18 @@ public:
 	/** inherited from NxOgre::Callback */
 	void onContact(const NxOgre::ContactPair& );
 
-	/** increased team's score and checks team has won */
-	void score(TEAM team);
 
-	/** determines if team can score - when the OLD_RULES are used a team can only score when it serves */
-	bool canScore(TEAM team);
+
+	/** to be called once per frame from "main loop" */
+	void update();
+
+	/** resets everything for new game */
+	void newGame();
+
+	
+private:
+	/** increased team's score if it can score (-> if OLD_RULES only when serving) and checks if team has won */
+	void score(TEAM team);
 
 	/** counts how often a team touches the ball while it's on their side - if the count is above the limit, the other team gets a point */
 	void ballContact(TEAM team);
@@ -24,11 +31,7 @@ public:
 
 	void prepareNewServe(TEAM team);
 
-	/** to be called once per frame from "main loop" */
-	void update();
 
-	
-private:
 	Application* mApp;
 	int mScoreTeam1;
 	int mScoreTeam2;

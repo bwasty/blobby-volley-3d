@@ -1,5 +1,6 @@
-// TODO!!!: Game logic, display labels or so
-// TODO!!: FileWatcher instead of manual config load?
+// TODO!!: check all destructors (->effective c++), replace pointers with local members / refs?
+// TODO!: FileWatcher instead of manual config load?
+// TODO!!!: Ogre3DRendersystem includes NxOgre.h and Ogre.h -> switch to pch and forget the singe includes? same for MyGUI because of Console.h; current build time: 16s (release)
 #include "Constants.h"
 #include <OgrePrerequisites.h>
 
@@ -10,11 +11,11 @@
 #include <OgreRenderWindow.h>
 #include <OgreMeshManager.h>
 
-#include <NxOgre.h>
+//#include <NxOgre.h>
 #include <OGRE3DRenderSystem.h>
 #include "OGRE3DBody.h"
 
-#include <MyGUI.h>
+//#include <MyGUI.h>
 
 #include "Blobb.h"
 #include "Ball.h"
