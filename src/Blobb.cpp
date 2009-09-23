@@ -1,15 +1,17 @@
-#include <OgreSceneManager.h>
-#include <OgreEntity.h>
-#include <OgreSubEntity.h>
+#include "Blobb.h"
 
-#include <NxOgre.h>
+//#include <OgreSceneManager.h>
+//#include <OgreEntity.h>
+//#include <OgreSubEntity.h>
+
+//#include <NxOgre.h>
 #include <OGRE3DBody.h>
 #include <OGRE3DRenderSystem.h>
 #include "NxScene.h"
 #include "NxD6JointDesc.h"
 
 #include "Application.h"
-#include "Blobb.h"
+
 
 using namespace Ogre;
 

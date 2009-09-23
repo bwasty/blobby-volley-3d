@@ -3,6 +3,7 @@
 #include <OgreVector3.h>
 
 class Application;
+class OGRE3DBody;
 
 class Ball {
 public:

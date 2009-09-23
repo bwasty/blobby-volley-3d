@@ -5,10 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Blobby Volley 3D 2.0", "Blo
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_with_release_libs|Win32 = Debug_with_release_libs|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9E0C2AA-244B-4DC5-8C0A-EDB5079346E0}.Debug_with_release_libs|Win32.ActiveCfg = Debug_with_release_libs|Win32
+		{A9E0C2AA-244B-4DC5-8C0A-EDB5079346E0}.Debug_with_release_libs|Win32.Build.0 = Debug_with_release_libs|Win32
 		{A9E0C2AA-244B-4DC5-8C0A-EDB5079346E0}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A9E0C2AA-244B-4DC5-8C0A-EDB5079346E0}.Debug|Win32.Build.0 = Debug|Win32
 		{A9E0C2AA-244B-4DC5-8C0A-EDB5079346E0}.Release|Win32.ActiveCfg = Release|Win32

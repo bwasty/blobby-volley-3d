@@ -1,12 +1,13 @@
-#include <OgrePrerequisites.h>
+//#include <OgrePrerequisites.h>
 #include <MyGUI_Widget.h>
+#include "Constants.h"
 
 namespace MyGUI {
 	class Gui;
 }
 
 class Console;
-class BaseApplication;
+class Application;
 
 
 class GUI {

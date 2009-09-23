@@ -1,8 +1,10 @@
-#include <OgreRenderWindow.h>
-#include <OgreCamera.h>
-#include <OgreSceneManager.h>
+#include "Controls.h"
 
-#include <NxOgre.h>
+//#include <OgreRenderWindow.h>
+//#include <OgreCamera.h>
+//#include <OgreSceneManager.h>
+
+//#include <NxOgre.h>
 #include <OGRE3DBody.h>
 
 #include "Application.h"
@@ -12,7 +14,6 @@
 #include "GUI.h"
 #include "GameLogic.h"
 
-#include "Controls.h"
 
 using namespace Ogre;
 

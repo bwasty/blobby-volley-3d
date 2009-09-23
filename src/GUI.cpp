@@ -1,9 +1,10 @@
+#include "Gui.h"
+
 #include "Constants.h"
 #include "Application.h"
 #include "Console.h"
 #include "Ball.h"
 #include "Blobb.h"
-#include "Gui.h"
 
 using namespace Ogre;
 

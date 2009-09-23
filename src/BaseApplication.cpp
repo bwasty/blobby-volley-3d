@@ -1,15 +1,18 @@
-#include "Controls.h"
-#include <OgreRoot.h>
-#include <OgreConfigFile.h>
-#include <OgreTextureManager.h>
-#include <NxOgre.h>
+#include "BaseApplication.h"
+
+//#include <OgreRoot.h>
+//#include <OgreConfigFile.h>
+//#include <OgreTextureManager.h>
+//#include <NxOgre.h>
 #include <OGRE3DRenderSystem.h> //TODO: Problem: OGRE3DRenderSystem.h includes Ogre.h
 #include <OGRE3DRenderable.h>
 
+#include <OIS\OISInputManager.h>
+
 #include "Constants.h"
 #include "GUI.h"
-#include "BaseApplication.h"
-#include <OIS\OISInputManager.h>
+#include "Controls.h"
+
 
 using namespace Ogre;
 

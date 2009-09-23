@@ -1,13 +1,14 @@
-#include <NxOgreContactPair.h>
+#include "GameLogic.h"
+
+//#include <NxOgreContactPair.h>
 #include <OGRE3DBody.h>
-#include <OgreStringConverter.h>
+//#include <OgreStringConverter.h>
 
 #include "Constants.h"
 #include "Application.h"
 #include "Ball.h"
 #include "Blobb.h"
 #include "GUI.h"
-#include "GameLogic.h"
 
 using namespace Ogre;
 

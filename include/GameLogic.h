@@ -1,5 +1,8 @@
 #include <NxOgreCallback.h>
 #include "Constants.h" // for TEAM enum
+#include <OgreTimer.h>
+
+class Application;
 
 class GameLogic : public NxOgre::Callback {
 public:

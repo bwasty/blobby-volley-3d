@@ -1,11 +1,12 @@
+#include "Ball.h"
+
 #include <OgreVector3.h>
 
-#include <NxOgreSphere.h>
+//#include <NxOgre.h>
 #include <OGRE3DRenderSystem.h>
 #include <OGRE3DBody.h>
 
 #include "Application.h"
-#include "Ball.h"
 #include "GameLogic.h"
 
 
