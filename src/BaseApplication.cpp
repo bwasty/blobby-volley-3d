@@ -105,7 +105,7 @@ void BaseApplication::initializeResourceGroups() {
 
 void BaseApplication::setupScene() {
 	mSceneMgr = mRoot->createSceneManager(ST_GENERIC, "Default SceneManager");
-	mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+	
 
 	mCamera = mSceneMgr->createCamera("Camera");
 	mCamera->setNearClipDistance(1.0);
@@ -149,7 +149,7 @@ void BaseApplication::setupHydrax() {
 		mHydrax = new Hydrax::Hydrax(mSceneMgr, mCamera, mWindow->getViewport(0));
 
 		// Create our projected grid module  
-		Hydrax::Module::ProjectedGrid *mModule 
+		Hydrax::Module::ProjectedGrid *module 
 			= new Hydrax::Module::ProjectedGrid(// Hydrax parent pointer
 			                                    mHydrax,
 												// Noise module
@@ -162,13 +162,13 @@ void BaseApplication::setupHydrax() {
 										        Hydrax::Module::ProjectedGrid::Options(/*264 /*Generic one*/));
 
 		// Set our module
-		mHydrax->setModule(static_cast<Hydrax::Module::Module*>(mModule));
+		mHydrax->setModule(static_cast<Hydrax::Module::Module*>(module));
 
 		// Load all parameters from config file
 		// Remarks: The config file must be in Hydrax resource group.
 		// All parameters can be set/updated directly by code(Like previous versions),
 		// but due to the high number of customizable parameters, since 0.4 version, Hydrax allows save/load config files.
-		mHydrax->loadCfg("HydraxDemo.hdx");
+		mHydrax->loadCfg("HydraxConfig.hdx");
 
 		//mHydrax->setComponents(
   //          static_cast<Hydrax::HydraxComponent>(Hydrax::HYDRAX_COMPONENT_SUN        |
@@ -182,6 +182,9 @@ void BaseApplication::setupHydrax() {
 
         // Create water
         mHydrax->create();
+
+		//TODO!!!: workaround: set shadow technique after Hydrax init
+		mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
 
 }
 

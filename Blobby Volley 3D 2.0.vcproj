@@ -65,10 +65,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib OIS_d.lib NxOgre_Debug.lib NxOgreOGRE3D_Debug.lib PhysXLoader.lib MyGUI_d.lib Hydrax.lib"
+				AdditionalDependencies="OgreMain_d.lib OIS_d.lib NxOgre_Debug.lib NxOgreOGRE3D_Debug.lib MyGUI_d.lib Hydrax.lib"
 				OutputFile=".\bin\debug\$(ProjectName).exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Debug&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;.\Dependencies\NxOgreGit\sdk;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\debug;.\Dependencies\Hydrax\Hydrax\bin\release"
+				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Debug&quot;;.\Dependencies\NxOgreGit\sdk;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\debug;.\Dependencies\Hydrax\Hydrax\bin\release"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -145,10 +145,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre.lib NxOgreOGRE3D.lib PhysXLoader.lib MyGUI.lib Hydrax.lib"
+				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre.lib NxOgreOGRE3D.lib MyGUI.lib Hydrax.lib"
 				OutputFile=".\bin\release\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Release&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;.\Dependencies\NxOgreGit\sdk;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\release;.\Dependencies\Hydrax\Hydrax\bin\debug"
+				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Release&quot;;.\Dependencies\NxOgreGit\sdk;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\release;.\Dependencies\Hydrax\Hydrax\bin\debug"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

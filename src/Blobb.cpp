@@ -7,8 +7,6 @@
 //#include <NxOgre.h>
 #include <OGRE3DBody.h>
 #include <OGRE3DRenderSystem.h>
-#include "NxScene.h"
-#include "NxD6JointDesc.h"
 
 #include "Application.h"
 
@@ -27,7 +25,9 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	blobbSpheres[0]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 	blobbSpheres[1]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 
-	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Vec3(position.x, position.y, position.z), "Blobb.mesh");
+	NxOgre::RigidBodyDescription rbd;
+	rbd.mBodyFlags |= NxOgre::Enums::BodyFlags_FreezeRotation;
+	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Vec3(position.x, position.y, position.z), "Blobb.mesh", rbd);
 	loadSettings(); // sets mass
 
 	//set colour - have to clone material
@@ -37,24 +37,6 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 	ent->setMaterial(mat);
 	mat->getTechnique(0)->getPass(0)->setAmbient(colour);
 	mat->getTechnique(0)->getPass(0)->setDiffuse(colour);
-
-	// create Joint
-	NxScene* realNxScene = mApp->getPhysicsRenderSystem()->getScene()->getScene();
-	NxActor* realActor = mBody->getNxActor();
-
-	NxD6JointDesc d6Desc;
-	   d6Desc.actor[0] = realActor;    
-	d6Desc.actor[1] = 0;
-	//d6Desc.setGlobalAnchor(globalAnchor);//Important when DOFs are unlocked.    
-	//d6Desc.setGlobalAxis(globalAxis);//Joint configuration.    
-
-	// lock all rotational axes, so that Blobb doesn't topple over
-	d6Desc.twistMotion = NX_D6JOINT_MOTION_LOCKED;    
-	d6Desc.swing1Motion = NX_D6JOINT_MOTION_LOCKED;    
-	d6Desc.swing2Motion = NX_D6JOINT_MOTION_LOCKED;    
-
-	d6Desc.projectionMode = NX_JPM_NONE; //TODO: d6Desc.projectionMode = NX_JPM_NONE; -  needed?
-	mD6Joint=(NxD6Joint*)realNxScene->createJoint(d6Desc);
 }
 
 void Blobb::loadSettings() {
