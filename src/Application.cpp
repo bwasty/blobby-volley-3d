@@ -1,6 +1,6 @@
 // TODO!!: check all destructors (->effective c++), replace pointers with local members / refs?
-// TODO!: FileWatcher instead of manual config load?
-// TODO!!!: Ogre3DRendersystem includes NxOgre.h and Ogre.h -> switch to pch and forget the singe includes? same for MyGUI because of Console.h; current build time: 16s (release)
+// TODO!!: FileWatcher/key instead of manual config load with console?
+// TODO: precompiled headers?
 #include "Application.h"
 
 //#include "Constants.h"
@@ -33,6 +33,10 @@ void Application::setupInputSystem() {
 	BaseApplication::setupInputSystem();
 }
 
+void Application::setupGUI() { 
+	mGUI = new GUI(this, mWindow); 
+}
+
 void Application::createFrameListener() {
 	mRoot->addFrameListener(this);
 
@@ -41,7 +45,7 @@ void Application::createFrameListener() {
 
 void Application::fillScene()
 {
-	mGameLogic = new GameLogic(this); //TODO!: right place?
+	mGameLogic = new GameLogic(this); //TODO!: right place? mGameLogic = new GameLogic(this);
 	
 	// create physical materials
 	mFloorPhysicsMaterial = mPhysicsScene->createMaterial();
@@ -86,7 +90,7 @@ void Application::fillScene()
 	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
 
 	//ball
-	mBall = new Ball(this, Vector3(-arenaExtent[0]/4,6.0,0.0)); // TODO!!: eliminate ball position computation (already done in GameLogic)
+	mBall = new Ball(this, mGameLogic->getServePointTeam1());
 
 	// create net
 	/* net1.3ds
@@ -155,8 +159,8 @@ bool Application::frameRenderingQueued(const FrameEvent &evt)
 	//if(mKeyboard) 
 	mKeyboard->capture();
 
-	//mCamNode->translate(mDirection * evt.timeSinceLastFrame, Node::TS_LOCAL);
-	mCamera->moveRelative(mControls->mDirection * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
+	//mCamNode->translate(mCurrentCameraMovementPerSecond * evt.timeSinceLastFrame, Node::TS_LOCAL);
+	mCamera->moveRelative(mControls->getCurrentCameraMovementPerSecond() * evt.timeSinceLastFrame); // TODO: translate/moveRelative: does it the same as above?
 
 	mPhysicsTimeController->advance(evt.timeSinceLastFrame*mSimulationSpeed);//1.0f/60.0f);
 	mVisualDebugger->draw();
@@ -179,6 +183,7 @@ Application::~Application() {
 	delete mBall;
 	delete mBlobb1;
 	delete mBlobb2;
+	delete mGUI;
 }
 
 void Application::loadSettings() {

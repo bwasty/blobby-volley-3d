@@ -20,8 +20,6 @@ GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), m
 	mMyGUI->hidePointer();
 
 	// MyGUI help tooltip 
-	// TODO: extra function for gui creation?
-	//TODO: HelpWidget: pin help tooltip on click?
 	Ogre::UTFString _text("Controls for Blobby Volley 3D:\n\
 						  SPACE         switch between GUI and play mode\n\
 						  W,A,S,D,Q,E   Move camera (Alternative: Cursors)\n\

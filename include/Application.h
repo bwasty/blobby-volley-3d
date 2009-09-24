@@ -20,10 +20,14 @@ class Application : public BaseApplication, public Ogre::FrameListener {
 public:
 	~Application();
 
-	inline Blobb* getBlobb1() { return mBlobb1; }
-	inline Blobb* getBlobb2() { return mBlobb2; }
+	inline Blobb* getBlobb1() const { return mBlobb1; }
+	inline Blobb* getBlobb2() const { return mBlobb2; }
 	
 	inline Ball* getBall() const { return mBall; }
+
+	inline GUI* getGUI() const { return mGUI; }
+
+	inline GameLogic* getGameLogic() const { return mGameLogic; }
 
 	// FrameListener
 	//bool frameStarted(const Ogre::FrameEvent &evt);
@@ -45,15 +49,15 @@ public:
 
 	void addToConsole(Ogre::String);
 
-	GameLogic* mGameLogic;
+
 
 private:
 	void setupInputSystem();
-	void createFrameListener(); //TODO: make virtual createFrameListener()?
-	//void setupScene();
+	void setupGUI();
+	void createFrameListener();
 	void fillScene();
 
-	//TODO!!: Application.h - check which pointer members can be converted to local members
+	//TODO!: Application.h - check which pointer members can be converted to local members
 	NxOgre::SceneGeometry* mFloorSceneGeometry;
 	NxOgre::SceneGeometry* mWallsSceneGeometry;
 
@@ -64,8 +68,10 @@ private:
 
 	ControlsListener *mControls;
 
+	GUI* mGUI;
+
+	GameLogic* mGameLogic;
+
 	/** modifier for the physics timestep (1.0 = real time) */
 	float mSimulationSpeed;
 };
-
-#pragma once

@@ -50,7 +50,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="precompiled.h"
-				WarningLevel="4"
+				WarningLevel="2"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
@@ -228,7 +228,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre_Debug.lib NxOgreOGRE3D_Debug.lib PhysXLoader.lib MyGUI.lib"
+				AdditionalDependencies="OgreMain.lib OIS.lib NxOgre.lib NxOgreOGRE3D.lib PhysXLoader.lib MyGUI.lib"
 				OutputFile=".\bin\debug_with_release_libs\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(OGRE_SRC)\lib&quot;;&quot;$(OGRE_SRC)\Dependencies\lib\Release&quot;;&quot;$(PHYSX_DIR)\SDKs\lib\Win32&quot;;.\Dependencies\NxOgreGit\sdk;.\Dependencies\MyGUI2.2.2_source\MyGUIEngine\lib\release"

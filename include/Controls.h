@@ -31,9 +31,10 @@ public:
     bool keyPressed(const OIS::KeyEvent &e);
     bool keyReleased(const OIS::KeyEvent &e);
 
-	Ogre::Vector3 mDirection;     // Value to move in the correct direction
-								//TODO!!: mDirection: better name/description//refactor
+	
+	const Ogre::Vector3& getCurrentCameraMovementPerSecond() { return mCurrentCameraMovementPerSecond; }
 
+	// TODO!!: Controls: eliminate public members mContinueRendering, mStatsOn
 	bool mContinueRendering;        // Whether to continue rendering or not
 
 	bool mStatsOn;
@@ -49,8 +50,10 @@ protected:
 
 	GUI* mGUI;
 
-    Ogre::Real mRotate;          // The rotate constant
-    Ogre::Real mMove;            // The movement constant
+    Ogre::Real mCameraRotationPerMouseMovement;          // The rotate constant
+    Ogre::Real mCameraMovementPerSecond;            // The movement constant
+
+	Ogre::Vector3 mCurrentCameraMovementPerSecond;     // Value to move in the correct direction
 
     Ogre::SceneManager *mSceneMgr;   // The current SceneManager
     Ogre::SceneNode *mCamNode;   // The SceneNode the camera is currently attached to
@@ -58,7 +61,7 @@ protected:
 
 	int mSceneDetailIndex ; // for switching to wireframe / point rendering
 
-	int mControlBothBlobbs; // to make development easier: control both blobbs with same mouse
+	int mControlBlobb1; // to make development easier: switch blobb which is controlled
 
 	bool mIsPhysicsVisualDebuggerOn;
 

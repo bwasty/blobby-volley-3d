@@ -27,7 +27,7 @@ void GameLogic::onContact(const NxOgre::ContactPair& contactPair) {
 		return;
 
 	NxOgre::RigidBody* otherObject;
-	if (contactPair.mFirst == static_cast<const NxOgre::RigidBody*>(mApp->getBall()->getBody()) ) //TODO!!: upcast necessary? -> effective c++
+	if (contactPair.mFirst == static_cast<const NxOgre::RigidBody*>(mApp->getBall()->getBody()) ) //TODO!: upcast necessary? -> effective c++
 		otherObject = contactPair.mSecond;
 	else if (contactPair.mSecond == static_cast<const NxOgre::RigidBody*>((mApp->getBall()->getBody())) )
 		otherObject = contactPair.mFirst;

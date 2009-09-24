@@ -34,11 +34,9 @@ void Ball::reset(Vector3 position) {
 	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
 
 	// register collision callback
-	mBallBody->setContactCallback(mApp->mGameLogic);
+	mBallBody->setContactCallback(mApp->getGameLogic());
 
 	mBallBody->putToSleep();
 }
 
-//Ogre::Vector3 Ball::getPosition() {
-//	return mBallBody->getGlobalPosition();
-//}
+

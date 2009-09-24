@@ -13,13 +13,14 @@ public:
 	/** inherited from NxOgre::Callback */
 	void onContact(const NxOgre::ContactPair& );
 
-
-
 	/** to be called once per frame from "main loop" */
 	void update();
 
 	/** resets everything for new game */
 	void newGame();
+
+	const Ogre::Vector3& getServePointTeam1() { return mServePointTeam1; }
+	const Ogre::Vector3& getServePointTeam2() { return mServePointTeam2; }
 
 	
 private:

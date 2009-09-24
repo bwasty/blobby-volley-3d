@@ -4,7 +4,7 @@
 //#include <OgreConfigFile.h>
 //#include <OgreTextureManager.h>
 //#include <NxOgre.h>
-#include <OGRE3DRenderSystem.h> //TODO: Problem: OGRE3DRenderSystem.h includes Ogre.h
+#include <OGRE3DRenderSystem.h>
 #include <OGRE3DRenderable.h>
 
 #include <OIS\OISInputManager.h>
@@ -19,15 +19,6 @@ using namespace Ogre;
 BaseApplication::BaseApplication() : mConfig() {
 	//const String pathToConfig = "../BV3D.cfg"; 
 	mConfig.load(PATH_TO_CONFIG, "=\t:", true);
-
-	/* dump of current default config
-	ARENA_EXTENT=16.0 30.0 7.0
-	BALL_RADIUS=0.9;
-	LOOK_FROM=0.0 9.0 -16.0
-	LOOK_TO=0.0 4.0 0.0
-	NET_HEIGHT=4.2;
-	*/
-
 }
 
 void BaseApplication::go() {
@@ -41,7 +32,7 @@ void BaseApplication::go() {
 	fillScene();
     setupInputSystem();
 
-	mGUI = new GUI((Application*)this, mWindow); //TODO!: dirty cast
+	setupGUI();
 
     createFrameListener();
 
@@ -53,13 +44,14 @@ BaseApplication::~BaseApplication() {
 	//mInputManager->destroyInputObject(mKeyboard); //TODO: causes problem, maybe because of ExampleFrameListener?
     //OIS::InputManager::destroyInputSystem(mInputManager); //TODO: same as above
 
-	//delete mControls;
 
 	// delete NxOgre stuff -> see http://www.ogre3d.org/wiki/index.php/NxOgre_Tutorial_Usefull_Things
-	//delete mPhysicsWorld;
+	// TODO!: deleting mVisualDebuggerNode causes problem when deleting root (-> scenemanager)
+	//delete mVisualDebuggerNode;
+	delete mPhysicsRenderSystem;
 	NxOgre::World::destroyWorld();
 
-    //delete mRoot; // deletes also SceneManager, the RenderWindow and so on TODO: Problem: access violation on shutdown of D3D9 renderer
+    delete mRoot; // deletes also SceneManager, the RenderWindow and so on
 }
 
 void BaseApplication::defineResources() {
@@ -129,7 +121,6 @@ void BaseApplication::setupScene() {
 
 void BaseApplication::setupPhysics() {
 	mPhysicsWorld = NxOgre::World::createWorld();
-	//TODO: several PhysX scenes for several arenas?
 	mPhysicsScene = mPhysicsWorld->createScene();
 	mPhysicsRenderSystem = new OGRE3DRenderSystem(mPhysicsScene);
 	

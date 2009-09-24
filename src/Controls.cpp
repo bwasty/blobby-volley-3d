@@ -19,13 +19,14 @@ using namespace Ogre;
 
 // Code originally taken from http://www.ogre3d.org/wiki/index.php/BasicTutorial5Source
 ControlsListener::ControlsListener(Application* app, Camera* cam, SceneManager *sceneMgr, OIS::Keyboard* keyboard, OIS::Mouse* mouse, GUI* gui)
-	: mCamera(cam), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mDirection(Vector3::ZERO),
-	mControlBothBlobbs(false), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), 
+	: mCamera(cam), mSceneMgr(sceneMgr), mStatsOn(true), mApp(app), mCurrentCameraMovementPerSecond(Vector3::ZERO),
+	mControlBlobb1(true), mIsPhysicsVisualDebuggerOn(false), mGuiMode(false), mContinueRendering(true), 
 	mKeyboard(keyboard), mMouse(mouse), mGUI(gui)
 {
     // set the rotation and move speed
-    mRotate = 0.10;
-    mMove = 10;
+	// TODO!!: make mMove,mRotate  configurable?
+    mCameraRotationPerMouseMovement = 0.10;
+    mCameraMovementPerSecond = 10;
 
     mMouse->setEventCallback(this);
     mKeyboard->setEventCallback(this);
@@ -39,8 +40,8 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 
     if (e.state.buttonDown(OIS::MB_Right))
     {
-		mCamera->yaw(Degree(-mRotate * e.state.X.rel));
-        mCamera->pitch(Degree(-mRotate * e.state.Y.rel));
+		mCamera->yaw(Degree(-mCameraRotationPerMouseMovement * e.state.X.rel));
+        mCamera->pitch(Degree(-mCameraRotationPerMouseMovement * e.state.Y.rel));
     }
 	else /*if (e.state.buttonDown(OIS::MB_Left))*/ {
 		if (!mGuiMode) {
@@ -51,14 +52,14 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 			Quaternion rotation = Vector3::UNIT_Z.getRotationTo(camDir); //mouseMovement works correct when camera looks to positive z, so get rotation to that vector 
 			mouseMovement = rotation * mouseMovement;
 
-			static int factor = mApp->getConfig().getSettingInt("BlobbMovementPerMouseMovement"); // TODO!!: config value: move to member for dynamic change + change function
+			int factor = mApp->getConfig().getSettingInt("BlobbMovementPerMouseMovement"); // TODO: config value: move to member for efficiency + change function?
 			mouseMovement *= factor; // length of vector determines how big the force is (-> how far blobb is moved)
 			
 			 
-			if (mControlBothBlobbs) // TODO!!: mControlBothBlobbs - meaning changed to switch blobb
-				mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
-			else
+			if (mControlBlobb1)
 				mApp->getBlobb1()->move(Vector2(mouseMovement.x, mouseMovement.z));
+			else
+				mApp->getBlobb2()->move(Vector2(mouseMovement.x, mouseMovement.z));
 		}
 	}
     return true;
@@ -70,11 +71,10 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 		mGUI->getMyGui()->injectMousePress(e, id);
 	else {
 		if (id == OIS::MB_Left) {
-			// TODO!!: mControlBothBlobbs - meaning changed to switch blobb
-			if (mControlBothBlobbs)
-				mApp->getBlobb2()->jump();
-			else
+			if (mControlBlobb1)
 				mApp->getBlobb1()->jump();
+			else
+				mApp->getBlobb2()->jump();
 		}
 	}
 	return true;
@@ -101,38 +101,38 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 
     case OIS::KC_UP:
     case OIS::KC_W:
-        mDirection.z -= mMove;
+        mCurrentCameraMovementPerSecond.z -= mCameraMovementPerSecond;
         break;
 
     case OIS::KC_DOWN:
     case OIS::KC_S:
-        mDirection.z += mMove;
+        mCurrentCameraMovementPerSecond.z += mCameraMovementPerSecond;
         break;
 
     case OIS::KC_LEFT:
     case OIS::KC_A:
-        mDirection.x -= mMove;
+        mCurrentCameraMovementPerSecond.x -= mCameraMovementPerSecond;
         break;
 
     case OIS::KC_RIGHT:
     case OIS::KC_D:
-        mDirection.x += mMove;
+        mCurrentCameraMovementPerSecond.x += mCameraMovementPerSecond;
         break;
 
     case OIS::KC_PGDOWN:
     case OIS::KC_E:
-        mDirection.y -= mMove;
+        mCurrentCameraMovementPerSecond.y -= mCameraMovementPerSecond;
         break;
 
     case OIS::KC_PGUP:
     case OIS::KC_Q:
-        mDirection.y += mMove;
+        mCurrentCameraMovementPerSecond.y += mCameraMovementPerSecond;
         break;
 	case OIS::KC_GRAVE:
 		mGUI->getConsole()->setVisible(!mGUI->getConsole()->isVisible());
 		break;
 	case OIS::KC_RETURN:
-		mApp->mGameLogic->newGame();
+		mApp->getGameLogic()->newGame();
 		break;
     }
     return true;
@@ -150,32 +150,32 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
     {
     case OIS::KC_UP:
     case OIS::KC_W:
-        mDirection.z += mMove;
+        mCurrentCameraMovementPerSecond.z += mCameraMovementPerSecond;
         break;
 
     case OIS::KC_DOWN:
     case OIS::KC_S:
-        mDirection.z -= mMove;
+        mCurrentCameraMovementPerSecond.z -= mCameraMovementPerSecond;
         break;
 
     case OIS::KC_LEFT:
     case OIS::KC_A:
-        mDirection.x += mMove;
+        mCurrentCameraMovementPerSecond.x += mCameraMovementPerSecond;
         break;
 
     case OIS::KC_RIGHT:
     case OIS::KC_D:
-        mDirection.x -= mMove;
+        mCurrentCameraMovementPerSecond.x -= mCameraMovementPerSecond;
         break;
 
     case OIS::KC_PGDOWN:
     case OIS::KC_E:
-        mDirection.y += mMove;
+        mCurrentCameraMovementPerSecond.y += mCameraMovementPerSecond;
         break;
 
     case OIS::KC_PGUP:
     case OIS::KC_Q:
-        mDirection.y -= mMove;
+        mCurrentCameraMovementPerSecond.y -= mCameraMovementPerSecond;
         break;
 	case OIS::KC_R:
 		mSceneDetailIndex = (mSceneDetailIndex+1)%3 ;
@@ -190,7 +190,7 @@ bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 		mGUI->showDebugOverlay(mStatsOn);
 		break;
 	case OIS::KC_B:
-		mControlBothBlobbs = !mControlBothBlobbs;
+		mControlBlobb1 = !mControlBlobb1;
 		break;
 	case OIS::KC_P:
 		if (!mIsPhysicsVisualDebuggerOn)

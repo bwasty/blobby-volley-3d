@@ -19,6 +19,7 @@ Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scen
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
 	// create the 2 compound spheres that make up the physical blobb
 	NxOgre::Shapes blobbSpheres;
+	// TODO!: blobb spheres - delete somewhere? Or handled automatically?
 	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
 	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
 	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Vec3(0, 0.7, 0)));
@@ -65,6 +66,6 @@ void Blobb::move(Ogre::Vector2 direction) {
 }
 
 void Blobb::jump() {
-	if (mBody->getGlobalPosition().y < 1.1) //TODO!!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
+	if (mBody->getGlobalPosition().y < 1.1) //TODO!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
 		mBody->addForce(NxOgre::Vec3(0, mApp->getConfig().getSettingInt("BlobbJumpForce"), 0));
 }
