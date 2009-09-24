@@ -30,7 +30,7 @@ public:
 	inline GameLogic* getGameLogic() const { return mGameLogic; }
 
 	// FrameListener
-	//bool frameStarted(const Ogre::FrameEvent &evt);
+	bool frameStarted(const Ogre::FrameEvent &evt);
 	bool frameRenderingQueued(const Ogre::FrameEvent &evt);
 	bool frameEnded(const Ogre::FrameEvent &evt);
 

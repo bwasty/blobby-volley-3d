@@ -9,6 +9,9 @@
 
 #include <OIS\OISInputManager.h>
 
+#include <Hydrax/Hydrax.h>
+#include <Hydrax/Modules/ProjectedGrid/ProjectedGrid.h>
+
 #include "Constants.h"
 #include "GUI.h"
 #include "Controls.h"
@@ -29,6 +32,7 @@ void BaseApplication::go() {
     initializeResourceGroups();
     setupScene();
 	setupPhysics();
+	setupHydrax();
 	fillScene();
     setupInputSystem();
 
@@ -137,6 +141,48 @@ void BaseApplication::setupPhysics() {
 	//mPhysicsScene->getMaterial(0)->setRestitution(0.1);
 	//mPhysicsScene->getMaterial(0)->setDynamicFriction(0.5);
 	//mPhysicsScene->getMaterial(0)->setStaticFriction(0.5);
+}
+
+void BaseApplication::setupHydrax() {
+		// copied from Hydrax Demo
+	    // Create Hydrax object
+		mHydrax = new Hydrax::Hydrax(mSceneMgr, mCamera, mWindow->getViewport(0));
+
+		// Create our projected grid module  
+		Hydrax::Module::ProjectedGrid *mModule 
+			= new Hydrax::Module::ProjectedGrid(// Hydrax parent pointer
+			                                    mHydrax,
+												// Noise module
+			                                    new Hydrax::Noise::Perlin(/*Generic one*/),
+												// Base plane
+			                                    Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
+												// Normal mode
+												Hydrax::MaterialManager::NM_VERTEX,
+												// Projected grid options
+										        Hydrax::Module::ProjectedGrid::Options(/*264 /*Generic one*/));
+
+		// Set our module
+		mHydrax->setModule(static_cast<Hydrax::Module::Module*>(mModule));
+
+		// Load all parameters from config file
+		// Remarks: The config file must be in Hydrax resource group.
+		// All parameters can be set/updated directly by code(Like previous versions),
+		// but due to the high number of customizable parameters, since 0.4 version, Hydrax allows save/load config files.
+		mHydrax->loadCfg("HydraxDemo.hdx");
+
+		//mHydrax->setComponents(
+  //          static_cast<Hydrax::HydraxComponent>(Hydrax::HYDRAX_COMPONENT_SUN        |
+  //                                               Hydrax::HYDRAX_COMPONENT_FOAM       |
+  //                                               Hydrax::HYDRAX_COMPONENT_DEPTH      |
+  //                                               Hydrax::HYDRAX_COMPONENT_SMOOTH     |
+  //                                               Hydrax::HYDRAX_COMPONENT_CAUSTICS   |
+  //                                   Hydrax::HYDRAX_COMPONENT_UNDERWATER |
+  //                                   Hydrax::HYDRAX_COMPONENT_UNDERWATER_REFLECTIONS |
+  //                                   Hydrax::HYDRAX_COMPONENT_UNDERWATER_GODRAYS));
+
+        // Create water
+        mHydrax->create();
+
 }
 
 void BaseApplication::setupInputSystem() {

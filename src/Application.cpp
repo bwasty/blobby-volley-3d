@@ -18,6 +18,7 @@
 #include <OGRE3DBody.h>
 
 //#include <MyGUI.h>
+#include <Hydrax/Hydrax.h>
 
 #include "Blobb.h"
 #include "Ball.h"
@@ -150,9 +151,15 @@ void Application::fillScene()
 	mWallsSceneGeometry = mPhysicsScene->createSceneGeometry(wallPlanes);
 }
 
+bool Application::frameStarted(const Ogre::FrameEvent &evt) {
+	return true;
+}
+
 bool Application::frameRenderingQueued(const FrameEvent &evt)
 {
 	mGUI->getMyGui()->injectFrameEntered(evt.timeSinceLastFrame);
+
+	mHydrax->update(evt.timeSinceLastFrame);
 
 	//if(mMouse) 
 	mMouse->capture();

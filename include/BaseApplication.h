@@ -25,6 +25,10 @@ namespace NxOgre {
 	class VisualDebugger;
 }
 
+namespace Hydrax {
+	class Hydrax;
+}
+
 class OGRE3DRenderSystem;
 class OGRE3DRenderable;
 
@@ -71,12 +75,15 @@ protected:
 	OIS::Mouse*    mMouse;
 	OIS::Keyboard* mKeyboard;
 
+	Hydrax::Hydrax* mHydrax;
+
 
     virtual void defineResources();
     virtual void setupRenderSystem();
     virtual void initializeResourceGroups();
     virtual void setupScene();
 	virtual void setupPhysics();
+	virtual void setupHydrax();
 	virtual void fillScene()=0;
     virtual void setupInputSystem();
 	virtual void setupGUI()=0;
