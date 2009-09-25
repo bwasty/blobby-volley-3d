@@ -1,6 +1,7 @@
 // TODO!!: check all destructors (->effective c++), replace pointers with local members / refs?
 // TODO!!: FileWatcher/key instead of manual config load with console?
 // TODO: precompiled headers?
+// TODO!!!!: make all coordinates (arena, blobb, ball positions etc) relative because terrain can't be moved (or coordinate translation?)
 #include "Application.h"
 
 //#include "Constants.h"
@@ -30,6 +31,65 @@
 
 using namespace Ogre;
 
+// rnd_ and createPalms copied from Hydrax Demo
+/** Just to locate palmiers with a pseudo-random algoritm
+ */
+float seed_ = 801;
+float rnd_(const float& min, const float& max)
+{
+	seed_ += Ogre::Math::PI*2.8574f + seed_*(0.3424f - 0.12434f + 0.452345f);
+	if (seed_ > 10000000000) seed_ -= 10000000000;
+	return ((max-min)*Ogre::Math::Abs(Ogre::Math::Sin(Ogre::Radian(seed_))) + min);
+}
+
+void createPalms(Ogre::SceneManager *mSceneMgr)
+{
+	const int NumberOfPalms = 12;
+
+	Ogre::SceneNode* mPalmsSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+		
+	for (int k = 0; k < NumberOfPalms; k++)
+	{
+		Ogre::Vector3 RandomPos = Ogre::Vector3(rnd_(500,2500),
+			0,
+			rnd_(500,2500));
+
+		Ogre::RaySceneQuery * raySceneQuery = mSceneMgr->
+			createRayQuery(Ogre::Ray(RandomPos + Ogre::Vector3(0,1000000,0), 
+			Ogre::Vector3::NEGATIVE_UNIT_Y));
+
+		Ogre::RaySceneQueryResult& qryResult = raySceneQuery->execute();
+		Ogre::RaySceneQueryResult::iterator i = qryResult.begin();
+
+		if (i != qryResult.end() && i->worldFragment)
+		{
+			if (i->worldFragment->singleIntersection.y>105 || i->worldFragment->singleIntersection.y<20)
+			{
+				k--;
+				continue;
+			}
+
+			RandomPos.y = i->worldFragment->singleIntersection.y;
+		}
+		else
+		{
+			k--;
+			continue;
+		}
+
+		Ogre::Entity *mPalmEnt = mSceneMgr->createEntity("Palm"+Ogre::StringConverter::toString(k), "Palm.mesh");
+		Ogre::SceneNode *mPalmSN = mPalmsSceneNode->createChildSceneNode();
+
+		mPalmSN->rotate(Ogre::Vector3(-1,0,rnd_(-0.3,0.3)), Ogre::Degree(90));
+		mPalmSN->attachObject(mPalmEnt);
+		Ogre::Real Scale = rnd_(50,75);
+		mPalmSN->scale(Scale,Scale,Scale);
+		mPalmSN->setPosition(RandomPos);
+	}
+}
+
+
+
 void Application::setupInputSystem() {
 	BaseApplication::setupInputSystem();
 }
@@ -41,12 +101,12 @@ void Application::setupGUI() {
 void Application::createFrameListener() {
 	mRoot->addFrameListener(this);
 
-	mControls = new ControlsListener(this, mCamera, mSceneMgr, mKeyboard, mMouse, mGUI); //TODO!!: creation of ControlsListener: bad place, but must be after GUI init
+	mControls = new ControlsListener(this, mCamera, mSceneMgr, mKeyboard, mMouse, mGUI); //TODO!!!: creation of ControlsListener: bad place, but must be after GUI init
 }
 
 void Application::fillScene()
 {
-	mGameLogic = new GameLogic(this); //TODO!: right place? mGameLogic = new GameLogic(this);
+	mGameLogic = new GameLogic(this); //TODO!!!: right place? mGameLogic = new GameLogic(this);
 	
 	// create physical materials
 	mFloorPhysicsMaterial = mPhysicsScene->createMaterial();
@@ -56,17 +116,28 @@ void Application::fillScene()
 	mNetPhysicsMaterial = mPhysicsScene->createMaterial();
 
 	loadSettings();
+	
+	Entity* ent;
+	//// floor plane
+	//Plane plane(Vector3::UNIT_Y, 0);
+	//MeshManager::getSingleton().createPlane("ground",
+	//	ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane,
+	//	500,500,20,20,true,1,5,5,Vector3::UNIT_Z);
 
-	// floor plane
-	Plane plane(Vector3::UNIT_Y, 0);
-	MeshManager::getSingleton().createPlane("ground",
-		ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane,
-		500,500,20,20,true,1,5,5,Vector3::UNIT_Z);
+	//ent = mSceneMgr->createEntity("GroundEntity", "ground");
+	//mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ent);
+	//ent->setMaterialName("sand_yellow");
+	//ent->setCastShadows(false);
 
-	Entity* ent = mSceneMgr->createEntity("GroundEntity", "ground");
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(ent);
-	ent->setMaterialName("sand_yellow");
-	ent->setCastShadows(false);
+	// Load island and palms - copied from Hydrax Demo
+	mSceneMgr->setWorldGeometry("Island.cfg");
+	
+	mHydrax->getMaterialManager()->addDepthTechnique(
+		static_cast<Ogre::MaterialPtr>(Ogre::MaterialManager::getSingleton().getByName("Island"))
+		->createTechnique());
+
+	createPalms(mSceneMgr);
+
 
 	// physical ground plane
 	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry(0, NxOgre::Vec3(0, 1, 0));

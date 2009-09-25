@@ -26,7 +26,7 @@ ControlsListener::ControlsListener(Application* app, Camera* cam, SceneManager *
     // set the rotation and move speed
 	// TODO!!: make mMove,mRotate  configurable?
     mCameraRotationPerMouseMovement = 0.10;
-    mCameraMovementPerSecond = 10;
+    mCameraMovementPerSecond = 100;
 
     mMouse->setEventCallback(this);
     mKeyboard->setEventCallback(this);

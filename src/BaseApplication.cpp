@@ -104,7 +104,7 @@ void BaseApplication::initializeResourceGroups() {
 }
 
 void BaseApplication::setupScene() {
-	mSceneMgr = mRoot->createSceneManager(ST_GENERIC, "Default SceneManager");
+	mSceneMgr = mRoot->createSceneManager("TerrainSceneManager");
 	
 
 	mCamera = mSceneMgr->createCamera("Camera");
@@ -184,7 +184,7 @@ void BaseApplication::setupHydrax() {
         mHydrax->create();
 
 		//TODO!!!: workaround: set shadow technique after Hydrax init
-		mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+		//mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
 
 }
 
