@@ -19,6 +19,10 @@ GameLogic::GameLogic(Application* app) : mApp(app), mScoreTeam1(0), mScoreTeam2(
 {
 	mServePointTeam1 = Vector3(-mApp->getConfig().getSettingVector3("ARENA_EXTENT").x/4,6.0,0.0);
 	mServePointTeam2 = mServePointTeam1 * Vector3(-1,1,1);
+
+	mServePointTeam1 = mApp->getArenaTransform() * mServePointTeam1;
+	mServePointTeam2 = mApp->getArenaTransform() * mServePointTeam2;
+
 };
 
 
@@ -95,7 +99,7 @@ void GameLogic::ballContact(TEAM team) {
 void GameLogic::hitFloor() {
 	// determine on whose side the ball hit the floor - the net is on the z-axis, so check x-coordinate is enough
 	mApp->addToConsole("Ball hits floor");
-	if (mApp->getBall()->getBody()->getGlobalPosition()[0] > 0) // TEAM2's side
+	if (mApp->getBall()->getBody()->getGlobalPosition().x > 0) // TEAM2's side
 		score(TEAM1);
 	else
 		score(TEAM2);

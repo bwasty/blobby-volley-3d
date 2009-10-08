@@ -18,6 +18,7 @@ namespace NxOgre {
 
 class Application : public BaseApplication, public Ogre::FrameListener {
 public:
+	Application();
 	~Application();
 
 	inline Blobb* getBlobb1() const { return mBlobb1; }
@@ -49,7 +50,8 @@ public:
 
 	void addToConsole(Ogre::String);
 
-
+	inline const Ogre::Matrix4& getArenaTransform() { return mArenaTransform; }
+	inline const Ogre::Matrix4& getArenaInverseTransform() { return mArenaInverseTransform; }
 
 private:
 	void setupInputSystem();
@@ -74,4 +76,7 @@ private:
 
 	/** modifier for the physics timestep (1.0 = real time) */
 	float mSimulationSpeed;
+
+	Ogre::Matrix4 mArenaTransform;
+	Ogre::Matrix4 mArenaInverseTransform;
 };

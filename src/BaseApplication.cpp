@@ -35,9 +35,7 @@ void BaseApplication::go() {
 	setupHydrax();
 	fillScene();
     setupInputSystem();
-
 	setupGUI();
-
     createFrameListener();
 
     mRoot->startRendering();
@@ -105,7 +103,6 @@ void BaseApplication::initializeResourceGroups() {
 
 void BaseApplication::setupScene() {
 	mSceneMgr = mRoot->createSceneManager("TerrainSceneManager");
-	
 
 	mCamera = mSceneMgr->createCamera("Camera");
 	mCamera->setNearClipDistance(1.0);
@@ -136,6 +133,9 @@ void BaseApplication::setupPhysics() {
 	mVisualDebuggerNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mVisualDebuggerNode->attachObject(mVisualDebuggerRenderable);
 	mVisualDebugger->setVisualisationMode(NxOgre::Enums::VisualDebugger_ShowNone);
+
+	// Remote Debugger
+	mPhysicsWorld->getRemoteDebugger()->connect();
 
 	////change default PhysX material
 	//mPhysicsScene->getMaterial(0)->setRestitution(0.1);
@@ -237,7 +237,7 @@ void BaseApplication::windowResized(RenderWindow* rw)
 //Unattach OIS before window shutdown (very important under Linux)
 void BaseApplication::windowClosed(RenderWindow* rw)
 {
-	//Only close for window that created OIS (the main window in these demos)
+	//Only close for window that created OIS (the main window)
 	if( rw == mWindow )
 	{
 		if( mInputManager )

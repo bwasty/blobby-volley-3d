@@ -14,7 +14,7 @@ HydraxVersion=0.5.1
 <vector3>WaterColor=0.139765x0.359464x0.425373
 
 #Components field
-Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|UnderwaterGodRays
+Components=Sun|Foam|Smooth|Caustics|Underwater|UnderwaterReflections|UnderwaterGodRays
 
 #Sun parameters
 <vector3>SunPosition=0x10000x0

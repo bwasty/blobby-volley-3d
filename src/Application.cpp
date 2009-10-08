@@ -1,7 +1,7 @@
 // TODO!!: check all destructors (->effective c++), replace pointers with local members / refs?
 // TODO!!: FileWatcher/key instead of manual config load with console?
 // TODO: precompiled headers?
-// TODO!!!!: make all coordinates (arena, blobb, ball positions etc) relative because terrain can't be moved (or coordinate translation?)
+// TODO!!!!: make all coordinates (arena, blobb, ball positions, camera pos etc) relative because terrain can't be moved -> solution: Matrix arenaTransformation, computed at startup from config params translation, scale, y rotation; change GameLogic x<0.. computation?
 #include "Application.h"
 
 //#include "Constants.h"
@@ -88,7 +88,20 @@ void createPalms(Ogre::SceneManager *mSceneMgr)
 	}
 }
 
+Application::Application() : BaseApplication() {
+	mArenaTransform = Matrix4();
+	mArenaInverseTransform = Matrix4();
 
+	Vector3 position = getConfig().getSettingVector3("arenaPosition");
+	Real scale = getConfig().getSettingReal("arenaScale");
+	Real rotation = getConfig().getSettingReal("arenaRotation");
+	Quaternion rotQuat = Quaternion(Radian(Degree(rotation)), Vector3(0,1,0));
+
+	mArenaTransform.makeTransform(position, Vector3(scale), rotQuat);
+	mArenaInverseTransform.makeInverseTransform(position, Vector3(scale), rotQuat);
+
+
+}
 
 void Application::setupInputSystem() {
 	BaseApplication::setupInputSystem();
@@ -140,7 +153,7 @@ void Application::fillScene()
 
 
 	// physical ground plane
-	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry(0, NxOgre::Vec3(0, 1, 0));
+	NxOgre::PlaneGeometry* pplane = new NxOgre::PlaneGeometry((mArenaTransform * Vector3(0.0)).y, NxOgre::Vec3(0, 1, 0));
 	pplane->setMaterial(mFloorPhysicsMaterial->getIdentifier());
 	mFloorSceneGeometry = mPhysicsScene->createSceneGeometry(pplane);
 
@@ -158,8 +171,8 @@ void Application::fillScene()
 
 	// blobbs
 	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
-	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(-arenaExtent[0]/4,1.0,0.0), TEAM1);
-	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
+	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, mArenaTransform * Vector3(-arenaExtent[0]/4,1.0,0.0), TEAM1);
+	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, mArenaTransform * Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
 
 	//ball
 	mBall = new Ball(this, mGameLogic->getServePointTeam1());
@@ -168,10 +181,11 @@ void Application::fillScene()
 	/* net1.3ds
 	width: 12.0		height: 2.1		depth: 0.14
 	*/
+	SceneNode* completeNetNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	Real netHeight = mConfig.getSettingReal("NET_HEIGHT");
 	ent = mSceneMgr->createEntity("Net_a", "Net2a.mesh"); //TODO!: fix netz-befestigungen in Blender (some triangles face to the wrong side)
 	Entity *ent2 = mSceneMgr->createEntity("Net_b", "Net2b.mesh");
-	SceneNode* netNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	SceneNode* netNode = completeNetNode->createChildSceneNode();
 	//node->scale(Vector3(BALL_RADIUS / 1.7));
 	//node->translate(Vector3(-ARENA_EXTENT[0]/2,6.0,0.0));
 	netNode->rotate(Vector3::UNIT_Y, Radian(Degree(90)));
@@ -182,23 +196,29 @@ void Application::fillScene()
 	// use prefab shapes for flag poles
 	ent = mSceneMgr->createEntity("net pole 1", SceneManager::PT_CUBE);
 	ent2 = mSceneMgr->createEntity("net pole 2", SceneManager::PT_CUBE);
-	SceneNode* scaleNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	SceneNode* scaleNode = completeNetNode->createChildSceneNode();
 	SceneNode* poleNode1 = scaleNode->createChildSceneNode();
 	poleNode1->attachObject(ent);
 	SceneNode* poleNode2 = scaleNode->createChildSceneNode();
 	poleNode2->attachObject(ent2);
 
-	scaleNode->scale(Vector3(0.002));
+	scaleNode->scale(Vector3(0.002)); // TODO!!!: why 2x scale? (net creation)
 	scaleNode->scale(1, 44, 1);
 	scaleNode->translate(0.0, 2.0, 0); // TODO!: make configurable - net size/position
 
 	poleNode1->translate(0,0,6, SceneNode::TS_WORLD); //TODO: why TS_WORLD??
 	poleNode2->translate(0,0,-6, SceneNode::TS_WORLD);
 
+	// global arena transform - can't set complete matrix for SceneNode, so...
+	// TODO!!: dirty? (arena transform of net...)
+	completeNetNode->scale(Vector3(getConfig().getSettingReal("arenaScale")));
+	completeNetNode->rotate(Vector3::UNIT_Y, Radian(Degree(getConfig().getSettingReal("arenaRotation"))), SceneNode::TS_WORLD);
+	completeNetNode->translate(mArenaTransform.getTrans());
+
 
 	// compute size for physical net
 	netNode->_updateBounds();
-	AxisAlignedBox bb = netNode->_getWorldAABB();
+	AxisAlignedBox bb = netNode->_getWorldAABB(); // TODO!!!!: doesn't work right when net gets rotated by arenaTransform
 	//TODO!: proper netsize -> free space below net
 	Vector3 physNetSize = bb.getSize();
 	physNetSize.y = netHeight + 2.1; //2.1 is half? the height of the net model
@@ -206,16 +226,28 @@ void Application::fillScene()
 	Vector3 p(0.0, (netHeight+2.1)/2, 0.0);
 	NxOgre::Box* pbox = new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z);
 	pbox->setMaterial(mNetPhysicsMaterial->getIdentifier());
-	mPhysicsScene->createSceneGeometry(pbox, NxOgre::Matrix44(NxOgre::Vec3(p.x, p.y, p.z))); 
+	mPhysicsScene->createSceneGeometry(pbox, NxOgre::Matrix44(NxOgre::Vec3(p))); 
 
 
 	// create physical "cage" (walls)
 	//TODO!!: visual representation of Walls (transparent/shadows/splatting)
 	NxOgre::Shapes wallPlanes;
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Vec3(1,0,0)));
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.x/2, NxOgre::Vec3(-1,0,0)));
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Vec3(0,0,1)));
-	wallPlanes.insert(new NxOgre::PlaneGeometry(-arenaExtent.z/2, NxOgre::Vec3(0,0,-1)));
+
+	NxOgre::ShapeBlueprint* sbp = new NxOgre::ShapeBlueprint();
+	sbp->mLocalPose = fromMatrix4(getArenaTransform() * Matrix4::getTrans(-arenaExtent.x/2, arenaExtent.y/2, 0));
+	wallPlanes.insert(new NxOgre::Box(0.2, arenaExtent.y, arenaExtent.z, sbp)); // (from cameraposition) right wall
+
+	sbp = new NxOgre::ShapeBlueprint();
+	sbp->mLocalPose = fromMatrix4(getArenaTransform() * Matrix4::getTrans(arenaExtent.x/2, arenaExtent.y/2, 0));
+	wallPlanes.insert(new NxOgre::Box(0.2, arenaExtent.y, arenaExtent.z, sbp)); // left wall
+
+	sbp = new NxOgre::ShapeBlueprint();
+	sbp->mLocalPose = fromMatrix4(getArenaTransform() * Matrix4::getTrans(0, arenaExtent.y/2, -arenaExtent.z/2));
+	wallPlanes.insert(new NxOgre::Box(arenaExtent.x, arenaExtent.y, 0.2, sbp)); // front wall
+
+	sbp = new NxOgre::ShapeBlueprint();
+	sbp->mLocalPose = fromMatrix4(getArenaTransform() * Matrix4::getTrans(0, arenaExtent.y/2, arenaExtent.z/2));
+	wallPlanes.insert(new NxOgre::Box(arenaExtent.x, arenaExtent.y, 0.2, sbp)); // back wall
 
 	for(int i=0; i<4; ++i) wallPlanes[i]->setMaterial(mWallPhysicsMaterial->getIdentifier());
 

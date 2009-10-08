@@ -13,6 +13,7 @@
 
 using namespace Ogre;
 
+// TODO!!! Blobb constructor: remove NxOgre::Scene param
 Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, TEAM team, Ogre::ColourValue colour)
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
 	// create the 2 compound spheres that make up the physical blobb
@@ -48,6 +49,8 @@ void Blobb::move(Ogre::Vector2 direction) {
 }
 
 void Blobb::jump() {
-	if (mBody->getGlobalPosition().y < 1.1) //TODO!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
+	NxOgre::Vec3 p = mBody->getGlobalPosition();
+	Vector3 relativePosition = mApp->getArenaInverseTransform() * Vector3(p.x, p.y, p.z);
+	if (relativePosition.y < 1.1) //TODO!: Blobb::jump - force criterion: strange behaviour, introduce jumpMode, which is left on ground touch?
 		mBody->addForce(NxOgre::Vec3(0, mApp->getConfig().getSettingInt("BlobbJumpForce"), 0));
 }
