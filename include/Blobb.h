@@ -20,13 +20,12 @@ class Blobb {
 private:
 	Application* mApp;
 	Ogre::SceneManager* mSceneMgr;
-	NxOgre::Scene* mNxScene;
 	TEAM mTeam;
 	OGRE3DBody* mBody;
 	NxD6Joint* mD6Joint; /** prevents the blobb from toppling (locks rotational axes) */
 
 public:
-	Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* nxScene, Ogre::Vector3 position, TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
+	Blobb(Application* app, Ogre::Vector3 position, TEAM team, Ogre::ColourValue colour=Ogre::ColourValue::Blue);
 	
 	/** loads settings from global config. for initial setup and dynamic changing of settings */
 	void loadSettings();

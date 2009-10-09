@@ -43,6 +43,7 @@ public:
     virtual ~BaseApplication();
 
 	inline Ogre::RenderWindow* getRenderWindow() { return mWindow; }
+	inline Ogre::SceneManager* getSceneManager() { return mSceneMgr; }
 	inline Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
 	inline NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
 	inline NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }
@@ -88,5 +89,5 @@ protected:
 	virtual void fillScene()=0;
     virtual void setupInputSystem();
 	virtual void setupGUI()=0;
-	virtual void createFrameListener()=0;
+	virtual void setupListener()=0;
 };

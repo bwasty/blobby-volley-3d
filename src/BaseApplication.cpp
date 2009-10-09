@@ -36,7 +36,7 @@ void BaseApplication::go() {
 	fillScene();
     setupInputSystem();
 	setupGUI();
-    createFrameListener();
+    setupListener();
 
     mRoot->startRendering();
 }

@@ -1,7 +1,6 @@
 // TODO!!: check all destructors (->effective c++), replace pointers with local members / refs?
 // TODO!!: FileWatcher/key instead of manual config load with console?
 // TODO: precompiled headers?
-// TODO!!!!: make all coordinates (arena, blobb, ball positions, camera pos etc) relative because terrain can't be moved -> solution: Matrix arenaTransformation -> scale not considered for blobb, ball, camera pos?
 #include "Application.h"
 
 //#include "Constants.h"
@@ -111,15 +110,15 @@ void Application::setupGUI() {
 	mGUI = new GUI(this, mWindow); 
 }
 
-void Application::createFrameListener() {
+void Application::setupListener() {
 	mRoot->addFrameListener(this);
 
-	mControls = new ControlsListener(this, mCamera, mSceneMgr, mKeyboard, mMouse, mGUI); //TODO!!!: creation of ControlsListener: bad place, but must be after GUI init
+	mControls = new ControlsListener(this, mCamera, mSceneMgr, mKeyboard, mMouse, mGUI);
 }
 
 void Application::fillScene()
 {
-	mGameLogic = new GameLogic(this); //TODO!!!: right place? mGameLogic = new GameLogic(this);
+	mGameLogic = new GameLogic(this); //TODO!!: right place? mGameLogic = new GameLogic(this);
 	
 	// camera position and orientation
 	mCamera->setPosition(getArenaTransform() * mConfig.getSettingVector3("LOOK_FROM"));
@@ -175,8 +174,8 @@ void Application::fillScene()
 
 	// blobbs
 	Vector3 arenaExtent = mConfig.getSettingVector3("ARENA_EXTENT");
-	mBlobb1 = new Blobb(this, mSceneMgr, mPhysicsScene, mArenaTransform * Vector3(-arenaExtent[0]/4,1.0,0.0), TEAM1);
-	mBlobb2 = new Blobb(this, mSceneMgr, mPhysicsScene, mArenaTransform * Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
+	mBlobb1 = new Blobb(this, mArenaTransform * Vector3(-arenaExtent[0]/4,1.0,0.0), TEAM1);
+	mBlobb2 = new Blobb(this, mArenaTransform * Vector3(arenaExtent[0]/4,1.0,0.0), TEAM2, ColourValue::Green);
 
 	//ball
 	mBall = new Ball(this, mGameLogic->getServePointTeam1());
@@ -226,7 +225,7 @@ void Application::fillScene()
 
 	//// compute size for physical net
 	//TODO!: proper netsize -> free space below net
-	//TODO!!!: scaling physical doesn't work right (arenaTransform)
+	//TODO!!!: scaling physical net doesn't work right (arenaTransform)
 	Vector3 physNetSize = netBounds.getSize();
 	physNetSize.y = netHeight + 2.1; //2.1 is half? the height of the net model
 	NxOgre::Box* pbox = new NxOgre::Box(physNetSize.x, physNetSize.y, physNetSize.z);
@@ -237,6 +236,7 @@ void Application::fillScene()
 
 	// create physical "cage" (walls)
 	//TODO!!: visual representation of Walls (transparent/shadows/splatting)
+	// TODO!!!!: when scaled, blobb doesn't collide with net/walls
 	NxOgre::Shapes wallPlanes;
 
 	Real arenaScale = getConfig().getSettingReal("arenaScale");

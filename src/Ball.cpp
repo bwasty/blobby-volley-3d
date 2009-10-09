@@ -22,6 +22,7 @@ void Ball::loadSettings() {
 }
 
 void Ball::reset(Vector3 position) {
+	// TODO!!!: Ball: arenaTransform scale not cosidererd
 	if (mBallBody)
 		mApp->getPhysicsRenderSystem()->destroyBody(mBallBody);
 
@@ -31,7 +32,7 @@ void Ball::reset(Vector3 position) {
 	ballSphere->setMaterial(mApp->mBallPhysicsMaterial->getIdentifier());
 	mBallBody = mApp->getPhysicsRenderSystem()->createBody(ballSphere, NxOgre::Vec3(position), "Ball.mesh");
 	loadSettings();
-	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7));
+	mBallBody->getSceneNode()->scale(Vector3(ballRadius / 1.7) * mApp->getConfig().getSettingReal("arenaScale"));
 
 	// register collision callback
 	mBallBody->setContactCallback(mApp->getGameLogic());

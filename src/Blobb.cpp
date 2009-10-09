@@ -13,23 +13,22 @@
 
 using namespace Ogre;
 
-// TODO!!!: Blobb constructor: remove NxOgre::Scene param
-Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, TEAM team, Ogre::ColourValue colour)
-		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
-	// TODO!!!: Blobb: arenaTransform scale not cosidererd
+Blobb::Blobb(Application* app, Vector3 position, TEAM team, Ogre::ColourValue colour)
+		: mApp(app), mTeam(team) {
+	Real arenaScale = mApp->getConfig().getSettingReal("arenaScale");
 	// create the 2 compound spheres that make up the physical blobb
 	NxOgre::Shapes blobbSpheres;
-	// TODO!: blobb spheres - delete somewhere? Or handled automatically?
-	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][1]+0.05)); //lower horizontal radius
-	blobbSpheres.insert(new NxOgre::Sphere(BLOBB_SHAPE_DATA[0][3]));		//upper horizontal radius
-	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Vec3(0, 0.7, 0)));
+	blobbSpheres.insert(new NxOgre::Sphere((BLOBB_SHAPE_DATA[0][1]+0.05) * arenaScale)); //lower horizontal radius
+	blobbSpheres.insert(new NxOgre::Sphere((BLOBB_SHAPE_DATA[0][3])  * arenaScale));		//upper horizontal radius
+	blobbSpheres[1]->setLocalPose(NxOgre::Matrix44(NxOgre::Vec3(0, 0.7  * arenaScale, 0)));
 
 	blobbSpheres[0]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 	blobbSpheres[1]->setMaterial(mApp->mBlobbPhysicsMaterial->getIdentifier());
 
 	NxOgre::RigidBodyDescription rbd;
 	rbd.mBodyFlags |= NxOgre::Enums::BodyFlags_FreezeRotation;
-	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Vec3(position.x, position.y, position.z), "Blobb.mesh", rbd);
+	mBody = mApp->getPhysicsRenderSystem()->createBody(blobbSpheres, NxOgre::Vec3(position), "Blobb.mesh", rbd);
+	mBody->getSceneNode()->scale(Vector3(arenaScale));
 	loadSettings(); // sets mass
 
 	//set colour - have to clone material

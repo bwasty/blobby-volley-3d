@@ -56,7 +56,7 @@ public:
 private:
 	void setupInputSystem();
 	void setupGUI();
-	void createFrameListener();
+	void setupListener();
 	void fillScene();
 
 	//TODO!: Application.h - check which pointer members can be converted to local members
