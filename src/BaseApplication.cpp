@@ -112,10 +112,6 @@ void BaseApplication::setupScene() {
 	mCamera->setAspectRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 
 	vp->setBackgroundColour(ColourValue(0.1,0.1,0.1));
-
-	// camera position and orientation
-	mCamera->setPosition(mConfig.getSettingVector3("LOOK_FROM"));
-	mCamera->lookAt(mConfig.getSettingVector3("LOOK_TO"));
 }
 
 

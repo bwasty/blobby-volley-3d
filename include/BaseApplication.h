@@ -42,6 +42,7 @@ public:
     virtual void go();
     virtual ~BaseApplication();
 
+	inline Ogre::RenderWindow* getRenderWindow() { return mWindow; }
 	inline Ogre::ImprovedConfigFile& getConfig() { return mConfig; }
 	inline NxOgre::World* getPhysicsWorld() { return mPhysicsWorld; }
 	inline NxOgre::TimeController* getPhysicsTimeController() const { return mPhysicsTimeController; }

@@ -13,9 +13,10 @@
 
 using namespace Ogre;
 
-// TODO!!! Blobb constructor: remove NxOgre::Scene param
+// TODO!!!: Blobb constructor: remove NxOgre::Scene param
 Blobb::Blobb(Application* app, Ogre::SceneManager* sceneMgr, NxOgre::Scene* scene, Vector3 position, TEAM team, Ogre::ColourValue colour)
 		: mApp(app), mSceneMgr(sceneMgr), mTeam(team), mNxScene(scene) {
+	// TODO!!!: Blobb: arenaTransform scale not cosidererd
 	// create the 2 compound spheres that make up the physical blobb
 	NxOgre::Shapes blobbSpheres;
 	// TODO!: blobb spheres - delete somewhere? Or handled automatically?

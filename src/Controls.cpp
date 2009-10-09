@@ -35,9 +35,9 @@ ControlsListener::ControlsListener(Application* app, Camera* cam, SceneManager *
 // MouseListener
 bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 {
-	if (mGuiMode)
+	if (mGuiMode) {
 		mGUI->getMyGui()->injectMouseMove(e);
-
+	}
     if (e.state.buttonDown(OIS::MB_Right))
     {
 		mCamera->yaw(Degree(-mCameraRotationPerMouseMovement * e.state.X.rel));
@@ -67,8 +67,25 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
-	if (mGuiMode)
-		mGUI->getMyGui()->injectMousePress(e, id);
+	if (mGuiMode) {
+		bool handled = mGUI->getMyGui()->injectMousePress(e, id);
+
+		if (!handled && id == OIS::MB_Left) {
+			// do a raycast onto the terrain to get the position the mouse points to
+			Real sx = (Real)e.state.X.abs / (Real)mApp->getRenderWindow()->getWidth();
+			Real sy = (Real)e.state.Y.abs / (Real)mApp->getRenderWindow()->getHeight();
+			Ray r = mCamera->getCameraToViewportRay(sx, sy);
+			RaySceneQuery* rayQuery = mSceneMgr->createRayQuery(r);
+			rayQuery->setWorldFragmentType(SceneQuery::WFT_SINGLE_INTERSECTION);
+			RaySceneQueryResult queryResult = rayQuery->execute();
+			for (RaySceneQueryResult::iterator i = queryResult.begin(); i != queryResult.end(); i++) {
+				if (i->worldFragment) {
+					mApp->addToConsole(String("Terrain-Mouse Intersection at: ").append(StringConverter::toString(i->worldFragment->singleIntersection)));
+					break;
+				}
+			}
+		}
+	}
 	else {
 		if (id == OIS::MB_Left) {
 			if (mControlBlobb1)

@@ -99,7 +99,8 @@ void GameLogic::ballContact(TEAM team) {
 void GameLogic::hitFloor() {
 	// determine on whose side the ball hit the floor - the net is on the z-axis, so check x-coordinate is enough
 	mApp->addToConsole("Ball hits floor");
-	if (mApp->getBall()->getBody()->getGlobalPosition().x > 0) // TEAM2's side
+	Vector3 relativeBallPosition = mApp->getArenaInverseTransform() * mApp->getBall()->getBody()->getGlobalPosition().as<Vector3>();
+	if (relativeBallPosition.x > 0) // TEAM2's side
 		score(TEAM1);
 	else
 		score(TEAM2);
