@@ -22,7 +22,6 @@ void Ball::loadSettings() {
 }
 
 void Ball::reset(Vector3 position) {
-	// TODO!!!: Ball: arenaTransform scale not cosidererd
 	if (mBallBody)
 		mApp->getPhysicsRenderSystem()->destroyBody(mBallBody);
 

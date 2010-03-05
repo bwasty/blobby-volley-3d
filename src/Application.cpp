@@ -241,6 +241,16 @@ void Application::fillScene()
 
 	Real arenaScale = getConfig().getSettingReal("arenaScale");
 
+	/// tmp test code
+	Vector3 position = getConfig().getSettingVector3("arenaPosition");
+	//Real scale = getConfig().getSettingReal("arenaScale");
+	Real rotation = getConfig().getSettingReal("arenaRotation");
+	Quaternion rotQuat = Quaternion(Radian(Degree(rotation)), Vector3(0,1,0));
+
+	Matrix4 tm;
+	tm.makeTransform(position, Vector3(1), rotQuat);
+	////
+
 	NxOgre::ShapeBlueprint* sbp = new NxOgre::ShapeBlueprint();
 	sbp->mLocalPose = fromMatrix4(getArenaTransform() * Matrix4::getTrans(-arenaExtent.x/2, arenaExtent.y/2, 0));
 	// sbp->mSize = NxOgre::Vec4(20,20,20,1); this doesn't really scale
