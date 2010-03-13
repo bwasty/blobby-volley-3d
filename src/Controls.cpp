@@ -36,7 +36,7 @@ ControlsListener::ControlsListener(Application* app, Camera* cam, SceneManager *
 bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 {
 	if (mGuiMode) {
-		mGUI->getMyGui()->injectMouseMove(e);
+		mGUI->getMyGui()->injectMouseMove(e.state.X.abs, e.state.Y.abs, e.state.Z.abs);
 	}
     if (e.state.buttonDown(OIS::MB_Right))
     {
@@ -68,7 +68,7 @@ bool ControlsListener::mouseMoved(const OIS::MouseEvent &e)
 bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
 	if (mGuiMode) {
-		bool handled = mGUI->getMyGui()->injectMousePress(e, id);
+		bool handled = mGUI->getMyGui()->injectMousePress(e.state.X.abs, e.state.Y.abs, MyGUI::MouseButton::Enum(id));
 
 		if (!handled && id == OIS::MB_Left) {
 			// do a raycast onto the terrain to get the position the mouse points to
@@ -98,7 +98,7 @@ bool ControlsListener::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID
 }
 
 bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id) { 
-	mGUI->getMyGui()->injectMouseRelease(e, id);
+	mGUI->getMyGui()->injectMouseRelease(e.state.X.abs, e.state.Y.abs, MyGUI::MouseButton::Enum(id));
 
 	return true; 
 }
@@ -106,7 +106,7 @@ bool ControlsListener::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonI
 // KeyListener
 bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 {
-	bool processed = mGUI->getMyGui()->injectKeyPress(e);
+	bool processed = mGUI->getMyGui()->injectKeyPress(MyGUI::KeyCode::Enum(e.key), e.text);
 	if (processed) 
 		return true;
 
@@ -157,7 +157,7 @@ bool ControlsListener::keyPressed(const OIS::KeyEvent &e)
 
 bool ControlsListener::keyReleased(const OIS::KeyEvent &e)
 {
-	bool processed = mGUI->getMyGui()->injectKeyRelease(e);
+	bool processed = mGUI->getMyGui()->injectKeyRelease(MyGUI::KeyCode::Enum(e.key));
 	if (processed) 
 		return true;
 

@@ -18,7 +18,7 @@ public:
 	inline MyGUI::Gui* getMyGui() { return mMyGUI; }
 	inline Console* getConsole() { return mConsole; }
 	inline void setDebugText(Ogre::String text) {mDebugText = text; }
-	void consoleCommand(const Ogre::UTFString & _key, const Ogre::UTFString & _value);
+	void consoleCommand(const Ogre::String & _key, const Ogre::String & _value);
 	void showDebugOverlay(bool show);
 	void updateStats();
 

@@ -6,6 +6,11 @@
 #include "Ball.h"
 #include "Blobb.h"
 
+#include <OgreOverlayManager.h>
+
+#include "MyGUI.h"
+#include "MyGUI_OgrePlatform.h"
+
 using namespace Ogre;
 
 GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), mDebugText("Press SPACE to enter GUI mode") {
@@ -15,12 +20,17 @@ GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), m
 	showDebugOverlay(true);
 
 	// setup MyGUI
+	MyGUI::OgrePlatform* platform = new MyGUI::OgrePlatform();
+	platform->initialise(window, app->getSceneManager()); // mWindow is Ogre::RenderWindow*, mSceneManager is Ogre::SceneManager*
 	mMyGUI = new MyGUI::Gui();
-	mMyGUI->initialise(window);
+	mMyGUI->initialise();
+
+	//mMyGUI = new MyGUI::Gui();
+	//mMyGUI->initialise(window);
 	mMyGUI->hidePointer();
 
 	// MyGUI help tooltip 
-	Ogre::UTFString _text("Controls for Blobby Volley 3D:\n\
+	Ogre::String _text("Controls for Blobby Volley 3D:\n\
 						  SPACE         switch between GUI and play mode\n\
 						  W,A,S,D,Q,E   Move camera (Alternative: Cursors)\n\
 						  P             Toggle PhysX Debug Renderer\n\
@@ -39,9 +49,10 @@ GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), m
 	image->setItemGroup("Icons");
 	image->setItemName("Quest");
 
-	MyGUI::ControllerEdgeHide * controller = new MyGUI::ControllerEdgeHide(0.5);
-	MyGUI::ControllerManager::getInstance().addItem(panel, controller);
-	text->setCaption(_text);
+	// TODO!!!!: GUI: following block doesn't work with MyGUI 3.01
+	//MyGUI::ControllerEdgeHide * controller = new MyGUI::ControllerEdgeHide(0.5);
+	//MyGUI::ControllerManager::getInstance().addItem(panel, controller);
+	//text->setCaption(_text);
 
 	// create StaticText to show score
 	mScoreDisplay = mMyGUI->createWidget<MyGUI::StaticText>("StaticText" , mMyGUI->getViewWidth()/2-20, 0, 200, 100, MyGUI::Align::Default, "Main");
@@ -51,11 +62,12 @@ GUI::GUI(Application* app, RenderWindow* window) : mApp(app), mWindow(window), m
 	mConsole = new Console();
 	//mConsole->setVisible(false);
 
-	mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &GUI::consoleCommand));
-	mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &GUI::consoleCommand));
-	mConsole->registerConsoleDelegate("config_save", MyGUI::newDelegate(this, &GUI::consoleCommand));
-	mConsole->registerConsoleDelegate("config_load", MyGUI::newDelegate(this, &GUI::consoleCommand));
-	mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &GUI::consoleCommand));
+	//TODO!!!!: Console: registerConsoleDelegate doesn't work with MYGUI 3.01
+	//mConsole->registerConsoleDelegate("help", MyGUI::newDelegate(this, &GUI::consoleCommand));
+	//mConsole->registerConsoleDelegate("config", MyGUI::newDelegate(this, &GUI::consoleCommand));
+	//mConsole->registerConsoleDelegate("config_save", MyGUI::newDelegate(this, &GUI::consoleCommand));
+	//mConsole->registerConsoleDelegate("config_load", MyGUI::newDelegate(this, &GUI::consoleCommand));
+	//mConsole->registerConsoleDelegate("clear", MyGUI::newDelegate(this, &GUI::consoleCommand));
 }
 
 GUI::~GUI() {
@@ -63,7 +75,7 @@ GUI::~GUI() {
 }
 
 
-void GUI::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & value) {
+void GUI::consoleCommand(const Ogre::String & key, const Ogre::String & value) {
 	if (key == "clear")
 		mConsole->clearConsole();
 	else if (key == "config") {
@@ -76,6 +88,7 @@ void GUI::consoleCommand(const Ogre::UTFString & key, const Ogre::UTFString & va
 			}
 		}
 		else {
+			// TODO!!!!: following line doesn't compile anymore with Ogre 1.7 - commented out whole block
 			std::vector<String> values = StringUtil::split(value, " ", 1);
 			if (values.size() == 1) { // only a setting name -> print the value of the setting
 				String setting = mApp->getConfig().getSetting(values[0]);

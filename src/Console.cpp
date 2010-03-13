@@ -5,11 +5,11 @@
 	@module
 
 	Added to Blobby Volley 3D - 06/2009 (Benjamin Wasty)
+	Changed to MyGUI 3.01 Version - 3/2010 (main change: used string type)
 */
 //#include "precompiled.h"
-//#include <vector>
-//#include <Ogre.h>
-//#include <OIS/OIS.h>
+#include <OIS\OIS.h>
+#include <MyGUI.h>
 #include "Console.h"
 
 
@@ -28,7 +28,7 @@ Console::Console() : BaseLayout("Console.layout")
 	assignWidget(mComboCommand, "combo_Command");
 	assignWidget(mButtonSubmit, "button_Submit");
 
-	MyGUI::WindowPtr window = mMainWidget->castType<MyGUI::Window>(false);
+	MyGUI::Window* window = mMainWidget->castType<MyGUI::Window>(false);
 	if (window != nullptr) window->eventWindowButtonPressed = newDelegate(this, &Console::notifyWindowButtonPressed);
 
 	mStringCurrent = mMainWidget->getUserString("Current");
@@ -52,41 +52,47 @@ Console::~Console()
 	m_instance = 0;
 }
 
-void Console::notifyWindowButtonPressed(MyGUI::WindowPtr _sender, const std::string & _button)
+void Console::notifyWindowButtonPressed(MyGUI::Window* _sender, const std::string& _button)
 {
-	if (_button == "close") {
+	if (_button == "close")
+	{
 		mMainWidget->setVisible(false);
 	}
 }
 
-void Console::notifyMouseButtonClick(MyGUI::WidgetPtr _sender)
+void Console::notifyMouseButtonClick(MyGUI::Widget* _sender)
 {
 	notifyComboAccept(mComboCommand, MyGUI::ITEM_NONE);
 }
 
-void Console::notifyComboAccept(MyGUI::ComboBoxPtr _sender, size_t _index)
+void Console::notifyComboAccept(MyGUI::ComboBox* _sender, size_t _index)
 {
-	const Ogre::UTFString & command = _sender->getCaption();
+	const MyGUI::UString & command = _sender->getCaption();
 	if (command == "") return;
 
-	Ogre::UTFString key = command;
-	Ogre::UTFString value;
+	MyGUI::UString key = command;
+	MyGUI::UString value;
 
 	size_t pos = command.find(' ');
-	if (pos != Ogre::UTFString::npos) {
+	if (pos != MyGUI::UString::npos)
+	{
 		key = command.substr(0, pos);
 		value = command.substr(pos + 1);
 	}
 
 	MapDelegate::iterator iter = mDelegates.find(key);
-	if (iter != mDelegates.end()) {
+	if (iter != mDelegates.end())
+	{
 		iter->second(key, value);
 	}
-	else {
-		if (eventConsoleUnknowCommand.empty()) {
+	else
+	{
+		if (eventConsoleUnknowCommand.empty())
+		{
 			addToConsole(mStringUnknow + "'" + key + "'");
 		}
-		else {
+		else
+		{
 			eventConsoleUnknowCommand(key, value);
 		}
 	}
@@ -95,10 +101,10 @@ void Console::notifyComboAccept(MyGUI::ComboBoxPtr _sender, size_t _index)
 }
 
 
-void Console::notifyButtonPressed(MyGUI::WidgetPtr _sender, MyGUI::KeyCode _key, MyGUI::Char _char)
+void Console::notifyButtonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char)
 {
 	size_t len = _sender->getCaption().length();
-	MyGUI::EditPtr edit = _sender->castType<MyGUI::Edit>();
+	MyGUI::Edit* edit = _sender->castType<MyGUI::Edit>();
 	if ((_key == MyGUI::KeyCode::Backspace) && (len > 0) && (mAutocomleted))
 	{
 		edit->deleteTextSelection();
@@ -106,7 +112,7 @@ void Console::notifyButtonPressed(MyGUI::WidgetPtr _sender, MyGUI::KeyCode _key,
 		edit->eraseText(len-1);
 	}
 
-	Ogre::UTFString command = _sender->getCaption();
+	MyGUI::UString command = _sender->getCaption();
 	if (command.length() == 0) return;
 
 	for (MapDelegate::iterator iter = mDelegates.begin(); iter != mDelegates.end(); ++iter)
@@ -123,7 +129,7 @@ void Console::notifyButtonPressed(MyGUI::WidgetPtr _sender, MyGUI::KeyCode _key,
 	mAutocomleted = false;
 }
 
-void Console::addToConsole(const Ogre::UTFString & _line)
+void Console::addToConsole(const MyGUI::UString & _line)
 {
 	if (mListHistory->getCaption().empty())
 		mListHistory->addText(_line);
@@ -139,20 +145,21 @@ void Console::clearConsole()
 	mListHistory->setCaption("");
 }
 
-void Console::registerConsoleDelegate(const Ogre::UTFString & _command, CommandDelegate::IDelegate * _delegate)
+void Console::registerConsoleDelegate(const MyGUI::UString & _command, CommandDelegate::IDelegate * _delegate)
 {
 	mComboCommand->addItem(_command);
 	MapDelegate::iterator iter = mDelegates.find(_command);
-	if (iter != mDelegates.end()) {
+	if (iter != mDelegates.end())
+	{
 		MYGUI_LOG(Warning, "console - command '" << _command << "' already exist");
 	}
 	mDelegates[_command] = _delegate;
 }
 
-void Console::internalCommand(MyGUI::WidgetPtr _sender, const Ogre::UTFString & _key, const Ogre::UTFString & _value)
+void Console::internalCommand(MyGUI::Widget* _sender, const MyGUI::UString & _key, const MyGUI::UString & _value)
 {
-	if (_key == "clear") {
+	if (_key == "clear")
+	{
 		clearConsole();
 	}
 }
-
