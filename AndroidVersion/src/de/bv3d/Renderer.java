@@ -10,6 +10,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 
 public class Renderer implements GLSurfaceView.Renderer {
+	private Entity[] mScene; // enough for scene? or vector/class?
 
 	public Renderer(Context context) {// TODO: context necessary?
 	}
