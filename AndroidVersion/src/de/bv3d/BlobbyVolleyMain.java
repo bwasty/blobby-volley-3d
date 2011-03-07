@@ -3,6 +3,10 @@
 
 package de.bv3d;
 
+import de.bv3d.loader.Max3DSParser;
+import min3d.core.Object3dContainer;
+import min3d.parser.IParser;
+import min3d.parser.Parser;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -36,6 +40,19 @@ public class BlobbyVolleyMain extends Activity {
            
         }
         setContentView(mGLSurfaceView);
+        
+//        String s = getResources().getResourceName(R.raw.blobb1);
+//        Log.d("main", s);
+        
+		try {
+			Max3DSParser parser = new Max3DSParser(getResources(), "de.bv3d:raw/blobb1", false);
+			parser.parse();
+			Object3dContainer blobb = parser.getParsedObject();
+			Log.e("main", blobb.name());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     private boolean detectOpenGLES20() 

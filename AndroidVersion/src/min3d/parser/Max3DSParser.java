@@ -1,4 +1,4 @@
-package de.bv3d.loader;
+package min3d.parser;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -13,12 +13,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-/**
- * originally taken from min3d - http://code.google.com/p/min3d/
- * 
- * changed by Benjamin Wasty
- *
- */
 public class Max3DSParser extends AParser implements IParser {
 	private final int IDENTIFIER_3DS = 0x4D4D;
 	private final int MESH_BLOCK = 0x3D3D;

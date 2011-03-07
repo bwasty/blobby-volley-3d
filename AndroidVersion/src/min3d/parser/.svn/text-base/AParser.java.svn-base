@@ -1,4 +1,4 @@
-package de.bv3d.loader;
+package min3d.parser;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,10 +26,6 @@ import android.util.Log;
  * Abstract parser class with basic parsing functionality.
  * 
  * @author dennis.ippel
- * 
- * originally taken from min3d - http://code.google.com/p/min3d/
- * 
- * changed by Benjamin Wasty
  *
  */
 public abstract class AParser implements IParser {

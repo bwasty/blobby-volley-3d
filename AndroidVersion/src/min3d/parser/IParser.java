@@ -1,4 +1,4 @@
-package de.bv3d.loader;
+package min3d.parser;
 
 import min3d.animation.AnimationObject3d;
 import min3d.core.Object3dContainer;
@@ -7,10 +7,6 @@ import min3d.core.Object3dContainer;
  * Interface for 3D object parsers
  * 
  * @author dennis.ippel
- * 
- *  originally taken from min3d - http://code.google.com/p/min3d/
- * 
- * changed by Benjamin Wasty
  *
  */
 public interface IParser {
