@@ -1,0 +1,13 @@
+- basic application logic (referee)
+- complete net, arena borders
+- simple menu / score display
+
+
+- graphical refinement
+ - Blobb animation
+ - sand
+ - water, sky
+ - Arena
+- physical refinement
+ - net as cloth
+ - try blobb/ball as cloth/softbody
