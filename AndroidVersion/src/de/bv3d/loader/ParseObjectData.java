@@ -82,8 +82,9 @@ public class ParseObjectData {
 			for (int j = 0; j < face.faceLength; j++) {
 				Number3d newVertex = vertices.get(face.v[j]);
 				
-				Uv newUv = face.hasuv ? texCoords.get(face.uv[j]).clone()
-						: new Uv();
+//				 TODO!!!: outofbounds exception bei texCoords.get
+				Uv newUv = /*face.hasuv ? texCoords.get(face.uv[j]).clone()
+						:*/ new Uv();
 				Number3d newNormal = face.hasn ? normals.get(face.n[j])
 						: new Number3d();
 				Material material = materialMap.get(face.materialKey);
