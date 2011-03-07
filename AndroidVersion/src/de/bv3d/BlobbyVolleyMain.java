@@ -4,6 +4,7 @@
 package de.bv3d;
 
 import de.bv3d.loader.Max3DSParser;
+import de.bv3d.loader.ObjParser;
 import min3d.core.Object3dContainer;
 import min3d.parser.IParser;
 import min3d.parser.Parser;
@@ -45,7 +46,7 @@ public class BlobbyVolleyMain extends Activity {
 //        Log.d("main", s);
         
 		try {
-			Max3DSParser parser = new Max3DSParser(getResources(), "de.bv3d:raw/blobb1", false);
+			ObjParser parser = new ObjParser(getResources(), "de.bv3d:raw/blobb_new_obj", false);
 			parser.parse();
 			Object3dContainer blobb = parser.getParsedObject();
 			Log.e("main", blobb.name());
