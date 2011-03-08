@@ -28,4 +28,10 @@ public class Mesh {
         mTriangleIndices = ByteBuffer.allocateDirect(numTriangles * 3 * 2).order(ByteOrder.nativeOrder()).asShortBuffer();
 		mNormals = ByteBuffer.allocateDirect(numVertices * 3 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();        
 	}
+	
+	public void resetPosition() {
+		mVertices.position(0);
+		mTriangleIndices.position(0);
+		mNormals.position(0);
+	}
 }

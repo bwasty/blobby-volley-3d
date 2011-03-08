@@ -43,40 +43,13 @@ public class BlobbyVolleyMain extends Activity {
         }
         setContentView(mGLSurfaceView);
         
-		try {
-			Log.d("main", "loading Blobb");
-			ObjParser parser = new ObjParser(getResources(), "de.bv3d:raw/blobb_new_obj", false);
-			parser.parse();
-			
-			Mesh blobb = parser.getParsedObjectAsMesh();
-			
-			final String vertexShader =
-		        "uniform mat4 uMVPMatrix;\n" +
-		        "attribute vec4 aPosition;\n" +
-//	            "attribute vec3 a_normal;     \n" +
-//	            "varying vec3 v_normal;       \n" +
-		        "void main() {\n" +
-		        "  gl_Position = uMVPMatrix * aPosition;\n" +
-		        "}\n";
-
-		    final String fragmentShader =
-		        "precision mediump float;\n" +
-		        "void main() {\n" +
-		        "  gl_FragColor = vec4 ( 0.0, 0.0, 1.0, 1.0 );\n" +
-		        "}\n";
-		    
-		    Shader shader = new Shader(vertexShader, fragmentShader);
-		    shader.PositionLoc = GLES20.glGetAttribLocation(shader.ProgramObject, "aPosition");
-		    shader.MVPMatrixLoc = GLES20.glGetUniformLocation(shader.ProgramObject, "uMVPMatrix");
-		    
-		    Entity ent = new Entity(blobb, shader);  
-		    
-		    mRenderer.addEntity(ent);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }
     
     private boolean detectOpenGLES20() 
