@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import de.bv3d.Mesh;
+
 import min3d.Min3d;
 import min3d.Shared;
 import min3d.Utils;
@@ -164,6 +166,17 @@ public class ObjParser extends AParser implements IParser {
 		cleanup();
 		
 		return obj;
+	}
+	
+	/**
+	 *  added by Benjamin Wasty
+	 *  
+	 *  gets only first Object if file contains several
+	 */
+	public Mesh getParsedObjectAsMesh() {
+		ParseObjectData o = parseObjects.get(0);
+		return o.getParsedObjectAsMesh();
+		
 	}
 
 	private void readMaterialLib(String libID) {

@@ -46,10 +46,15 @@ public class BlobbyVolleyMain extends Activity {
 //        Log.d("main", s);
         
 		try {
+			Log.d("main", "loading Blobb");
 			ObjParser parser = new ObjParser(getResources(), "de.bv3d:raw/blobb_new_obj", false);
 			parser.parse();
-			Object3dContainer blobb = parser.getParsedObject();
-			Log.e("main", blobb.name());
+			
+//			Object3dContainer blobb = parser.getParsedObject();
+//			Log.e("main", blobb.name());
+			
+			Mesh blobb = parser.getParsedObjectAsMesh();
+			Log.e("main", blobb.Name);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

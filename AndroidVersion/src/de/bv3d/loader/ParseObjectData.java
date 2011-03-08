@@ -3,6 +3,8 @@ package de.bv3d.loader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.util.Log;
+
 import min3d.animation.AnimationObject3d;
 import min3d.animation.KeyFrame;
 import min3d.core.Object3d;
@@ -11,6 +13,7 @@ import min3d.vos.Face;
 import min3d.vos.Number3d;
 import min3d.vos.Uv;
 
+import de.bv3d.Mesh;
 import de.bv3d.loader.AParser.BitmapAsset;
 import de.bv3d.loader.AParser.Material;
 import de.bv3d.loader.AParser.TextureAtlas;
@@ -68,6 +71,42 @@ public class ParseObjectData {
 		return obj;
 	}
 	
+	public Mesh getParsedObjectAsMesh() {
+		Mesh mesh = new Mesh(vertices.size(), numFaces);
+		mesh.Name = name;
+		
+		parseObject(mesh);
+		
+		return mesh;
+	}
+	
+	private void parseObject(Mesh mesh) {		
+		for (int i=0; i<vertices.size(); ++i) {
+			Number3d v = vertices.get(i);
+			mesh.getVertices().put(v.x);
+			mesh.getVertices().put(v.y);
+			mesh.getVertices().put(v.z);
+		}
+		
+		if (normals.size() < vertices.size()) Log.w("parseObject", "no normals loaded (at least for some faces)");
+		
+		for (int i=0; i<normals.size(); ++i) {
+			Number3d v = normals.get(i);
+			mesh.getNormals().put(v.x);
+			mesh.getNormals().put(v.y);
+			mesh.getNormals().put(v.z);
+		}
+		
+		// TODO?: indices are all one lower than in the obj file, but I guess that's correct...
+		for (int i=0; i<faces.size(); ++i) {
+			ParseObjectFace f = faces.get(i);
+			if (f.faceLength != 3) Log.e("BV3D Object Loader", "Facelength is not 3, only triangles are supported");
+			mesh.getTriangleIndices().put((short) f.v[0]);
+			mesh.getTriangleIndices().put((short) f.v[1]);
+			mesh.getTriangleIndices().put((short) f.v[2]);
+		}
+	}
+
 	private void parseObject(Object3d obj, HashMap<String, Material> materialMap, TextureAtlas textureAtlas)
 	{
 		int numFaces = faces.size();
