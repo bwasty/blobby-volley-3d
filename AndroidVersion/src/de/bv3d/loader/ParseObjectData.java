@@ -73,7 +73,7 @@ public class ParseObjectData {
 	
 	public Mesh getParsedObjectAsMesh() {
 		Mesh mesh = new Mesh(vertices.size(), numFaces);
-		mesh.Name = name;
+		mesh.setName(name);
 		
 		parseObject(mesh);
 		

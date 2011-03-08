@@ -5,8 +5,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+// TODO: add textures here...? or defaultmaterial?
 public class Mesh {
-	public String Name;
+	private String mName;
+	public String getName() {return mName;}
+	public void setName(String name) {	this.mName = name;}
 
 	private FloatBuffer mVertices;
 	private ShortBuffer mTriangleIndices;
