@@ -20,6 +20,7 @@ import android.util.Log;
 public class Renderer implements GLSurfaceView.Renderer {
 	private Context mContext;
 	private ArrayList<Entity> mScene; // enough for scene? or vector/class?
+	private float[] mEyePos = {0, 2, 2.5f};
     private float[] mViewMatrix = new float[16];
     public void setViewMatrix(float[] matrix) {mViewMatrix = matrix; }
     
@@ -34,7 +35,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 		mContext = context;
 		mScene = new ArrayList<Entity>(10);
 		
-		Matrix.setLookAtM(mViewMatrix, 0, /*eye*/ 0, 2, 2.5f, /*center*/ 0, 1, 0, /*up*/ 0, 1, 0);
+		Matrix.setLookAtM(mViewMatrix, 0, /*eye*/ mEyePos[0], mEyePos[1], mEyePos[2], /*center*/ 0, 1, 0, /*up*/ 0, 1, 0);
 	}
 	
 
@@ -55,13 +56,13 @@ public class Renderer implements GLSurfaceView.Renderer {
 		parser.parse();
 		
 		Mesh blobb = parser.getParsedObjectAsMesh();
-		blobb.resetPosition(); // TODO!!!!: if works put in proper place.. -> it does work...every frame?
+		blobb.resetPosition(); // TODO!!: if works put in proper place.. -> it does work...every frame?
 	    
-	    //Shader shader = new Shader(vertexShader, fragmentShader);
 	    Shader shader = new Shader(mContext.getResources(), "shaders/simpleLighting.vert", "shaders/simpleLighting.frag");
-	    
 	    shader.PositionLoc = GLES20.glGetAttribLocation(shader.ProgramObject, "aPosition");
+	    shader.NormalLoc = GLES20.glGetAttribLocation(shader.ProgramObject, "aNormal");
 	    shader.MVPMatrixLoc = GLES20.glGetUniformLocation(shader.ProgramObject, "uMVPMatrix");
+	    shader.EyePosLoc = GLES20.glGetUniformLocation(shader.ProgramObject, "eyePos");
 	    //Entity.checkGlError("glGetUniformLocation");
 	    
 	    Entity ent = new Entity(blobb, shader);
@@ -84,7 +85,7 @@ public class Renderer implements GLSurfaceView.Renderer {
         float[] viewProjMatrix=new float[16];
         Matrix.multiplyMM(viewProjMatrix, 0, mProjMatrix, 0, mViewMatrix, 0);
         for (Entity ent : mScene) {
-        	ent.draw(viewProjMatrix);
+        	ent.draw(mEyePos, viewProjMatrix);
         } 
         
         mFrameCount++;

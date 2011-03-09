@@ -14,11 +14,12 @@ import android.util.Log;
 public class Shader {
 	// TODO: mapping of position, normal, samplers etc?
 	
-	public int ProgramObject = 0;
-	public int MVPMatrixLoc = 0;
-	public int PositionLoc = 0;
-	public int NormalLoc = 0;
-	public int TexCoordLoc = 0;
+	public int ProgramObject;
+	public int MVPMatrixLoc;
+	public int PositionLoc;
+	public int NormalLoc;
+	public int TexCoordLoc;
+	public int EyePosLoc;
 	
 	
 	public Shader(Resources res, String vertexShaderFile, String fragmentShaderFile) {
