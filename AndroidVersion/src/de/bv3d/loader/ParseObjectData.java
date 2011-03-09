@@ -97,7 +97,6 @@ public class ParseObjectData {
 			mesh.getNormals().put(v.z);
 		}
 		
-		// TODO?: indices are all one lower than in the obj file, but I guess that's correct...
 		for (int i=0; i<faces.size(); ++i) {
 			ParseObjectFace f = faces.get(i);
 			if (f.faceLength != 3) Log.e("BV3D Object Loader", "Facelength is not 3, only triangles are supported");
@@ -121,7 +120,7 @@ public class ParseObjectData {
 			for (int j = 0; j < face.faceLength; j++) {
 				Number3d newVertex = vertices.get(face.v[j]);
 				
-//				 TODO!!!: outofbounds exception bei texCoords.get
+//				 TODO: outofbounds exception bei texCoords.get
 				Uv newUv = /*face.hasuv ? texCoords.get(face.uv[j]).clone()
 						:*/ new Uv();
 				Number3d newNormal = face.hasn ? normals.get(face.n[j])

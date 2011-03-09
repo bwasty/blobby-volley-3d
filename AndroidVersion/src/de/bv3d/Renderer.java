@@ -26,7 +26,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     
  // TODO: cache VPMatrix?
     
-	public Renderer(Context context) {// TODO-: context necessary?
+	public Renderer(Context context) {
 		mContext = context;
 		mScene = new ArrayList<Entity>(10);
 		
@@ -46,56 +46,34 @@ public class Renderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
 		Log.d("main", "loading Blobb");
+		// TODO: change ObjParser to use Assets...
 		ObjParser parser = new ObjParser(mContext.getResources(), "de.bv3d:raw/blobb_new_obj", false);
 		parser.parse();
 		
 		Mesh blobb = parser.getParsedObjectAsMesh();
-		blobb.resetPosition(); // TODO: if works put in proper place.. -> it does work...every frame?
-		
-		final String vertexShader =
-	        "uniform mat4 uMVPMatrix;\n" +
-	        "attribute vec4 aPosition;\n" +
-//            "attribute vec3 a_normal;     \n" +
-//            "varying vec3 v_normal;       \n" +
-	        "void main() {\n" +
-	        "  gl_Position = uMVPMatrix * aPosition;\n" +
-	        //"  gl_Position = aPosition;\n" +
-	        "}\n";
-
-	    final String fragmentShader =
-	        "precision mediump float;\n" +
-	        "void main() {\n" +
-	        "  gl_FragColor = vec4 ( 0.0, 0.0, 1.0, 1.0 );\n" +
-	        "}\n";
+		blobb.resetPosition(); // TODO!!!!: if works put in proper place.. -> it does work...every frame?
 	    
-	    Shader shader = new Shader(vertexShader, fragmentShader);
+	    //Shader shader = new Shader(vertexShader, fragmentShader);
+	    Shader shader = new Shader(mContext.getResources(), "shaders/simpleLighting.vert", "shaders/simpleLighting.frag");
+	    
 	    shader.PositionLoc = GLES20.glGetAttribLocation(shader.ProgramObject, "aPosition");
 	    shader.MVPMatrixLoc = GLES20.glGetUniformLocation(shader.ProgramObject, "uMVPMatrix");
 	    //Entity.checkGlError("glGetUniformLocation");
 	    
-	    Entity ent = new Entity(blobb, shader); 
-	    
-	    // check indices of mesh
-//	    int maxVertexIndex = blobb.getVertices().capacity() - 1;
-//	    float lastVertex = blobb.getVertices().get(maxVertexIndex);
-//	    for (int i=0; i < 9/*blobb.getTriangleIndices().capacity()*/; ++i) {
-////	    	if (blobb.getTriangleIndices().get(i) > maxVertexIndex / 3)
-////	    		throw new Exception();
-//	    	Log.d("BV3D", Short.toString(blobb.getTriangleIndices().get(i)));
-//	    }
+	    Entity ent = new Entity(blobb, shader);
 	    
 	    addEntity(ent);
 	}
 
-	// TODO!: fps counting
+	// TODO!!: fps counting
 	@Override
 	public void onDrawFrame(GL10 gl10) {
 		// TODO: iterate over scene, build mvp matrix
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         
-//        GLES20.glCullFace(GLES20.GL_BACK);
-//        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glCullFace(GLES20.GL_BACK);
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
         
         float[] viewProjMatrix=new float[16];
         Matrix.multiplyMM(viewProjMatrix, 0, mProjMatrix, 0, mViewMatrix, 0);

@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.StringTokenizer;
-
-import de.bv3d.Mesh;
 
 import min3d.Min3d;
 import min3d.Shared;
@@ -20,6 +17,7 @@ import min3d.vos.Uv;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
+import de.bv3d.Mesh;
 
 /**
  * Parses Wavefront OBJ files. Basic version, this is still a work in progress!

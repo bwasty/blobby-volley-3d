@@ -4,12 +4,10 @@
 
 package de.bv3d;
 
-import de.bv3d.loader.ObjParser;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;

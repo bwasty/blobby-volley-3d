@@ -1,5 +1,11 @@
 package de.bv3d;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import android.content.res.Resources;
 import android.opengl.GLES20;
 import android.util.Log;
 
@@ -15,9 +21,32 @@ public class Shader {
 	public int TexCoordLoc = 0;
 	
 	
-	// TODO: instance necessary?
-	public Shader(String vertexShaderSrc, String fragmentShaderSrc) {
+	public Shader(Resources res, String vertexShaderFile, String fragmentShaderFile) {
+		String vertexShaderSrc = loadFileIntoString(res, vertexShaderFile);
+		String fragmentShaderSrc = loadFileIntoString(res, fragmentShaderFile);
+		
 		ProgramObject = loadProgram(vertexShaderSrc, fragmentShaderSrc);
+	}
+
+	private String loadFileIntoString(Resources res, String vertexShaderFile) {
+		try {
+			InputStream is = res.getAssets().open(vertexShaderFile);
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			StringBuilder sb = new StringBuilder();
+			
+			char[] buffer = new char[256];
+			int len1;
+			while ((len1=br.read(buffer)) != -1) {
+				sb.append(buffer, 0, len1);
+			}			
+			
+			return sb.toString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "";
 	}
 	
 	///
@@ -47,7 +76,7 @@ public class Shader {
 		GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
 
 		if (compiled[0] == 0) {
-			Log.e("ESShader", GLES20.glGetShaderInfoLog(shader));
+			Log.e("Shader", "Could not compile "+(type==GLES20.GL_VERTEX_SHADER ? "vertex" : "fragment")+" shader: "+GLES20.glGetShaderInfoLog(shader));
 			GLES20.glDeleteShader(shader);
 			return 0;
 		}
@@ -97,8 +126,8 @@ public class Shader {
 		GLES20.glGetProgramiv(programObject, GLES20.GL_LINK_STATUS, linked, 0);
 
 		if (linked[0] == 0) {
-			Log.e("ESShader", "Error linking program:");
-			Log.e("ESShader", GLES20.glGetProgramInfoLog(programObject));
+			Log.e("Shader", "Error linking program:");
+			Log.e("Shader", GLES20.glGetProgramInfoLog(programObject));
 			GLES20.glDeleteProgram(programObject);
 			return 0;
 		}
