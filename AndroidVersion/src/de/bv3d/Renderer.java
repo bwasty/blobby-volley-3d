@@ -14,6 +14,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 import android.util.Log;
 
 public class Renderer implements GLSurfaceView.Renderer {
@@ -23,6 +24,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     public void setViewMatrix(float[] matrix) {mViewMatrix = matrix; }
     
     private float[] mProjMatrix = new float[16];
+    
+    private int mFrameCount=0;
+    private long mFrameTime;
     
  // TODO: cache VPMatrix?
     
@@ -63,6 +67,8 @@ public class Renderer implements GLSurfaceView.Renderer {
 	    Entity ent = new Entity(blobb, shader);
 	    
 	    addEntity(ent);
+	    
+	    mFrameTime=SystemClock.uptimeMillis();
 	}
 
 	// TODO!!: fps counting
@@ -80,6 +86,16 @@ public class Renderer implements GLSurfaceView.Renderer {
         for (Entity ent : mScene) {
         	ent.draw(viewProjMatrix);
         } 
+        
+        mFrameCount++;
+        long currentTime = SystemClock.uptimeMillis();
+        long diff;
+        if ((diff=currentTime - mFrameTime) >= 10000) {
+        	Log.d("BV3D-Renderer", "FPS: "+((float)mFrameCount/diff*1000));
+        	mFrameCount=0;
+        	mFrameTime=currentTime;
+        }
+        
 	}
 
 	@Override
