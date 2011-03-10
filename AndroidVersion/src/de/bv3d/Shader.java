@@ -12,15 +12,13 @@ import android.util.Log;
 // loadShader and loadProgram are copied from ESShader - http://code.google.com/p/opengles-book-samples/
 // TODO: destructor with delete program?
 public class Shader {
-	// TODO: mapping of position, normal, samplers etc?
-	
 	public int ProgramObject;
+	
 	public int MVPMatrixLoc;
 	public int PositionLoc;
 	public int NormalLoc;
 	public int TexCoordLoc;
 	public int EyePosLoc;
-	
 	
 	public Shader(Resources res, String vertexShaderFile, String fragmentShaderFile) {
 		String vertexShaderSrc = loadFileIntoString(res, vertexShaderFile);
@@ -43,7 +41,6 @@ public class Shader {
 			
 			return sb.toString();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -77,6 +74,7 @@ public class Shader {
 		GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
 
 		if (compiled[0] == 0) {
+			// TODO: why is the Info Log always empty?
 			Log.e("Shader", "Could not compile "+(type==GLES20.GL_VERTEX_SHADER ? "vertex" : "fragment")+" shader: "+GLES20.glGetShaderInfoLog(shader));
 			GLES20.glDeleteShader(shader);
 			return 0;

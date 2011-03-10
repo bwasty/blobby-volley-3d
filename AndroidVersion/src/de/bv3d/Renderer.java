@@ -29,7 +29,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     private int mFrameCount=0;
     private long mFrameTime;
     
- // TODO: cache VPMatrix?
+ // TODO!: cache VPMatrix?
     
 	public Renderer(Context context) {
 		mContext = context;
@@ -51,12 +51,11 @@ public class Renderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
 		Log.d("main", "loading Blobb");
-		// TODO: change ObjParser to use Assets...
+		// TODO!: change ObjParser to use Assets...
 		ObjParser parser = new ObjParser(mContext.getResources(), "de.bv3d:raw/blobb_new_obj", false);
 		parser.parse();
 		
 		Mesh blobb = parser.getParsedObjectAsMesh();
-		blobb.resetPosition(); // TODO!!: if works put in proper place.. -> it does work...every frame?
 	    
 	    Shader shader = new Shader(mContext.getResources(), "shaders/simpleLighting.vert", "shaders/simpleLighting.frag");
 	    shader.PositionLoc = GLES20.glGetAttribLocation(shader.ProgramObject, "aPosition");
@@ -72,10 +71,8 @@ public class Renderer implements GLSurfaceView.Renderer {
 	    mFrameTime=SystemClock.uptimeMillis();
 	}
 
-	// TODO!!: fps counting
 	@Override
 	public void onDrawFrame(GL10 gl10) {
-		// TODO: iterate over scene, build mvp matrix
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         
@@ -106,6 +103,14 @@ public class Renderer implements GLSurfaceView.Renderer {
         GLES20.glViewport(0, 0, width, height);
         float ratio = (float) width / height;
         Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 20);
+	}
+
+	public static void checkGlError(String op) {
+	    int error;
+	    while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+	        Log.e("BV3D-Renderer", op + ": glError " + error);
+	        throw new RuntimeException(op + ": glError " + error);
+	    }
 	}
 
 }

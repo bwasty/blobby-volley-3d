@@ -20,7 +20,7 @@ public class BlobbyVolleyMain extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main); // TODO- remove main layout
+        //setContentView(R.layout.main); // TODO- remove main layout?
         
         mGLSurfaceView = new GLSurfaceView(this);
         
@@ -40,14 +40,6 @@ public class BlobbyVolleyMain extends Activity {
            
         }
         setContentView(mGLSurfaceView);
-        
-//		try {
-//
-//			
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
     }
     
     private boolean detectOpenGLES20() 

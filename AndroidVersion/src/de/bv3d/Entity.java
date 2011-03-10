@@ -2,9 +2,9 @@ package de.bv3d;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
-import android.util.Log;
 
-// TODO!: add cached MVP matrix, eye pos?
+// TODO!!: add cached MVP matrix, eye pos?
+// TODO!: collision geometry...?
 public class Entity {
 	private Mesh mMesh;
 	public Mesh getMesh() {return mMesh;}
@@ -30,7 +30,7 @@ public class Entity {
 		Matrix.multiplyMM(mvpMatrix, 0, viewProjMatrix, 0, mTransformMatrix, 0);
 		
 		GLES20.glUseProgram(mShader.ProgramObject);
-		checkGlError("glUseProgram");
+		Renderer.checkGlError("glUseProgram");
 		
 		GLES20.glUniform3f(mShader.EyePosLoc, eyePos[0], eyePos[1], eyePos[2]);
 		
@@ -48,23 +48,9 @@ public class Entity {
 		GLES20.glEnableVertexAttribArray(mShader.NormalLoc);
 //		}
 		
-	
-
-		checkGlError("glEnableVertexAttribArray");
+		Renderer.checkGlError("glEnableVertexAttribArray");
 		
 		GLES20.glDrawElements (GLES20.GL_TRIANGLES, mMesh.getTriangleIndices().capacity(), GLES20.GL_UNSIGNED_SHORT, mMesh.getTriangleIndices());
-		checkGlError("glDrawElements");
+		Renderer.checkGlError("glDrawElements");
 	}
-	
-	// TODO: put in better place
-    public static void checkGlError(String op) {
-        int error;
-        while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-            Log.e("BV3D-Renderer", op + ": glError " + error);
-            throw new RuntimeException(op + ": glError " + error);
-        }
-    }
-	
-	// TODO: collision geometry...?
-
 }

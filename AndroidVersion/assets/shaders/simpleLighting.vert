@@ -14,6 +14,8 @@ vec3 lightColor = vec3(1,1,1);
 void main() {
 	gl_Position = uMVPMatrix * aPosition;
 	
+	// TODO: transform normal - just modelmatrix?
+	
 	//vColor = aNormal * eyePos;
 	vec3 diffuse = dot(normalize(lightDir), normalize(aNormal)) * baseColor * lightColor;
 	vec3 halfWay = normalize(lightDir + eyePos);

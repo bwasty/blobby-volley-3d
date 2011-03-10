@@ -28,7 +28,10 @@ public class Mesh {
 		mNormals = ByteBuffer.allocateDirect(numVertices * 3 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();        
 	}
 	
-	public void resetPosition() {
+	/**
+	 * After filling the buffers with .put() the positions have to be reset, otherwise they can't be rendered!
+	 */
+	public void resetPositions() {
 		mVertices.position(0);
 		mTriangleIndices.position(0);
 		mNormals.position(0);

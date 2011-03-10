@@ -80,6 +80,9 @@ public class ParseObjectData {
 		return mesh;
 	}
 	
+	/**
+	 * added by Benjamin Wasty
+	 */
 	private void parseObject(Mesh mesh) {		
 		for (int i=0; i<vertices.size(); ++i) {
 			Number3d v = vertices.get(i);
@@ -104,6 +107,8 @@ public class ParseObjectData {
 			mesh.getTriangleIndices().put((short) f.v[1]);
 			mesh.getTriangleIndices().put((short) f.v[2]);
 		}
+		
+		mesh.resetPositions();
 	}
 
 	private void parseObject(Object3d obj, HashMap<String, Material> materialMap, TextureAtlas textureAtlas)

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_23" class="java.beans.XMLDecoder"> 
+ <object class="com.arm.mali.porttools.compilercontrol.ShaderStockpile"> 
+  <void property="effects"> 
+   <void method="put"> 
+    <string>simpleLighting</string> 
+    <object class="com.arm.mali.porttools.compilercontrol.ShaderEffect"> 
+     <void property="attributes"> 
+      <void method="put"> 
+       <string>aPosition</string> 
+       <object class="com.arm.mali.porttools.gles20.Attribute"> 
+        <void property="data"> 
+         <null/> 
+        </void> 
+        <void property="location"> 
+         <int>0</int> 
+        </void> 
+        <void property="mapping"> 
+         <object class="com.arm.mali.porttools.callscript.AttributeMapping" method="valueOf"> 
+          <string>VERTICES</string> 
+         </object> 
+        </void> 
+        <void property="name"> 
+         <string>aPosition</string> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="axis"> 
+      <void index="1"> 
+       <double>10.0</double> 
+      </void> 
+      <void index="2"> 
+       <double>10.0</double> 
+      </void> 
+      <void index="3"> 
+       <double>-66.0</double> 
+      </void> 
+     </void> 
+     <void property="backgroundColour"> 
+      <void index="2"> 
+       <float>0.0</float> 
+      </void> 
+     </void> 
+     <void property="fragmentInstructions"> 
+      <int>1</int> 
+     </void> 
+     <void property="fragmentLongestCodePathCycles"> 
+      <int>1</int> 
+     </void> 
+     <void property="fragmentShortestCodePathCycles"> 
+      <int>1</int> 
+     </void> 
+     <void property="fragmentSources"> 
+      <void method="add"> 
+       <object class="com.arm.mali.porttools.compilercontrol.ShaderSource"> 
+        <void property="fileName"> 
+         <string>assets\shaders\simpleLighting.frag</string> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="geometry"> 
+      <object class="com.arm.mali.porttools.callscript.Geometry" method="valueOf"> 
+       <string>SPHERE</string> 
+      </object> 
+     </void> 
+     <void property="name"> 
+      <string>simpleLighting</string> 
+     </void> 
+     <void property="uniforms"> 
+      <void method="put"> 
+       <string>uMVPMatrix</string> 
+       <object class="com.arm.mali.porttools.gles20.Uniform"> 
+        <void property="data"> 
+         <null/> 
+        </void> 
+        <void property="finalData"> 
+         <null/> 
+        </void> 
+        <void property="location"> 
+         <int>0</int> 
+        </void> 
+        <void property="mapping"> 
+         <object class="com.arm.mali.porttools.callscript.UniformMapping" method="valueOf"> 
+          <string>MODELVIEWPROJECTION_MATRIX</string> 
+         </object> 
+        </void> 
+        <void property="name"> 
+         <string>uMVPMatrix</string> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="vertexInstructions"> 
+      <int>35</int> 
+     </void> 
+     <void property="vertexLongestCodePathCycles"> 
+      <int>35</int> 
+     </void> 
+     <void property="vertexShortestCodePathCycles"> 
+      <int>35</int> 
+     </void> 
+     <void property="vertexSources"> 
+      <void method="add"> 
+       <object class="com.arm.mali.porttools.compilercontrol.ShaderSource"> 
+        <void property="fileName"> 
+         <string>assets\shaders\simpleLighting.vert</string> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+    </object> 
+   </void> 
+  </void> 
+  <void property="localTimeStamp"> 
+   <long>1299787517661</long> 
+  </void> 
+ </object> 
