@@ -1,5 +1,0 @@
-AndroidVersion/bin
-AndroidVersion/gen
-syntax: glob
-AndroidVersion/.settings/org.eclipse.ltk.core.refactoring.prefs
-AndroidVersion/Milestone-Plan.docx
